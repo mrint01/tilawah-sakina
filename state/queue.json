@@ -35,7 +35,7 @@
       "duration": 68.8,
       "set": "astaghfirullah",
       "title": "100× Astaghfirullah",
-      "size_mb": 5.0,
+      "size_mb": 5,
       "mean_volume_db": -37.1,
       "checks": {
         "size_1080x1920": true,
@@ -45,10 +45,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude visual check: counter and beads correct to 100",
+      "status": "pending",
+      "review": null,
       "created": "2026-11-18T12:25:34+00:00",
-      "reviewed": "2026-11-18T12:26:35+00:00"
+      "reviewed": "2026-11-18T12:44:58+00:00"
     }
   ]
 }
