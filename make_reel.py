@@ -248,6 +248,14 @@ def split_parts(ar, en, n):
     return list(zip(ar_parts, en_parts)), shares
 
 
+def clean_hook(english):
+    """First sentence of the first ayah as the caption's opening line, without dangling quotes or dashes."""
+    text = english.replace('"', "").replace("\u201c", "").replace("\u201d", "").strip()
+    first = re.split(r"(?<=[.!?])\s", text, maxsplit=1)[0]
+    first = first.rstrip(" -\u2013\u2014,;:.")
+    return first + "."
+
+
 # ---------- assembly ----------
 def build(start=None, seed=None, exclude=()):
     rnd = random.Random(seed)
@@ -323,9 +331,9 @@ def build(start=None, seed=None, exclude=()):
 
     ch = chs[s]
     ref = f"{s}:{a0}" if len(ayahs) == 1 else f"{s}:{a0}-{ayahs[-1][0]}"
-    hook = texts[0][2].split(".")[0].strip()
+    hook = clean_hook(texts[0][2])
     caption = (
-        f"{hook}.\n\n"
+        f"{hook}\n\n"
         f"Surah {ch['name_simple']} ({ch['translated_name']['name']}) · {ref}\n"
         f"Recited by {reciter}\n\n"
         f"Listen till the end and share it with someone who needs it today 🤍\n\n"
