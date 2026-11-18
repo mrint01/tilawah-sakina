@@ -44,9 +44,9 @@ function Login() {
     <div className="flex min-h-screen items-center justify-center bg-paper-alt p-4">
       <form onSubmit={submit} className="flex w-full max-w-sm flex-col gap-4 rounded-2xl border border-paper-line bg-paper p-6 shadow-sm">
         <div className="flex items-center gap-3">
-          <LogoMark className="!h-10 !w-10 !rounded-xl !text-2xl" />
+          <LogoMark className="!h-10 !w-10 !rounded-xl" />
           <div className="leading-tight">
-            <p className="text-sm font-semibold">Tilawah Sakina</p>
+            <p className="text-sm font-semibold">Reel Studio</p>
             <p className="text-xs uppercase tracking-[0.13em] text-ink-mute">Console</p>
           </div>
         </div>

@@ -70,7 +70,7 @@ export async function gh(path, { method = 'GET', body } = {}) {
       authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
       accept: 'application/vnd.github+json',
       'x-github-api-version': '2022-11-28',
-      'user-agent': 'tilawah-sakina-panel',
+      'user-agent': 'reel-studio',
       ...(body ? { 'content-type': 'application/json' } : {}),
     },
     body: body ? JSON.stringify(body) : undefined,
@@ -105,7 +105,7 @@ export async function updateJson(path, mutate, message, fallback = {}) {
       await gh(`/repos/${REPO}/contents/${path}`, {
         method: 'PUT',
         body: {
-          message: `${message}\n\nFrom the Tilawah Sakina panel`,
+          message: `${message}\n\nFrom Reel Studio`,
           content: Buffer.from(JSON.stringify(next, null, 2) + '\n', 'utf8').toString('base64'),
           branch: 'main',
           ...(sha ? { sha } : {}),

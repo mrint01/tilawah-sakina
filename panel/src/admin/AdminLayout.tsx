@@ -2,7 +2,7 @@ import { useEffect, useState, type ReactNode } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
 import {
-  Activity, BellOff, BellRing, ChevronLeft, ChevronRight, Gauge, Inbox, ListOrdered, LogOut, Menu, Moon,
+  Activity, AtSign, BellOff, BellRing, Clapperboard, ChevronLeft, ChevronRight, Gauge, Inbox, ListOrdered, LogOut, Menu, Moon,
   Send, Settings, Sun, X, type LucideIcon,
 } from 'lucide-react';
 import { cn } from './cn';
@@ -21,7 +21,9 @@ import { cn } from './cn';
  * Adapt: NAV_GROUPS, APP_NAME, Logo, BASE, badges, links, and the auth/alarm props.
  */
 
-const APP_NAME = 'Tilawah Sakina';
+const APP_NAME = 'Reel Studio';
+/** The Instagram page this console manages. Becomes a page switcher once there are several. */
+const PAGE_HANDLE = 'tilawah.sakina';
 const BASE = '';
 const MINI_KEY = 'admin.sidebar';
 
@@ -44,11 +46,11 @@ const NAV_GROUPS: { title: string; items: NavItem[] }[] = [
   ] },
 ];
 
-/** Logo mark: the green tile with a gold س, like the Instagram profile picture. */
+/** Logo mark: a clapperboard on the green tile (Reel Studio works for any number of pages). */
 export function LogoMark({ className }: { className?: string }) {
   return (
-    <span className={cn('flex h-7 w-7 items-center justify-center overflow-hidden rounded-lg bg-accent font-arabic text-[17px] font-bold leading-none text-[#d6b26a]', className)} aria-hidden="true">
-      <span className="-mt-0.5">س</span>
+    <span className={cn('flex h-7 w-7 items-center justify-center rounded-lg bg-accent text-white', className)} aria-hidden="true">
+      <Clapperboard className="h-[60%] w-[60%]" strokeWidth={2} />
     </span>
   );
 }
@@ -207,6 +209,10 @@ export function AdminLayout({ children, email, name, onSignOut, badges = {}, ala
               <Menu className="h-5 w-5" />
             </button>
             <span className="lg:hidden"><LogoMark /></span>
+            <a href={`https://www.instagram.com/${PAGE_HANDLE}/`} target="_blank" rel="noreferrer" title="The Instagram page this console manages"
+              className="flex h-8 min-w-0 items-center gap-1 rounded-md border border-paper-line px-2.5 text-xs font-medium text-ink-soft hover:border-accent hover:text-accent">
+              <AtSign className="h-3.5 w-3.5 shrink-0" aria-hidden="true" /> <span className="truncate">{PAGE_HANDLE}</span>
+            </a>
             <span className="flex-1" />
             {alarm && (
               <button type="button" onClick={() => alarm.setArmed(!alarm.armed)} aria-pressed={alarm.armed}

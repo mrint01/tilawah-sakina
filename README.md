@@ -16,7 +16,7 @@ Turn automation off by setting `"enabled": false` in `state/config.json`.
 ## Sources
 Quran text and translation (Sahih International) from api.quran.com. Recitations from everyayah.com. Fonts: Amiri, Amiri Quran, Lora (SIL OFL).
 
-## The console (panel/) on Vercel
+## Reel Studio: the console (panel/) on Vercel
 A password-protected dashboard: review reels, see what posts next, posted reels with views and likes, workflow runs, and the automation ON/OFF switch.
 
 Deploy (once, about 5 minutes):
