@@ -125,9 +125,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-18T16:34:22+00:00"
+      "status": "approved",
+      "review": "Claude routine: all 6 frames clean, Arabic/English fit, ref matches",
+      "created": "2026-11-18T16:34:22+00:00",
+      "reviewed": "2026-11-18T16:58:25+00:00"
     },
     {
       "id": "20261118-163519-ayah",
@@ -152,9 +153,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-18T16:35:29+00:00"
+      "status": "approved",
+      "review": "Claude routine: all 6 frames clean, Arabic/English fit, ref matches",
+      "created": "2026-11-18T16:35:29+00:00",
+      "reviewed": "2026-11-18T16:58:25+00:00"
     },
     {
       "id": "20261118-163646-ayah",
@@ -179,9 +181,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-18T16:36:57+00:00"
+      "status": "approved",
+      "review": "Claude routine: all 6 frames clean, Arabic/English fit, ref matches",
+      "created": "2026-11-18T16:36:57+00:00",
+      "reviewed": "2026-11-18T16:58:25+00:00"
     },
     {
       "id": "20261118-163813-ayah",
@@ -206,9 +209,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-18T16:38:24+00:00"
+      "status": "approved",
+      "review": "Claude routine: all 6 frames clean, Arabic/English fit, ref matches",
+      "created": "2026-11-18T16:38:24+00:00",
+      "reviewed": "2026-11-18T16:58:25+00:00"
     },
     {
       "id": "20261118-163931-ayah",
@@ -233,9 +237,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-18T16:39:43+00:00"
+      "status": "approved",
+      "review": "Claude routine: all 6 frames clean, Arabic/English fit, ref matches",
+      "created": "2026-11-18T16:39:43+00:00",
+      "reviewed": "2026-11-18T16:58:25+00:00"
     },
     {
       "id": "20261118-165017-tasbih",
@@ -254,9 +259,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-18T16:50:29+00:00"
+      "status": "rejected",
+      "review": "Claude routine: English line shows an empty box (tofu) after 'Muhammad' (missing ﷺ glyph) in all 6 frames",
+      "created": "2026-11-18T16:50:29+00:00",
+      "reviewed": "2026-11-18T16:58:26+00:00"
     },
     {
       "id": "20261118-165125-tasbih",
@@ -275,9 +281,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-18T16:51:37+00:00"
+      "status": "approved",
+      "review": "Claude routine: counter increases correctly, layout and Arabic clean",
+      "created": "2026-11-18T16:51:37+00:00",
+      "reviewed": "2026-11-18T16:58:25+00:00"
     },
     {
       "id": "20261118-165234-tasbih",
@@ -296,9 +303,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-18T16:52:46+00:00"
+      "status": "approved",
+      "review": "Claude routine: counter increases correctly, layout and Arabic clean",
+      "created": "2026-11-18T16:52:46+00:00",
+      "reviewed": "2026-11-18T16:58:25+00:00"
     },
     {
       "id": "20261118-165349-tasbih",
@@ -317,9 +325,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-18T16:54:00+00:00"
+      "status": "approved",
+      "review": "Claude routine: counter increases correctly, layout and Arabic clean",
+      "created": "2026-11-18T16:54:00+00:00",
+      "reviewed": "2026-11-18T16:58:25+00:00"
     },
     {
       "id": "20261118-165458-tasbih",
@@ -338,9 +347,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-18T16:55:09+00:00"
+      "status": "approved",
+      "review": "Claude routine: counter increases correctly, layout and Arabic clean",
+      "created": "2026-11-18T16:55:09+00:00",
+      "reviewed": "2026-11-18T16:58:25+00:00"
     },
     {
       "id": "20261118-165606-tasbih",
@@ -359,9 +369,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-18T16:56:18+00:00"
+      "status": "approved",
+      "review": "Claude routine: counter increases correctly, layout and Arabic clean",
+      "created": "2026-11-18T16:56:18+00:00",
+      "reviewed": "2026-11-18T16:58:26+00:00"
     },
     {
       "id": "20261118-165717-tasbih",
@@ -380,9 +391,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-18T16:57:28+00:00"
+      "status": "rejected",
+      "review": "Claude routine: English line shows an empty box (tofu) after 'Muhammad' (missing ﷺ glyph) in all 6 frames",
+      "created": "2026-11-18T16:57:28+00:00",
+      "reviewed": "2026-11-18T16:58:26+00:00"
     }
   ]
 }
