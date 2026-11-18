@@ -236,6 +236,153 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-18T16:39:43+00:00"
+    },
+    {
+      "id": "20261118-165017-tasbih",
+      "kind": "tasbih",
+      "caption": "Send one salawat and Allah sends ten blessings upon you (Muslim). What about 100? 🤍\n\n100× Salawat upon the Prophet ﷺ. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#salawat #durood #dhikr #prophetmuhammad #islam",
+      "duration": 123.8,
+      "set": "salawat",
+      "title": "100× Salawat upon the Prophet ﷺ",
+      "size_mb": 7.3,
+      "mean_volume_db": -40.1,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-18T16:50:29+00:00"
+    },
+    {
+      "id": "20261118-165125-tasbih",
+      "kind": "tasbih",
+      "caption": "The best dhikr is La ilaha illallah (Tirmidhi). Count with me 🤍\n\n100× La ilaha illallah. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#dhikr #tawheed #tasbih #islam #reminder",
+      "duration": 123.6,
+      "set": "tahlil",
+      "title": "100× La ilaha illallah",
+      "size_mb": 7.1,
+      "mean_volume_db": -38.5,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-18T16:51:37+00:00"
+    },
+    {
+      "id": "20261118-165234-tasbih",
+      "kind": "tasbih",
+      "caption": "33 · 33 · 34. Take two minutes after your salah 🤍\n\nTasbih after Salah. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#tasbih #dhikr #aftersalah #subhanallah #islam",
+      "duration": 125.0,
+      "set": "after_salah",
+      "title": "Tasbih after Salah",
+      "size_mb": 6.9,
+      "mean_volume_db": -38.8,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-18T16:52:46+00:00"
+    },
+    {
+      "id": "20261118-165349-tasbih",
+      "kind": "tasbih",
+      "caption": "The Prophet ﷺ sought forgiveness more than 70 times a day. Join him for two minutes 🤍\n\n100× Astaghfirullah. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#astaghfirullah #istighfar #dhikr #tasbih #islam",
+      "duration": 123.4,
+      "set": "astaghfirullah",
+      "title": "100× Astaghfirullah",
+      "size_mb": 6.8,
+      "mean_volume_db": -37.6,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-18T16:54:00+00:00"
+    },
+    {
+      "id": "20261118-165458-tasbih",
+      "kind": "tasbih",
+      "caption": "Say it 100 times and your sins are wiped away, even if they are like the foam of the sea (Bukhari) 🤍\n\n100× SubhanAllahi wa bihamdihi. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#dhikr #subhanallah #tasbih #islam #sunnah",
+      "duration": 123.6,
+      "set": "wabihamdihi",
+      "title": "100× SubhanAllahi wa bihamdihi",
+      "size_mb": 6.7,
+      "mean_volume_db": -40.4,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-18T16:55:09+00:00"
+    },
+    {
+      "id": "20261118-165606-tasbih",
+      "kind": "tasbih",
+      "caption": "33 · 33 · 34. Take two minutes after your salah 🤍\n\nTasbih after Salah. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#tasbih #dhikr #aftersalah #subhanallah #islam",
+      "duration": 125.4,
+      "set": "after_salah",
+      "title": "Tasbih after Salah",
+      "size_mb": 7.0,
+      "mean_volume_db": -38.8,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-18T16:56:18+00:00"
+    },
+    {
+      "id": "20261118-165717-tasbih",
+      "kind": "tasbih",
+      "caption": "Send one salawat and Allah sends ten blessings upon you (Muslim). What about 100? 🤍\n\n100× Salawat upon the Prophet ﷺ. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#salawat #durood #dhikr #prophetmuhammad #islam",
+      "duration": 124.2,
+      "set": "salawat",
+      "title": "100× Salawat upon the Prophet ﷺ",
+      "size_mb": 7.3,
+      "mean_volume_db": -39.7,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-18T16:57:28+00:00"
     }
   ]
 }
