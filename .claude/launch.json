@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "panel-api",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "cd panel && GITHUB_TOKEN=$(gh auth token) PANEL_PASSWORD=localtest node dev-api.mjs"],
+      "port": 3001
+    },
+    {
+      "name": "panel",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "cd panel && npx vite --port 5173 --strictPort"],
+      "port": 5173
+    }
+  ]
+}

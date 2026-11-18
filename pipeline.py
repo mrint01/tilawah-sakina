@@ -125,11 +125,25 @@ def cmd_generate(args):
     import make_reel
     import make_tasbih
 
+    from PIL import features
+    if not features.check("raqm"):
+        sys.exit("Pillow has no libraqm: Arabic would render broken. Install libraqm (apt install libraqm0).")
+
     q = queue()
     STAGING.mkdir(exist_ok=True)
+    if args.auto:
+        if not config().get("enabled", True):
+            print("automation is OFF, not generating")
+            return
+        buffer = sum(1 for it in q["items"] if it["status"] in ("pending", "approved"))
+        target = config().get("buffer", 14)
+        if buffer >= target:
+            print(f"buffer full ({buffer}/{target}), not generating")
+            return
     # don't repeat a passage that is still waiting or was posted in the last 60 items
     recent = [tuple(it["passage"]) for it in q["items"][-60:] if it.get("passage")]
     jobs = ["ayah"] * args.ayah + ["tasbih"] * args.tasbih
+    ensure_release()
     for kind in jobs:
         seed = random.randrange(10**9)
         if kind == "ayah":
@@ -141,7 +155,10 @@ def cmd_generate(args):
         mp4 = STAGING / f"{item_id}.mp4"
         shutil.move(meta.pop("file"), mp4)
         checks, stats = run_checks(mp4)
-        contact_sheet(mp4, STAGING / f"{item_id}.png")
+        png = STAGING / f"{item_id}.png"
+        contact_sheet(mp4, png)
+        # video + preview go to the release right away, so the panel (and the poster) can reach them
+        subprocess.run(["gh", "release", "upload", RELEASE_TAG, str(mp4), str(png), "--clobber"], check=True, cwd=HERE)
         item = {"id": item_id, **meta, **stats, "checks": checks,
                 "status": "pending" if all(checks.values()) else "rejected",
                 "review": None if all(checks.values()) else "failed automatic checks",
@@ -155,11 +172,6 @@ def cmd_generate(args):
 def cmd_approve(args):
     q = queue()
     it = find(q, args.id)
-    mp4 = STAGING / f"{it['id']}.mp4"
-    if not mp4.exists():
-        sys.exit(f"missing {mp4}")
-    ensure_release()
-    subprocess.run(["gh", "release", "upload", RELEASE_TAG, str(mp4), "--clobber"], check=True, cwd=HERE)
     it.update(status="approved", review=args.note or "approved", reviewed=now())
     save(QUEUE, q)
     print(f"approved {it['id']}")
@@ -260,6 +272,7 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
     g = sub.add_parser("generate"); g.add_argument("--ayah", type=int, default=1); g.add_argument("--tasbih", type=int, default=1)
+    g.add_argument("--auto", action="store_true", help="skip when automation is OFF or the queue already holds `buffer` reels")
     a = sub.add_parser("approve"); a.add_argument("id"); a.add_argument("--note")
     r = sub.add_parser("reject"); r.add_argument("id"); r.add_argument("--note", required=True)
     sub.add_parser("status")

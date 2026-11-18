@@ -1,0 +1,55 @@
+name: Generate reels
+
+on:
+  schedule:
+    # 05:00 UTC daily: tops the queue up (skips when automation is OFF or the buffer is full)
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+    inputs:
+      ayah:
+        description: "Ayah reels to make"
+        default: "1"
+      tasbih:
+        description: "Tasbih reels to make"
+        default: "1"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: queue-state
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install ffmpeg and Arabic text shaping
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg libraqm0 libfribidi0 libharfbuzz0b
+          pip install -q pillow numpy
+          python3 -c "from PIL import features; assert features.check('raqm'), 'no raqm'; print('raqm ok')"
+
+      - name: Render, check and upload
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            python3 pipeline.py generate --auto --ayah 1 --tasbih 1
+          else
+            python3 pipeline.py generate --ayah "${{ inputs.ayah }}" --tasbih "${{ inputs.tasbih }}"
+          fi
+
+      - name: Save the queue
+        run: |
+          git config user.name "tilawah-sakina-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add state/queue.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Generated reels (pending review)"
+          for i in 1 2 3; do git pull --rebase -q && git push && exit 0; sleep 5; done
+          exit 1

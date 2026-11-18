@@ -1,0 +1,28 @@
+import { ASSETS, REPO, fail, gh, guard, readJson, send } from './_lib.js';
+
+/** Everything the panel shows: queue, settings, latest workflow runs. */
+export default async function handler(req, res) {
+  if (!guard(req, res)) return;
+  try {
+    const [queue, config, panel, runs] = await Promise.all([
+      readJson('state/queue.json'),
+      readJson('state/config.json'),
+      readJson('state/panel.json'),
+      gh(`/repos/${REPO}/actions/runs?per_page=12`),
+    ]);
+    send(res, 200, {
+      repo: REPO,
+      assets: ASSETS,
+      items: queue.data?.items ?? [],
+      config: { enabled: true, alternate: ['ayah', 'tasbih'], buffer: 14, ...(config.data ?? {}) },
+      panel: { name: '', ...(panel.data ?? {}) },
+      instagram: Boolean(process.env.IG_ACCESS_TOKEN),
+      runs: (runs.workflow_runs ?? []).map((r) => ({
+        id: r.id, name: r.name, event: r.event, status: r.status, conclusion: r.conclusion,
+        created: r.created_at, url: r.html_url, title: r.display_title,
+      })),
+    });
+  } catch (e) {
+    fail(res, e);
+  }
+}

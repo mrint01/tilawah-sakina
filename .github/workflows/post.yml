@@ -18,7 +18,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: post-reel
+  group: queue-state
   cancel-in-progress: false
 
 jobs:
@@ -88,5 +88,7 @@ jobs:
           git config user.name "tilawah-sakina-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add state/queue.json
-          git diff --cached --quiet || git commit -m "Posted ${{ steps.pick.outputs.id }}"
-          git push
+          git diff --cached --quiet && exit 0
+          git commit -m "Posted ${{ steps.pick.outputs.id }}"
+          for i in 1 2 3; do git pull --rebase -q && git push && exit 0; sleep 5; done
+          exit 1

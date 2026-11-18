@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Admin console theme. Paste into the app's global CSS (after @tailwind directives) and add
+ * tailwind.colors.ts to tailwind.config. Colours are RGB channels so `bg-paper/90` works.
+ *
+ * TWO KINDS OF COLOUR:
+ * - BRAND (marked "BRAND"): take them from the app itself — its primary/brand colour, so the
+ *   console feels like part of the app. The values below are YourTurn's orange, as a sample.
+ * - NEUTRAL (ink, paper, ok, danger, viz): the same in every console; keep them.
+ */
+:root {
+  --ink: 15 23 42;          /* slate-900  main text */
+  --ink-soft: 51 65 85;     /* slate-700  secondary text, nav items */
+  --ink-mute: 100 116 139;  /* slate-500  labels, meta, group titles */
+  --paper: 255 255 255;     /* sidebar, top bar, cards */
+  --paper-alt: 248 250 252; /* page background behind cards */
+  --paper-line: 226 232 240;/* every border/divider */
+  /* BRAND: the app's primary colour (active nav, badges, buttons, focus). Needs >= 4.5:1 with white. */
+  --accent: 20 83 63;
+  --accent-dark: 13 60 45;     /* BRAND: one shade darker (hover) */
+  --accent-light: 232 245 239;  /* BRAND: very light tint of it (soft backgrounds) */
+  --ok: 21 128 61;
+  --ok-dark: 22 101 52;
+  --ok-light: 220 252 231;
+  --danger: 220 38 38;
+  --danger-light: 254 226 226;
+  --chart: 20 83 63;       /* BRAND: single-series charts — same as --accent */
+  --viz-1: #2a78d6;         /* stacked series, in this order */
+  --viz-2: #eb6834;
+  --viz-3: #1baf7a;
+  color-scheme: light;
+}
+
+.dark {
+  --ink: 241 245 249;
+  --ink-soft: 203 213 225;
+  --ink-mute: 148 163 184;
+  --paper: 15 23 42;        /* sidebar + top bar + cards (slate-900) */
+  --paper-alt: 2 6 23;      /* page background (slate-950) */
+  --paper-line: 51 65 85;
+  --accent-light: 8 38 29;      /* BRAND: very dark tint of the accent */
+  --ok-light: 5 46 22;
+  --danger-light: 69 10 10;
+  --chart: 52 160 122;           /* BRAND: accent one step lighter */
+  --viz-1: #3987e5;
+  --viz-2: #d95926;
+  --viz-3: #199e70;
+  color-scheme: dark;
+}
+
+/* Accents stay as button backgrounds, but as text on dark surfaces they need lighter shades.
+   BRAND: two lighter shades of the accent (e.g. Tailwind 400 and 300 of its hue). */
+.dark .text-accent { color: #5fcfa5; }
+.dark .text-accent-dark { color: #9fe3c8; }
+.dark .text-ok { color: #4ade80; }
+.dark .text-ok-dark { color: #86efac; }
+.dark .text-danger { color: #f87171; }
+
+/* Numbers line up in tables and KPIs. */
+.num { font-variant-numeric: tabular-nums; }
+
+/*
+ * Text sizes (like Vercel): normal text 14px everywhere, small text never under 12px,
+ * page titles 20px. The console runs on a 14px root (spacing stays compact), which alone would
+ * shrink text-xs to 10.5px — these rules fix the text. AdminLayout sets <html data-admin-font="2">.
+ */
+html[data-admin-font='2'] :is(.text-xs, .text-\[10px\], .text-\[10\.5px\], .text-\[11px\]) {
+  font-size: 12px;
+  line-height: 16px;
+}
+html[data-admin-font='2'] :is(.text-sm, .text-\[13px\]) {
+  font-size: 14px;
+  line-height: 20px;
+}
+html[data-admin-font='2'] .text-\[9px\] {
+  font-size: 10px;
+}
+html[data-admin-font='2'] .text-lg {
+  font-size: 16px;
+  line-height: 24px;
+}
+html[data-admin-font='2'] .text-xl {
+  font-size: 20px;
+  line-height: 28px;
+}
+
+:root { --gold: 168 128 52; }
+.dark { --gold: 214 178 106; }
+body { font-family: "IBM Plex Sans", Amiri, system-ui, sans-serif; }
