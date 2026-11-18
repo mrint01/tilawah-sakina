@@ -21,7 +21,7 @@ FONTS = HERE / "fonts"
 OUT = HERE / "reels"
 HANDLE = "@tilawah.sakina"
 W, H, FPS = 1080, 1920, 30
-STEP = 1.2           # seconds per count: a calm, real-hand pace (each bead varies a little)
+TOTAL = 60.0         # every tasbih Reel is exactly one minute
 INTRO, OUTRO = 1.2, 2.6
 SR = 44100
 
@@ -35,35 +35,49 @@ PHRASES = {
     "salawat": ("ٱللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ ﷺ", "Allahumma salli 'ala Muhammad", "O Allah, send blessings upon Muhammad ﷺ"),
 }
 
+# One Reel = one full turn of the misbaha: 33 counts, counting DOWN to 0, always 60 s.
+# Each set has one phrase; "100x" hadiths become "repeat 3 times" in the caption.
 SETS = {
-    "after_salah": {
-        "title": "Tasbih after Salah",
-        "steps": [("subhanallah", 33), ("alhamdulillah", 33), ("allahuakbar", 34)],
-        "hook": "33 · 33 · 34. Take two minutes after your salah 🤍",
-        "tags": "#tasbih #dhikr #aftersalah #subhanallah #islam",
+    "subhanallah": {
+        "title": "33× SubhanAllah",
+        "steps": [("subhanallah", 33)],
+        "hook": "33 SubhanAllah after every salah. Count down with the beads 🤍",
+        "tags": "#tasbih #dhikr #subhanallah #aftersalah #islam",
+    },
+    "alhamdulillah": {
+        "title": "33× Alhamdulillah",
+        "steps": [("alhamdulillah", 33)],
+        "hook": "Alhamdulillah fills the scale (Muslim). 33 times, one minute 🤍",
+        "tags": "#alhamdulillah #dhikr #tasbih #gratitude #islam",
+    },
+    "allahuakbar": {
+        "title": "33× Allahu Akbar",
+        "steps": [("allahuakbar", 33)],
+        "hook": "33 Allahu Akbar after your salah. One minute with your Lord 🤍",
+        "tags": "#allahuakbar #dhikr #tasbih #aftersalah #islam",
     },
     "wabihamdihi": {
-        "title": "100× SubhanAllahi wa bihamdihi",
-        "steps": [("wabihamdihi", 100)],
-        "hook": "Say it 100 times and your sins are wiped away, even if they are like the foam of the sea (Bukhari) 🤍",
+        "title": "33× SubhanAllahi wa bihamdihi",
+        "steps": [("wabihamdihi", 33)],
+        "hook": "Say it 100 times and your sins are wiped away, even if they are like the foam of the sea (Bukhari). Repeat this 3 times 🤍",
         "tags": "#dhikr #subhanallah #tasbih #islam #sunnah",
     },
     "astaghfirullah": {
-        "title": "100× Astaghfirullah",
-        "steps": [("astaghfirullah", 100)],
-        "hook": "The Prophet ﷺ sought forgiveness more than 70 times a day. Join him for two minutes 🤍",
+        "title": "33× Astaghfirullah",
+        "steps": [("astaghfirullah", 33)],
+        "hook": "The Prophet ﷺ sought forgiveness more than 70 times a day. Repeat this 3 times for 100 🤍",
         "tags": "#astaghfirullah #istighfar #dhikr #tasbih #islam",
     },
     "tahlil": {
-        "title": "100× La ilaha illallah",
-        "steps": [("tahlil", 100)],
-        "hook": "The best dhikr is La ilaha illallah (Tirmidhi). Count with me 🤍",
+        "title": "33× La ilaha illallah",
+        "steps": [("tahlil", 33)],
+        "hook": "The best dhikr is La ilaha illallah (Tirmidhi). Count down with me 🤍",
         "tags": "#dhikr #tawheed #tasbih #islam #reminder",
     },
     "salawat": {
-        "title": "100× Salawat upon the Prophet ﷺ",
-        "steps": [("salawat", 100)],
-        "hook": "Send one salawat and Allah sends ten blessings upon you (Muslim). What about 100? 🤍",
+        "title": "33× Salawat upon the Prophet ﷺ",
+        "steps": [("salawat", 33)],
+        "hook": "Send one salawat and Allah sends ten blessings upon you (Muslim). Here are 33 🤍",
         "tags": "#salawat #durood #dhikr #prophetmuhammad #islam",
     },
 }
@@ -184,14 +198,19 @@ def render(set_key, theme_idx=None, seed=None):
     layers = {k: phrase_layer(k, theme) for k, _ in spec["steps"]}
     end = end_layer(theme)
 
-    # timeline of counts: (time, step_index, count_in_step)
-    events, t = [], INTRO
+    # timeline of counts: (time, step_index, count_in_step). The gaps vary a little like a real hand,
+    # then get scaled so the Reel is exactly TOTAL seconds.
+    n_all = sum(n for _, n in spec["steps"])
+    gaps = [1 + rnd.uniform(-0.05, 0.05) for _ in range(n_all)]
+    scale = (TOTAL - INTRO - OUTRO) / sum(gaps)
+    step = scale  # average seconds per count
+    events, t, k = [], INTRO, 0
     for si, (_, n) in enumerate(spec["steps"]):
         for c in range(1, n + 1):
             events.append((t, si, c))
-            t += STEP + rnd.uniform(-0.08, 0.08)
-        t += 0.5 if si < len(spec["steps"]) - 1 else 0
-    total = t + OUTRO
+            t += gaps[k] * scale
+            k += 1
+    total = TOTAL
     nframes = int(total * FPS)
 
     OUT.mkdir(exist_ok=True)
@@ -217,12 +236,12 @@ def render(set_key, theme_idx=None, seed=None):
         else:
             si, c, since = 0, 0, 1.0
         key, n = spec["steps"][si]
-        finished = ei == len(events) - 1 and since > STEP
+        finished = ei == len(events) - 1 and since > step
 
         frame = bg.copy()
         # phrase (crossfade when the step changes, end card at the end)
         if finished:
-            a = ease((since - STEP) / 0.6)
+            a = ease((since - step) / 0.6)
             frame = Image.alpha_composite(frame, fade(layers[key], 1 - a))
             frame = Image.alpha_composite(frame, fade(end, a))
         else:
@@ -239,28 +258,23 @@ def render(set_key, theme_idx=None, seed=None):
         pulse = max(0.0, 1 - since / 0.3) if ei >= 0 else 0
         slide = ease(since / 0.25) if ei >= 0 else 1
         done = ((c - 1) % BEADS) + 1 if c else 0
-        if finished or (c == n and since > STEP * 0.5):
+        if finished or (c == n and since > step * 0.5):
             done = BEADS
         # newest bead slides into the top position, like pulling a real misbaha
         rot = (((c - 1) % BEADS)) + (slide - 1) if c else 0
         draw_ring(d, theme, done, rot=rot, pulse=pulse)
 
-        # counter in the middle of the ring
+        # countdown in the middle of the ring: 33 before the first bead, 0 after the last
+        left = n - c
         size = int(150 * (1 + 0.12 * pulse))
         f = cnt_font_cache.setdefault(size, font("Lora-var.ttf", size))
-        d.text((RING_C[0], RING_C[1] - 25), str(c), font=f, fill=CREAM + (255,), anchor="mm")
-        d.text((RING_C[0], RING_C[1] + 85), f"/ {n}", font=font("Lora-var.ttf", 40), fill=theme[2] + (220,), anchor="mm")
-        if len(spec["steps"]) > 1:
-            k = len(spec["steps"])
-            for i in range(k):
-                x = RING_C[0] + (i - (k - 1) / 2) * 36
-                y = RING_C[1] + 140
-                on = i <= si
-                d.ellipse((x - 8, y - 8, x + 8, y + 8), fill=theme[2] + (230,) if on else None,
-                          outline=theme[2] + (200,), width=2)
-        elif n > BEADS:
-            d.text((RING_C[0], RING_C[1] + 140), f"round {min((c - 1) // BEADS + 1, math.ceil(n / BEADS)) if c else 1}",
-                   font=font("Lora-var.ttf", 28), fill=theme[2] + (170,), anchor="mm")
+        if finished:
+            cx, cy = RING_C[0], RING_C[1] - 20
+            d.line([(cx - 55, cy), (cx - 15, cy + 42), (cx + 60, cy - 48)], fill=theme[2] + (255,), width=18, joint="curve")
+            d.text((RING_C[0], RING_C[1] + 95), "done", font=font("Lora-var.ttf", 40), fill=CREAM + (220,), anchor="mm")
+        else:
+            d.text((RING_C[0], RING_C[1] - 25), str(left), font=f, fill=CREAM + (255,), anchor="mm")
+            d.text((RING_C[0], RING_C[1] + 85), f"left of {n}", font=font("Lora-var.ttf", 36), fill=theme[2] + (220,), anchor="mm")
 
         ff.stdin.write(frame.convert("RGB").tobytes())
     ff.stdin.close()

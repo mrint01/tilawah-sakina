@@ -90,8 +90,8 @@ def run_checks(path, kind="ayah"):
         "size_1080x1920": v.get("width") == 1080 and v.get("height") == 1920,
         "video_h264": v.get("codec_name") == "h264",
         "audio_aac": a.get("codec_name") == "aac",
-        # ayah reels 60-90 s; tasbih counts at a real pace (100 x 1.2 s), so up to Instagram's 3 min
-        **({"length_60_90s": 58 <= dur <= 92} if kind == "ayah" else {"length_up_to_3min": 30 <= dur <= 180}),
+        # ayah reels 60-90 s; tasbih reels are always one minute (33 counts down to 0)
+        **({"length_60_90s": 58 <= dur <= 92} if kind == "ayah" else {"length_60s": 57 <= dur <= 63}),
         "audio_not_silent": vol > -45,
         "file_under_100mb": size_mb < 100,
     }

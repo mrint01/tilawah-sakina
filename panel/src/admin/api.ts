@@ -143,6 +143,7 @@ export const CHECK_LABEL: Record<string, string> = {
   video_h264: 'H.264 video',
   audio_aac: 'AAC audio',
   length_60_90s: 'Length 60–90 s',
+  length_60s: 'Length 60 s',
   length_up_to_3min: 'Length up to 3 min',
   audio_not_silent: 'Audio not silent',
   file_under_100mb: 'File under 100 MB',
