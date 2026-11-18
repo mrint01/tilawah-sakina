@@ -565,10 +565,12 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
+      "status": "posted",
       "review": "Claude routine: all checks true, Arabic and text clean, countdown decreases",
       "created": "2026-11-18T18:33:02+00:00",
-      "reviewed": "2026-11-18T18:34:53+00:00"
+      "reviewed": "2026-11-18T18:34:53+00:00",
+      "posted": "2026-11-18T20:32:42+00:00",
+      "manual": true
     },
     {
       "id": "20261118-183327-tasbih",
