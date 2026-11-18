@@ -413,9 +413,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-18T17:16:00+00:00"
+      "status": "approved",
+      "review": "Claude routine: Arabic and diacritics render cleanly, counter rises 8 to 94 of 100, layout intact, checks all true",
+      "created": "2026-11-18T17:16:00+00:00",
+      "reviewed": "2026-11-18T17:17:52+00:00"
     },
     {
       "id": "20261118-171651-tasbih",
@@ -434,9 +435,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-18T17:17:01+00:00"
+      "status": "approved",
+      "review": "Claude routine: Arabic and diacritics render cleanly, counter rises 8 to 94 of 100, layout intact, checks all true",
+      "created": "2026-11-18T17:17:01+00:00",
+      "reviewed": "2026-11-18T17:17:52+00:00"
     }
   ]
 }
