@@ -123,7 +123,15 @@ def phrase_layer(key, theme):
         size -= 6
     d.text((W / 2, 400), ar, font=f, fill=acc + (255,), anchor="mm", direction="rtl", language="ar")
     d.text((W / 2, 545), tr, font=font("Lora-var.ttf", 44), fill=CREAM + (240,), anchor="mm")
-    d.text((W / 2, 605), en, font=font("Lora-var.ttf", 34), fill=CREAM + (170,), anchor="mm")
+    # Lora has no ﷺ glyph (it would show an empty box): draw that sign in Amiri, right after the text
+    fe, fs = font("Lora-var.ttf", 34), font("Amiri-Regular.ttf", 58)
+    txt, saw = (en.replace("ﷺ", "").rstrip(), True) if "ﷺ" in en else (en, False)
+    wt = d.textlength(txt, font=fe)
+    ws = 12 + d.textlength("ﷺ", font=fs) if saw else 0
+    x0 = W / 2 - (wt + ws) / 2
+    d.text((x0, 605), txt, font=fe, fill=CREAM + (170,), anchor="lm")
+    if saw:
+        d.text((x0 + wt + 12, 600), "ﷺ", font=fs, fill=CREAM + (170,), anchor="lm")
     sh = img.filter(ImageFilter.GaussianBlur(6))
     base = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     base.putalpha(sh.getchannel("A").point(lambda v: int(v * 0.55)))
