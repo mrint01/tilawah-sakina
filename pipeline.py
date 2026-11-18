@@ -97,6 +97,13 @@ def run_checks(path):
     return checks, {"duration": round(dur, 1), "size_mb": round(size_mb, 1), "mean_volume_db": vol}
 
 
+def preview_video(path, out):
+    """Small copy for the panel's player (phones): 540x960, ~2 MB, so the panel can serve it itself."""
+    subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", str(path), "-vf", "scale=540:-2",
+                    "-c:v", "libx264", "-preset", "veryfast", "-crf", "30", "-pix_fmt", "yuv420p",
+                    "-c:a", "aac", "-b:a", "64k", "-movflags", "+faststart", str(out)], check=True)
+
+
 def contact_sheet(path, out, n=6):
     """n frames side by side so a reviewer (human or Claude) can see the whole reel at a glance."""
     from PIL import Image
@@ -157,8 +164,10 @@ def cmd_generate(args):
         checks, stats = run_checks(mp4)
         png = STAGING / f"{item_id}.png"
         contact_sheet(mp4, png)
-        # video + preview go to the release right away, so the panel (and the poster) can reach them
-        subprocess.run(["gh", "release", "upload", RELEASE_TAG, str(mp4), str(png), "--clobber"], check=True, cwd=HERE)
+        small = STAGING / f"{item_id}-preview.mp4"
+        preview_video(mp4, small)
+        # video + previews go to the release right away, so the panel (and the poster) can reach them
+        subprocess.run(["gh", "release", "upload", RELEASE_TAG, str(mp4), str(png), str(small), "--clobber"], check=True, cwd=HERE)
         item = {"id": item_id, **meta, **stats, "checks": checks,
                 "status": "pending" if all(checks.values()) else "rejected",
                 "review": None if all(checks.values()) else "failed automatic checks",

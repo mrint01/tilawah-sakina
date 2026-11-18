@@ -131,7 +131,7 @@ function ReelPanel({ s, r }: { s: PanelState; r: Reel | null }) {
 
       <div className="flex flex-col gap-4 p-4">
         {r.status !== 'posted' ? (
-          <video key={r.id} src={`${asset(s, r.id, 'mp4')}#t=0.5`} controls playsInline preload="metadata"
+          <video key={r.id} src={`/api/video?id=${encodeURIComponent(r.id)}#t=0.5`} controls playsInline preload="metadata"
             className="mx-auto aspect-[9/16] max-h-[60vh] w-auto rounded-lg border border-paper-line bg-black" />
         ) : r.permalink ? (
           <a href={r.permalink} target="_blank" rel="noreferrer" className="text-sm font-medium text-accent hover:underline">Open on Instagram</a>
