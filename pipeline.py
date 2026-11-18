@@ -79,7 +79,7 @@ def mean_volume(path):
     return -99.0
 
 
-def run_checks(path):
+def run_checks(path, kind="ayah"):
     info = probe(path)
     v = next((s for s in info["streams"] if s["codec_type"] == "video"), {})
     a = next((s for s in info["streams"] if s["codec_type"] == "audio"), {})
@@ -90,7 +90,8 @@ def run_checks(path):
         "size_1080x1920": v.get("width") == 1080 and v.get("height") == 1920,
         "video_h264": v.get("codec_name") == "h264",
         "audio_aac": a.get("codec_name") == "aac",
-        "length_60_90s": 58 <= dur <= 92,
+        # ayah reels 60-90 s; tasbih counts at a real pace (100 x 1.2 s), so up to Instagram's 3 min
+        **({"length_60_90s": 58 <= dur <= 92} if kind == "ayah" else {"length_up_to_3min": 30 <= dur <= 180}),
         "audio_not_silent": vol > -45,
         "file_under_100mb": size_mb < 100,
     }
@@ -157,11 +158,15 @@ def cmd_generate(args):
             meta = make_reel.build(seed=seed, exclude=recent)
             recent.append(tuple(meta["passage"]))
         else:
-            meta = make_tasbih.render(random.Random(seed).choice(list(make_tasbih.SETS)), seed=seed)
+            # least-used dhikr set first, so the queue doesn't fill up with the same one
+            used = [it.get("set") for it in q["items"] if it.get("set") and it["status"] != "rejected"]
+            sets = list(make_tasbih.SETS)
+            random.Random(seed).shuffle(sets)
+            meta = make_tasbih.render(min(sets, key=used.count), seed=seed)
         item_id = datetime.now().strftime("%Y%m%d-%H%M%S") + f"-{kind}"
         mp4 = STAGING / f"{item_id}.mp4"
         shutil.move(meta.pop("file"), mp4)
-        checks, stats = run_checks(mp4)
+        checks, stats = run_checks(mp4, kind)
         png = STAGING / f"{item_id}.png"
         contact_sheet(mp4, png)
         small = STAGING / f"{item_id}-preview.mp4"

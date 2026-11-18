@@ -21,7 +21,7 @@ FONTS = HERE / "fonts"
 OUT = HERE / "reels"
 HANDLE = "@tilawah.sakina"
 W, H, FPS = 1080, 1920, 30
-STEP = 0.65          # seconds per count
+STEP = 1.2           # seconds per count: a calm, real-hand pace (each bead varies a little)
 INTRO, OUTRO = 1.2, 2.6
 SR = 44100
 
@@ -39,7 +39,7 @@ SETS = {
     "after_salah": {
         "title": "Tasbih after Salah",
         "steps": [("subhanallah", 33), ("alhamdulillah", 33), ("allahuakbar", 34)],
-        "hook": "33 · 33 · 34. Take one minute after your salah 🤍",
+        "hook": "33 · 33 · 34. Take two minutes after your salah 🤍",
         "tags": "#tasbih #dhikr #aftersalah #subhanallah #islam",
     },
     "wabihamdihi": {
@@ -51,7 +51,7 @@ SETS = {
     "astaghfirullah": {
         "title": "100× Astaghfirullah",
         "steps": [("astaghfirullah", 100)],
-        "hook": "The Prophet ﷺ sought forgiveness more than 70 times a day. Join him for one minute 🤍",
+        "hook": "The Prophet ﷺ sought forgiveness more than 70 times a day. Join him for two minutes 🤍",
         "tags": "#astaghfirullah #istighfar #dhikr #tasbih #islam",
     },
     "tahlil": {
@@ -181,7 +181,7 @@ def render(set_key, theme_idx=None, seed=None):
     for si, (_, n) in enumerate(spec["steps"]):
         for c in range(1, n + 1):
             events.append((t, si, c))
-            t += STEP
+            t += STEP + rnd.uniform(-0.08, 0.08)
         t += 0.5 if si < len(spec["steps"]) - 1 else 0
     total = t + OUTRO
     nframes = int(total * FPS)

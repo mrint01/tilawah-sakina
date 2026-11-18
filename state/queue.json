@@ -45,10 +45,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "approved in panel",
+      "status": "rejected",
+      "review": "Replaced: counting was too fast (0.65 s). New version counts at 1.2 s.",
       "created": "2026-11-18T12:25:34+00:00",
-      "reviewed": "2026-11-18T12:45:10+00:00"
+      "reviewed": "2026-11-18T16:32:28+00:00"
     },
     {
       "id": "20261118-124719-ayah",
@@ -97,10 +97,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: clean render, counter 7->96 of 100, no overlap",
+      "status": "rejected",
+      "review": "Replaced: counting was too fast (0.65 s). New version counts at 1.2 s.",
       "created": "2026-11-18T12:48:01+00:00",
-      "reviewed": "2026-11-18T14:07:55+00:00"
+      "reviewed": "2026-11-18T16:32:28+00:00"
     }
   ]
 }
