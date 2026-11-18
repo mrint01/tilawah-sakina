@@ -631,7 +631,7 @@
       "surah": "Ibrahim",
       "reciter": "Yasser Al-Dosari",
       "title": "Surah Ibrahim 14:7-9 · Yasser Al-Dosari",
-      "size_mb": 7.0,
+      "size_mb": 7,
       "mean_volume_db": -14.9,
       "checks": {
         "size_1080x1920": true,
@@ -641,18 +641,19 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-18T20:35:49+00:00"
+      "status": "approved",
+      "review": "approved in panel",
+      "created": "2026-11-18T20:35:49+00:00",
+      "reviewed": "2026-11-18T20:39:59+00:00"
     },
     {
       "id": "20261118-203623-tasbih",
       "kind": "tasbih",
       "caption": "Alhamdulillah fills the scale (Muslim). 33 times, one minute 🤍\n\n33× Alhamdulillah. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#alhamdulillah #dhikr #tasbih #gratitude #islam",
-      "duration": 60.0,
+      "duration": 60,
       "set": "alhamdulillah",
       "title": "33× Alhamdulillah",
-      "size_mb": 3.0,
+      "size_mb": 3,
       "mean_volume_db": -40.6,
       "checks": {
         "size_1080x1920": true,
