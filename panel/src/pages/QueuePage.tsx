@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { CalendarClock, Play, RotateCcw } from 'lucide-react';
+import { CalendarClock, Hand, Play, RotateCcw } from 'lucide-react';
 import { nextSlots, postingOrder, slot } from '../admin/api';
 import { KindBadge, Thumb, useAct, useAppState } from '../admin/hooks';
 import { ago, Badge, dateTime, Empty, PageHeader, Pager, Skeleton, usePaged } from '../admin/ui';
@@ -20,10 +20,18 @@ export default function QueuePage() {
         title="Up next"
         text={s ? `${order.length} approved ${order.length === 1 ? 'reel' : 'reels'}: about ${Math.floor(order.length / 2)} ${Math.floor(order.length / 2) === 1 ? 'day' : 'days'} of posts at 2 a day.` : 'Loading…'}
         actions={
-          <button type="button" disabled={!order.length || act.isPending} onClick={() => act.mutate({ type: 'post_now' })}
+          <div className="flex flex-wrap gap-2">
+          {s && !s.instagram && order[0] && (
+            <button type="button" onClick={() => navigate(`/review?reel=${order[0].id}`)}
+              className="flex h-10 cursor-pointer items-center gap-2 rounded-lg border border-accent px-3 text-sm font-semibold text-accent hover:bg-accent/10">
+              <Hand className="h-4 w-4" aria-hidden="true" /> Post next by hand
+            </button>
+          )}
+          <button type="button" disabled={!order.length || act.isPending || !s?.instagram} title={s?.instagram ? undefined : 'Connect Instagram first; until then use “Post next by hand”'} onClick={() => act.mutate({ type: 'post_now' })}
             className="flex h-10 cursor-pointer items-center gap-2 rounded-lg bg-accent px-3 text-sm font-semibold text-white hover:bg-accent-dark disabled:cursor-default disabled:opacity-50">
             <Play className="h-4 w-4" aria-hidden="true" /> Post next now
           </button>
+          </div>
         }
       />
       {s && !s.config.enabled && <p className="rounded-xl bg-accent-light p-3 text-sm font-medium text-accent">Automation is OFF, so nothing posts until you turn it on in Overview.</p>}

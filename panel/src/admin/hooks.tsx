@@ -27,6 +27,10 @@ export function useAct(success?: string | ((a: Action) => string)) {
         }
       }
       if (a.type === 'toggle') next.config.enabled = a.enabled;
+      if (a.type === 'mark_posted') {
+        const it = next.items.find((i) => i.id === a.id);
+        if (it) { it.status = 'posted'; it.posted = new Date().toISOString(); it.manual = true; if (a.permalink) it.permalink = a.permalink; }
+      }
       qc.setQueryData(['state'], next);
       return { prev };
     },

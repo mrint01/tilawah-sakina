@@ -33,6 +33,21 @@ export default async function handler(req, res) {
       case 'requeue':
         await setStatus(b.id, 'pending', null);
         break;
+      case 'mark_posted': {
+        const link = String(b.permalink || '').trim();
+        if (link && !/^https:\/\/(www\.)?instagram\.com\//.test(link)) return send(res, 400, { error: 'That is not an Instagram link.' });
+        await updateJson('state/queue.json', (q) => {
+          const it = (q.items ?? []).find((x) => x.id === b.id);
+          if (!it) throw Object.assign(new Error('That reel is no longer in the queue.'), { status: 404 });
+          if (it.status !== 'approved') throw Object.assign(new Error('Only approved reels can be marked as posted.'), { status: 409 });
+          it.status = 'posted';
+          it.posted = now();
+          it.manual = true;
+          if (link) it.permalink = link;
+          return q;
+        }, `Posted by hand ${b.id}`, { items: [] });
+        break;
+      }
       case 'toggle':
         await updateJson('state/config.json', (c) => ({ ...c, enabled: Boolean(b.enabled) }),
           `Automation ${b.enabled ? 'ON' : 'OFF'}`);

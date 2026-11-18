@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { CalendarClock, CheckCircle2, Clock3, Inbox, Instagram, Play, Power, RefreshCw, Send, Sparkles, Users } from 'lucide-react';
+import { CalendarClock, Hand, CheckCircle2, Clock3, Inbox, Instagram, Play, Power, RefreshCw, Send, Sparkles, Users } from 'lucide-react';
 import { cn } from '../admin/cn';
 import { nextSlots, postingOrder, slot } from '../admin/api';
 import { KindBadge, Thumb, useAct, useAppState, useInstagram } from '../admin/hooks';
@@ -83,7 +83,7 @@ export default function OverviewPage() {
             </div>
           </div>
           <div className="mt-4 flex flex-wrap gap-2">
-            <button type="button" disabled={act.isPending || approved === 0} onClick={() => act.mutate({ type: 'post_now' })}
+            <button type="button" disabled={act.isPending || approved === 0 || !s.instagram} title={s.instagram ? undefined : 'Connect Instagram first; until then use “Post next by hand”'} onClick={() => act.mutate({ type: 'post_now' })}
               className="flex h-9 cursor-pointer items-center gap-2 rounded-lg bg-accent px-3 text-sm font-semibold text-white hover:bg-accent-dark disabled:cursor-default disabled:opacity-50">
               <Play className="h-4 w-4" aria-hidden="true" /> Post next now
             </button>
@@ -91,6 +91,12 @@ export default function OverviewPage() {
               className="flex h-9 cursor-pointer items-center gap-2 rounded-lg border border-paper-line bg-paper px-3 text-sm font-medium hover:bg-paper-alt disabled:opacity-50">
               <Sparkles className="h-4 w-4" aria-hidden="true" /> Make 2 more
             </button>
+            {!s.instagram && upcoming[0] && (
+              <button type="button" onClick={() => navigate(`/review?reel=${upcoming[0].id}`)}
+                className="flex h-9 cursor-pointer items-center gap-2 rounded-lg border border-accent px-3 text-sm font-semibold text-accent hover:bg-accent/10">
+                <Hand className="h-4 w-4" aria-hidden="true" /> Post next by hand
+              </button>
+            )}
             {!s.instagram && (
               <button type="button" onClick={() => navigate('/settings')} className="flex h-9 cursor-pointer items-center gap-2 rounded-lg border border-paper-line px-3 text-sm font-medium text-ink-soft hover:bg-paper-alt">
                 <Instagram className="h-4 w-4" aria-hidden="true" /> Connect Instagram

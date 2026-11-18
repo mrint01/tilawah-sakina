@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Check, CheckCircle2, Inbox, MousePointerClick, RefreshCw, RotateCcw, Sparkles, X, XCircle } from 'lucide-react';
 import { cn } from '../admin/cn';
 import { asset, CHECK_LABEL, type PanelState, type Reel } from '../admin/api';
+import { ManualPost } from '../admin/ManualPost';
 import { allChecksOk, KindBadge, StatusBadge, Thumb, useAct, useAppState } from '../admin/hooks';
 import { ago, Badge, dateTime, Empty, PageHeader, Pager, SELECT, Skeleton, usePaged } from '../admin/ui';
 
@@ -136,6 +137,8 @@ function ReelPanel({ s, r }: { s: PanelState; r: Reel | null }) {
         ) : r.permalink ? (
           <a href={r.permalink} target="_blank" rel="noreferrer" className="text-sm font-medium text-accent hover:underline">Open on Instagram</a>
         ) : null}
+
+        {r.status === 'approved' && !s.instagram && <ManualPost reel={r} />}
 
         <img src={asset(s, r.id, 'png')} alt="Six frames spread over the reel" loading="lazy" className="w-full rounded-lg border border-paper-line" />
 

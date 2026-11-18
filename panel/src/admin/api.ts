@@ -15,6 +15,7 @@ export interface Reel {
   created: string;
   reviewed?: string;
   posted?: string;
+  manual?: boolean;
   permalink?: string;
   ig_media_id?: string;
   reciter?: string;
@@ -59,6 +60,7 @@ export type Action =
   | { type: 'approve'; id: string; note?: string }
   | { type: 'reject'; id: string; note: string }
   | { type: 'requeue'; id: string }
+  | { type: 'mark_posted'; id: string; permalink?: string }
   | { type: 'toggle'; enabled: boolean }
   | { type: 'settings'; settings: { config?: { alternate?: Kind[]; buffer?: number }; panel?: { name: string } } }
   | { type: 'post_now' }
@@ -73,6 +75,32 @@ export const api = {
 };
 
 export const asset = (s: PanelState, id: string, ext: 'mp4' | 'png') => `${s.assets}${id}.${ext}`;
+
+/** Full-quality reel as a File, fetched in ranges through /api/video (one Vercel response is capped at 4.5 MB). */
+export async function fetchFullVideo(id: string, onProgress?: (done: number) => void): Promise<File> {
+  const CHUNK = 3_000_000;
+  const parts: ArrayBuffer[] = [];
+  let start = 0;
+  let size = Infinity;
+  while (start < size) {
+    const r = await fetch(`/api/video?id=${encodeURIComponent(id)}&full=1`, {
+      credentials: 'same-origin',
+      headers: { Range: `bytes=${start}-${start + CHUNK - 1}` },
+    });
+    if (r.status === 401) throw new SignedOut('signed out');
+    if (r.status !== 206) {
+      const data = await r.json().catch(() => ({}));
+      throw new Error(data.error || `Download failed (${r.status})`);
+    }
+    const m = /bytes (\d+)-(\d+)\/(\d+)/.exec(r.headers.get('content-range') || '');
+    if (!m) throw new Error('Download failed (no range)');
+    size = Number(m[3]);
+    parts.push(await r.arrayBuffer());
+    start = Number(m[2]) + 1;
+    onProgress?.(start / size);
+  }
+  return new File(parts, `tilawah-sakina-${id}.mp4`, { type: 'video/mp4' });
+}
 
 /** Same order the posting workflow uses: alternate kinds, oldest approved first within a kind. */
 export function postingOrder(items: Reel[], alternate: Kind[]): Reel[] {
