@@ -82,9 +82,22 @@ jobs:
       - name: Save state and remove the posted video
         if: always() && steps.pick.outputs.id != '' && !inputs.dry_run
         run: |
-          if grep -q '"status": "posted"' state/queue.json && python3 -c "import json,sys; q=json.load(open('state/queue.json')); sys.exit(0 if any(i['id']=='${{ steps.pick.outputs.id }}' and i['status']=='posted' for i in q['items']) else 1)"; then
-            gh release delete-asset queue "${{ steps.pick.outputs.id }}.mp4" -y || true
-          fi
+          # Free the release: full videos of posted and rejected reels are no longer needed.
+          # Reels marked posted by hand keep theirs 3 days (so "Not posted (undo)" still works).
+          # The small preview + contact sheet stay for the panel's history.
+          python3 - > /tmp/done.txt <<'EOF'
+          import json
+          from datetime import datetime, timedelta, timezone
+          q = json.load(open("state/queue.json"))
+          old = (datetime.now(timezone.utc) - timedelta(days=3)).isoformat()
+          for i in q["items"]:
+              if i["status"] == "rejected" or (i["status"] == "posted" and (not i.get("manual") or i.get("posted", "") < old)):
+                  print(i["id"])
+          EOF
+          have=$(gh release view queue --json assets -q '.assets[].name')
+          for id in $(cat /tmp/done.txt); do
+            if echo "$have" | grep -qx "$id.mp4"; then gh release delete-asset queue "$id.mp4" -y || true; fi
+          done
           git config user.name "tilawah-sakina-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add state/queue.json
