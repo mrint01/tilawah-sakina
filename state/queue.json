@@ -457,9 +457,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-18T18:30:58+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic and text clean, countdown decreases",
+      "created": "2026-11-18T18:30:58+00:00",
+      "reviewed": "2026-11-18T18:34:53+00:00"
     },
     {
       "id": "20261118-183122-tasbih",
@@ -478,9 +479,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-18T18:31:28+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic and text clean, countdown decreases",
+      "created": "2026-11-18T18:31:28+00:00",
+      "reviewed": "2026-11-18T18:34:53+00:00"
     },
     {
       "id": "20261118-183153-tasbih",
@@ -499,9 +501,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-18T18:31:59+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic and text clean, countdown decreases",
+      "created": "2026-11-18T18:31:59+00:00",
+      "reviewed": "2026-11-18T18:34:53+00:00"
     },
     {
       "id": "20261118-183224-tasbih",
@@ -520,9 +523,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-18T18:32:31+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic and text clean, countdown decreases",
+      "created": "2026-11-18T18:32:31+00:00",
+      "reviewed": "2026-11-18T18:34:53+00:00"
     },
     {
       "id": "20261118-183256-tasbih",
@@ -541,9 +545,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-18T18:33:02+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic and text clean, countdown decreases",
+      "created": "2026-11-18T18:33:02+00:00",
+      "reviewed": "2026-11-18T18:34:53+00:00"
     },
     {
       "id": "20261118-183327-tasbih",
@@ -562,9 +567,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-18T18:33:34+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic and text clean, countdown decreases",
+      "created": "2026-11-18T18:33:34+00:00",
+      "reviewed": "2026-11-18T18:34:53+00:00"
     },
     {
       "id": "20261118-183357-tasbih",
@@ -583,9 +589,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-18T18:34:04+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic and text clean, countdown decreases",
+      "created": "2026-11-18T18:34:04+00:00",
+      "reviewed": "2026-11-18T18:34:53+00:00"
     }
   ]
 }
