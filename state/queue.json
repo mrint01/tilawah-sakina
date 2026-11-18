@@ -127,12 +127,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "posted",
+      "status": "approved",
       "review": "Claude routine: all 6 frames clean, Arabic/English fit, ref matches",
       "created": "2026-11-18T16:34:22+00:00",
-      "reviewed": "2026-11-18T16:58:25+00:00",
-      "posted": "2026-11-18T20:20:47+00:00",
-      "manual": true
+      "reviewed": "2026-11-18T16:58:25+00:00"
     },
     {
       "id": "20261118-163519-ayah",
