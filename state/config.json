@@ -1,4 +1,7 @@
 {
-  "enabled": true,
-  "alternate": ["ayah", "tasbih"]
+  "enabled": false,
+  "alternate": [
+    "ayah",
+    "tasbih"
+  ]
 }
