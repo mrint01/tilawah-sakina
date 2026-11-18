@@ -73,12 +73,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "posted",
+      "status": "approved",
       "review": "Claude routine: Arabic joined with harakat, no overlap, refs 67:2-8 match 67:1-8",
       "created": "2026-11-18T12:47:22+00:00",
-      "reviewed": "2026-11-18T14:07:55+00:00",
-      "posted": "2026-11-18T16:09:38+00:00",
-      "manual": true
+      "reviewed": "2026-11-18T14:07:55+00:00"
     },
     {
       "id": "20261118-124758-tasbih",
