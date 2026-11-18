@@ -252,7 +252,7 @@ def ensure_release():
     r = subprocess.run(["gh", "release", "view", RELEASE_TAG], capture_output=True, cwd=HERE)
     if r.returncode != 0:
         subprocess.run(["gh", "release", "create", RELEASE_TAG, "--title", "Reel queue",
-                        "--notes", "Approved reels waiting to be posted. Managed by pipeline.py.", "--latest=false"],
+                        "--notes", "Approved reels waiting to be posted. Managed by pipeline.py.", "--prerelease"],
                        check=True, cwd=HERE)
 
 
