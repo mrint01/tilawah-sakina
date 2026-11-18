@@ -617,6 +617,54 @@
       "reviewed": "2026-11-18T18:34:53+00:00",
       "posted": "2026-11-18T20:14:23+00:00",
       "manual": true
+    },
+    {
+      "id": "20261118-203537-ayah",
+      "kind": "ayah",
+      "caption": "And [remember] when your Lord proclaimed, 'If you are grateful, I will surely increase you [in favor]; but if you deny, indeed, My punishment is severe.'.\n\nSurah Ibrahim (Abraham) · 14:7-9\nRecited by Yasser Al-Dosari\n\nListen till the end and share it with someone who needs it today 🤍\n\n#quran #quranrecitation #islam #ibrahim #aldosari",
+      "duration": 84.4,
+      "passage": [
+        14,
+        7
+      ],
+      "ref": "14:7-9",
+      "surah": "Ibrahim",
+      "reciter": "Yasser Al-Dosari",
+      "title": "Surah Ibrahim 14:7-9 · Yasser Al-Dosari",
+      "size_mb": 7.0,
+      "mean_volume_db": -14.9,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60_90s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-18T20:35:49+00:00"
+    },
+    {
+      "id": "20261118-203623-tasbih",
+      "kind": "tasbih",
+      "caption": "Alhamdulillah fills the scale (Muslim). 33 times, one minute 🤍\n\n33× Alhamdulillah. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#alhamdulillah #dhikr #tasbih #gratitude #islam",
+      "duration": 60.0,
+      "set": "alhamdulillah",
+      "title": "33× Alhamdulillah",
+      "size_mb": 3.0,
+      "mean_volume_db": -40.6,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-18T20:36:31+00:00"
     }
   ]
 }
