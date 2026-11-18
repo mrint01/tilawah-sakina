@@ -65,7 +65,7 @@ export default function OverviewPage() {
           footer={s.instagram ? (ig.data?.profile ? `@${ig.data.profile.username}` : ig.data?.error ?? 'Loading…') : 'Connect Instagram in Settings'} />
       </div>
 
-      <div className="grid items-start gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+      <div className="grid grid-cols-1 items-start gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         <Panel title="Automation" delay={0.1}>
           <div className="flex flex-wrap items-center gap-4">
             <button type="button" role="switch" aria-checked={s.config.enabled} disabled={act.isPending}

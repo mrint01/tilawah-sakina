@@ -50,7 +50,7 @@ export default function SettingsPage() {
     <div className="flex flex-col gap-4">
       <PageHeader title="Settings" text="Your name in the console, how much is made and posted, and the accounts it uses." />
       {!s ? <Skeleton className="h-64" /> : (
-        <div className="grid items-start gap-4 xl:grid-cols-2">
+        <div className="grid grid-cols-1 items-start gap-4 xl:grid-cols-2">
           <Card icon={User} title="Profile" hint="The name shown at the top right.">
             <form className="flex flex-col gap-4" onSubmit={(e) => { e.preventDefault(); save.mutate({ type: 'settings', settings: { panel: { name: name.trim() } } }); }}>
               <FormRow label="Full name"><input value={name} onChange={(e) => setName(e.target.value)} maxLength={60} className={INPUT} placeholder="Your name" /></FormRow>

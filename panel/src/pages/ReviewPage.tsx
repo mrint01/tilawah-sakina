@@ -53,7 +53,7 @@ export default function ReviewPage() {
       />
       {state.error && <p className="rounded-xl bg-danger-light p-3 text-sm text-danger">{(state.error as Error).message}</p>}
 
-      <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)]">
+      <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)]">
         <section className="flex flex-col rounded-xl border border-paper-line bg-paper shadow-sm">
           <div className="border-b border-paper-line px-4 py-3">
             <h2 className="text-sm font-semibold">Reels</h2>
