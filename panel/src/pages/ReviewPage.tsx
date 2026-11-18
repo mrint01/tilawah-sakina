@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Check, CheckCircle2, Inbox, MousePointerClick, RefreshCw, RotateCcw, Sparkles, X, XCircle } from 'lucide-react';
+import { Check, CheckCircle2, Inbox, MousePointerClick, RefreshCw, RotateCcw, Sparkles, Undo2, X, XCircle } from 'lucide-react';
 import { cn } from '../admin/cn';
 import { asset, CHECK_LABEL, type PanelState, type Reel } from '../admin/api';
 import { ManualPost } from '../admin/ManualPost';
@@ -103,7 +103,7 @@ function ReelRow({ s, r, active, onOpen }: { s: PanelState; r: Reel; active: boo
 }
 
 function ReelPanel({ s, r }: { s: PanelState; r: Reel | null }) {
-  const act = useAct((a) => (a.type === 'approve' ? 'Approved: it joins the posting schedule' : a.type === 'reject' ? 'Rejected: it will not be posted' : 'Moved back to review'));
+  const act = useAct((a) => (a.type === 'approve' ? 'Approved: it joins the posting schedule' : a.type === 'reject' ? 'Rejected: it will not be posted' : a.type === 'unmark_posted' ? 'Back in the posting schedule' : 'Moved back to review'));
   const [note, setNote] = useState('');
   useEffect(() => setNote(''), [r?.id]);
 
@@ -131,14 +131,25 @@ function ReelPanel({ s, r }: { s: PanelState; r: Reel | null }) {
       </div>
 
       <div className="flex flex-col gap-4 p-4">
-        {r.status !== 'posted' ? (
+        {r.status !== 'posted' || r.manual ? (
           <video key={r.id} src={`/api/video?id=${encodeURIComponent(r.id)}#t=0.5`} controls playsInline preload="metadata"
             className="mx-auto aspect-[9/16] max-h-[60vh] w-auto rounded-lg border border-paper-line bg-black" />
-        ) : r.permalink ? (
+        ) : null}
+        {r.status === 'posted' && r.permalink ? (
           <a href={r.permalink} target="_blank" rel="noreferrer" className="text-sm font-medium text-accent hover:underline">Open on Instagram</a>
         ) : null}
 
         {r.status === 'approved' && !s.instagram && <ManualPost reel={r} />}
+
+        {r.status === 'posted' && r.manual && (
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-paper-line p-3">
+            <p className="text-sm text-ink-soft">Marked as posted by hand {ago(r.posted ?? null)}.</p>
+            <button type="button" disabled={act.isPending} onClick={() => act.mutate({ type: 'unmark_posted', id: r.id })}
+              className="flex h-9 cursor-pointer items-center gap-2 rounded-lg border border-paper-line px-3 text-sm font-medium text-ink-soft hover:bg-paper-alt disabled:opacity-50">
+              <Undo2 className="h-4 w-4" aria-hidden="true" /> Not posted (undo)
+            </button>
+          </div>
+        )}
 
         <img src={asset(s, r.id, 'png')} alt="Six frames spread over the reel" loading="lazy" className="w-full rounded-lg border border-paper-line" />
 

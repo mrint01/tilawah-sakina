@@ -61,6 +61,7 @@ export type Action =
   | { type: 'reject'; id: string; note: string }
   | { type: 'requeue'; id: string }
   | { type: 'mark_posted'; id: string; permalink?: string }
+  | { type: 'unmark_posted'; id: string }
   | { type: 'toggle'; enabled: boolean }
   | { type: 'settings'; settings: { config?: { alternate?: Kind[]; buffer?: number }; panel?: { name: string } } }
   | { type: 'post_now' }

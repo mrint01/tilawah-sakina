@@ -31,6 +31,10 @@ export function useAct(success?: string | ((a: Action) => string)) {
         const it = next.items.find((i) => i.id === a.id);
         if (it) { it.status = 'posted'; it.posted = new Date().toISOString(); it.manual = true; if (a.permalink) it.permalink = a.permalink; }
       }
+      if (a.type === 'unmark_posted') {
+        const it = next.items.find((i) => i.id === a.id);
+        if (it) { it.status = 'approved'; delete it.posted; delete it.manual; delete it.permalink; }
+      }
       qc.setQueryData(['state'], next);
       return { prev };
     },

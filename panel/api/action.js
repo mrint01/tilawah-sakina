@@ -48,6 +48,17 @@ export default async function handler(req, res) {
         }, `Posted by hand ${b.id}`, { items: [] });
         break;
       }
+      case 'unmark_posted':
+        // Undo a mistaken "I posted it": only for reels marked by hand (auto-posted ones are really on Instagram).
+        await updateJson('state/queue.json', (q) => {
+          const it = (q.items ?? []).find((x) => x.id === b.id);
+          if (!it) throw Object.assign(new Error('That reel is no longer in the queue.'), { status: 404 });
+          if (it.status !== 'posted' || !it.manual) throw Object.assign(new Error('Only reels marked as posted by hand can be undone.'), { status: 409 });
+          it.status = 'approved';
+          delete it.posted; delete it.manual; delete it.permalink;
+          return q;
+        }, `Not posted after all ${b.id}`, { items: [] });
+        break;
       case 'toggle':
         await updateJson('state/config.json', (c) => ({ ...c, enabled: Boolean(b.enabled) }),
           `Automation ${b.enabled ? 'ON' : 'OFF'}`);
