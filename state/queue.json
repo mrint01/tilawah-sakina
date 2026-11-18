@@ -395,6 +395,48 @@
       "review": "Claude routine: English line shows an empty box (tofu) after 'Muhammad' (missing ﷺ glyph) in all 6 frames",
       "created": "2026-11-18T16:57:28+00:00",
       "reviewed": "2026-11-18T16:58:26+00:00"
+    },
+    {
+      "id": "20261118-171550-tasbih",
+      "kind": "tasbih",
+      "caption": "Send one salawat and Allah sends ten blessings upon you (Muslim). What about 100? 🤍\n\n100× Salawat upon the Prophet ﷺ. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#salawat #durood #dhikr #prophetmuhammad #islam",
+      "duration": 124.2,
+      "set": "salawat",
+      "title": "100× Salawat upon the Prophet ﷺ",
+      "size_mb": 7.3,
+      "mean_volume_db": -38.6,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-18T17:16:00+00:00"
+    },
+    {
+      "id": "20261118-171651-tasbih",
+      "kind": "tasbih",
+      "caption": "The Prophet ﷺ sought forgiveness more than 70 times a day. Join him for two minutes 🤍\n\n100× Astaghfirullah. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#astaghfirullah #istighfar #dhikr #tasbih #islam",
+      "duration": 124.4,
+      "set": "astaghfirullah",
+      "title": "100× Astaghfirullah",
+      "size_mb": 6.7,
+      "mean_volume_db": -38.7,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-18T17:17:01+00:00"
     }
   ]
 }
