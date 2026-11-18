@@ -1,0 +1,88 @@
+name: Post next reel
+
+on:
+  schedule:
+    # GitHub cron is UTC. 08:00 / 18:00 UTC = 09:00 / 19:00 in Tunisia (UTC+1).
+    - cron: "0 8 * * *"
+    - cron: "0 18 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Only publish the video link, don't post to Instagram"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: post-reel
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Pick the next approved reel
+        id: pick
+        run: |
+          id=$(python3 pipeline.py next)
+          echo "id=$id" >> "$GITHUB_OUTPUT"
+          if [ -z "$id" ]; then echo "Nothing to post (automation OFF or queue empty)."; fi
+
+      - name: Download the video
+        if: steps.pick.outputs.id != ''
+        run: |
+          mkdir -p site/v
+          gh release download queue -p "${{ steps.pick.outputs.id }}.mp4" -D site/v
+          echo '<!doctype html><title>Tilawah Sakina</title><p>Reel hosting for @tilawah.sakina</p>' > site/index.html
+
+      - name: Host it on GitHub Pages
+        if: steps.pick.outputs.id != ''
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - name: Deploy Pages
+        if: steps.pick.outputs.id != ''
+        id: deploy
+        uses: actions/deploy-pages@v4
+
+      - name: Check the link works
+        if: steps.pick.outputs.id != ''
+        run: |
+          url="${{ steps.deploy.outputs.page_url }}v/${{ steps.pick.outputs.id }}.mp4"
+          echo "VIDEO_URL=$url" >> "$GITHUB_ENV"
+          for i in 1 2 3 4 5 6; do
+            code=$(curl -s -o /dev/null -w "%{http_code} %{content_type}" "$url")
+            echo "$code"; case "$code" in 200*) exit 0;; esac; sleep 10
+          done
+          exit 1
+
+      - name: Post to Instagram
+        if: steps.pick.outputs.id != '' && !inputs.dry_run
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+        run: python3 pipeline.py post "${{ steps.pick.outputs.id }}" --url "$VIDEO_URL"
+
+      - name: Save state and remove the posted video
+        if: always() && steps.pick.outputs.id != '' && !inputs.dry_run
+        run: |
+          if grep -q '"status": "posted"' state/queue.json && python3 -c "import json,sys; q=json.load(open('state/queue.json')); sys.exit(0 if any(i['id']=='${{ steps.pick.outputs.id }}' and i['status']=='posted' for i in q['items']) else 1)"; then
+            gh release delete-asset queue "${{ steps.pick.outputs.id }}.mp4" -y || true
+          fi
+          git config user.name "tilawah-sakina-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add state/queue.json
+          git diff --cached --quiet || git commit -m "Posted ${{ steps.pick.outputs.id }}"
+          git push

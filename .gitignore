@@ -1,0 +1,6 @@
+cache/
+staging/
+reels/
+__pycache__/
+*.pyc
+.env
