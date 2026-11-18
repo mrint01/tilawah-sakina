@@ -45,10 +45,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
+      "status": "approved",
+      "review": "approved in panel",
       "created": "2026-11-18T12:25:34+00:00",
-      "reviewed": "2026-11-18T12:44:58+00:00"
+      "reviewed": "2026-11-18T12:45:10+00:00"
     }
   ]
 }
