@@ -48,8 +48,23 @@ jobs:
         run: |
           git config user.name "tilawah-sakina-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add state/queue.json
-          git diff --cached --quiet && exit 0
-          git commit -m "Generated reels (pending review)"
-          for i in 1 2 3; do git pull --rebase -q && git push && exit 0; sleep 5; done
+          # main may have moved while rendering (panel approvals, other runs): take the latest queue
+          # and append only our new reels, instead of a text merge that can conflict.
+          cp state/queue.json /tmp/mine.json
+          for i in 1 2 3 4 5; do
+            git fetch -q origin main && git reset -q --hard origin/main
+            python3 - <<'EOF'
+          import json
+          mine = json.load(open("/tmp/mine.json"))
+          cur = json.load(open("state/queue.json"))
+          have = {it["id"] for it in cur["items"]}
+          cur["items"] += [it for it in mine["items"] if it["id"] not in have]
+          open("state/queue.json", "w").write(json.dumps(cur, indent=2, ensure_ascii=False) + "\n")
+          EOF
+            git add state/queue.json
+            git diff --cached --quiet && exit 0
+            git commit -qm "Generated reels (pending review)"
+            git push && exit 0
+            sleep 5
+          done
           exit 1
