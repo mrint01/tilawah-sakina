@@ -665,10 +665,12 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
+      "status": "posted",
       "review": "approved in panel",
       "created": "2026-11-18T20:36:31+00:00",
-      "reviewed": "2026-11-18T20:41:12+00:00"
+      "reviewed": "2026-11-18T20:41:12+00:00",
+      "posted": "2026-11-18T20:43:01+00:00",
+      "manual": true
     }
   ]
 }
