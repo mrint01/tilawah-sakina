@@ -1508,6 +1508,62 @@
       "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
       "created": "2026-11-20T12:37:45+00:00",
       "reviewed": "2026-11-20T12:38:57+00:00"
+    },
+    {
+      "id": "20261120-125708-ayah",
+      "kind": "ayah",
+      "caption": "So they set out, until when they met a boy, he [i.e., al-Khiḍr] killed him.\n\nSurah Al-Kahf (The Cave) · 18:74-79\nRecited by Maher Al-Muaiqly\n\nListen till the end and share it with someone who needs it today 🤍\n\n#quran #quranrecitation #islam #alkahf #almuaiqly",
+      "duration": 78.2,
+      "passage": [
+        18,
+        74
+      ],
+      "ref": "18:74-79",
+      "whole_surah": false,
+      "surah": "Al-Kahf",
+      "reciter": "Maher Al-Muaiqly",
+      "title": "Surah Al-Kahf 18:74-79 · Maher Al-Muaiqly",
+      "size_mb": 6.8,
+      "mean_volume_db": -19.1,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60_90s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-20T12:57:19+00:00"
+    },
+    {
+      "id": "20261120-125820-ayah",
+      "kind": "ayah",
+      "caption": "And similarly, We caused them to be found that they [who found them] would know that the promise of Allāh is truth and that of the Hour there is no doubt.\n\nSurah Al-Kahf (The Cave) · 18:21-23\nRecited by Maher Al-Muaiqly\n\nListen till the end and share it with someone who needs it today 🤍\n\n#quran #quranrecitation #islam #alkahf #almuaiqly",
+      "duration": 70.8,
+      "passage": [
+        18,
+        21
+      ],
+      "ref": "18:21-23",
+      "whole_surah": false,
+      "surah": "Al-Kahf",
+      "reciter": "Maher Al-Muaiqly",
+      "title": "Surah Al-Kahf 18:21-23 · Maher Al-Muaiqly",
+      "size_mb": 5.9,
+      "mean_volume_db": -19.2,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60_90s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-20T12:58:30+00:00"
     }
   ]
 }
