@@ -669,6 +669,54 @@
       "reviewed": "2026-11-18T20:41:12+00:00",
       "posted": "2026-11-18T20:43:01+00:00",
       "manual": true
+    },
+    {
+      "id": "20261120-113510-ayah",
+      "kind": "ayah",
+      "caption": "And the servants of the Most Merciful are those who walk upon the earth easily, and when the ignorant address them [harshly], they say [words of] peace.\n\nSurah Al-Furqan (The Criterion) · 25:63-68\nRecited by Yasser Al-Dosari\n\nListen till the end and share it with someone who needs it today 🤍\n\n#quran #quranrecitation #islam #alfurqan #aldosari",
+      "duration": 79.1,
+      "passage": [
+        25,
+        63
+      ],
+      "ref": "25:63-68",
+      "surah": "Al-Furqan",
+      "reciter": "Yasser Al-Dosari",
+      "title": "Surah Al-Furqan 25:63-68 · Yasser Al-Dosari",
+      "size_mb": 6.6,
+      "mean_volume_db": -15.3,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60_90s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-20T11:35:19+00:00"
+    },
+    {
+      "id": "20261120-113544-tasbih",
+      "kind": "tasbih",
+      "caption": "The Prophet ﷺ sought forgiveness more than 70 times a day. Repeat this 3 times for 100 🤍\n\n33× Astaghfirullah. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#astaghfirullah #istighfar #dhikr #tasbih #islam",
+      "duration": 60.0,
+      "set": "astaghfirullah",
+      "title": "33× Astaghfirullah",
+      "size_mb": 3.0,
+      "mean_volume_db": -40.6,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-20T11:35:50+00:00"
     }
   ]
 }
