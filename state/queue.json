@@ -157,12 +157,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "posted",
+      "status": "approved",
       "review": "Claude routine: all 6 frames clean, Arabic/English fit, ref matches",
       "created": "2026-11-18T16:35:29+00:00",
-      "reviewed": "2026-11-18T16:58:25+00:00",
-      "posted": "2026-11-20T11:45:02+00:00",
-      "manual": true
+      "reviewed": "2026-11-18T16:58:25+00:00"
     },
     {
       "id": "20261118-163646-ayah",
@@ -754,7 +752,7 @@
       "id": "20261120-114934-tasbih",
       "kind": "tasbih",
       "caption": "The Prophet ﷺ sought forgiveness more than 70 times a day. Repeat this 3 times for 100 🤍\n\n33× Astaghfirullah. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#astaghfirullah #istighfar #dhikr #tasbih #islam",
-      "duration": 60.0,
+      "duration": 60,
       "set": "astaghfirullah",
       "title": "33× Astaghfirullah",
       "size_mb": 3.1,
@@ -785,7 +783,7 @@
       "surah": "Al-Mu'minun",
       "reciter": "Maher Al-Muaiqly",
       "title": "Surah Al-Mu'minun 23:1-14 · Maher Al-Muaiqly",
-      "size_mb": 7.0,
+      "size_mb": 7,
       "mean_volume_db": -21.7,
       "checks": {
         "size_1080x1920": true,
@@ -804,7 +802,7 @@
       "id": "20261120-115216-tasbih",
       "kind": "tasbih",
       "caption": "Send one salawat and Allah sends ten blessings upon you (Muslim). Here are 33 🤍\n\n33× Salawat upon the Prophet ﷺ. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#salawat #durood #dhikr #prophetmuhammad #islam",
-      "duration": 60.0,
+      "duration": 60,
       "set": "salawat",
       "title": "33× Salawat upon the Prophet ﷺ",
       "size_mb": 3.4,
