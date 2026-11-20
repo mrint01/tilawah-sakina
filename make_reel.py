@@ -29,7 +29,9 @@ TRANSLATION_ID = 20  # Sahih International
 RECITERS = {
     "Mishary Alafasy": "Alafasy_128kbps",
     # studio Mujawwad recording (mp3quran.net); everyayah's MaherAlMuaiqly128kbps is a Haram recording with heavy echo
-    "Maher Al-Muaiqly": "MaherAlMuaiqly128kbps",
+    # studio Murattal (quranicaudio.com, 256 kbps), cut per ayah by align.py; everyayah's own Maher files
+    # (MaherAlMuaiqly128kbps, the alignment reference) are Haram recordings with heavy echo
+    "Maher Al-Muaiqly": "quranicaudio/maher_256",
     "Yasser Al-Dosari": "Yasser_Ad-Dussary_128kbps",
 }
 
@@ -92,12 +94,48 @@ def verse(s, a):
 
 
 MP3QURAN = "https://www.mp3quran.net/api/v3"
+# Whole-surah recordings without published timings: (download base, everyayah folder of the same reciter
+# used as the reference for align.py). Timings are computed once and kept in timings/<name>/SSS.json.
+ALIGNED = {
+    "quranicaudio/maher_256": ("https://download.quranicaudio.com/quran/maher_256/", "MaherAlMuaiqly128kbps"),
+}
+TIMINGS = HERE / "timings"
+
+
+class UncertainCut(Exception):
+    """align.py is not sure where this ayah starts or ends in the recording."""
+
+
+def aligned_timing(folder, s):
+    path = TIMINGS / folder.split("/")[-1] / f"{s:03d}.json"
+    if not path.exists():
+        import align
+        base, ref = ALIGNED[folder]
+        whole = fetch(f"{base}{s:03d}.mp3", CACHE / folder / f"surah_{s:03d}.mp3")
+        n = chapters()[s]["verses_count"]
+        refs = [audio(ref, s, a) for a in range(1, n + 1)]
+        timing = align.align(whole, refs)
+        for t, r in zip(timing, refs):  # length against the reference: far off means the cut is doubtful
+            t["ratio"] = round((t["end_time"] - t["start_time"]) / 1000 / duration(r), 2)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(timing, indent=1) + "\n")
+    return json.loads(path.read_text())
 
 
 def audio(folder, s, a):
-    """One ayah as an mp3. folder is an everyayah.com folder, or "mp3quran/<read id>": a whole-surah
-    studio recording from mp3quran.net, cut at its published ayah timings."""
+    """One ayah as an mp3. folder is an everyayah.com folder, a key of ALIGNED (whole-surah recording cut
+    at timings from align.py), or "mp3quran/<read id>" (cut at mp3quran.net's published timings)."""
     out = CACHE / folder / f"{s:03d}{a:03d}.mp3"
+    if folder in ALIGNED:
+        t = next(x for x in aligned_timing(folder, s) if x["ayah"] == a)
+        if not 0.72 <= t.get("ratio", 1) <= 1.4:
+            raise UncertainCut(f"{s}:{a}")
+        if not out.exists():
+            whole = CACHE / folder / f"surah_{s:03d}.mp3"
+            if not whole.exists():
+                fetch(f"{ALIGNED[folder][0]}{s:03d}.mp3", whole)
+            cut(whole, t["start_time"] / 1000, t["end_time"] / 1000, out)
+        return out
     if not folder.startswith("mp3quran/"):
         return fetch(f"https://everyayah.com/data/{folder}/{s:03d}{a:03d}.mp3", out)
     if out.exists():
@@ -109,11 +147,15 @@ def audio(folder, s, a):
     timing = json.loads(fetch(f"{MP3QURAN}/ayat_timing?surah={s}&read={read}",
                               CACHE / folder / f"timing_{s:03d}.json").read_text())
     t = next(x for x in timing if x["ayah"] == a)
-    start, end = t["start_time"] / 1000, t["end_time"] / 1000
+    cut(whole, t["start_time"] / 1000, t["end_time"] / 1000, out)
+    return out
+
+
+def cut(whole, start, end, out):
+    out.parent.mkdir(parents=True, exist_ok=True)
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{start:.3f}", "-to", f"{end:.3f}", "-i", str(whole),
                     "-af", f"afade=t=in:d=0.03,afade=t=out:st={max(0, end - start - 0.06):.3f}:d=0.06",
                     "-ac", "2", "-ar", "44100", "-c:a", "libmp3lame", "-b:a", "192k", str(out)], check=True)
-    return out
 
 
 def duration(path):
@@ -129,7 +171,10 @@ def pick_ayahs(chs, folder, surah, start):
     picked, total = [], 0.0
     a = start
     while a <= chs[surah]["verses_count"]:
-        d = duration(audio(folder, surah, a))
+        try:
+            d = duration(audio(folder, surah, a))
+        except UncertainCut:
+            break  # stop before an ayah whose cut is doubtful
         if total + d > MAX_LEN:
             break
         picked.append((a, d))
