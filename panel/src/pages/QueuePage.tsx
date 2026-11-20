@@ -40,7 +40,32 @@ export default function QueuePage() {
         {!s ? <div className="p-4"><Skeleton className="h-40" /></div> : order.length === 0 ? (
           <Empty icon={CalendarClock} text="Nothing approved yet. Approve reels in Review to fill the schedule." />
         ) : (
-          <div className="overflow-x-auto">
+          <>
+          {/* phones: one compact row per reel, text wraps instead of running off the screen */}
+          <ul className="divide-y divide-paper-line sm:hidden">
+            {paged.items?.map((r) => {
+              const i = order.indexOf(r);
+              return (
+                <li key={r.id}>
+                  <button type="button" onClick={() => navigate(`/review?reel=${r.id}`)} className="flex w-full cursor-pointer items-start gap-3 px-4 py-3 text-start hover:bg-paper-alt">
+                    <span className="num w-5 shrink-0 pt-0.5 text-xs text-ink-mute">{i + 1}</span>
+                    <Thumb state={s} reel={r} className="h-14 w-8" />
+                    <span className="min-w-0 flex-1">
+                      <span className="line-clamp-2 text-sm font-semibold">{r.title}</span>
+                      <span className="mt-0.5 line-clamp-1 text-xs text-ink-mute">{r.caption.split('\n')[0]}</span>
+                      <span className="mt-1.5 flex flex-wrap items-center gap-2 text-xs text-ink-soft">
+                        <KindBadge kind={r.kind} />
+                        <span className="num">{r.duration}s</span>
+                        <span>·</span>
+                        {s.config.enabled ? <span className={i === 0 ? 'font-semibold text-ok' : ''}>{slot(slots[i])}</span> : <span className="text-ink-mute">paused</span>}
+                      </span>
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+          <div className="hidden overflow-x-auto sm:block">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-paper-line text-left text-xs uppercase text-ink-mute">
@@ -85,6 +110,7 @@ export default function QueuePage() {
               </tbody>
             </table>
           </div>
+          </>
         )}
         <Pager paged={paged} className="border-t border-paper-line px-4 py-3" />
       </section>

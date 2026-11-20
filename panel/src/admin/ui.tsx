@@ -34,8 +34,9 @@ export function AnimatedNumber({ value, format = (v) => int.format(Math.round(v)
 
 export function PageHeader({ title, text, actions }: { title: string; text?: string; actions?: ReactNode }) {
   return (
-    <div className="flex flex-wrap items-end gap-3">
-      <div className="min-w-0 flex-1">
+    // phones: title + text full width, the buttons below; wider screens: buttons on the right
+    <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end">
+      <div className="min-w-0 sm:min-w-[16rem] sm:flex-1">
         <h1 className="text-xl font-bold tracking-tight">{title}</h1>
         {text && <p className="mt-0.5 text-sm text-ink-soft">{text}</p>}
       </div>
