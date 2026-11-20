@@ -29,7 +29,7 @@ TRANSLATION_ID = 20  # Sahih International
 RECITERS = {
     "Mishary Alafasy": "Alafasy_128kbps",
     # studio Mujawwad recording (mp3quran.net); everyayah's MaherAlMuaiqly128kbps is a Haram recording with heavy echo
-    "Maher Al-Muaiqly": "mp3quran/133",
+    "Maher Al-Muaiqly": "MaherAlMuaiqly128kbps",
     "Yasser Al-Dosari": "Yasser_Ad-Dussary_128kbps",
 }
 
