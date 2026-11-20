@@ -1,8 +1,9 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CalendarClock, Hand, Play, RotateCcw } from 'lucide-react';
 import { nextSlots, postingOrder, slot } from '../admin/api';
 import { KindBadge, Thumb, useAct, useAppState } from '../admin/hooks';
-import { ago, Badge, dateTime, Empty, PageHeader, Pager, Skeleton, usePaged } from '../admin/ui';
+import { ago, Badge, dateTime, Empty, PageHeader, Pager, SELECT, Skeleton, usePaged } from '../admin/ui';
 
 /** Approved reels in the order the workflow will post them, with their expected time slot. */
 export default function QueuePage() {
@@ -12,7 +13,12 @@ export default function QueuePage() {
   const s = state.data;
   const order = s ? postingOrder(s.items, s.config.alternate) : [];
   const slots = nextSlots(order.length);
-  const paged = usePaged(order, null, 15);
+  // filters only change what is shown: the posting order and the # numbers stay the same
+  const [kind, setKind] = useState<'all' | 'ayah' | 'tasbih'>('all');
+  const [reciter, setReciter] = useState('');
+  const reciters = [...new Set(order.map((r) => r.reciter).filter((x): x is string => Boolean(x)))].sort();
+  const shown = order.filter((r) => (kind === 'all' || r.kind === kind) && (!reciter || r.reciter === reciter));
+  const paged = usePaged(shown, `${kind}|${reciter}`, 15);
 
   return (
     <div className="flex flex-col gap-4">
@@ -37,8 +43,27 @@ export default function QueuePage() {
       {s && !s.config.enabled && <p className="rounded-xl bg-accent-light p-3 text-sm font-medium text-accent">Automation is OFF, so nothing posts until you turn it on in Overview.</p>}
 
       <section className="overflow-hidden rounded-xl border border-paper-line bg-paper shadow-sm">
+        {s && order.length > 0 && (
+          <div className="flex flex-wrap items-center gap-2 border-b border-paper-line px-4 py-3">
+            <select aria-label="Type" value={kind} onChange={(e) => { const k = e.target.value as typeof kind; setKind(k); if (k === 'tasbih') setReciter(''); }} className={SELECT}>
+              <option value="all">All types ({order.length})</option>
+              <option value="ayah">Ayah ({order.filter((r) => r.kind === 'ayah').length})</option>
+              <option value="tasbih">Tasbih ({order.filter((r) => r.kind === 'tasbih').length})</option>
+            </select>
+            <select aria-label="Reciter" value={reciter} disabled={kind === 'tasbih'} onChange={(e) => { setReciter(e.target.value); if (e.target.value) setKind('ayah'); }} className={`${SELECT} disabled:opacity-50`}>
+              <option value="">All reciters</option>
+              {reciters.map((n) => <option key={n} value={n}>{n} ({order.filter((r) => r.reciter === n).length})</option>)}
+            </select>
+            {(kind !== 'all' || reciter) && (
+              <button type="button" onClick={() => { setKind('all'); setReciter(''); }} className="h-9 cursor-pointer rounded-lg px-2 text-sm text-ink-mute underline hover:text-accent">Clear</button>
+            )}
+            <span className="ms-auto text-xs text-ink-mute">{shown.length} shown</span>
+          </div>
+        )}
         {!s ? <div className="p-4"><Skeleton className="h-40" /></div> : order.length === 0 ? (
           <Empty icon={CalendarClock} text="Nothing approved yet. Approve reels in Review to fill the schedule." />
+        ) : shown.length === 0 ? (
+          <Empty icon={CalendarClock} text="No approved reels match these filters." />
         ) : (
           <>
           {/* phones: one compact row per reel, text wraps instead of running off the screen */}

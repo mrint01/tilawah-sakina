@@ -26,7 +26,7 @@ export const ALL_RECITERS: [string, string][] = [
   ["Ibrahim Al-Dosary (Warsh)", "warsh/warsh_ibrahim_aldosary_128kbps"],
   ["Khalefa Al-Tunaiji", "khalefa_al_tunaiji_64kbps"],
   ["Khalid Al-Qahtani", "Khaalid_Abdullaah_al-Qahtaanee_192kbps"],
-  ["Maher Al-Muaiqly", "MaherAlMuaiqly128kbps"],
+  ["Maher Al-Muaiqly", "mp3quran/133"],
   ["Mahmoud Khalil Al-Husary", "Husary_128kbps"],
   ["Mishary Alafasy", "Alafasy_128kbps"],
   ["Mohammad Al-Tablawi", "Mohammad_al_Tablaway_128kbps"],

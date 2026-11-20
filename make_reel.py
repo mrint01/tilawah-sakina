@@ -28,7 +28,8 @@ TRANSLATION_ID = 20  # Sahih International
 
 RECITERS = {
     "Mishary Alafasy": "Alafasy_128kbps",
-    "Maher Al-Muaiqly": "MaherAlMuaiqly128kbps",
+    # studio Mujawwad recording (mp3quran.net); everyayah's MaherAlMuaiqly128kbps is a Haram recording with heavy echo
+    "Maher Al-Muaiqly": "mp3quran/133",
     "Yasser Al-Dosari": "Yasser_Ad-Dussary_128kbps",
 }
 
@@ -90,8 +91,29 @@ def verse(s, a):
     return ar, en
 
 
+MP3QURAN = "https://www.mp3quran.net/api/v3"
+
+
 def audio(folder, s, a):
-    return fetch(f"https://everyayah.com/data/{folder}/{s:03d}{a:03d}.mp3", CACHE / folder / f"{s:03d}{a:03d}.mp3")
+    """One ayah as an mp3. folder is an everyayah.com folder, or "mp3quran/<read id>": a whole-surah
+    studio recording from mp3quran.net, cut at its published ayah timings."""
+    out = CACHE / folder / f"{s:03d}{a:03d}.mp3"
+    if not folder.startswith("mp3quran/"):
+        return fetch(f"https://everyayah.com/data/{folder}/{s:03d}{a:03d}.mp3", out)
+    if out.exists():
+        return out
+    read = folder.split("/", 1)[1]
+    reads = json.loads(fetch(f"{MP3QURAN}/ayat_timing/reads", CACHE / "mp3quran" / "reads.json").read_text())
+    base = next(r["folder_url"] for r in reads if str(r["id"]) == read)
+    whole = fetch(f"{base}{s:03d}.mp3", CACHE / folder / f"surah_{s:03d}.mp3")
+    timing = json.loads(fetch(f"{MP3QURAN}/ayat_timing?surah={s}&read={read}",
+                              CACHE / folder / f"timing_{s:03d}.json").read_text())
+    t = next(x for x in timing if x["ayah"] == a)
+    start, end = t["start_time"] / 1000, t["end_time"] / 1000
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{start:.3f}", "-to", f"{end:.3f}", "-i", str(whole),
+                    "-af", f"afade=t=in:d=0.03,afade=t=out:st={max(0, end - start - 0.06):.3f}:d=0.06",
+                    "-ac", "2", "-ar", "44100", "-c:a", "libmp3lame", "-b:a", "192k", str(out)], check=True)
+    return out
 
 
 def duration(path):
