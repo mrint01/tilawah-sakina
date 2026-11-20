@@ -1,0 +1,100 @@
+name: Friday Al-Kahf
+
+# Every Friday: Surah Al-Kahf part 1 at 14:00 and part 2 at 14:10 (Tunisia, UTC+1 = 13:00 / 13:10 UTC).
+# The two videos stay in the 'weekly' release for good; state/weekly.json has their captions.
+on:
+  schedule:
+    - cron: "0 13 * * 5"
+    - cron: "10 13 * * 5"
+  workflow_dispatch:
+    inputs:
+      part:
+        description: "Which video"
+        type: choice
+        options: [kahf-part1, kahf-part2]
+        default: kahf-part1
+      dry_run:
+        description: "Only publish the video link, don't post to Instagram"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: queue-state
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Pick this Friday's video
+        id: pick
+        env:
+          CRON: ${{ github.event.schedule }}
+          PART: ${{ inputs.part }}
+        run: |
+          id=$(python3 weekly.py which "${CRON:-$PART}")
+          echo "id=$id" >> "$GITHUB_OUTPUT"
+          echo "Posting $id"
+
+      - name: Download the video
+        run: |
+          mkdir -p site/w
+          gh release download weekly -p "${{ steps.pick.outputs.id }}.mp4" -D site/w
+          echo '<!doctype html><title>Tilawah Sakina</title><p>Reel hosting for @tilawah.sakina</p>' > site/index.html
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - name: Let the artifact settle
+        run: sleep 20
+
+      - name: Deploy Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
+
+      - name: Check the link works
+        run: |
+          url="${{ steps.deploy.outputs.page_url }}w/${{ steps.pick.outputs.id }}.mp4"
+          echo "VIDEO_URL=$url" >> "$GITHUB_ENV"
+          for i in 1 2 3 4 5 6; do
+            code=$(curl -s -o /dev/null -w "%{http_code} %{content_type}" "$url")
+            echo "$code"; case "$code" in 200*) exit 0;; esac; sleep 10
+          done
+          exit 1
+
+      - name: Post to Instagram
+        if: ${{ !inputs.dry_run }}
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+        run: |
+          if [ -z "$IG_ACCESS_TOKEN" ]; then
+            echo "::warning::Instagram is not connected yet: post ${{ steps.pick.outputs.id }} by hand."
+            exit 0
+          fi
+          python3 weekly.py post "${{ steps.pick.outputs.id }}" --url "$VIDEO_URL"
+
+      - name: Save when it went out
+        if: ${{ !inputs.dry_run }}
+        run: |
+          git config user.name "tilawah-sakina-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add state/weekly.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Friday: posted ${{ steps.pick.outputs.id }}"
+          for i in 1 2 3; do git pull --rebase -q && git push && exit 0; sleep 5; done
+          exit 1

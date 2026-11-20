@@ -4,6 +4,7 @@ import { ArrowDown, ArrowUp, ArrowUpDown, ExternalLink, Eye, Heart, RefreshCw, S
 import { cn } from '../admin/cn';
 import type { MediaStats, Reel } from '../admin/api';
 import { KindBadge, Thumb, useAppState, useInstagram } from '../admin/hooks';
+import { matchFilters, ReelFilterBar, useReelFilters } from '../admin/ReelFilters';
 import { ago, dateTime, Empty, int, KpiCard, PageHeader, Pager, Skeleton, usePaged } from '../admin/ui';
 
 type Sort = 'posted' | 'views' | 'likes';
@@ -16,8 +17,10 @@ export default function PostedPage() {
   const [sort, setSort] = useState<{ key: Sort; dir: 1 | -1 }>({ key: 'posted', dir: -1 });
   const stats = (r: Reel): MediaStats | undefined => ig.data?.media?.[r.id];
   const val = (r: Reel) => (sort.key === 'posted' ? +new Date(r.posted ?? 0) : sort.key === 'views' ? stats(r)?.views ?? -1 : stats(r)?.likes ?? -1);
-  const posted = (s?.items ?? []).filter((i) => i.status === 'posted').sort((a, b) => (val(a) - val(b)) * sort.dir);
-  const paged = usePaged(posted, `${sort.key}${sort.dir}`, 15);
+  const allPosted = (s?.items ?? []).filter((i) => i.status === 'posted');
+  const [filters, setFilters] = useReelFilters();
+  const posted = allPosted.filter((r) => matchFilters(r, filters)).sort((a, b) => (val(a) - val(b)) * sort.dir);
+  const paged = usePaged(posted, `${sort.key}${sort.dir}${JSON.stringify(filters)}`, 15);
   const totalViews = posted.reduce((n, r) => n + (stats(r)?.views ?? 0), 0);
   const totalLikes = posted.reduce((n, r) => n + (stats(r)?.likes ?? 0), 0);
 
@@ -37,7 +40,7 @@ export default function PostedPage() {
     <div className="flex flex-col gap-4">
       <PageHeader
         title="Posted"
-        text={s ? `${posted.length} reels on @tilawah.sakina.` : 'Loading…'}
+        text={s ? `${allPosted.length} reels on @tilawah.sakina.` : 'Loading…'}
         actions={
           <button type="button" onClick={() => void ig.refetch()} disabled={!s?.instagram}
             className="flex h-9 cursor-pointer items-center gap-2 rounded-lg border border-paper-line bg-paper px-3 text-sm font-medium hover:bg-paper-alt disabled:opacity-50">
@@ -57,8 +60,9 @@ export default function PostedPage() {
       )}
 
       <section className="overflow-hidden rounded-xl border border-paper-line bg-paper shadow-sm">
+        {s && allPosted.length > 0 && <ReelFilterBar items={allPosted} value={filters} onChange={setFilters} shown={posted.length} />}
         {!s ? <div className="p-4"><Skeleton className="h-40" /></div> : posted.length === 0 ? (
-          <Empty icon={Send} text="Nothing posted yet." />
+          <Empty icon={Send} text={allPosted.length ? 'No posted reels match these filters.' : 'Nothing posted yet.'} />
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
