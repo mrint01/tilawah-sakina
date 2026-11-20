@@ -745,9 +745,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T11:49:13+00:00"
+      "status": "approved",
+      "review": "Claude routine: all frames render cleanly, checks pass",
+      "created": "2026-11-20T11:49:13+00:00",
+      "reviewed": "2026-11-20T12:02:54+00:00"
     },
     {
       "id": "20261120-114934-tasbih",
@@ -766,9 +767,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T11:49:40+00:00"
+      "status": "approved",
+      "review": "Claude routine: all frames render cleanly, checks pass",
+      "created": "2026-11-20T11:49:40+00:00",
+      "reviewed": "2026-11-20T12:02:54+00:00"
     },
     {
       "id": "20261120-115135-ayah",
@@ -793,9 +795,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T11:51:45+00:00"
+      "status": "approved",
+      "review": "Claude routine: all frames render cleanly, checks pass",
+      "created": "2026-11-20T11:51:45+00:00",
+      "reviewed": "2026-11-20T12:02:54+00:00"
     },
     {
       "id": "20261120-115216-tasbih",
@@ -814,9 +817,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T11:52:23+00:00"
+      "status": "approved",
+      "review": "Claude routine: all frames render cleanly, checks pass",
+      "created": "2026-11-20T11:52:23+00:00",
+      "reviewed": "2026-11-20T12:02:54+00:00"
     },
     {
       "id": "20261120-124900-ayah",
@@ -841,9 +845,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T11:49:56+00:00"
+      "status": "rejected",
+      "review": "Claude routine: dotted circle (◌) beside 'فَمَنْ' in last frame (18:15)",
+      "created": "2026-11-20T11:49:56+00:00",
+      "reviewed": "2026-11-20T12:02:54+00:00"
     },
     {
       "id": "20261120-125134-ayah",
@@ -868,9 +873,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T11:52:20+00:00"
+      "status": "approved",
+      "review": "Claude routine: all frames render cleanly, checks pass",
+      "created": "2026-11-20T11:52:20+00:00",
+      "reviewed": "2026-11-20T12:02:54+00:00"
     },
     {
       "id": "20261120-125417-ayah",
@@ -895,9 +901,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T11:54:47+00:00"
+      "status": "approved",
+      "review": "Claude routine: all frames render cleanly, checks pass",
+      "created": "2026-11-20T11:54:47+00:00",
+      "reviewed": "2026-11-20T12:02:54+00:00"
     },
     {
       "id": "20261120-125620-ayah",
@@ -922,9 +929,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T11:56:46+00:00"
+      "status": "approved",
+      "review": "Claude routine: all frames render cleanly, checks pass",
+      "created": "2026-11-20T11:56:46+00:00",
+      "reviewed": "2026-11-20T12:02:54+00:00"
     },
     {
       "id": "20261120-125908-ayah",
@@ -950,9 +958,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T11:59:36+00:00"
+      "status": "rejected",
+      "review": "Claude routine: dotted circle (◌) next to waqf mark in frames 3-4 (18:5)",
+      "created": "2026-11-20T11:59:36+00:00",
+      "reviewed": "2026-11-20T12:02:54+00:00"
     }
   ]
 }
