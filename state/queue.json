@@ -187,10 +187,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: all 6 frames clean, Arabic/English fit, ref matches",
+      "status": "rejected",
+      "review": "Replaced by the re-made version (clean cover, Arabic fixes)",
       "created": "2026-11-18T16:36:57+00:00",
-      "reviewed": "2026-11-18T16:58:25+00:00"
+      "reviewed": "2026-11-20T12:39:37+00:00"
     },
     {
       "id": "20261118-163813-ayah",
@@ -215,10 +215,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: all 6 frames clean, Arabic/English fit, ref matches",
+      "status": "rejected",
+      "review": "Replaced by the re-made version (clean cover, Arabic fixes)",
       "created": "2026-11-18T16:38:24+00:00",
-      "reviewed": "2026-11-18T16:58:25+00:00"
+      "reviewed": "2026-11-20T12:39:37+00:00"
     },
     {
       "id": "20261118-163931-ayah",
@@ -243,10 +243,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: all 6 frames clean, Arabic/English fit, ref matches",
+      "status": "rejected",
+      "review": "Replaced by the re-made version (clean cover, Arabic fixes)",
       "created": "2026-11-18T16:39:43+00:00",
-      "reviewed": "2026-11-18T16:58:25+00:00"
+      "reviewed": "2026-11-20T12:39:37+00:00"
     },
     {
       "id": "20261118-165017-tasbih",
@@ -487,10 +487,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: all checks true, Arabic and text clean, countdown decreases",
+      "status": "rejected",
+      "review": "Replaced by the re-made version (clean cover, Arabic fixes)",
       "created": "2026-11-18T18:31:28+00:00",
-      "reviewed": "2026-11-18T18:34:53+00:00"
+      "reviewed": "2026-11-20T12:39:37+00:00"
     },
     {
       "id": "20261118-183153-tasbih",
@@ -533,10 +533,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: all checks true, Arabic and text clean, countdown decreases",
+      "status": "rejected",
+      "review": "Replaced by the re-made version (clean cover, Arabic fixes)",
       "created": "2026-11-18T18:32:31+00:00",
-      "reviewed": "2026-11-18T18:34:53+00:00"
+      "reviewed": "2026-11-20T12:39:37+00:00"
     },
     {
       "id": "20261118-183256-tasbih",
@@ -579,10 +579,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: all checks true, Arabic and text clean, countdown decreases",
+      "status": "rejected",
+      "review": "Replaced by the re-made version (clean cover, Arabic fixes)",
       "created": "2026-11-18T18:33:34+00:00",
-      "reviewed": "2026-11-18T18:34:53+00:00"
+      "reviewed": "2026-11-20T12:39:37+00:00"
     },
     {
       "id": "20261118-183357-tasbih",
@@ -631,10 +631,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "approved in panel",
+      "status": "rejected",
+      "review": "Replaced by the re-made version (clean cover, Arabic fixes)",
       "created": "2026-11-18T20:35:49+00:00",
-      "reviewed": "2026-11-18T20:39:59+00:00"
+      "reviewed": "2026-11-20T12:39:37+00:00"
     },
     {
       "id": "20261118-203623-tasbih",
@@ -653,10 +653,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "approved in panel",
+      "status": "rejected",
+      "review": "Replaced by the re-made version (clean cover, Arabic fixes)",
       "created": "2026-11-18T20:36:31+00:00",
-      "reviewed": "2026-11-18T20:41:12+00:00"
+      "reviewed": "2026-11-20T12:39:37+00:00"
     },
     {
       "id": "20261120-113510-ayah",
@@ -681,10 +681,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "approved in panel",
+      "status": "rejected",
+      "review": "Replaced by the re-made version (clean cover, Arabic fixes)",
       "created": "2026-11-20T11:35:19+00:00",
-      "reviewed": "2026-11-20T11:37:59+00:00"
+      "reviewed": "2026-11-20T12:39:37+00:00"
     },
     {
       "id": "20261120-113544-tasbih",
@@ -703,10 +703,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "approved in panel",
+      "status": "rejected",
+      "review": "Replaced by the re-made version (clean cover, Arabic fixes)",
       "created": "2026-11-20T11:35:50+00:00",
-      "reviewed": "2026-11-20T11:38:07+00:00"
+      "reviewed": "2026-11-20T12:39:37+00:00"
     },
     {
       "id": "20261120-114904-ayah",
@@ -731,10 +731,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: all frames render cleanly, checks pass",
+      "status": "rejected",
+      "review": "Replaced by the re-made version (clean cover, Arabic fixes)",
       "created": "2026-11-20T11:49:13+00:00",
-      "reviewed": "2026-11-20T12:02:54+00:00"
+      "reviewed": "2026-11-20T12:39:37+00:00"
     },
     {
       "id": "20261120-114934-tasbih",
@@ -753,10 +753,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: all frames render cleanly, checks pass",
+      "status": "rejected",
+      "review": "Replaced by the re-made version (clean cover, Arabic fixes)",
       "created": "2026-11-20T11:49:40+00:00",
-      "reviewed": "2026-11-20T12:02:54+00:00"
+      "reviewed": "2026-11-20T12:39:37+00:00"
     },
     {
       "id": "20261120-115135-ayah",
@@ -781,10 +781,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: all frames render cleanly, checks pass",
+      "status": "rejected",
+      "review": "Replaced by the re-made version (clean cover, Arabic fixes)",
       "created": "2026-11-20T11:51:45+00:00",
-      "reviewed": "2026-11-20T12:02:54+00:00"
+      "reviewed": "2026-11-20T12:39:37+00:00"
     },
     {
       "id": "20261120-115216-tasbih",
@@ -803,10 +803,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: all frames render cleanly, checks pass",
+      "status": "rejected",
+      "review": "Replaced by the re-made version (clean cover, Arabic fixes)",
       "created": "2026-11-20T11:52:23+00:00",
-      "reviewed": "2026-11-20T12:02:54+00:00"
+      "reviewed": "2026-11-20T12:39:37+00:00"
     },
     {
       "id": "20261120-124900-ayah",
@@ -859,10 +859,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: all frames render cleanly, checks pass",
+      "status": "rejected",
+      "review": "Replaced by the re-made version (clean cover, Arabic fixes)",
       "created": "2026-11-20T11:52:20+00:00",
-      "reviewed": "2026-11-20T12:02:54+00:00"
+      "reviewed": "2026-11-20T12:39:37+00:00"
     },
     {
       "id": "20261120-125417-ayah",
@@ -887,10 +887,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: all frames render cleanly, checks pass",
+      "status": "rejected",
+      "review": "Replaced by the re-made version (clean cover, Arabic fixes)",
       "created": "2026-11-20T11:54:47+00:00",
-      "reviewed": "2026-11-20T12:02:54+00:00"
+      "reviewed": "2026-11-20T12:39:37+00:00"
     },
     {
       "id": "20261120-125620-ayah",
@@ -915,10 +915,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: all frames render cleanly, checks pass",
+      "status": "rejected",
+      "review": "Replaced by the re-made version (clean cover, Arabic fixes)",
       "created": "2026-11-20T11:56:46+00:00",
-      "reviewed": "2026-11-20T12:02:54+00:00"
+      "reviewed": "2026-11-20T12:39:37+00:00"
     },
     {
       "id": "20261120-125908-ayah",
