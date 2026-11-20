@@ -960,6 +960,34 @@
       "review": "Claude routine: dotted circle (◌) next to waqf mark in frames 3-4 (18:5)",
       "created": "2026-11-20T11:59:36+00:00",
       "reviewed": "2026-11-20T12:02:54+00:00"
+    },
+    {
+      "id": "20261120-120452-ayah",
+      "kind": "ayah",
+      "caption": "[Enter to] burn therein today for what you used to deny.\n\nSurah Ya-Sin (Ya Sin) · 36:64-69\nRecited by Mishary Alafasy\n\nListen till the end and share it with someone who needs it today 🤍\n\n#quran #quranrecitation #islam #yasin #alafasy",
+      "duration": 79.6,
+      "passage": [
+        36,
+        64
+      ],
+      "ref": "36:64-69",
+      "whole_surah": false,
+      "surah": "Ya-Sin",
+      "reciter": "Mishary Alafasy",
+      "title": "Surah Ya-Sin 36:64-69 · Mishary Alafasy",
+      "size_mb": 6.1,
+      "mean_volume_db": -23.1,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60_90s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-20T12:05:04+00:00"
     }
   ]
 }
