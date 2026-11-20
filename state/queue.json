@@ -633,12 +633,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "posted",
+      "status": "approved",
       "review": "approved in panel",
       "created": "2026-11-18T20:35:49+00:00",
-      "reviewed": "2026-11-18T20:39:59+00:00",
-      "posted": "2026-11-18T20:41:00+00:00",
-      "manual": true
+      "reviewed": "2026-11-18T20:39:59+00:00"
     },
     {
       "id": "20261118-203623-tasbih",
