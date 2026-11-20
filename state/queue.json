@@ -990,6 +990,62 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-20T12:05:04+00:00"
+    },
+    {
+      "id": "20261120-120758-ayah",
+      "kind": "ayah",
+      "caption": "[All] praise is [due] to Allāh, who has sent down upon His Servant [Muḥammad (peace be upon him)] the Book and has not made therein any deviance.\n\nSurah Al-Kahf (The Cave) · 18:1-8\nRecited by Maher Al-Muaiqly\n\nListen till the end and share it with someone who needs it today 🤍\n\n#quran #quranrecitation #islam #alkahf #almuaiqly",
+      "duration": 71.3,
+      "passage": [
+        18,
+        1
+      ],
+      "ref": "18:1-8",
+      "whole_surah": false,
+      "surah": "Al-Kahf",
+      "reciter": "Maher Al-Muaiqly",
+      "title": "Surah Al-Kahf 18:1-8 · Maher Al-Muaiqly",
+      "size_mb": 5.8,
+      "mean_volume_db": -19.2,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60_90s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-20T12:08:09+00:00"
+    },
+    {
+      "id": "20261120-120915-ayah",
+      "kind": "ayah",
+      "caption": "[Mention] when the youths retreated to the cave and said, Our Lord, grant us from Yourself mercy and prepare for us from our affair right guidance.\n\nSurah Al-Kahf (The Cave) · 18:10-15\nRecited by Maher Al-Muaiqly\n\nListen till the end and share it with someone who needs it today 🤍\n\n#quran #quranrecitation #islam #alkahf #almuaiqly",
+      "duration": 74.2,
+      "passage": [
+        18,
+        10
+      ],
+      "ref": "18:10-15",
+      "whole_surah": false,
+      "surah": "Al-Kahf",
+      "reciter": "Maher Al-Muaiqly",
+      "title": "Surah Al-Kahf 18:10-15 · Maher Al-Muaiqly",
+      "size_mb": 6.2,
+      "mean_volume_db": -19.3,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60_90s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-20T12:09:26+00:00"
     }
   ]
 }
