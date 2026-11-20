@@ -1127,7 +1127,7 @@
       "id": "20261120-122347-tasbih",
       "kind": "tasbih",
       "caption": "The best dhikr is La ilaha illallah (Tirmidhi). Count down with me 🤍\n\n33× La ilaha illallah. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#dhikr #tawheed #tasbih #islam #reminder",
-      "duration": 60.0,
+      "duration": 60,
       "set": "tahlil",
       "title": "33× La ilaha illallah",
       "size_mb": 3.1,
@@ -1149,7 +1149,7 @@
       "id": "20261120-122425-tasbih",
       "kind": "tasbih",
       "caption": "Send one salawat and Allah sends ten blessings upon you (Muslim). Here are 33 🤍\n\n33× Salawat upon the Prophet ﷺ. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#salawat #durood #dhikr #prophetmuhammad #islam",
-      "duration": 60.0,
+      "duration": 60,
       "set": "salawat",
       "title": "33× Salawat upon the Prophet ﷺ",
       "size_mb": 3.2,
@@ -1171,10 +1171,10 @@
       "id": "20261120-122502-tasbih",
       "kind": "tasbih",
       "caption": "33 Allahu Akbar after your salah. One minute with your Lord 🤍\n\n33× Allahu Akbar. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#allahuakbar #dhikr #tasbih #aftersalah #islam",
-      "duration": 60.0,
+      "duration": 60,
       "set": "allahuakbar",
       "title": "33× Allahu Akbar",
-      "size_mb": 3.0,
+      "size_mb": 3,
       "mean_volume_db": -40.6,
       "checks": {
         "size_1080x1920": true,
@@ -1222,10 +1222,10 @@
       "id": "20261120-122647-tasbih",
       "kind": "tasbih",
       "caption": "Alhamdulillah fills the scale (Muslim). 33 times, one minute 🤍\n\n33× Alhamdulillah. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#alhamdulillah #dhikr #tasbih #gratitude #islam",
-      "duration": 60.0,
+      "duration": 60,
       "set": "alhamdulillah",
       "title": "33× Alhamdulillah",
-      "size_mb": 3.0,
+      "size_mb": 3,
       "mean_volume_db": -40.5,
       "checks": {
         "size_1080x1920": true,
@@ -1273,7 +1273,7 @@
       "id": "20261120-122920-tasbih",
       "kind": "tasbih",
       "caption": "The Prophet ﷺ sought forgiveness more than 70 times a day. Repeat this 3 times for 100 🤍\n\n33× Astaghfirullah. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#astaghfirullah #istighfar #dhikr #tasbih #islam",
-      "duration": 60.0,
+      "duration": 60,
       "set": "astaghfirullah",
       "title": "33× Astaghfirullah",
       "size_mb": 3.1,
@@ -1324,7 +1324,7 @@
       "id": "20261120-123106-tasbih",
       "kind": "tasbih",
       "caption": "The Prophet ﷺ sought forgiveness more than 70 times a day. Repeat this 3 times for 100 🤍\n\n33× Astaghfirullah. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#astaghfirullah #istighfar #dhikr #tasbih #islam",
-      "duration": 60.0,
+      "duration": 60,
       "set": "astaghfirullah",
       "title": "33× Astaghfirullah",
       "size_mb": 2.9,
@@ -1375,7 +1375,7 @@
       "id": "20261120-123307-tasbih",
       "kind": "tasbih",
       "caption": "Send one salawat and Allah sends ten blessings upon you (Muslim). Here are 33 🤍\n\n33× Salawat upon the Prophet ﷺ. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#salawat #durood #dhikr #prophetmuhammad #islam",
-      "duration": 60.0,
+      "duration": 60,
       "set": "salawat",
       "title": "33× Salawat upon the Prophet ﷺ",
       "size_mb": 3.2,
@@ -1397,7 +1397,7 @@
       "id": "20261120-123413-ayah",
       "kind": "ayah",
       "caption": "And keep yourself patient [by being] with those who call upon their Lord in the morning and the evening, seeking His face [i.e., acceptance].\n\nSurah Al-Kahf (The Cave) · 18:28-30\nRecited by Mishary Alafasy\n\nListen till the end and share it with someone who needs it today 🤍\n\n#quran #quranrecitation #islam #alkahf #alafasy",
-      "duration": 82.0,
+      "duration": 82,
       "passage": [
         18,
         28
@@ -1561,9 +1561,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T12:58:30+00:00"
+      "status": "approved",
+      "review": "approved in panel",
+      "created": "2026-11-20T12:58:30+00:00",
+      "reviewed": "2026-11-20T12:58:59+00:00"
     }
   ]
 }
