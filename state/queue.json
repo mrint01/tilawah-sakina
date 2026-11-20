@@ -1035,6 +1035,230 @@
       "review": "Claude routine: Arabic, layout and ref 18:10-15 all clean",
       "created": "2026-11-20T12:09:26+00:00",
       "reviewed": "2026-11-20T12:10:07+00:00"
+    },
+    {
+      "id": "20261120-122048-ayah",
+      "kind": "ayah",
+      "caption": "So remember Me; I will remember you.\n\nSurah Al-Baqarah (The Cow) · 2:152-156\nRecited by Mishary Alafasy\n\nListen till the end and share it with someone who needs it today 🤍\n\n#quran #quranrecitation #islam #albaqarah #alafasy",
+      "duration": 81.7,
+      "passage": [
+        2,
+        152
+      ],
+      "ref": "2:152-156",
+      "whole_surah": false,
+      "surah": "Al-Baqarah",
+      "reciter": "Mishary Alafasy",
+      "title": "Surah Al-Baqarah 2:152-156 · Mishary Alafasy",
+      "size_mb": 5.7,
+      "mean_volume_db": -18.4,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60_90s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-20T12:20:57+00:00"
+    },
+    {
+      "id": "20261120-122156-ayah",
+      "kind": "ayah",
+      "caption": "And when they have [nearly] fulfilled their term, either retain them according to acceptable terms or part with them according to acceptable terms.\n\nSurah At-Talaq (The Divorce) · 65:2-4\nRecited by Mishary Alafasy\n\nListen till the end and share it with someone who needs it today 🤍\n\n#quran #quranrecitation #islam #attalaq #alafasy",
+      "duration": 86.2,
+      "passage": [
+        65,
+        2
+      ],
+      "ref": "65:2-4",
+      "whole_surah": false,
+      "surah": "At-Talaq",
+      "reciter": "Mishary Alafasy",
+      "title": "Surah At-Talaq 65:2-4 · Mishary Alafasy",
+      "size_mb": 6.7,
+      "mean_volume_db": -21.1,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60_90s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-20T12:22:06+00:00"
+    },
+    {
+      "id": "20261120-122307-ayah",
+      "kind": "ayah",
+      "caption": "If We had sent down this Qur’ān upon a mountain, you would have seen it humbled and splitting from fear of Allāh.\n\nSurah Al-Hashr (The Exile) · 59:21-24\nRecited by Mishary Alafasy\n\nListen till the end and share it with someone who needs it today 🤍\n\n#quran #quranrecitation #islam #alhashr #alafasy",
+      "duration": 87.7,
+      "passage": [
+        59,
+        21
+      ],
+      "ref": "59:21-24",
+      "whole_surah": false,
+      "surah": "Al-Hashr",
+      "reciter": "Mishary Alafasy",
+      "title": "Surah Al-Hashr 59:21-24 · Mishary Alafasy",
+      "size_mb": 6.8,
+      "mean_volume_db": -19.1,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60_90s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-20T12:23:17+00:00"
+    },
+    {
+      "id": "20261120-122347-tasbih",
+      "kind": "tasbih",
+      "caption": "The best dhikr is La ilaha illallah (Tirmidhi). Count down with me 🤍\n\n33× La ilaha illallah. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#dhikr #tawheed #tasbih #islam #reminder",
+      "duration": 60.0,
+      "set": "tahlil",
+      "title": "33× La ilaha illallah",
+      "size_mb": 3.1,
+      "mean_volume_db": -40.6,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-20T12:23:54+00:00"
+    },
+    {
+      "id": "20261120-122425-tasbih",
+      "kind": "tasbih",
+      "caption": "Send one salawat and Allah sends ten blessings upon you (Muslim). Here are 33 🤍\n\n33× Salawat upon the Prophet ﷺ. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#salawat #durood #dhikr #prophetmuhammad #islam",
+      "duration": 60.0,
+      "set": "salawat",
+      "title": "33× Salawat upon the Prophet ﷺ",
+      "size_mb": 3.2,
+      "mean_volume_db": -40.6,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-20T12:24:32+00:00"
+    },
+    {
+      "id": "20261120-122502-tasbih",
+      "kind": "tasbih",
+      "caption": "33 Allahu Akbar after your salah. One minute with your Lord 🤍\n\n33× Allahu Akbar. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#allahuakbar #dhikr #tasbih #aftersalah #islam",
+      "duration": 60.0,
+      "set": "allahuakbar",
+      "title": "33× Allahu Akbar",
+      "size_mb": 3.0,
+      "mean_volume_db": -40.6,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-20T12:25:09+00:00"
+    },
+    {
+      "id": "20261120-122607-ayah",
+      "kind": "ayah",
+      "caption": "And [remember] when your Lord proclaimed, 'If you are grateful, I will surely increase you [in favor]; but if you deny, indeed, My punishment is severe.'.\n\nSurah Ibrahim (Abraham) · 14:7-9\nRecited by Yasser Al-Dosari\n\nListen till the end and share it with someone who needs it today 🤍\n\n#quran #quranrecitation #islam #ibrahim #aldosari",
+      "duration": 84.4,
+      "passage": [
+        14,
+        7
+      ],
+      "ref": "14:7-9",
+      "whole_surah": false,
+      "surah": "Ibrahim",
+      "reciter": "Yasser Al-Dosari",
+      "title": "Surah Ibrahim 14:7-9 · Yasser Al-Dosari",
+      "size_mb": 6.7,
+      "mean_volume_db": -14.9,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60_90s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-20T12:26:17+00:00"
+    },
+    {
+      "id": "20261120-122647-tasbih",
+      "kind": "tasbih",
+      "caption": "Alhamdulillah fills the scale (Muslim). 33 times, one minute 🤍\n\n33× Alhamdulillah. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#alhamdulillah #dhikr #tasbih #gratitude #islam",
+      "duration": 60.0,
+      "set": "alhamdulillah",
+      "title": "33× Alhamdulillah",
+      "size_mb": 3.0,
+      "mean_volume_db": -40.5,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-20T12:26:54+00:00"
+    },
+    {
+      "id": "20261120-122752-ayah",
+      "kind": "ayah",
+      "caption": "And the servants of the Most Merciful are those who walk upon the earth easily, and when the ignorant address them [harshly], they say [words of] peace.\n\nSurah Al-Furqan (The Criterion) · 25:63-68\nRecited by Yasser Al-Dosari\n\nListen till the end and share it with someone who needs it today 🤍\n\n#quran #quranrecitation #islam #alfurqan #aldosari",
+      "duration": 79.1,
+      "passage": [
+        25,
+        63
+      ],
+      "ref": "25:63-68",
+      "whole_surah": false,
+      "surah": "Al-Furqan",
+      "reciter": "Yasser Al-Dosari",
+      "title": "Surah Al-Furqan 25:63-68 · Yasser Al-Dosari",
+      "size_mb": 6.3,
+      "mean_volume_db": -15.3,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60_90s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-20T12:28:02+00:00"
     }
   ]
 }
