@@ -721,6 +721,54 @@
       "review": "approved in panel",
       "created": "2026-11-20T11:35:50+00:00",
       "reviewed": "2026-11-20T11:38:07+00:00"
+    },
+    {
+      "id": "20261120-114904-ayah",
+      "kind": "ayah",
+      "caption": "Those who have believed and whose hearts are assured by the remembrance of Allāh.\n\nSurah Ar-Ra'd (The Thunder) · 13:28-30\nRecited by Mishary Alafasy\n\nListen till the end and share it with someone who needs it today 🤍\n\n#quran #quranrecitation #islam #arrad #alafasy",
+      "duration": 83.2,
+      "passage": [
+        13,
+        28
+      ],
+      "ref": "13:28-30",
+      "surah": "Ar-Ra'd",
+      "reciter": "Mishary Alafasy",
+      "title": "Surah Ar-Ra'd 13:28-30 · Mishary Alafasy",
+      "size_mb": 6.6,
+      "mean_volume_db": -19.5,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60_90s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-20T11:49:13+00:00"
+    },
+    {
+      "id": "20261120-114934-tasbih",
+      "kind": "tasbih",
+      "caption": "The Prophet ﷺ sought forgiveness more than 70 times a day. Repeat this 3 times for 100 🤍\n\n33× Astaghfirullah. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#astaghfirullah #istighfar #dhikr #tasbih #islam",
+      "duration": 60.0,
+      "set": "astaghfirullah",
+      "title": "33× Astaghfirullah",
+      "size_mb": 3.1,
+      "mean_volume_db": -40.6,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-20T11:49:40+00:00"
     }
   ]
 }
