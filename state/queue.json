@@ -1591,9 +1591,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T13:31:21+00:00"
+      "status": "approved",
+      "review": "Claude routine: Arabic joined with harakat, no overlap, refs match, English readable",
+      "created": "2026-11-20T13:31:21+00:00",
+      "reviewed": "2026-11-20T13:37:23+00:00"
     },
     {
       "id": "20261120-133211-ayah",
@@ -1619,9 +1620,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T13:32:20+00:00"
+      "status": "approved",
+      "review": "Claude routine: Arabic joined with harakat, no overlap, refs match, English readable",
+      "created": "2026-11-20T13:32:20+00:00",
+      "reviewed": "2026-11-20T13:37:23+00:00"
     },
     {
       "id": "20261120-133311-ayah",
@@ -1647,9 +1649,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T13:33:20+00:00"
+      "status": "approved",
+      "review": "Claude routine: Arabic joined with harakat, no overlap, refs match, English readable",
+      "created": "2026-11-20T13:33:20+00:00",
+      "reviewed": "2026-11-20T13:37:23+00:00"
     },
     {
       "id": "20261120-133414-ayah",
@@ -1675,9 +1678,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T13:34:23+00:00"
+      "status": "approved",
+      "review": "Claude routine: Arabic joined with harakat, no overlap, refs match, English readable",
+      "created": "2026-11-20T13:34:23+00:00",
+      "reviewed": "2026-11-20T13:37:23+00:00"
     },
     {
       "id": "20261120-133515-ayah",
@@ -1703,9 +1707,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T13:35:23+00:00"
+      "status": "approved",
+      "review": "Claude routine: Arabic joined with harakat, no overlap, refs match, English readable",
+      "created": "2026-11-20T13:35:23+00:00",
+      "reviewed": "2026-11-20T13:37:23+00:00"
     },
     {
       "id": "20261120-133617-ayah",
@@ -1731,9 +1736,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T13:36:27+00:00"
+      "status": "approved",
+      "review": "Claude routine: Arabic joined with harakat, no overlap, refs match, English readable",
+      "created": "2026-11-20T13:36:27+00:00",
+      "reviewed": "2026-11-20T13:37:23+00:00"
     }
   ]
 }
