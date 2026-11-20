@@ -1060,9 +1060,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T12:20:57+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "created": "2026-11-20T12:20:57+00:00",
+      "reviewed": "2026-11-20T12:38:56+00:00"
     },
     {
       "id": "20261120-122156-ayah",
@@ -1088,9 +1089,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T12:22:06+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "created": "2026-11-20T12:22:06+00:00",
+      "reviewed": "2026-11-20T12:38:56+00:00"
     },
     {
       "id": "20261120-122307-ayah",
@@ -1116,9 +1118,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T12:23:17+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "created": "2026-11-20T12:23:17+00:00",
+      "reviewed": "2026-11-20T12:38:56+00:00"
     },
     {
       "id": "20261120-122347-tasbih",
@@ -1137,9 +1140,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T12:23:54+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "created": "2026-11-20T12:23:54+00:00",
+      "reviewed": "2026-11-20T12:38:56+00:00"
     },
     {
       "id": "20261120-122425-tasbih",
@@ -1158,9 +1162,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T12:24:32+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "created": "2026-11-20T12:24:32+00:00",
+      "reviewed": "2026-11-20T12:38:56+00:00"
     },
     {
       "id": "20261120-122502-tasbih",
@@ -1179,9 +1184,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T12:25:09+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "created": "2026-11-20T12:25:09+00:00",
+      "reviewed": "2026-11-20T12:38:56+00:00"
     },
     {
       "id": "20261120-122607-ayah",
@@ -1207,9 +1213,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T12:26:17+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "created": "2026-11-20T12:26:17+00:00",
+      "reviewed": "2026-11-20T12:38:56+00:00"
     },
     {
       "id": "20261120-122647-tasbih",
@@ -1228,9 +1235,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T12:26:54+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "created": "2026-11-20T12:26:54+00:00",
+      "reviewed": "2026-11-20T12:38:56+00:00"
     },
     {
       "id": "20261120-122752-ayah",
@@ -1256,9 +1264,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T12:28:02+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "created": "2026-11-20T12:28:02+00:00",
+      "reviewed": "2026-11-20T12:38:56+00:00"
     },
     {
       "id": "20261120-122920-tasbih",
@@ -1277,9 +1286,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T12:29:28+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "created": "2026-11-20T12:29:28+00:00",
+      "reviewed": "2026-11-20T12:38:56+00:00"
     },
     {
       "id": "20261120-123026-ayah",
@@ -1305,9 +1315,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T12:30:36+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "created": "2026-11-20T12:30:36+00:00",
+      "reviewed": "2026-11-20T12:38:56+00:00"
     },
     {
       "id": "20261120-123106-tasbih",
@@ -1326,9 +1337,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T12:31:13+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "created": "2026-11-20T12:31:13+00:00",
+      "reviewed": "2026-11-20T12:38:57+00:00"
     },
     {
       "id": "20261120-123227-ayah",
@@ -1354,9 +1366,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T12:32:37+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "created": "2026-11-20T12:32:37+00:00",
+      "reviewed": "2026-11-20T12:38:57+00:00"
     },
     {
       "id": "20261120-123307-tasbih",
@@ -1375,9 +1388,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T12:33:15+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "created": "2026-11-20T12:33:15+00:00",
+      "reviewed": "2026-11-20T12:38:57+00:00"
     },
     {
       "id": "20261120-123413-ayah",
@@ -1403,9 +1417,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T12:34:22+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "created": "2026-11-20T12:34:22+00:00",
+      "reviewed": "2026-11-20T12:38:57+00:00"
     },
     {
       "id": "20261120-123524-ayah",
@@ -1431,9 +1446,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T12:35:33+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "created": "2026-11-20T12:35:33+00:00",
+      "reviewed": "2026-11-20T12:38:57+00:00"
     },
     {
       "id": "20261120-123625-ayah",
@@ -1459,9 +1475,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T12:36:34+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "created": "2026-11-20T12:36:34+00:00",
+      "reviewed": "2026-11-20T12:38:57+00:00"
     },
     {
       "id": "20261120-123735-ayah",
@@ -1487,9 +1504,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T12:37:45+00:00"
+      "status": "approved",
+      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "created": "2026-11-20T12:37:45+00:00",
+      "reviewed": "2026-11-20T12:38:57+00:00"
     }
   ]
 }
