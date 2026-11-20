@@ -661,12 +661,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "posted",
+      "status": "approved",
       "review": "approved in panel",
       "created": "2026-11-18T20:36:31+00:00",
-      "reviewed": "2026-11-18T20:41:12+00:00",
-      "posted": "2026-11-18T20:43:01+00:00",
-      "manual": true
+      "reviewed": "2026-11-18T20:41:12+00:00"
     },
     {
       "id": "20261120-113510-ayah",
