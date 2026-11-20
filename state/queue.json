@@ -1060,10 +1060,12 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
+      "status": "posted",
       "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
       "created": "2026-11-20T12:20:57+00:00",
-      "reviewed": "2026-11-20T12:38:56+00:00"
+      "reviewed": "2026-11-20T12:38:56+00:00",
+      "posted": "2026-11-20T17:25:35+00:00",
+      "manual": true
     },
     {
       "id": "20261120-122156-ayah",
@@ -1610,7 +1612,7 @@
       "surah": "Al-Kahf",
       "reciter": "Maher Al-Muaiqly",
       "title": "Surah Al-Kahf 18:10-15 · Maher Al-Muaiqly",
-      "size_mb": 6.0,
+      "size_mb": 6,
       "mean_volume_db": -19.4,
       "checks": {
         "size_1080x1920": true,
@@ -1658,7 +1660,7 @@
       "id": "20261120-133414-ayah",
       "kind": "ayah",
       "caption": "And present to them the example of the life of this world, [its being] like rain which We send down from the sky, and the vegetation of the earth mingles with it and [then] it becomes dry remnants, scattered by the winds.\n\nSurah Al-Kahf (The Cave) · 18:45-49\nRecited by Maher Al-Muaiqly\n\nListen till the end and share it with someone who needs it today 🤍\n\n#quran #quranrecitation #islam #alkahf #almuaiqly",
-      "duration": 77.0,
+      "duration": 77,
       "passage": [
         18,
         45
