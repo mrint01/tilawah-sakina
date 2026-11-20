@@ -82,9 +82,12 @@ def verse(s, a):
     en = v["translations"][0]["text"]
     en = re.sub(r"<sup[^>]*>.*?</sup>", "", en)
     en = re.sub(r"<[^>]+>", "", en).strip()
+    # waqf (pause) marks are combining characters: after a space they have no base letter and the font
+    # draws them on a dotted circle (◌). Attach each one to the word before it.
+    ar = re.sub(r"\s+([\u06D6-\u06DC])", r"\1", v["text_uthmani"].strip())
     # the English font has no ﷺ glyph (it renders as an empty box): spell it out
     en = en.replace("(ﷺ)", "(peace be upon him)").replace("ﷺ", "(peace be upon him)")
-    return v["text_uthmani"].strip(), en
+    return ar, en
 
 
 def audio(folder, s, a):
