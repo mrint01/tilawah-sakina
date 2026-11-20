@@ -987,9 +987,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T12:05:04+00:00"
+      "status": "rejected",
+      "review": "Claude routine: frame 6 (36:69) shows a dotted circle (◌) at end of the second Arabic line after the sign mark",
+      "created": "2026-11-20T12:05:04+00:00",
+      "reviewed": "2026-11-20T12:10:06+00:00"
     },
     {
       "id": "20261120-120758-ayah",
@@ -1015,9 +1016,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T12:08:09+00:00"
+      "status": "approved",
+      "review": "Claude routine: Arabic, layout and ref 18:1-8 all clean",
+      "created": "2026-11-20T12:08:09+00:00",
+      "reviewed": "2026-11-20T12:10:06+00:00"
     },
     {
       "id": "20261120-120915-ayah",
@@ -1043,9 +1045,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-20T12:09:26+00:00"
+      "status": "approved",
+      "review": "Claude routine: Arabic, layout and ref 18:10-15 all clean",
+      "created": "2026-11-20T12:09:26+00:00",
+      "reviewed": "2026-11-20T12:10:07+00:00"
     }
   ]
 }
