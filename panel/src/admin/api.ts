@@ -28,14 +28,27 @@ export interface Run {
   id: number; name: string; event: string; status: string; conclusion: string | null; created: string; url: string; title: string;
 }
 
+/** Live render progress, written by pipeline.py into the release while a "Generate reels" run works. */
+export interface MakeProgress {
+  run_id: string; total: number; done: number; current: string;
+  stage: 'starting' | 'rendering' | 'checking' | 'uploading' | 'done' | 'failed';
+  frac: number; pct: number; finished: boolean; updated?: string; error?: string | null;
+}
+
+/** One reel to make, from the "Make reels" popup. No surah = a curated passage; no reciter/set = picked for you. */
+export type MakeJob =
+  | { kind: 'ayah'; surah?: number; ayah?: number; reciter?: string }
+  | { kind: 'tasbih'; set?: string };
+
 export interface PanelState {
   repo: string;
   assets: string;
   items: Reel[];
-  config: { enabled: boolean; alternate: Kind[]; buffer: number };
+  config: { enabled: boolean; alternate: Kind[]; buffer: number; reciters: Record<string, string> };
   panel: { name: string };
   instagram: boolean;
   runs: Run[];
+  progress: MakeProgress | null;
 }
 
 export interface MediaStats { likes: number; comments: number; permalink?: string; views: number | null; reach: number | null; saves: number | null; shares: number | null; error?: string }
@@ -63,9 +76,9 @@ export type Action =
   | { type: 'mark_posted'; id: string; permalink?: string }
   | { type: 'unmark_posted'; id: string }
   | { type: 'toggle'; enabled: boolean }
-  | { type: 'settings'; settings: { config?: { alternate?: Kind[]; buffer?: number }; panel?: { name: string } } }
+  | { type: 'settings'; settings: { config?: { alternate?: Kind[]; buffer?: number; reciters?: Record<string, string> }; panel?: { name: string } } }
   | { type: 'post_now' }
-  | { type: 'generate'; ayah: number; tasbih: number };
+  | { type: 'generate'; ayah?: number; tasbih?: number; jobs?: MakeJob[] };
 
 export const api = {
   state: () => call<PanelState>('/api/state'),
@@ -143,6 +156,7 @@ export const CHECK_LABEL: Record<string, string> = {
   video_h264: 'H.264 video',
   audio_aac: 'AAC audio',
   length_60_90s: 'Length 60–90 s',
+  length_whole_surah: 'Whole surah, up to 90 s',
   length_60s: 'Length 60 s',
   length_up_to_3min: 'Length up to 3 min',
   audio_not_silent: 'Audio not silent',

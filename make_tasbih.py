@@ -190,7 +190,7 @@ def draw_ring(d, theme, done_in_cycle, rot, pulse):
         d.line((bx + k * 4, by + 30, bx + k * 9, by + 110), fill=acc + (200,), width=3)
 
 
-def render(set_key, theme_idx=None, seed=None):
+def render(set_key, theme_idx=None, seed=None, progress=None):
     rnd = random.Random(seed)
     spec = SETS[set_key]
     theme = THEMES[theme_idx] if theme_idx is not None else rnd.choice(THEMES)
@@ -228,6 +228,8 @@ def render(set_key, theme_idx=None, seed=None):
     ei = -1
     for fi in range(nframes):
         tt = fi / FPS
+        if progress and fi % 30 == 0:
+            progress(fi / nframes)
         while ei + 1 < len(events) and events[ei + 1][0] <= tt:
             ei += 1
         if ei >= 0:
@@ -245,7 +247,7 @@ def render(set_key, theme_idx=None, seed=None):
             frame = Image.alpha_composite(frame, fade(layers[key], 1 - a))
             frame = Image.alpha_composite(frame, fade(end, a))
         else:
-            a = ease(tt / 0.5) if ei < 0 else 1.0
+            a = 1.0  # phrase visible from frame 0 (default Instagram cover)
             if c == 1 and si > 0 and since < 0.4:
                 prev = spec["steps"][si - 1][0]
                 b = ease(since / 0.4)

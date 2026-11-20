@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Check, CheckCircle2, Inbox, MousePointerClick, RefreshCw, RotateCcw, Sparkles, Undo2, X, XCircle } from 'lucide-react';
+import { Check, CheckCircle2, Inbox, MousePointerClick, RefreshCw, RotateCcw, Undo2, X, XCircle } from 'lucide-react';
 import { cn } from '../admin/cn';
 import { asset, CHECK_LABEL, type PanelState, type Reel } from '../admin/api';
 import { ManualPost } from '../admin/ManualPost';
-import { allChecksOk, KindBadge, StatusBadge, Thumb, useAct, useAppState } from '../admin/hooks';
+import { MakeProgressCard, MakeReelsButton } from '../admin/MakeReels';
+import { allChecksOk, makingRun, KindBadge, StatusBadge, Thumb, useAct, useAppState } from '../admin/hooks';
 import { ago, Badge, dateTime, Empty, PageHeader, Pager, SELECT, Skeleton, usePaged } from '../admin/ui';
 
 type Filter = 'pending' | 'rejected' | 'failed' | 'all';
@@ -17,7 +18,6 @@ const match = (r: Reel, f: Filter) => (f === 'all' ? true : r.status === f);
 /** Every reel is checked here before it can be posted. Master–detail: list left, picked reel (?reel=id) right. */
 export default function ReviewPage() {
   const state = useAppState();
-  const act = useAct();
   const [params, setParams] = useSearchParams();
   // Opened from a link to one reel: show every status so that reel is in the list too.
   const [filter, setFilter] = useState<Filter>(() => (params.get('reel') ? 'all' : 'pending'));
@@ -28,7 +28,8 @@ export default function ReviewPage() {
   const count = (f: Filter) => list.filter((r) => match(r, f)).length;
   const open = (id: string) => {
     setParams({ reel: id }, { replace: true });
-    if (window.matchMedia('(max-width: 1023px)').matches) document.getElementById('reel')?.scrollIntoView({ behavior: 'smooth' });
+    // phones: the picked reel sits above the list, so bring it into view once it has rendered
+    if (window.matchMedia('(max-width: 1023px)').matches) requestAnimationFrame(() => document.getElementById('reel')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
   };
 
   return (
@@ -41,10 +42,7 @@ export default function ReviewPage() {
             <select aria-label="Status" value={filter} onChange={(e) => setFilter(e.target.value as Filter)} className={SELECT}>
               {FILTERS.map((f) => <option key={f.value} value={f.value}>{f.label} ({count(f.value)})</option>)}
             </select>
-            <button type="button" onClick={() => act.mutate({ type: 'generate', ayah: 1, tasbih: 1 })} disabled={act.isPending}
-              className="flex h-9 cursor-pointer items-center gap-2 rounded-lg border border-paper-line bg-paper px-3 text-sm font-medium hover:bg-paper-alt disabled:opacity-50">
-              <Sparkles className="h-4 w-4" aria-hidden="true" /> Make 2 more
-            </button>
+            <MakeReelsButton busy={Boolean(makingRun(state.data))} reciters={Object.keys(state.data?.config.reciters ?? {})} />
             <button type="button" onClick={() => void state.refetch()}
               className="flex h-9 cursor-pointer items-center gap-2 rounded-lg border border-paper-line bg-paper px-3 text-sm font-medium hover:bg-paper-alt">
               <RefreshCw className={cn('h-4 w-4', state.isFetching && 'animate-spin')} aria-hidden="true" /> Refresh
@@ -52,6 +50,7 @@ export default function ReviewPage() {
           </div>
         }
       />
+      {state.data && <MakeProgressCard s={state.data} />}
       {state.error && <p className="rounded-xl bg-danger-light p-3 text-sm text-danger">{(state.error as Error).message}</p>}
 
       <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)]">
@@ -61,7 +60,7 @@ export default function ReviewPage() {
             <p className="text-xs text-ink-mute">{state.data ? `${shown.length} shown` : 'Loading…'}</p>
           </div>
           {!state.data ? <div className="p-4"><Skeleton className="h-40" /></div> : shown.length === 0 ? (
-            <Empty icon={Inbox} text={filter === 'pending' ? 'Nothing waiting. New reels arrive every morning, or press “Make 2 more”.' : 'Nothing here for this status.'} />
+            <Empty icon={Inbox} text={filter === 'pending' ? 'Nothing waiting. New reels arrive every morning, or press “Make reels”.' : 'Nothing here for this status.'} />
           ) : (
             <ul className="divide-y divide-paper-line">
               {paged.items?.map((r) => <ReelRow key={r.id} s={state.data!} r={r} active={r.id === selected?.id} onOpen={() => open(r.id)} />)}
@@ -69,7 +68,8 @@ export default function ReviewPage() {
           )}
           <Pager paged={paged} className="border-t border-paper-line px-4 py-3" />
         </section>
-        {state.data && <ReelPanel s={state.data} r={selected} />}
+        {/* phones: the picked reel shows above the list; with nothing picked only the list shows */}
+        {state.data && <ReelPanel s={state.data} r={selected} className={selected ? 'order-first scroll-mt-16 lg:order-none' : 'hidden lg:block'} />}
       </div>
     </div>
   );
@@ -102,14 +102,14 @@ function ReelRow({ s, r, active, onOpen }: { s: PanelState; r: Reel; active: boo
   );
 }
 
-function ReelPanel({ s, r }: { s: PanelState; r: Reel | null }) {
+function ReelPanel({ s, r, className = '' }: { s: PanelState; r: Reel | null; className?: string }) {
   const act = useAct((a) => (a.type === 'approve' ? 'Approved: it joins the posting schedule' : a.type === 'reject' ? 'Rejected: it will not be posted' : a.type === 'unmark_posted' ? 'Back in the posting schedule' : 'Moved back to review'));
   const [note, setNote] = useState('');
   useEffect(() => setNote(''), [r?.id]);
 
   if (!r) {
     return (
-      <section id="reel" className="rounded-xl border border-paper-line bg-paper shadow-sm">
+      <section id="reel" className={`rounded-xl border border-paper-line bg-paper shadow-sm ${className}`}>
         <div className="border-b border-paper-line px-4 py-3">
           <h2 className="text-sm font-semibold">Pick a reel</h2>
           <p className="text-xs text-ink-mute">Select a reel on the left to watch it, see its checks and approve or reject it.</p>
@@ -121,7 +121,7 @@ function ReelPanel({ s, r }: { s: PanelState; r: Reel | null }) {
   const ok = allChecksOk(r);
   const decided = r.status === 'approved' || r.status === 'rejected' || r.status === 'failed';
   return (
-    <section id="reel" className="rounded-xl border border-paper-line bg-paper shadow-sm lg:sticky lg:top-16">
+    <section id="reel" className={`rounded-xl border border-paper-line bg-paper shadow-sm lg:sticky lg:top-16 ${className}`}>
       <div className="flex items-start gap-3 border-b border-paper-line px-4 py-3">
         <div className="min-w-0 flex-1">
           <h2 className="flex flex-wrap items-center gap-1.5 text-sm font-semibold"><KindBadge kind={r.kind} /> <span className="truncate">{r.title}</span></h2>

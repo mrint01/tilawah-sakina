@@ -1,8 +1,9 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { CheckCircle2, Github, Instagram, KeyRound, Link2, SlidersHorizontal, User, XCircle, type LucideIcon } from 'lucide-react';
+import { CheckCircle2, Github, Instagram, KeyRound, Link2, Mic, Plus, SlidersHorizontal, Trash2, User, XCircle, type LucideIcon } from 'lucide-react';
 import { cn } from '../admin/cn';
 import type { Kind } from '../admin/api';
 import { useAct, useAppState, useInstagram } from '../admin/hooks';
+import { ALL_RECITERS } from '../admin/reciters';
 import { FormRow, INPUT, PageHeader, SELECT, Skeleton } from '../admin/ui';
 
 function Card({ icon: Icon, title, hint, pill, children }: { icon: LucideIcon; title: string; hint: string; pill?: ReactNode; children: ReactNode }) {
@@ -77,6 +78,8 @@ export default function SettingsPage() {
             </form>
           </Card>
 
+          <RecitersCard reciters={s.config.reciters} />
+
           <Card icon={Link2} title="Connections" hint="Where reels are stored and where they are posted.">
             <div className="flex items-start gap-3">
               <Github className="mt-0.5 h-5 w-5 shrink-0 text-ink-soft" aria-hidden="true" />
@@ -110,5 +113,52 @@ export default function SettingsPage() {
         </div>
       )}
     </div>
+  );
+}
+
+/** Reciters the ayah reels pick from (at random, or chosen in "Make reels"). Audio comes from everyayah.com. */
+function RecitersCard({ reciters }: { reciters: Record<string, string> }) {
+  const save = useAct('Reciters saved');
+  const [pick, setPick] = useState('');
+  const names = Object.keys(reciters);
+  const folders = new Set(Object.values(reciters));
+  const choices = ALL_RECITERS.filter(([n, f]) => !folders.has(f) && !names.includes(n));
+  const store = (next: Record<string, string>) => save.mutate({ type: 'settings', settings: { config: { reciters: next } } });
+
+  return (
+    <Card icon={Mic} title="Reciters" hint="Ayah reels use one of these: at random, or the one you pick in “Make reels”." pill={<Pill on yes={`${names.length}`} />}>
+      <ul className="divide-y divide-paper-line rounded-lg border border-paper-line">
+        {names.map((n) => (
+          <li key={n} className="flex items-center gap-3 px-3 py-2">
+            <span className="min-w-0 flex-1 truncate text-sm font-medium">{n}</span>
+            <button type="button" disabled={save.isPending || names.length <= 1} aria-label={`Remove ${n}`}
+              title={names.length <= 1 ? 'Keep at least one reciter' : `Remove ${n}`}
+              onClick={() => { const next = { ...reciters }; delete next[n]; store(next); }}
+              className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md border border-paper-line text-ink-mute hover:border-danger hover:bg-danger-light hover:text-danger disabled:cursor-default disabled:opacity-40">
+              <Trash2 className="h-4 w-4" aria-hidden="true" />
+            </button>
+          </li>
+        ))}
+      </ul>
+      <form className="flex flex-col gap-2 sm:flex-row sm:items-end" onSubmit={(e) => {
+        e.preventDefault();
+        const r = ALL_RECITERS.find(([n]) => n === pick);
+        if (r) store({ ...reciters, [r[0]]: r[1] });
+        setPick('');
+      }}>
+        <div className="min-w-0 flex-1">
+          <FormRow label="Add a reciter" hint="Murattal recitations sound best in short reels.">
+            <select value={pick} onChange={(e) => setPick(e.target.value)} className={cn(SELECT, '!h-10 w-full')}>
+              <option value="">Choose…</option>
+              {choices.map(([n]) => <option key={n} value={n}>{n}</option>)}
+            </select>
+          </FormRow>
+        </div>
+        <button type="submit" disabled={!pick || save.isPending || names.length >= 20}
+          className="flex h-10 w-fit cursor-pointer items-center gap-2 rounded-lg bg-accent px-4 text-sm font-semibold text-white hover:bg-accent-dark disabled:cursor-default disabled:opacity-50 sm:mb-5">
+          <Plus className="h-4 w-4" aria-hidden="true" /> Add
+        </button>
+      </form>
+    </Card>
   );
 }

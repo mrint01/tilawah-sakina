@@ -12,6 +12,9 @@ on:
       tasbih:
         description: "Tasbih reels to make"
         default: "1"
+      spec:
+        description: "From the panel: JSON list of reels to make (surah, reciter, tasbih kind). Overrides the counts."
+        default: ""
 
 permissions:
   contents: write
@@ -37,9 +40,13 @@ jobs:
           python3 -c "from PIL import features; assert features.check('raqm'), 'no raqm'; print('raqm ok')"
 
       - name: Render, check and upload
+        env:
+          SPEC: ${{ inputs.spec }}
         run: |
           if [ "${{ github.event_name }}" = "schedule" ]; then
             python3 pipeline.py generate --auto --ayah 1 --tasbih 1
+          elif [ -n "$SPEC" ]; then
+            python3 pipeline.py generate --spec "$SPEC"
           else
             python3 pipeline.py generate --ayah "${{ inputs.ayah }}" --tasbih "${{ inputs.tasbih }}"
           fi

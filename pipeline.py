@@ -79,7 +79,7 @@ def mean_volume(path):
     return -99.0
 
 
-def run_checks(path, kind="ayah"):
+def run_checks(path, kind="ayah", whole_surah=False):
     info = probe(path)
     v = next((s for s in info["streams"] if s["codec_type"] == "video"), {})
     a = next((s for s in info["streams"] if s["codec_type"] == "audio"), {})
@@ -91,7 +91,9 @@ def run_checks(path, kind="ayah"):
         "video_h264": v.get("codec_name") == "h264",
         "audio_aac": a.get("codec_name") == "aac",
         # ayah reels 60-90 s; tasbih reels are always one minute (33 counts down to 0)
-        **({"length_60_90s": 58 <= dur <= 92} if kind == "ayah" else {"length_60s": 57 <= dur <= 63}),
+        # (a short surah picked in the panel is shown whole, even when it is under a minute)
+        **({"length_whole_surah": 8 <= dur <= 92} if kind == "ayah" and whole_surah
+           else {"length_60_90s": 58 <= dur <= 92} if kind == "ayah" else {"length_60s": 57 <= dur <= 63}),
         "audio_not_silent": vol > -45,
         "file_under_100mb": size_mb < 100,
     }
@@ -128,6 +130,58 @@ def contact_sheet(path, out, n=6):
 
 
 # ---------- commands ----------
+class Progress:
+    """Live render progress for the panel: progress.json in the release, re-uploaded every few seconds
+    from a background thread (no commits, so the queue history stays clean)."""
+
+    def __init__(self, total):
+        import threading
+        self.path = STAGING / "progress.json"
+        self.data = {"run_id": os.environ.get("GITHUB_RUN_ID", "local"), "total": total, "done": 0,
+                     "current": "", "stage": "starting", "frac": 0.0, "pct": 0, "finished": False}
+        self.dirty, self.stop = True, threading.Event()
+        self.thread = threading.Thread(target=self._loop, daemon=True)
+        self.thread.start()
+
+    def set(self, **kw):
+        self.data.update(kw)
+        d = self.data
+        d["pct"] = round(100 * (d["done"] + min(1.0, d["frac"])) / max(1, d["total"]))
+        d["updated"] = now()
+        self.dirty = True
+
+    def _push(self):
+        if not self.dirty:
+            return
+        self.dirty = False
+        self.path.write_text(json.dumps(self.data))
+        subprocess.run(["gh", "release", "upload", RELEASE_TAG, str(self.path), "--clobber"],
+                       capture_output=True, cwd=HERE)
+
+    def _loop(self):
+        while not self.stop.wait(6):
+            self._push()
+
+    def close(self, error=None):
+        if not error:
+            self.data.update(done=self.data["total"], frac=0.0)
+        self.set(finished=True, stage="failed" if error else "done", error=error)
+        self.stop.set()
+        self.thread.join(timeout=30)
+        self._push()
+
+
+def plan_jobs(args):
+    """What to make: --spec JSON from the panel, else --start / --ayah / --tasbih."""
+    if args.spec:
+        jobs = json.loads(args.spec)
+        if not isinstance(jobs, list) or not 1 <= len(jobs) <= 10:
+            sys.exit("--spec must be a JSON list of 1-10 jobs")
+        return [j for j in jobs if j.get("kind") in ("ayah", "tasbih")]
+    starts = [{"kind": "ayah", "start": [int(x) for x in s.split(":")]} for s in (args.start or [])]
+    return (starts or [{"kind": "ayah"}] * args.ayah) + [{"kind": "tasbih"}] * args.tasbih
+
+
 def cmd_generate(args):
     sys.path.insert(0, str(HERE))
     import make_reel
@@ -150,37 +204,61 @@ def cmd_generate(args):
             return
     # don't repeat a passage that is still waiting or was posted in the last 60 items
     recent = [tuple(it["passage"]) for it in q["items"][-60:] if it.get("passage")]
-    jobs = ["ayah"] * args.ayah + ["tasbih"] * args.tasbih
+    jobs = plan_jobs(args)
     ensure_release()
-    for kind in jobs:
-        seed = random.randrange(10**9)
-        if kind == "ayah":
-            meta = make_reel.build(seed=seed, exclude=recent)
-            recent.append(tuple(meta["passage"]))
-        else:
+    prog = Progress(len(jobs))
+    try:
+        for i, job in enumerate(jobs):
+            make_one(job, i, q, recent, prog, make_reel, make_tasbih)
+    except BaseException as e:
+        prog.close(error=str(e) or type(e).__name__)
+        raise
+    prog.close()
+
+
+def make_one(job, i, q, recent, prog, make_reel, make_tasbih):
+    kind = job["kind"]
+    seed = random.randrange(10**9)
+    step = lambda frac: prog.set(frac=0.85 * frac)  # rendering is ~85% of the time, checks + upload the rest
+    if kind == "ayah":
+        start = tuple(job["start"]) if job.get("start") else None
+        surah = int(job["surah"]) if job.get("surah") else None
+        sn = start[0] if start else surah
+        label = f"Surah {make_reel.chapters()[sn]['name_simple']}" if sn else "Ayah reel"
+        prog.set(done=i, frac=0, current=label + (f" · {job['reciter']}" if job.get("reciter") else ""), stage="rendering")
+        meta = make_reel.build(start=start, surah=None if start else surah, reciter=job.get("reciter"),
+                               seed=seed, exclude=recent, progress=step)
+        recent.append(tuple(meta["passage"]))
+    else:
+        key = job.get("set")
+        if key not in make_tasbih.SETS:
             # least-used dhikr set first, so the queue doesn't fill up with the same one
             used = [it.get("set") for it in q["items"] if it.get("set") and it["status"] != "rejected"]
             sets = list(make_tasbih.SETS)
             random.Random(seed).shuffle(sets)
-            meta = make_tasbih.render(min(sets, key=used.count), seed=seed)
-        item_id = datetime.now().strftime("%Y%m%d-%H%M%S") + f"-{kind}"
-        mp4 = STAGING / f"{item_id}.mp4"
-        shutil.move(meta.pop("file"), mp4)
-        checks, stats = run_checks(mp4, kind)
-        png = STAGING / f"{item_id}.png"
-        contact_sheet(mp4, png)
-        small = STAGING / f"{item_id}-preview.mp4"
-        preview_video(mp4, small)
-        # video + previews go to the release right away, so the panel (and the poster) can reach them
-        subprocess.run(["gh", "release", "upload", RELEASE_TAG, str(mp4), str(png), str(small), "--clobber"], check=True, cwd=HERE)
-        item = {"id": item_id, **meta, **stats, "checks": checks,
-                "status": "pending" if all(checks.values()) else "rejected",
-                "review": None if all(checks.values()) else "failed automatic checks",
-                "created": now()}
-        q["items"].append(item)
-        save(QUEUE, q)
-        bad = [k for k, ok in checks.items() if not ok]
-        print(f"{item_id}: {item['title']}  checks={'OK' if not bad else 'FAILED ' + ', '.join(bad)}")
+            key = min(sets, key=used.count)
+        prog.set(done=i, frac=0, current=make_tasbih.SETS[key]["title"], stage="rendering")
+        meta = make_tasbih.render(key, seed=seed, progress=step)
+    prog.set(current=meta["title"], stage="checking", frac=0.85)
+    item_id = datetime.now().strftime("%Y%m%d-%H%M%S") + f"-{kind}"
+    mp4 = STAGING / f"{item_id}.mp4"
+    shutil.move(meta.pop("file"), mp4)
+    checks, stats = run_checks(mp4, kind, meta.get("whole_surah", False))
+    png = STAGING / f"{item_id}.png"
+    contact_sheet(mp4, png)
+    small = STAGING / f"{item_id}-preview.mp4"
+    preview_video(mp4, small)
+    prog.set(stage="uploading", frac=0.92)
+    # video + previews go to the release right away, so the panel (and the poster) can reach them
+    subprocess.run(["gh", "release", "upload", RELEASE_TAG, str(mp4), str(png), str(small), "--clobber"], check=True, cwd=HERE)
+    item = {"id": item_id, **meta, **stats, "checks": checks,
+            "status": "pending" if all(checks.values()) else "rejected",
+            "review": None if all(checks.values()) else "failed automatic checks",
+            "created": now()}
+    q["items"].append(item)
+    save(QUEUE, q)
+    bad = [k for k, ok in checks.items() if not ok]
+    print(f"{item_id}: {item['title']}  checks={'OK' if not bad else 'FAILED ' + ', '.join(bad)}")
 
 
 def cmd_approve(args):
@@ -286,6 +364,8 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
     g = sub.add_parser("generate"); g.add_argument("--ayah", type=int, default=1); g.add_argument("--tasbih", type=int, default=1)
+    g.add_argument("--spec", help='JSON list of jobs from the panel, e.g. [{"kind":"ayah","surah":18,"reciter":"Mishary Alafasy"}]')
+    g.add_argument("--start", action="append", help="surah:ayah to start an ayah reel at (repeatable; replaces --ayah)")
     g.add_argument("--auto", action="store_true", help="skip when automation is OFF or the queue already holds `buffer` reels")
     a = sub.add_parser("approve"); a.add_argument("id"); a.add_argument("--note")
     r = sub.add_parser("reject"); r.add_argument("id"); r.add_argument("--note", required=True)

@@ -32,6 +32,15 @@ RECITERS = {
     "Yasser Al-Dosari": "Yasser_Ad-Dussary_128kbps",
 }
 
+def active_reciters():
+    """The reciters picked at random: state/config.json "reciters" (edited in the panel), else the defaults."""
+    try:
+        r = json.loads((HERE / "state" / "config.json").read_text()).get("reciters")
+    except (OSError, ValueError):
+        r = None
+    return r if isinstance(r, dict) and r else RECITERS
+
+
 # Passages that work well as short reels: (surah, first ayah)
 PASSAGES = [
     (1, 1), (2, 255), (2, 284), (3, 190), (13, 28), (17, 23), (20, 25),
@@ -73,6 +82,8 @@ def verse(s, a):
     en = v["translations"][0]["text"]
     en = re.sub(r"<sup[^>]*>.*?</sup>", "", en)
     en = re.sub(r"<[^>]+>", "", en).strip()
+    # the English font has no ﷺ glyph (it renders as an empty box): spell it out
+    en = en.replace("(ﷺ)", "(peace be upon him)").replace("ﷺ", "(peace be upon him)")
     return v["text_uthmani"].strip(), en
 
 
@@ -257,24 +268,50 @@ def clean_hook(english):
 
 
 # ---------- assembly ----------
-def build(start=None, seed=None, exclude=()):
+def build(start=None, seed=None, exclude=(), reciter=None, surah=None, progress=None):
+    """start=(surah, ayah) or surah=N (a random passage of that surah) or neither (a curated passage).
+    reciter: a RECITERS name, random when None. progress(fraction) is called while rendering."""
     rnd = random.Random(seed)
     chs = chapters()
-    reciter = rnd.choice(list(RECITERS))
-    folder = RECITERS[reciter]
+    pool = active_reciters()
+    known = {**RECITERS, **pool}
+    reciter = reciter if reciter in known else rnd.choice(list(pool))
+    folder = known[reciter]
     theme = rnd.choice(THEMES)
+    report = progress or (lambda frac: None)
+    report(0.0)
 
-    candidates = [start] if start else [p for p in rnd.sample(PASSAGES, len(PASSAGES)) if p not in set(exclude)]
+    if start:
+        candidates = [tuple(start)]
+    elif surah:
+        n = chs[surah]["verses_count"]
+        starts = [a for a in rnd.sample(range(1, n + 1), n) if (surah, a) not in set(exclude)][:8]
+        candidates = [(surah, a) for a in starts] or [(surah, 1)]
+    else:
+        candidates = [p for p in rnd.sample(PASSAGES, len(PASSAGES)) if p not in set(exclude)]
+    chosen = None
     for s, a0 in candidates:
         ayahs, total = pick_ayahs(chs, folder, s, a0)
         if ayahs and total >= MIN_LEN:
+            chosen = (s, a0, ayahs, total)
             break
         if ayahs and total >= 45 and start:  # explicit start: accept a bit shorter
+            chosen = (s, a0, ayahs, total)
             break
-    else:
+    if not chosen and (start or surah):
+        # a short surah (or the tail of one): the reel is the whole surah from its first ayah
+        s = start[0] if start else surah
+        ayahs, total = pick_ayahs(chs, folder, s, 1)
+        if ayahs:
+            chosen = (s, 1, ayahs, total)
+    if not chosen:
         raise SystemExit("No passage fit the 60-90s window")
+    s, a0, ayahs, total = chosen
+    whole = a0 == 1 and ayahs[-1][0] == chs[s]["verses_count"]
+    report(0.1)
 
-    name = f"{s:03d}_{a0:03d}-{ayahs[-1][0]:03d}_{folder.split('_')[0].split('128')[0]}"
+    tag = re.sub(r"\W", "", folder.split("/")[-1].split("_")[0].split("128")[0]) or "reciter"
+    name = f"{s:03d}_{a0:03d}-{ayahs[-1][0]:03d}_{tag}"
     work = CACHE / "work" / name
     work.mkdir(parents=True, exist_ok=True)
     OUT.mkdir(exist_ok=True)
@@ -315,11 +352,13 @@ def build(start=None, seed=None, exclude=()):
     for i, (p, st, dur) in enumerate(cards):
         idx = i + 3
         f.append(f"[{idx}:v]format=rgba,loop=-1:1:0,trim=duration={dur:.3f},setpts=PTS-STARTPTS,"
-                 f"fade=t=in:st=0:d={fd}:alpha=1,fade=t=out:st={max(0, dur - fd):.3f}:d={fd}:alpha=1,"
+                 # the first card is fully visible from frame 0: Instagram uses frame 0 as the default cover
+                 + (f"fade=t=in:st=0:d={fd}:alpha=1," if i else "")
+                 + f"fade=t=out:st={max(0, dur - fd):.3f}:d={fd}:alpha=1,"
                  f"setpts=PTS+{st:.3f}/TB[c{i}]")
         f.append(f"[{last}][c{i}]overlay=0:0:eof_action=pass[v{i}]")
         last = f"v{i}"
-    f.append(f"[{last}]fade=t=in:st=0:d=0.4,fade=t=out:st={total - 0.6:.2f}:d=0.6[vout]")
+    f.append(f"[{last}]fade=t=out:st={total - 0.6:.2f}:d=0.6[vout]")
 
     mp4 = OUT / f"{name}.mp4"
     cmd = ["ffmpeg", "-y", "-loglevel", "error", *inputs, "-filter_complex", ";".join(f),
@@ -327,7 +366,18 @@ def build(start=None, seed=None, exclude=()):
            "-c:v", "libx264", "-preset", "medium", "-crf", "20", "-pix_fmt", "yuv420p", "-r", "30",
            "-c:a", "aac", "-b:a", "160k", "-af", f"apad,afade=t=out:st={total - 0.8:.2f}:d=0.8",
            "-movflags", "+faststart", str(mp4)]
-    subprocess.run(cmd, check=True)
+    # -progress prints out_time_us=... lines: turn them into a 10-100% render progress
+    cmd[1:1] = ["-progress", "pipe:1", "-nostats"]
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, text=True)
+    for line in proc.stdout:
+        if line.startswith("out_time_us="):
+            try:
+                report(0.1 + 0.9 * min(1.0, int(line.split("=")[1]) / 1e6 / total))
+            except ValueError:
+                pass
+    if proc.wait():
+        raise subprocess.CalledProcessError(proc.returncode, cmd)
+    report(1.0)
 
     ch = chs[s]
     ref = f"{s}:{a0}" if len(ayahs) == 1 else f"{s}:{a0}-{ayahs[-1][0]}"
@@ -337,13 +387,13 @@ def build(start=None, seed=None, exclude=()):
         f"Surah {ch['name_simple']} ({ch['translated_name']['name']}) · {ref}\n"
         f"Recited by {reciter}\n\n"
         f"Listen till the end and share it with someone who needs it today 🤍\n\n"
-        f"#quran #quranrecitation #islam #{re.sub(r'[^a-z]', '', ch['name_simple'].lower())} #{reciter.split()[-1].replace('-', '').lower()}"
+        f"#quran #quranrecitation #islam #{re.sub(r'[^a-z]', '', ch['name_simple'].lower())} #{re.sub(r'[^a-z]', '', reciter.split('(')[0].split()[-1].lower())}"
     )
     (OUT / f"{name}.txt").write_text(caption + "\n")
     print(f"{mp4}  ({total:.1f}s, {len(ayahs)} ayahs, {reciter})")
     return {
         "kind": "ayah", "file": str(mp4), "caption": caption, "duration": round(total, 1),
-        "passage": [s, a0], "ref": ref, "surah": ch["name_simple"], "reciter": reciter,
+        "passage": [s, a0], "ref": ref, "whole_surah": whole, "surah": ch["name_simple"], "reciter": reciter,
         "title": f"Surah {ch['name_simple']} {ref} · {reciter}",
     }
 

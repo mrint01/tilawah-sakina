@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import { CalendarClock, Hand, CheckCircle2, Clock3, Inbox, Instagram, Play, Power, RefreshCw, Send, Sparkles, Users } from 'lucide-react';
+import { CalendarClock, Hand, CheckCircle2, Clock3, Inbox, Instagram, Play, Power, RefreshCw, Send, Users } from 'lucide-react';
 import { cn } from '../admin/cn';
 import { nextSlots, postingOrder, slot } from '../admin/api';
-import { KindBadge, Thumb, useAct, useAppState, useInstagram } from '../admin/hooks';
+import { MakeProgressCard, MakeReelsButton } from '../admin/MakeReels';
+import { KindBadge, makingRun, Thumb, useAct, useAppState, useInstagram } from '../admin/hooks';
 import { ago, Badge, dateTime, Empty, int, KpiCard, PageHeader, Panel, Skeleton } from '../admin/ui';
 import { RunRow } from './RunsPage';
 
@@ -46,6 +47,7 @@ export default function OverviewPage() {
   return (
     <div className="flex flex-col gap-6">
       {header}
+      <MakeProgressCard s={s} />
 
       {pending > 0 && (
         <button type="button" onClick={() => navigate('/review')} className="flex cursor-pointer items-center gap-2 rounded-2xl bg-accent-light p-4 text-start font-semibold text-accent hover:underline">
@@ -87,10 +89,7 @@ export default function OverviewPage() {
               className="flex h-9 cursor-pointer items-center gap-2 rounded-lg bg-accent px-3 text-sm font-semibold text-white hover:bg-accent-dark disabled:cursor-default disabled:opacity-50">
               <Play className="h-4 w-4" aria-hidden="true" /> Post next now
             </button>
-            <button type="button" disabled={act.isPending} onClick={() => act.mutate({ type: 'generate', ayah: 1, tasbih: 1 })}
-              className="flex h-9 cursor-pointer items-center gap-2 rounded-lg border border-paper-line bg-paper px-3 text-sm font-medium hover:bg-paper-alt disabled:opacity-50">
-              <Sparkles className="h-4 w-4" aria-hidden="true" /> Make 2 more
-            </button>
+            <MakeReelsButton busy={Boolean(makingRun(s))} reciters={Object.keys(s.config.reciters)} />
             {!s.instagram && upcoming[0] && (
               <button type="button" onClick={() => navigate(`/review?reel=${upcoming[0].id}`)}
                 className="flex h-9 cursor-pointer items-center gap-2 rounded-lg border border-accent px-3 text-sm font-semibold text-accent hover:bg-accent/10">

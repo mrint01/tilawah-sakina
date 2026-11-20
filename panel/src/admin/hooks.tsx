@@ -4,7 +4,10 @@ import { api, type Action, type Kind, type PanelState, type Reel, type Status } 
 import { useToast } from './toast';
 import { Badge } from './ui';
 
-export const useAppState = () => useQuery({ queryKey: ['state'], queryFn: api.state, refetchInterval: 30_000 });
+/** A "Generate reels" run is queued or working: the panel then refreshes every 5 s to show its progress. */
+export const makingRun = (s?: PanelState) => s?.runs.find((r) => r.name === 'Generate reels' && r.status !== 'completed') ?? null;
+export const useAppState = () =>
+  useQuery({ queryKey: ['state'], queryFn: api.state, refetchInterval: (q) => (makingRun(q.state.data) ? 5_000 : 30_000) });
 export const useInstagram = (enabled = true) =>
   useQuery({ queryKey: ['instagram'], queryFn: api.instagram, staleTime: 5 * 60_000, enabled });
 
@@ -27,6 +30,7 @@ export function useAct(success?: string | ((a: Action) => string)) {
         }
       }
       if (a.type === 'toggle') next.config.enabled = a.enabled;
+      if (a.type === 'settings' && a.settings.config?.reciters) next.config.reciters = a.settings.config.reciters;
       if (a.type === 'mark_posted') {
         const it = next.items.find((i) => i.id === a.id);
         if (it) { it.status = 'posted'; it.posted = new Date().toISOString(); it.manual = true; if (a.permalink) it.permalink = a.permalink; }

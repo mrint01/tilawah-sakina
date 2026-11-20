@@ -14,6 +14,17 @@ function setStatus(id, status, note) {
   }, `${status === 'approved' ? 'Approve' : status === 'rejected' ? 'Reject' : 'Back to review'} ${id}`, { items: [] });
 }
 
+/** Reciters picked in Settings: { name: everyayah.com folder }, 1-20 of them. */
+function cleanReciters(r) {
+  const out = {};
+  for (const [name, folder] of Object.entries(r ?? {}).slice(0, 20)) {
+    const n = String(name).trim().slice(0, 60);
+    if (n && typeof folder === 'string' && /^[A-Za-z0-9_.-]+(\/[A-Za-z0-9_.-]+)?$/.test(folder)) out[n] = folder;
+  }
+  if (!Object.keys(out).length) throw Object.assign(new Error('Keep at least one reciter.'), { status: 400 });
+  return out;
+}
+
 const dispatch = (workflow, inputs) =>
   gh(`/repos/${REPO}/actions/workflows/${workflow}/dispatches`, { method: 'POST', body: { ref: 'main', inputs } });
 
@@ -70,6 +81,7 @@ export default async function handler(req, res) {
             ...c,
             ...(Array.isArray(s.config.alternate) ? { alternate: s.config.alternate.filter((k) => ['ayah', 'tasbih'].includes(k)) } : {}),
             ...(Number.isFinite(s.config.buffer) ? { buffer: Math.max(2, Math.min(60, Math.round(s.config.buffer))) } : {}),
+            ...(s.config.reciters ? { reciters: cleanReciters(s.config.reciters) } : {}),
           }), 'Update automation settings');
         }
         if (s.panel) {
@@ -80,12 +92,32 @@ export default async function handler(req, res) {
       case 'post_now':
         await dispatch('post.yml', { dry_run: 'false' });
         break;
-      case 'generate':
-        await dispatch('generate.yml', {
-          ayah: String(Math.max(0, Math.min(10, Number(b.ayah ?? 1)))),
-          tasbih: String(Math.max(0, Math.min(10, Number(b.tasbih ?? 1)))),
-        });
+      case 'generate': {
+        // From the "Make reels" popup: a list of jobs (surah / start ayah / reciter, or a tasbih kind).
+        const SETS = ['subhanallah', 'alhamdulillah', 'allahuakbar', 'wabihamdihi', 'astaghfirullah', 'tahlil', 'salawat'];
+        const int = (v, lo, hi) => { const n = Math.trunc(Number(v)); return n >= lo && n <= hi ? n : null; };
+        if (Array.isArray(b.jobs)) {
+          const jobs = b.jobs.slice(0, 10).map((j) => {
+            if (j?.kind === 'tasbih') return { kind: 'tasbih', ...(SETS.includes(j.set) ? { set: j.set } : {}) };
+            const surah = int(j?.surah, 1, 114);
+            const ayah = surah ? int(j?.ayah, 1, 286) : null;
+            return {
+              kind: 'ayah',
+              ...(surah && ayah ? { start: [surah, ayah] } : surah ? { surah } : {}),
+              // a reciter from Settings → Reciters (pipeline.py falls back to a random one if unknown)
+              ...(typeof j?.reciter === 'string' && j.reciter.length <= 60 ? { reciter: j.reciter } : {}),
+            };
+          });
+          if (!jobs.length) throw Object.assign(new Error('Pick at least one reel to make.'), { status: 400 });
+          await dispatch('generate.yml', { ayah: '0', tasbih: '0', spec: JSON.stringify(jobs) });
+        } else {
+          await dispatch('generate.yml', {
+            ayah: String(Math.max(0, Math.min(10, Number(b.ayah ?? 1)))),
+            tasbih: String(Math.max(0, Math.min(10, Number(b.tasbih ?? 1)))),
+          });
+        }
         break;
+      }
       default:
         return send(res, 400, { error: 'unknown action' });
     }
