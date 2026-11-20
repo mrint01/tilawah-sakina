@@ -40,6 +40,13 @@ export type MakeJob =
   | { kind: 'ayah'; surah?: number; ayah?: number; reciter?: string }
   | { kind: 'tasbih'; set?: string };
 
+/** Reels posted again every week (Friday Al-Kahf parts). Same fields as a reel where it matters. */
+export interface WeeklyReel {
+  id: string; title: string; caption: string; file: string; day: string; time: string; cron: string;
+  duration: number; size_mb: number; surah?: string; reciter?: string; kind: Kind;
+}
+export interface WeeklyState { assets: string; items: WeeklyReel[]; posted: { id: string; at: string; permalink?: string }[] }
+
 export interface PanelState {
   repo: string;
   assets: string;
@@ -49,6 +56,7 @@ export interface PanelState {
   instagram: boolean;
   runs: Run[];
   progress: MakeProgress | null;
+  weekly: WeeklyState;
 }
 
 export interface MediaStats { likes: number; comments: number; permalink?: string; views: number | null; reach: number | null; saves: number | null; shares: number | null; error?: string }

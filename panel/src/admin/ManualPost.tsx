@@ -13,7 +13,8 @@ const canShareFiles = (f: File) => typeof navigator.canShare === 'function' && n
  * Two taps for the video on purpose: iOS only opens the share sheet straight after a tap,
  * not after a download that took a few seconds.
  */
-export function ManualPost({ reel, compact }: { reel: Reel; compact?: boolean }) {
+/** weekly: a reel posted again every week (no "I posted it" step: it stays in the weekly list). */
+export function ManualPost({ reel, compact, weekly }: { reel: Pick<Reel, 'id' | 'caption'> & { size_mb?: number }; compact?: boolean; weekly?: boolean }) {
   const toast = useToast();
   const act = useAct('Marked as posted');
   const [file, setFile] = useState<File | null>(null);
@@ -82,7 +83,7 @@ export function ManualPost({ reel, compact }: { reel: Reel; compact?: boolean })
               <Share2 className="h-4 w-4" aria-hidden="true" /> Save video ({(file.size / 1e6).toFixed(1)} MB)
             </button>
           )}
-          <p className="text-xs text-ink-mute">{file ? 'On iPhone choose “Save Video” (or share straight to Instagram).' : 'About 5 MB, 1080×1920.'}</p>
+          <p className="text-xs text-ink-mute">{file ? 'On iPhone choose “Save Video” (or share straight to Instagram).' : `About ${reel.size_mb ? Math.round(reel.size_mb) : 5} MB, 1080×1920.`}</p>
         </div>
       </div>
 
@@ -101,7 +102,7 @@ export function ManualPost({ reel, compact }: { reel: Reel; compact?: boolean })
         </a>
       </div>
 
-      <form className="flex items-start gap-2.5" onSubmit={(e) => { e.preventDefault(); act.mutate({ type: 'mark_posted', id: reel.id, permalink: link.trim() || undefined }); }}>
+      {!weekly && <form className="flex items-start gap-2.5" onSubmit={(e) => { e.preventDefault(); act.mutate({ type: 'mark_posted', id: reel.id, permalink: link.trim() || undefined }); }}>
         <span className={step}>4</span>
         <div className="flex min-w-0 flex-1 flex-col gap-1.5">
           <input value={link} onChange={(e) => setLink(e.target.value)} inputMode="url" placeholder="Reel link (optional): Share → Copy link"
@@ -110,7 +111,7 @@ export function ManualPost({ reel, compact }: { reel: Reel; compact?: boolean })
             <Check className="h-4 w-4" aria-hidden="true" /> I posted it
           </button>
         </div>
-      </form>
+      </form>}
     </div>
   );
 }

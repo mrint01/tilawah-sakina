@@ -3,6 +3,7 @@ import { CalendarClock, Hand, Play, RotateCcw } from 'lucide-react';
 import { nextSlots, postingOrder, slot } from '../admin/api';
 import { KindBadge, Thumb, useAct, useAppState } from '../admin/hooks';
 import { matchFilters, ReelFilterBar, useReelFilters } from '../admin/ReelFilters';
+import { WeeklySection } from '../admin/WeeklySection';
 import { ago, Badge, dateTime, Empty, PageHeader, Pager, Skeleton, usePaged } from '../admin/ui';
 
 /** Approved reels in the order the workflow will post them, with their expected time slot. */
@@ -38,6 +39,7 @@ export default function QueuePage() {
           </div>
         }
       />
+      {s && <WeeklySection s={s} />}
       {s && !s.config.enabled && <p className="rounded-xl bg-accent-light p-3 text-sm font-medium text-accent">Automation is OFF, so nothing posts until you turn it on in Overview.</p>}
 
       <section className="overflow-hidden rounded-xl border border-paper-line bg-paper shadow-sm">
