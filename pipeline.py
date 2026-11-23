@@ -29,7 +29,9 @@ QUEUE = STATE / "queue.json"
 CONFIG = STATE / "config.json"
 STAGING = HERE / "staging"
 RELEASE_TAG = "queue"
-GRAPH = "https://graph.instagram.com/v22.0"
+# Instagram Login tokens ("IG...") use graph.instagram.com; Facebook / system-user tokens ("EAA...") use graph.facebook.com
+GRAPH = ("https://graph.facebook.com/v22.0" if os.environ.get("IG_ACCESS_TOKEN", "").startswith("EAA")
+         else "https://graph.instagram.com/v22.0")
 
 
 # ---------- state ----------

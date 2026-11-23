@@ -1,6 +1,8 @@
 import { guard, readJson, send } from './_lib.js';
 
-const GRAPH = 'https://graph.instagram.com/v22.0';
+// Instagram Login tokens ("IG...") use graph.instagram.com; Facebook / system-user tokens ("EAA...") use graph.facebook.com
+const GRAPH = (process.env.IG_ACCESS_TOKEN || '').startsWith('EAA')
+  ? 'https://graph.facebook.com/v22.0' : 'https://graph.instagram.com/v22.0';
 
 async function ig(path, params = {}) {
   const qs = new URLSearchParams({ ...params, access_token: process.env.IG_ACCESS_TOKEN });
@@ -15,7 +17,7 @@ export default async function handler(req, res) {
   if (!guard(req, res)) return;
   if (!process.env.IG_ACCESS_TOKEN) return send(res, 200, { connected: false });
   try {
-    const profile = await ig('me', { fields: 'username,followers_count,media_count' });
+    const profile = await ig(process.env.IG_USER_ID || 'me', { fields: 'username,followers_count,media_count' });
     const { data } = await readJson('state/queue.json');
     const posted = (data?.items ?? []).filter((i) => i.status === 'posted' && i.ig_media_id).slice(-40);
     const media = {};
