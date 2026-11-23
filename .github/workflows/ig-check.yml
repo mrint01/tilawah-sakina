@@ -1,0 +1,23 @@
+name: Instagram check
+
+# Read-only: shows the connected account, the last posts and today's publishing quota.
+on: workflow_dispatch
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+        run: |
+          python3 - <<'PY'
+          import os, json, pipeline as p
+          u = os.environ["IG_USER_ID"]
+          print("host", p.GRAPH)
+          print(json.dumps(p.ig("GET", u, fields="username,followers_count,media_count")))
+          for m in p.ig("GET", f"{u}/media", fields="timestamp,media_product_type,permalink", limit=5)["data"]:
+              print(m["timestamp"], m.get("media_product_type"), m.get("permalink"))
+          print(json.dumps(p.ig("GET", f"{u}/content_publishing_limit", fields="quota_usage,config")))
+          PY
