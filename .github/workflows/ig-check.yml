@@ -20,4 +20,9 @@ jobs:
           for m in p.ig("GET", f"{u}/media", fields="timestamp,media_product_type,permalink", limit=5)["data"]:
               print(m["timestamp"], m.get("media_product_type"), m.get("permalink"))
           print(json.dumps(p.ig("GET", f"{u}/content_publishing_limit", fields="quota_usage,config")))
+          for path, f in (("me", "id,name"), ("me/permissions", None), ("18139935754669763", "status_code,status,media_type")):
+              try:
+                  print(path, json.dumps(p.ig("GET", path, fatal=False, **({"fields": f} if f else {}))))
+              except Exception as e:
+                  print(path, e)
           PY
