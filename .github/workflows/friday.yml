@@ -55,6 +55,20 @@ jobs:
           gh release download weekly -p "${{ steps.pick.outputs.id }}.mp4" -D site/w
           echo '<!doctype html><title>Tilawah Sakina</title><p>Reel hosting for @tilawah.sakina</p>' > site/index.html
 
+      - name: Convert to Instagram's standard format
+        if: true
+        run: |
+          # Instagram processes full-range (yuvj420p) video but then fails to publish it: re-encode to
+          # standard yuv420p (tv range, BT.709), AAC 48 kHz, moov atom first.
+          f=site/w/${{ steps.pick.outputs.id }}.mp4
+          sudo apt-get install -y -qq ffmpeg >/dev/null 2>&1 || true
+          ffmpeg -y -loglevel error -i "$f" -vf "scale=in_range=full:out_range=tv,format=yuv420p" \
+            -c:v libx264 -preset medium -crf 20 -profile:v high -level 4.1 -r 30 \
+            -color_range tv -colorspace bt709 -color_primaries bt709 -color_trc bt709 \
+            -c:a aac -b:a 160k -ar 48000 -ac 2 -movflags +faststart /tmp/n.mp4
+          mv /tmp/n.mp4 "$f"
+          ffprobe -v error -show_entries stream=codec_name,pix_fmt,width,height,sample_rate -of compact "$f"
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
