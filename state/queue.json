@@ -1221,10 +1221,13 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
+      "status": "posted",
       "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
       "created": "2026-11-20T12:26:17+00:00",
-      "reviewed": "2026-11-20T12:38:56+00:00"
+      "reviewed": "2026-11-20T12:38:56+00:00",
+      "posted": "2026-11-23T16:01:37+00:00",
+      "ig_media_id": "17958427605278595",
+      "permalink": "https://www.instagram.com/reel/DgFwoEbHMmX/"
     },
     {
       "id": "20261120-122647-tasbih",
