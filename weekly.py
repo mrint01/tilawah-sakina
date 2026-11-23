@@ -47,7 +47,7 @@ def cmd_post(args):
         time.sleep(10)
     else:
         sys.exit("timed out waiting for Instagram to process the video")
-    pub = pipeline.ig("POST", f"{user}/media_publish", creation_id=c["id"])
+    pub = pipeline.publish(user, c["id"])
     link = pipeline.ig("GET", pub["id"], fields="permalink").get("permalink")
     w.setdefault("posted", []).append({"id": it["id"], "at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
                                        "ig_media_id": pub["id"], "permalink": link})

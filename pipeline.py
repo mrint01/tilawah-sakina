@@ -312,7 +312,11 @@ def cmd_next(args):
         print(it["id"])
 
 
-def ig(method, path, **params):
+class IGError(Exception):
+    pass
+
+
+def ig(method, path, fatal=True, **params):
     params["access_token"] = os.environ["IG_ACCESS_TOKEN"]
     data = urllib.parse.urlencode(params).encode()
     url = f"{GRAPH}/{path}"
@@ -324,7 +328,22 @@ def ig(method, path, **params):
         with urllib.request.urlopen(req, timeout=120) as r:
             return json.loads(r.read())
     except urllib.error.HTTPError as e:
-        sys.exit(f"Instagram API error {e.code}: {e.read().decode()[:500]}")
+        msg = f"Instagram API error {e.code}: {e.read().decode()[:500]}"
+        if fatal:
+            sys.exit(msg)
+        raise IGError(msg)
+
+
+def publish(user, cid):
+    """media_publish, retried: right after FINISHED Instagram sometimes answers with a generic internal
+    error (subcode 2207085). Retrying the same container can't post twice: a container publishes once."""
+    for wait in (15, 30, 60, 120, 180):
+        time.sleep(wait)
+        try:
+            return ig("POST", f"{user}/media_publish", fatal=False, creation_id=cid)
+        except IGError as e:
+            print(f"publish failed, retrying: {e}")
+    return ig("POST", f"{user}/media_publish", creation_id=cid)
 
 
 def cmd_post(args):
@@ -347,7 +366,7 @@ def cmd_post(args):
         time.sleep(10)
     else:
         sys.exit("timed out waiting for Instagram to process the video")
-    pub = ig("POST", f"{user}/media_publish", creation_id=cid)
+    pub = publish(user, cid)
     media = ig("GET", pub["id"], fields="permalink")
     it.update(status="posted", posted=now(), ig_media_id=pub["id"], permalink=media.get("permalink"))
     save(QUEUE, q)
