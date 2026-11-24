@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { CheckCircle2, Github, Instagram, KeyRound, Link2, Mic, Plus, SlidersHorizontal, Trash2, User, XCircle, type LucideIcon } from 'lucide-react';
 import { cn } from '../admin/cn';
-import type { Kind } from '../admin/api';
+import { DailyPlan } from '../admin/DailyPlan';
 import { useAct, useAppState, useInstagram } from '../admin/hooks';
 import { ALL_RECITERS } from '../admin/reciters';
 import { FormRow, INPUT, PageHeader, SELECT, Skeleton } from '../admin/ui';
@@ -26,30 +26,22 @@ const Pill = ({ on, yes = 'Connected', no = 'Not connected' }: { on: boolean; ye
   <span className={cn('rounded-full px-2 py-0.5 text-xs font-semibold', on ? 'bg-ok-light text-ok' : 'bg-paper-alt text-ink-mute')}>{on ? yes : no}</span>
 );
 
-const ORDERS: { value: string; label: string; order: Kind[] }[] = [
-  { value: 'ayah,tasbih', label: 'Ayah, then tasbih (alternate)', order: ['ayah', 'tasbih'] },
-  { value: 'ayah', label: 'Ayah reels only', order: ['ayah'] },
-  { value: 'tasbih', label: 'Tasbih reels only', order: ['tasbih'] },
-];
-
 export default function SettingsPage() {
   const state = useAppState();
   const s = state.data;
   const ig = useInstagram(Boolean(s?.instagram));
   const save = useAct('Saved');
   const [name, setName] = useState('');
-  const [buffer, setBuffer] = useState(14);
-  const [order, setOrder] = useState('ayah,tasbih');
+  const [days, setDays] = useState(3);
   useEffect(() => {
     if (!s) return;
     setName(s.panel.name);
-    setBuffer(s.config.buffer);
-    setOrder(s.config.alternate.join(','));
-  }, [s?.panel.name, s?.config.buffer, s?.config.alternate.join(',')]); // eslint-disable-line react-hooks/exhaustive-deps
+    setDays(s.config.buffer_days ?? 3);
+  }, [s?.panel.name, s?.config.buffer_days]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="flex flex-col gap-4">
-      <PageHeader title="Settings" text="Your name in the console, how much is made and posted, and the accounts it uses." />
+      <PageHeader title="Settings" text="Your name in the console, the daily plan, the reciters and the accounts it uses." />
       {!s ? <Skeleton className="h-64" /> : (
         <div className="grid grid-cols-1 items-start gap-4 xl:grid-cols-2">
           <Card icon={User} title="Profile" hint="The name shown at the top right.">
@@ -59,21 +51,12 @@ export default function SettingsPage() {
             </form>
           </Card>
 
-          <Card icon={SlidersHorizontal} title="Automation" hint="What gets made every morning and posted at 09:00 / 19:00." pill={<Pill on={s.config.enabled} yes="On" no="Off" />}>
-            <form className="flex flex-col gap-4" onSubmit={(e) => {
-              e.preventDefault();
-              save.mutate({ type: 'settings', settings: { config: { buffer, alternate: ORDERS.find((o) => o.value === order)!.order } } });
-            }}>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <FormRow label="Posting mix">
-                  <select value={order} onChange={(e) => setOrder(e.target.value)} className={cn(SELECT, '!h-10 w-full')}>
-                    {ORDERS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-                  </select>
-                </FormRow>
-                <FormRow label="Keep ready" hint="Reels waiting (review + approved) before the daily maker stops. 14 = one week.">
-                  <input type="number" min={2} max={60} value={buffer} onChange={(e) => setBuffer(Number(e.target.value))} className={INPUT} />
-                </FormRow>
-              </div>
+          <Card icon={SlidersHorizontal} title="Automation" hint="The daily plan, Tunisia time. Made, checked by Claude and posted by itself." pill={<Pill on={s.config.enabled} yes="On" no="Off" />}>
+            <DailyPlan bufferDays={s.config.buffer_days ?? 3} />
+            <form className="flex flex-col gap-4" onSubmit={(e) => { e.preventDefault(); save.mutate({ type: 'settings', settings: { config: { buffer_days: days } } }); }}>
+              <FormRow label="Days ready" hint="How many days of each type to keep made and waiting. 3 = a stock of 15 reels.">
+                <input type="number" min={1} max={14} value={days} onChange={(e) => setDays(Number(e.target.value))} className={cn(INPUT, 'sm:w-40')} />
+              </FormRow>
               <button type="submit" disabled={save.isPending} className="h-10 w-fit cursor-pointer rounded-lg bg-accent px-4 text-sm font-semibold text-white hover:bg-accent-dark disabled:opacity-50">Save</button>
             </form>
           </Card>

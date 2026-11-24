@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import type { Reel } from './api';
+import type { Kind, Reel } from './api';
+import { KIND } from './hooks';
 import { SELECT } from './ui';
 
-export interface Filters { kind: 'all' | 'ayah' | 'tasbih'; reciter: string; surah: string }
+export interface Filters { kind: 'all' | Kind; reciter: string; surah: string }
 const NONE: Filters = { kind: 'all', reciter: '', surah: '' };
 
 export const useReelFilters = () => useState<Filters>(NONE);
@@ -16,7 +17,7 @@ export function ReelFilterBar({ items, value, onChange, shown }: { items: Reel[]
   const count = (p: (r: Reel) => boolean) => items.filter(p).length;
   const set = (patch: Partial<Filters>) => {
     const next = { ...value, ...patch };
-    if (patch.kind === 'tasbih') { next.reciter = ''; next.surah = ''; }
+    if (patch.kind && patch.kind !== 'ayah' && patch.kind !== 'all') { next.surah = ''; if (patch.kind !== 'asma') next.reciter = ''; }
     if (patch.reciter || patch.surah) next.kind = 'ayah'; // reciters and surahs only exist on ayah reels
     onChange(next);
   };
@@ -25,14 +26,13 @@ export function ReelFilterBar({ items, value, onChange, shown }: { items: Reel[]
     <div className="flex flex-wrap items-center gap-2 border-b border-paper-line px-4 py-3">
       <select aria-label="Type" value={value.kind} onChange={(e) => set({ kind: e.target.value as Filters['kind'] })} className={SELECT}>
         <option value="all">All types ({items.length})</option>
-        <option value="ayah">Ayah ({count((r) => r.kind === 'ayah')})</option>
-        <option value="tasbih">Tasbih ({count((r) => r.kind === 'tasbih')})</option>
+        {(Object.keys(KIND) as Kind[]).map((k) => <option key={k} value={k}>{KIND[k].label} ({count((r) => r.kind === k)})</option>)}
       </select>
-      <select aria-label="Surah" value={value.surah} disabled={value.kind === 'tasbih'} onChange={(e) => set({ surah: e.target.value })} className={`${SELECT} max-w-[11rem] disabled:opacity-50`}>
+      <select aria-label="Surah" value={value.surah} disabled={value.kind !== 'all' && value.kind !== 'ayah'} onChange={(e) => set({ surah: e.target.value })} className={`${SELECT} max-w-[11rem] disabled:opacity-50`}>
         <option value="">All surahs</option>
         {uniq('surah').map((n) => <option key={n} value={n}>{n} ({count((r) => r.surah === n)})</option>)}
       </select>
-      <select aria-label="Reciter" value={value.reciter} disabled={value.kind === 'tasbih'} onChange={(e) => set({ reciter: e.target.value })} className={`${SELECT} max-w-[11rem] disabled:opacity-50`}>
+      <select aria-label="Reciter" value={value.reciter} disabled={value.kind !== 'all' && value.kind !== 'ayah' && value.kind !== 'asma'} onChange={(e) => set({ reciter: e.target.value })} className={`${SELECT} max-w-[11rem] disabled:opacity-50`}>
         <option value="">All reciters</option>
         {uniq('reciter').map((n) => <option key={n} value={n}>{n} ({count((r) => r.reciter === n)})</option>)}
       </select>

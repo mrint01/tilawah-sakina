@@ -2,8 +2,9 @@ name: Generate reels
 
 on:
   schedule:
-    # 05:00 UTC daily: tops the queue up (skips when automation is OFF or the buffer is full)
-    - cron: "0 5 * * *"
+    # 02:00 UTC = 03:00 Tunisia: tops up every kind to 3 days ready (skips when automation is OFF).
+    # Claude reviews the new reels at 04:30, before the first post of the day at 06:00.
+    - cron: "0 2 * * *"
   workflow_dispatch:
     inputs:
       ayah:
@@ -12,6 +13,15 @@ on:
       tasbih:
         description: "Tasbih reels to make"
         default: "1"
+      dua:
+        description: "Dua reels to make"
+        default: "0"
+      asma:
+        description: "Asma al-Husna reels to make"
+        default: "0"
+      quiz:
+        description: "Quiz reels to make"
+        default: "0"
       spec:
         description: "From the panel: JSON list of reels to make (surah, reciter, tasbih kind). Overrides the counts."
         default: ""
@@ -26,7 +36,7 @@ concurrency:
 jobs:
   generate:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 180
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
@@ -42,13 +52,14 @@ jobs:
       - name: Render, check and upload
         env:
           SPEC: ${{ inputs.spec }}
+          PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
         run: |
           if [ "${{ github.event_name }}" = "schedule" ]; then
-            python3 pipeline.py generate --auto --ayah 1 --tasbih 1
+            python3 pipeline.py generate --auto
           elif [ -n "$SPEC" ]; then
             python3 pipeline.py generate --spec "$SPEC"
           else
-            python3 pipeline.py generate --ayah "${{ inputs.ayah }}" --tasbih "${{ inputs.tasbih }}"
+            python3 pipeline.py generate --ayah "${{ inputs.ayah }}" --tasbih "${{ inputs.tasbih }}" --dua "${{ inputs.dua }}" --asma "${{ inputs.asma }}" --quiz "${{ inputs.quiz }}"
           fi
 
       - name: Save the queue

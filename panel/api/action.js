@@ -79,8 +79,7 @@ export default async function handler(req, res) {
         if (s.config) {
           await updateJson('state/config.json', (c) => ({
             ...c,
-            ...(Array.isArray(s.config.alternate) ? { alternate: s.config.alternate.filter((k) => ['ayah', 'tasbih'].includes(k)) } : {}),
-            ...(Number.isFinite(s.config.buffer) ? { buffer: Math.max(2, Math.min(60, Math.round(s.config.buffer))) } : {}),
+            ...(Number.isFinite(s.config.buffer_days) ? { buffer_days: Math.max(1, Math.min(14, Math.round(s.config.buffer_days))) } : {}),
             ...(s.config.reciters ? { reciters: cleanReciters(s.config.reciters) } : {}),
           }), 'Update automation settings');
         }
@@ -90,15 +89,24 @@ export default async function handler(req, res) {
         break;
       }
       case 'post_now':
-        await dispatch('post.yml', { dry_run: 'false' });
+        await dispatch('post.yml', { dry_run: 'false', kind: ['ayah', 'dua', 'asma', 'tasbih', 'quiz'].includes(b.kind) ? b.kind : 'auto' });
         break;
       case 'generate': {
-        // From the "Make reels" popup: a list of jobs (surah / start ayah / reciter, or a tasbih kind).
+        // From the "Make reels" popup: a list of jobs (surah / start ayah / reciter, a tasbih kind, a dua kind,
+        // a name of Allah, or a quiz level).
         const SETS = ['subhanallah', 'alhamdulillah', 'allahuakbar', 'wabihamdihi', 'astaghfirullah', 'tahlil', 'salawat'];
+        const DUAS = ['morning', 'after_salah', 'need', 'friday', 'arafah'];
+        const LEVELS = ['easy', 'medium', 'hard'];
         const int = (v, lo, hi) => { const n = Math.trunc(Number(v)); return n >= lo && n <= hi ? n : null; };
         if (Array.isArray(b.jobs)) {
           const jobs = b.jobs.slice(0, 10).map((j) => {
             if (j?.kind === 'tasbih') return { kind: 'tasbih', ...(SETS.includes(j.set) ? { set: j.set } : {}) };
+            if (j?.kind === 'dua') return { kind: 'dua', ...(DUAS.includes(j.category) ? { category: j.category } : {}) };
+            if (j?.kind === 'asma') {
+              const number = int(j.number, 1, 99);
+              return { kind: 'asma', ...(number ? { number } : {}), ...(typeof j.reciter === 'string' && j.reciter.length <= 60 ? { reciter: j.reciter } : {}) };
+            }
+            if (j?.kind === 'quiz') return { kind: 'quiz', ...(LEVELS.includes(j.level) ? { level: j.level } : {}) };
             const surah = int(j?.surah, 1, 114);
             const ayah = surah ? int(j?.ayah, 1, 286) : null;
             return {
@@ -109,7 +117,7 @@ export default async function handler(req, res) {
             };
           });
           if (!jobs.length) throw Object.assign(new Error('Pick at least one reel to make.'), { status: 400 });
-          await dispatch('generate.yml', { ayah: '0', tasbih: '0', spec: JSON.stringify(jobs) });
+          await dispatch('generate.yml', { ayah: '0', tasbih: '0', spec: JSON.stringify(jobs) });  // spec overrides the counts
         } else {
           await dispatch('generate.yml', {
             ayah: String(Math.max(0, Math.min(10, Number(b.ayah ?? 1)))),

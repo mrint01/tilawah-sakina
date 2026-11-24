@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import { CalendarClock, Hand, CheckCircle2, Clock3, Inbox, Instagram, Play, Power, RefreshCw, Send, Users } from 'lucide-react';
+import { Hand, CheckCircle2, Clock3, Inbox, Instagram, Play, Power, RefreshCw, Send, Users } from 'lucide-react';
 import { cn } from '../admin/cn';
-import { nextSlots, postingOrder, slot } from '../admin/api';
+import { slot, upcoming } from '../admin/api';
+import { DailyPlan } from '../admin/DailyPlan';
 import { MakeProgressCard, MakeReelsButton } from '../admin/MakeReels';
 import { KindBadge, makingRun, Thumb, useAct, useAppState, useInstagram } from '../admin/hooks';
 import { ago, Badge, dateTime, Empty, int, KpiCard, PageHeader, Panel, Skeleton } from '../admin/ui';
@@ -18,7 +19,7 @@ export default function OverviewPage() {
   const header = (
     <PageHeader
       title="Overview"
-      text="Your Quran and tasbih reels: what is waiting, what is scheduled, what went out."
+      text="Your reels: surah, dua, Asma al-Husna, tasbih and quiz. What is waiting, what posts next, what went out."
       actions={
         <button type="button" onClick={() => void state.refetch()} className="flex h-9 cursor-pointer items-center gap-2 rounded-lg border border-paper-line bg-paper px-3 text-sm font-medium hover:bg-paper-alt">
           <RefreshCw className={cn('h-4 w-4', state.isFetching && 'animate-spin')} aria-hidden="true" /> Refresh
@@ -41,8 +42,8 @@ export default function OverviewPage() {
   const approved = count('approved');
   const pending = count('pending');
   const posted = s.items.filter((i) => i.status === 'posted');
-  const upcoming = postingOrder(s.items, s.config.alternate).slice(0, 4);
-  const slots = nextSlots(4);
+  const next = upcoming(s.items, 5);
+  const firstReel = next.find((p) => p.reel)?.reel;
   const followers = ig.data?.profile?.followers_count;
 
   return (
@@ -63,9 +64,9 @@ export default function OverviewPage() {
         <KpiCard icon={Send} label="Posted" value={posted.length} tone="blue" delay={0.05}
           footer={posted.at(-1)?.posted ? <>Last {ago(posted.at(-1)!.posted!)}</> : 'Nothing posted yet'} onClick={() => navigate('/posted')} />
         <KpiCard icon={CheckCircle2} label="Ready to post" value={approved} tone="green" delay={0.05}
-          footer={<>≈ {Math.floor(approved / 2)} {Math.floor(approved / 2) === 1 ? 'day' : 'days'} at 2 a day</>} onClick={() => navigate('/queue')} />
+          footer={<>≈ {Math.floor(approved / 5)} {Math.floor(approved / 5) === 1 ? 'day' : 'days'} at 5 a day</>} onClick={() => navigate('/queue')} />
         <KpiCard icon={Inbox} label="Waiting for review" value={pending} tone="orange" delay={0.1}
-          footer="Approve or reject in Review" onClick={() => navigate('/review')} />
+          footer={`Claude checks them at 04:30`} onClick={() => navigate('/review')} />
       </div>
 
       {s.instagram && <TotalsRow ig={ig.data} />}
@@ -82,19 +83,20 @@ export default function OverviewPage() {
             <div className="min-w-0 flex-1">
               <p className="flex items-center gap-2 font-semibold">
                 <Power className={cn('h-4 w-4', s.config.enabled ? 'text-ok' : 'text-ink-mute')} aria-hidden="true" />
-                {s.config.enabled ? 'ON: posting every day' : 'OFF: nothing is made or posted'}
+                {s.config.enabled ? 'ON: 5 posts every day' : 'OFF: nothing is made or posted'}
               </p>
-              <p className="text-xs text-ink-mute">Posts at 09:00 and 19:00 (Tunisia), alternating {s.config.alternate.join(' → ')}. New reels are made daily at 06:00 until {s.config.buffer} are waiting.</p>
+              <p className="text-xs text-ink-mute">Every day, Tunisia time. Everything runs by itself; you don't need to approve anything.</p>
             </div>
           </div>
+          <div className="mt-3"><DailyPlan bufferDays={s.config.buffer_days ?? 3} /></div>
           <div className="mt-4 flex flex-wrap gap-2">
             <button type="button" disabled={act.isPending || approved === 0 || !s.instagram} title={s.instagram ? undefined : 'Connect Instagram first; until then use “Post next by hand”'} onClick={() => act.mutate({ type: 'post_now' })}
               className="flex h-9 cursor-pointer items-center gap-2 rounded-lg bg-accent px-3 text-sm font-semibold text-white hover:bg-accent-dark disabled:cursor-default disabled:opacity-50">
               <Play className="h-4 w-4" aria-hidden="true" /> Post next now
             </button>
             <MakeReelsButton busy={Boolean(makingRun(s))} reciters={Object.keys(s.config.reciters)} />
-            {!s.instagram && upcoming[0] && (
-              <button type="button" onClick={() => navigate(`/review?reel=${upcoming[0].id}`)}
+            {!s.instagram && firstReel && (
+              <button type="button" onClick={() => navigate(`/review?reel=${firstReel.id}`)}
                 className="flex h-9 cursor-pointer items-center gap-2 rounded-lg border border-accent px-3 text-sm font-semibold text-accent hover:bg-accent/10">
                 <Hand className="h-4 w-4" aria-hidden="true" /> Post next by hand
               </button>
@@ -108,20 +110,18 @@ export default function OverviewPage() {
         </Panel>
 
         <Panel title="Up next" delay={0.15} action={<button type="button" onClick={() => navigate('/queue')} className="cursor-pointer text-xs font-medium text-accent hover:underline">All {approved}</button>}>
-          {upcoming.length === 0 ? <Empty icon={CalendarClock} text="Nothing approved yet. Review new reels to fill the schedule." /> : (
-            <ul className="divide-y divide-paper-line">
-              {upcoming.map((r, i) => (
-                <li key={r.id} className="flex items-center gap-3 py-2.5">
-                  <Thumb state={s} reel={r} className="h-12 w-[27px]" />
-                  <span className="min-w-0 flex-1">
-                    <span className="block truncate font-medium">{r.title}</span>
-                    <span className="flex items-center gap-1.5 text-xs text-ink-mute"><KindBadge kind={r.kind} /> {r.duration}s</span>
-                  </span>
-                  <span className="flex shrink-0 items-center gap-1 text-xs text-ink-mute"><Clock3 className="h-3.5 w-3.5" aria-hidden="true" /> {s.config.enabled ? slot(slots[i]) : 'paused'}</span>
-                </li>
-              ))}
-            </ul>
-          )}
+          <ul className="divide-y divide-paper-line">
+            {next.map((p) => (
+              <li key={p.at.toISOString()} className="flex items-center gap-3 py-2.5">
+                {p.reel ? <Thumb state={s} reel={p.reel} className="h-12 w-[27px]" /> : <span className="h-12 w-[27px] shrink-0 rounded bg-paper-alt" />}
+                <span className="min-w-0 flex-1">
+                  <span className={cn('block truncate', p.reel ? 'font-medium' : 'italic text-ink-mute')}>{p.reel ? p.reel.title : `Nothing approved yet: skipped`}</span>
+                  <span className="flex items-center gap-1.5 text-xs text-ink-mute"><KindBadge kind={p.kind} /> {p.reel ? `${p.reel.duration}s` : ''}</span>
+                </span>
+                <span className="flex shrink-0 items-center gap-1 text-xs text-ink-mute"><Clock3 className="h-3.5 w-3.5" aria-hidden="true" /> {s.config.enabled ? slot(p.at) : 'paused'}</span>
+              </li>
+            ))}
+          </ul>
         </Panel>
 
         <Panel title="Latest posts" delay={0.2} action={<button type="button" onClick={() => navigate('/posted')} className="cursor-pointer text-xs font-medium text-accent hover:underline">All posts</button>}>

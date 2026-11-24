@@ -1,29 +1,34 @@
 import { useNavigate } from 'react-router-dom';
 import { CalendarClock, Hand, Play, RotateCcw } from 'lucide-react';
-import { nextSlots, postingOrder, slot } from '../admin/api';
-import { KindBadge, Thumb, useAct, useAppState } from '../admin/hooks';
+import { slot, upcoming, type Reel, type Upcoming } from '../admin/api';
+import { KIND, KindBadge, Thumb, useAct, useAppState } from '../admin/hooks';
 import { matchFilters, ReelFilterBar, useReelFilters } from '../admin/ReelFilters';
 import { WeeklySection } from '../admin/WeeklySection';
 import { ago, Badge, dateTime, Empty, PageHeader, Pager, Skeleton, usePaged } from '../admin/ui';
 
-/** Approved reels in the order the workflow will post them, with their expected time slot. */
+/** The coming posting slots (5 a day) and the approved reel each one posts; empty slots show what is missing. */
 export default function QueuePage() {
   const navigate = useNavigate();
   const state = useAppState();
   const act = useAct((a) => (a.type === 'post_now' ? 'Posting started, watch Workflow runs' : 'Moved back to review'));
   const s = state.data;
-  const order = s ? postingOrder(s.items, s.config.alternate) : [];
-  const slots = nextSlots(order.length);
-  // filters only change what is shown: the posting order and the # numbers stay the same
+  const approvedCount = s ? s.items.filter((i) => i.status === 'approved').length : 0;
+  const plan: Upcoming[] = s ? upcoming(s.items, Math.max(10, approvedCount * 5 + 5)) : [];
+  // keep empty slots up to the last planned reel, plus the next 5 slots
+  const lastFull = plan.map((p) => Boolean(p.reel)).lastIndexOf(true);
+  const rows = plan.slice(0, Math.max(lastFull + 1, 5));
+  const order = rows.filter((p) => p.reel).map((p) => p.reel as Reel);
   const [filters, setFilters] = useReelFilters();
-  const shown = order.filter((r) => matchFilters(r, filters));
+  const filtering = filters.kind !== 'all' || filters.reciter || filters.surah;
+  const shown = filtering ? rows.filter((p) => p.reel && matchFilters(p.reel, filters)) : rows;
   const paged = usePaged(shown, JSON.stringify(filters), 15);
+  const missing = new Set(rows.filter((p) => !p.reel).map((p) => p.kind));
 
   return (
     <div className="flex flex-col gap-4">
       <PageHeader
         title="Up next"
-        text={s ? `${order.length} approved ${order.length === 1 ? 'reel' : 'reels'}: about ${Math.floor(order.length / 2)} ${Math.floor(order.length / 2) === 1 ? 'day' : 'days'} of posts at 2 a day.` : 'Loading…'}
+        text={s ? `${approvedCount} approved ${approvedCount === 1 ? 'reel' : 'reels'}, posted 5 a day: surah 00:00, dua 06:00, Asma al-Husna 12:00, tasbih 18:00, quiz 21:00.` : 'Loading…'}
         actions={
           <div className="flex flex-wrap gap-2">
           {s && !s.instagram && order[0] && (
@@ -41,20 +46,27 @@ export default function QueuePage() {
       />
       {s && <WeeklySection s={s} />}
       {s && !s.config.enabled && <p className="rounded-xl bg-accent-light p-3 text-sm font-medium text-accent">Automation is OFF, so nothing posts until you turn it on in Overview.</p>}
+      {s && s.config.enabled && missing.size > 0 && (
+        <p className="rounded-xl bg-accent-light p-3 text-sm font-medium text-accent">
+          Nothing approved yet for: {[...missing].map((k) => KIND[k].label).join(', ')}. Those slots are skipped until reels are made and approved (made 03:00, checked by Claude 04:30).
+        </p>
+      )}
 
       <section className="overflow-hidden rounded-xl border border-paper-line bg-paper shadow-sm">
         {s && order.length > 0 && (
           <ReelFilterBar items={order} value={filters} onChange={setFilters} shown={shown.length} />
         )}
-        {!s ? <div className="p-4"><Skeleton className="h-40" /></div> : order.length === 0 ? (
-          <Empty icon={CalendarClock} text="Nothing approved yet. Approve reels in Review to fill the schedule." />
+        {!s ? <div className="p-4"><Skeleton className="h-40" /></div> : rows.length === 0 ? (
+          <Empty icon={CalendarClock} text="Nothing approved yet. New reels are made at 03:00 and checked by Claude at 04:30." />
         ) : shown.length === 0 ? (
           <Empty icon={CalendarClock} text="No approved reels match these filters." />
         ) : (
           <>
           {/* phones: one compact row per reel, text wraps instead of running off the screen */}
           <ul className="divide-y divide-paper-line sm:hidden">
-            {paged.items?.map((r) => {
+            {paged.items?.map((p) => {
+              const r = p.reel;
+              if (!r) return <EmptySlot key={p.at.toISOString()} p={p} phone />;
               const i = order.indexOf(r);
               return (
                 <li key={r.id}>
@@ -68,7 +80,7 @@ export default function QueuePage() {
                         <KindBadge kind={r.kind} />
                         <span className="num">{r.duration}s</span>
                         <span>·</span>
-                        {s.config.enabled ? <span className={i === 0 ? 'font-semibold text-ok' : ''}>{slot(slots[i])}</span> : <span className="text-ink-mute">paused</span>}
+                        {s.config.enabled ? <span className={i === 0 ? 'font-semibold text-ok' : ''}>{slot(p.at)}</span> : <span className="text-ink-mute">paused</span>}
                       </span>
                     </span>
                   </button>
@@ -90,7 +102,9 @@ export default function QueuePage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-paper-line">
-                {paged.items?.map((r) => {
+                {paged.items?.map((p) => {
+                  const r = p.reel;
+                  if (!r) return <EmptySlot key={p.at.toISOString()} p={p} />;
                   const i = order.indexOf(r);
                   return (
                     <tr key={r.id} onClick={() => navigate(`/review?reel=${r.id}`)} className="cursor-pointer hover:bg-paper-alt">
@@ -107,7 +121,7 @@ export default function QueuePage() {
                       <td className="px-4 py-2.5"><KindBadge kind={r.kind} /></td>
                       <td className="num px-4 py-2.5 text-right">{r.duration}s</td>
                       <td className="px-4 py-2.5 text-ink-soft" title={dateTime(r.reviewed ?? null)}>{ago(r.reviewed ?? null)}</td>
-                      <td className="px-4 py-2.5">{s.config.enabled ? (i === 0 ? <Badge tone="green">{slot(slots[i])}</Badge> : slot(slots[i])) : <span className="text-ink-mute">paused</span>}</td>
+                      <td className="px-4 py-2.5">{s.config.enabled ? (i === 0 ? <Badge tone="green">{slot(p.at)}</Badge> : slot(p.at)) : <span className="text-ink-mute">paused</span>}</td>
                       <td className="px-4 py-2.5 text-right">
                         <button type="button" aria-label="Back to review" title="Back to review" disabled={act.isPending}
                           onClick={(e) => { e.stopPropagation(); act.mutate({ type: 'requeue', id: r.id }); }}
@@ -126,5 +140,27 @@ export default function QueuePage() {
         <Pager paged={paged} className="border-t border-paper-line px-4 py-3" />
       </section>
     </div>
+  );
+}
+
+/** A posting slot with nothing approved of its kind: shown so the gap is visible. */
+function EmptySlot({ p, phone }: { p: Upcoming; phone?: boolean }) {
+  const text = `Nothing approved: this ${KIND[p.kind].label.toLowerCase()} slot is skipped`;
+  if (phone) {
+    return (
+      <li className="flex items-center gap-3 px-4 py-3 text-sm text-ink-mute">
+        <KindBadge kind={p.kind} /> <span className="flex-1">{text}</span> <span className="text-xs">{slot(p.at)}</span>
+      </li>
+    );
+  }
+  return (
+    <tr className="text-ink-mute">
+      <td className="px-4 py-2.5">–</td>
+      <td className="px-4 py-2.5 italic">{text}</td>
+      <td className="px-4 py-2.5"><KindBadge kind={p.kind} /></td>
+      <td className="px-4 py-2.5" /><td className="px-4 py-2.5" />
+      <td className="px-4 py-2.5">{slot(p.at)}</td>
+      <td className="px-4 py-2.5" />
+    </tr>
   );
 }

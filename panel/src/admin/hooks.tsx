@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { BookOpen, CircleDot } from 'lucide-react';
+import { BookOpen, CircleDot, HandHeart, Puzzle, Sparkle } from 'lucide-react';
 import { api, type Action, type Kind, type PanelState, type Reel, type Status } from './api';
 import { useToast } from './toast';
 import { Badge } from './ui';
@@ -54,13 +54,16 @@ export function useAct(success?: string | ((a: Action) => string)) {
   });
 }
 
-export const KIND: Record<Kind, { label: string; tone: 'green' | 'violet'; icon: typeof BookOpen }> = {
-  ayah: { label: 'Ayah', tone: 'green', icon: BookOpen },
+export const KIND: Record<Kind, { label: string; tone: 'green' | 'violet' | 'orange' | 'blue' | 'red'; icon: typeof BookOpen }> = {
+  ayah: { label: 'Surah', tone: 'green', icon: BookOpen },
+  dua: { label: 'Dua', tone: 'orange', icon: HandHeart },
+  asma: { label: 'Asma al-Husna', tone: 'blue', icon: Sparkle },
   tasbih: { label: 'Tasbih', tone: 'violet', icon: CircleDot },
+  quiz: { label: 'Quiz', tone: 'red', icon: Puzzle },
 };
 
 export function KindBadge({ kind }: { kind: Kind }) {
-  const k = KIND[kind];
+  const k = KIND[kind] ?? KIND.ayah;
   return <Badge tone={k.tone}><k.icon className="h-3 w-3" aria-hidden="true" /> {k.label}</Badge>;
 }
 

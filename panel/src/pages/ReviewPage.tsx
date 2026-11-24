@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Check, CheckCircle2, ExternalLink, Inbox, MousePointerClick, RefreshCw, RotateCcw, Undo2, X, XCircle } from 'lucide-react';
 import { cn } from '../admin/cn';
-import { asset, CHECK_LABEL, type PanelState, type Reel } from '../admin/api';
+import { asset, CHECK_LABEL, DUA_LABEL, type PanelState, type Reel } from '../admin/api';
 import { ManualPost } from '../admin/ManualPost';
 import { MakeProgressCard, MakeReelsButton } from '../admin/MakeReels';
 import { allChecksOk, makingRun, KindBadge, StatusBadge, Thumb, useAct, useAppState, useInstagram } from '../admin/hooks';
@@ -186,7 +186,20 @@ function ReelPanel({ s, r, className = '' }: { s: PanelState; r: Reel | null; cl
             <>
               <dt className="text-xs font-medium uppercase tracking-wide text-ink-mute">Passage</dt><dd>Surah {r.surah} · {r.ref}</dd>
               <dt className="text-xs font-medium uppercase tracking-wide text-ink-mute">Reciter</dt><dd>{r.reciter}</dd>
+              {r.background && <><dt className="text-xs font-medium uppercase tracking-wide text-ink-mute">Background</dt><dd className="capitalize">{r.background}</dd></>}
             </>
+          ) : r.kind === 'dua' ? (
+            <>
+              <dt className="text-xs font-medium uppercase tracking-wide text-ink-mute">Dua</dt><dd>{DUA_LABEL[r.category ?? ''] ?? r.category}</dd>
+              <dt className="text-xs font-medium uppercase tracking-wide text-ink-mute">Source</dt><dd>{r.source ?? 'Hisn al-Muslim'}</dd>
+            </>
+          ) : r.kind === 'asma' ? (
+            <>
+              <dt className="text-xs font-medium uppercase tracking-wide text-ink-mute">Name</dt><dd>{r.number} of 99</dd>
+              <dt className="text-xs font-medium uppercase tracking-wide text-ink-mute">Reciter</dt><dd>{r.reciter}</dd>
+            </>
+          ) : r.kind === 'quiz' ? (
+            <><dt className="text-xs font-medium uppercase tracking-wide text-ink-mute">Level</dt><dd className="capitalize">{r.level}</dd></>
           ) : (
             <><dt className="text-xs font-medium uppercase tracking-wide text-ink-mute">Dhikr</dt><dd>{r.title}</dd></>
           )}

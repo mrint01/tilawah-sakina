@@ -2,11 +2,19 @@ name: Post next reel
 
 on:
   schedule:
-    # GitHub cron is UTC. 08:00 / 18:00 UTC = 09:00 / 19:00 in Tunisia (UTC+1).
-    - cron: "0 8 * * *"
-    - cron: "0 18 * * *"
+    # GitHub cron is UTC; Tunisia is UTC+1. Each slot posts one kind (pipeline.py SLOTS):
+    - cron: "0 23 * * *"   # 00:00 surah
+    - cron: "0 5 * * *"    # 06:00 dua
+    - cron: "0 11 * * *"   # 12:00 Asma al-Husna
+    - cron: "0 17 * * *"   # 18:00 tasbih
+    - cron: "0 20 * * *"   # 21:00 quiz
   workflow_dispatch:
     inputs:
+      kind:
+        description: "What to post (auto = the kind of the nearest slot)"
+        type: choice
+        options: [auto, ayah, dua, asma, tasbih, quiz]
+        default: auto
       dry_run:
         description: "Only publish the video link, don't post to Instagram"
         type: boolean
@@ -34,10 +42,18 @@ jobs:
 
       - name: Pick the next approved reel
         id: pick
+        env:
+          CRON: ${{ github.event.schedule }}
+          KIND: ${{ inputs.kind }}
         run: |
-          id=$(python3 pipeline.py next)
+          case "$CRON" in
+            "0 23 * * *") args="--slot 00:00";; "0 5 * * *") args="--slot 06:00";; "0 11 * * *") args="--slot 12:00";;
+            "0 17 * * *") args="--slot 18:00";; "0 20 * * *") args="--slot 21:00";;
+            *) if [ -n "$KIND" ] && [ "$KIND" != "auto" ]; then args="--kind $KIND"; else args=""; fi;;
+          esac
+          id=$(python3 pipeline.py next $args)
           echo "id=$id" >> "$GITHUB_OUTPUT"
-          if [ -z "$id" ]; then echo "Nothing to post (automation OFF or queue empty)."; fi
+          if [ -z "$id" ]; then echo "::warning::Nothing approved to post for this slot ($args)."; fi
 
       - name: Download the video
         if: steps.pick.outputs.id != ''

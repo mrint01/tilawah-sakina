@@ -4,7 +4,7 @@
   python3 pipeline.py approve <id> [--note "..."]    # mark OK and upload video to the 'queue' release
   python3 pipeline.py reject <id> --note "why"
   python3 pipeline.py status                          # what is pending / approved / posted
-  python3 pipeline.py next                            # (CI) print id of the next reel to post, or nothing
+  python3 pipeline.py next --slot 06:00               # (CI) id of the reel to post in that slot, or nothing
   python3 pipeline.py post <id> --url <public mp4 url> # (CI) publish to Instagram and mark posted
 
 State lives in state/queue.json and state/config.json (both committed).
@@ -81,6 +81,17 @@ def mean_volume(path):
     return -99.0
 
 
+LENGTH_CHECK = {
+    "ayah": lambda d: {"length_60_90s": 58 <= d <= 92},
+    "ayah_whole": lambda d: {"length_whole_surah": 8 <= d <= 92},
+    "tasbih": lambda d: {"length_60s": 57 <= d <= 63},
+    "dua": lambda d: {"length_10_60s": 10 <= d <= 62},
+    "asma": lambda d: {"length_8_75s": 8 <= d <= 75},
+    "quiz": lambda d: {"length_50_150s": 50 <= d <= 150},
+}
+KINDS = ("ayah", "dua", "asma", "tasbih", "quiz")
+
+
 def run_checks(path, kind="ayah", whole_surah=False):
     info = probe(path)
     v = next((s for s in info["streams"] if s["codec_type"] == "video"), {})
@@ -92,10 +103,9 @@ def run_checks(path, kind="ayah", whole_surah=False):
         "size_1080x1920": v.get("width") == 1080 and v.get("height") == 1920,
         "video_h264": v.get("codec_name") == "h264",
         "audio_aac": a.get("codec_name") == "aac",
-        # ayah reels 60-90 s; tasbih reels are always one minute (33 counts down to 0)
-        # (a short surah picked in the panel is shown whole, even when it is under a minute)
-        **({"length_whole_surah": 8 <= dur <= 92} if kind == "ayah" and whole_surah
-           else {"length_60_90s": 58 <= dur <= 92} if kind == "ayah" else {"length_60s": 57 <= dur <= 63}),
+        # ayah reels 60-90 s (a short surah picked in the panel is shown whole); tasbih exactly one minute;
+        # dua 10-60 s; asma (one name + one ayah) 8-75 s; quiz (5 questions) 50-150 s
+        **LENGTH_CHECK[("ayah_whole" if kind == "ayah" and whole_surah else kind)](dur),
         "audio_not_silent": vol > -45,
         "file_under_100mb": size_mb < 100,
     }
@@ -179,13 +189,17 @@ def plan_jobs(args):
         jobs = json.loads(args.spec)
         if not isinstance(jobs, list) or not 1 <= len(jobs) <= 10:
             sys.exit("--spec must be a JSON list of 1-10 jobs")
-        return [j for j in jobs if j.get("kind") in ("ayah", "tasbih")]
+        return [j for j in jobs if j.get("kind") in KINDS]
     starts = [{"kind": "ayah", "start": [int(x) for x in s.split(":")]} for s in (args.start or [])]
-    return (starts or [{"kind": "ayah"}] * args.ayah) + [{"kind": "tasbih"}] * args.tasbih
+    return ((starts or [{"kind": "ayah"}] * args.ayah) + [{"kind": "dua"}] * args.dua + [{"kind": "asma"}] * args.asma
+            + [{"kind": "tasbih"}] * args.tasbih + [{"kind": "quiz"}] * args.quiz)
 
 
 def cmd_generate(args):
     sys.path.insert(0, str(HERE))
+    import make_asma
+    import make_dua
+    import make_quiz
     import make_reel
     import make_tasbih
 
@@ -199,10 +213,15 @@ def cmd_generate(args):
         if not config().get("enabled", True):
             print("automation is OFF, not generating")
             return
-        buffer = sum(1 for it in q["items"] if it["status"] in ("pending", "approved"))
-        target = config().get("buffer", 14)
-        if buffer >= target:
-            print(f"buffer full ({buffer}/{target}), not generating")
+        # one post of each kind a day: keep `buffer` days of each kind ready (pending + approved)
+        days = config().get("buffer_days", 3)
+        stock = {k: sum(1 for it in q["items"] if it["kind"] == k and it["status"] in ("pending", "approved")) for k in KINDS}
+        want = {k: max(0, min(2, days - stock[k])) for k in KINDS}
+        print("stock", stock, "-> making", want)
+        args.ayah, args.dua, args.asma, args.tasbih, args.quiz = (want[k] for k in KINDS)
+        args.start = None
+        if not any(want.values()):
+            print(f"every kind has {days} days ready, not generating")
             return
     # don't repeat a passage that is still waiting or was posted in the last 60 items
     recent = [tuple(it["passage"]) for it in q["items"][-60:] if it.get("passage")]
@@ -211,14 +230,14 @@ def cmd_generate(args):
     prog = Progress(len(jobs))
     try:
         for i, job in enumerate(jobs):
-            make_one(job, i, q, recent, prog, make_reel, make_tasbih)
+            make_one(job, i, q, recent, prog, make_reel, make_tasbih, make_dua, make_asma, make_quiz)
     except BaseException as e:
         prog.close(error=str(e) or type(e).__name__)
         raise
     prog.close()
 
 
-def make_one(job, i, q, recent, prog, make_reel, make_tasbih):
+def make_one(job, i, q, recent, prog, make_reel, make_tasbih, make_dua, make_asma, make_quiz):
     kind = job["kind"]
     seed = random.randrange(10**9)
     step = lambda frac: prog.set(frac=0.85 * frac)  # rendering is ~85% of the time, checks + upload the rest
@@ -231,6 +250,22 @@ def make_one(job, i, q, recent, prog, make_reel, make_tasbih):
         meta = make_reel.build(start=start, surah=None if start else surah, reciter=job.get("reciter"),
                                seed=seed, exclude=recent, progress=step)
         recent.append(tuple(meta["passage"]))
+    elif kind == "dua":
+        cat = job.get("category")
+        if cat not in make_dua.CATEGORIES:
+            cat = next_dua_category(q)
+        used = [it.get("dua_id") for it in q["items"] if it.get("kind") == "dua" and it["status"] != "rejected"]
+        prog.set(done=i, frac=0, current=make_dua.CATEGORIES[cat]["label"], stage="rendering")
+        meta = make_dua.render(category=cat, dua_id=job.get("dua_id"), seed=seed, used=used, progress=step)
+    elif kind == "asma":
+        number = int(job["number"]) if str(job.get("number", "")).isdigit() and 1 <= int(job["number"]) <= 99 else next_asma_number(q)
+        prog.set(done=i, frac=0, current=f"Name {number} of 99", stage="rendering")
+        meta = make_asma.render(number, reciter=job.get("reciter"), seed=seed, progress=step)
+    elif kind == "quiz":
+        level = job.get("level") if job.get("level") in make_quiz.LEVELS else random.Random(seed).choices(
+            ["easy", "medium", "hard"], [5, 3, 2])[0]
+        prog.set(done=i, frac=0, current=f"Quiz · {level}", stage="rendering")
+        meta = make_quiz.render(level, seed=seed, progress=step)
     else:
         key = job.get("set")
         if key not in make_tasbih.SETS:
@@ -289,25 +324,80 @@ def cmd_status(args):
     print("automation:", "ON" if config()["enabled"] else "OFF")
 
 
-def next_item():
-    cfg = config()
-    if not cfg.get("enabled", True):
+# Daily posting slots, Tunisia time (UTC+1, no daylight saving) -> the kind posted. post.yml runs at these times.
+SLOTS = {"00:00": "ayah", "06:00": "dua", "12:00": "asma", "18:00": "tasbih", "21:00": "quiz"}
+# The 06:00 dua by weekday (Monday = 0): morning adhkar 3x, after salah 2x, a need, salawat on Friday.
+DUA_BY_WEEKDAY = ["morning", "need", "morning", "after_salah", "friday", "morning", "after_salah"]
+
+
+def tunis_now():
+    from datetime import timedelta
+    return datetime.now(timezone.utc) + timedelta(hours=1)
+
+
+def next_dua_category(q):
+    """The kind of dua the coming days need most, given what is already waiting."""
+    from collections import Counter
+    need = Counter(DUA_BY_WEEKDAY)          # posts per week of each kind
+    have = Counter(it.get("category") for it in q["items"] if it.get("kind") == "dua" and it["status"] in ("pending", "approved"))
+    return max(need, key=lambda c: need[c] - have[c] * 2)
+
+
+def next_asma_number(q):
+    """The series goes 1 -> 99 and starts again: one after the highest number made so far (not rejected)."""
+    made = [it.get("number", 0) for it in q["items"] if it.get("kind") == "asma" and it["status"] != "rejected"]
+    return (max(made) % 99) + 1 if made else 1
+
+
+def is_arafah(day):
+    """9 Dhul Hijjah (Umm al-Qura calendar, from api.aladhan.com); False when the API can't be reached."""
+    try:
+        url = f"https://api.aladhan.com/v1/gToH/{day.strftime('%d-%m-%Y')}"
+        with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "reel-maker/1.0"}), timeout=20) as r:
+            h = json.loads(r.read())["data"]["hijri"]
+        return int(h["month"]["number"]) == 12 and int(h["day"]) == 9
+    except Exception:  # noqa: BLE001
+        return False
+
+
+def slot_kind(slot=None):
+    """The kind for a slot ("06:00"), or for the slot closest to now (manual runs)."""
+    if slot in SLOTS:
+        return SLOTS[slot]
+    now = tunis_now()
+    mins = now.hour * 60 + now.minute
+    def dist(t):
+        h, m = map(int, t.split(":"))
+        d = abs(h * 60 + m - mins)
+        return min(d, 1440 - d)
+    return SLOTS[min(SLOTS, key=dist)]
+
+
+def next_item(slot=None, kind=None):
+    """The approved reel to post now: oldest approved of the slot's kind. For the dua slot: the Arafah dua on the
+    Day of Arafah, else the weekday's kind of dua, else any other dua (never the Arafah one on another day)."""
+    if not config().get("enabled", True):
         return None
     q = queue()
-    approved = [it for it in q["items"] if it["status"] == "approved"]
-    if not approved:
-        return None
-    posted = [it for it in q["items"] if it["status"] == "posted"]
-    order = cfg.get("alternate", ["ayah", "tasbih"])
-    want = order[(order.index(posted[-1]["kind"]) + 1) % len(order)] if posted and posted[-1]["kind"] in order else order[0]
-    for it in approved:
-        if it["kind"] == want:
-            return it
-    return approved[0]
+    kind = kind or slot_kind(slot)
+    approved = [it for it in q["items"] if it["status"] == "approved" and it["kind"] == kind]
+    if kind == "dua":
+        today = tunis_now()
+        if is_arafah(today):
+            pick = [it for it in approved if it.get("category") == "arafah"]
+            if pick:
+                return pick[0]
+        approved = [it for it in approved if it.get("category") != "arafah"]
+        want = DUA_BY_WEEKDAY[today.weekday()]
+        pick = [it for it in approved if it.get("category") == want]
+        return (pick or approved or [None])[0]
+    if kind == "asma":  # keep the series in order
+        approved.sort(key=lambda it: it.get("number", 0))
+    return approved[0] if approved else None
 
 
 def cmd_next(args):
-    it = next_item()
+    it = next_item(args.slot, args.kind)
     if it:
         print(it["id"])
 
@@ -385,13 +475,14 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
     g = sub.add_parser("generate"); g.add_argument("--ayah", type=int, default=1); g.add_argument("--tasbih", type=int, default=1)
+    g.add_argument("--dua", type=int, default=0); g.add_argument("--asma", type=int, default=0); g.add_argument("--quiz", type=int, default=0)
     g.add_argument("--spec", help='JSON list of jobs from the panel, e.g. [{"kind":"ayah","surah":18,"reciter":"Mishary Alafasy"}]')
     g.add_argument("--start", action="append", help="surah:ayah to start an ayah reel at (repeatable; replaces --ayah)")
     g.add_argument("--auto", action="store_true", help="skip when automation is OFF or the queue already holds `buffer` reels")
     a = sub.add_parser("approve"); a.add_argument("id"); a.add_argument("--note")
     r = sub.add_parser("reject"); r.add_argument("id"); r.add_argument("--note", required=True)
     sub.add_parser("status")
-    sub.add_parser("next")
+    n = sub.add_parser("next"); n.add_argument("--slot", help="posting slot, e.g. 06:00 (Tunisia)"); n.add_argument("--kind", choices=KINDS)
     p = sub.add_parser("post"); p.add_argument("id"); p.add_argument("--url", required=True)
     args = ap.parse_args()
     globals()[f"cmd_{args.cmd}"](args)

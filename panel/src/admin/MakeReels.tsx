@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { BookOpen, CircleDot, Loader2, Sparkles, TriangleAlert } from 'lucide-react';
+import { Loader2, Sparkles, TriangleAlert } from 'lucide-react';
 import { cn } from './cn';
-import type { MakeJob, PanelState } from './api';
-import { makingRun, useAct } from './hooks';
+import { DUA_LABEL, type Kind, type MakeJob, type PanelState } from './api';
+import { KIND, makingRun, useAct } from './hooks';
 import { SURAHS } from './surahs';
 import { FormRow, INPUT, Modal } from './ui';
 
@@ -12,11 +12,16 @@ export const TASBIH_SETS: [string, string][] = [
   ['tahlil', 'La ilaha illallah'], ['salawat', 'Salawat upon the Prophet ﷺ'],
 ];
 const FIELD = INPUT + ' cursor-pointer';
+const KINDS: Kind[] = ['ayah', 'dua', 'asma', 'tasbih', 'quiz'];
 
-/** "Make reels" button + popup: ayah (surah, start ayah, reciter) or tasbih (kind), and how many. */
+/** "Make reels" button + popup: surah (surah, start ayah, reciter), dua (kind of dua), Asma al-Husna (which name),
+ *  tasbih (dhikr) or quiz (level), and how many. */
 export function MakeReelsButton({ busy, reciters }: { busy: boolean; reciters: string[] }) {
   const [open, setOpen] = useState(false);
-  const [kind, setKind] = useState<'ayah' | 'tasbih'>('ayah');
+  const [kind, setKind] = useState<Kind>('ayah');
+  const [category, setCategory] = useState('');
+  const [nameNo, setNameNo] = useState('');
+  const [level, setLevel] = useState('');
   const [surah, setSurah] = useState('');
   const [ayah, setAyah] = useState('');
   const [reciter, setReciter] = useState('');
@@ -29,12 +34,16 @@ export function MakeReelsButton({ busy, reciters }: { busy: boolean; reciters: s
   const ayahBad = ayah !== '' && (!Number.isInteger(ayahNum) || ayahNum < 1 || (info ? ayahNum > info[4] : true));
 
   const submit = () => {
-    const job: MakeJob = kind === 'tasbih'
-      ? { kind, ...(set ? { set } : {}) }
+    const job: MakeJob =
+      kind === 'tasbih' ? { kind, ...(set ? { set } : {}) }
+      : kind === 'dua' ? { kind, ...(category ? { category } : {}) }
+      : kind === 'asma' ? { kind, ...(nameNo ? { number: Number(nameNo) } : {}), ...(reciter ? { reciter } : {}) }
+      : kind === 'quiz' ? { kind, ...(level ? { level } : {}) }
       : { kind, ...(surah ? { surah: Number(surah) } : {}), ...(surah && ayah ? { ayah: ayahNum } : {}), ...(reciter ? { reciter } : {}) };
-    // a start ayah applies to the first reel; the others pick other passages of the same surah
+    // a start ayah / a chosen name applies to the first reel; the others pick on their own
     const jobs: MakeJob[] = Array.from({ length: count }, (_, i) =>
-      i > 0 && job.kind === 'ayah' && job.ayah ? { ...job, ayah: undefined } : job);
+      i > 0 && job.kind === 'ayah' && job.ayah ? { ...job, ayah: undefined }
+        : i > 0 && job.kind === 'asma' && job.number ? { ...job, number: ((job.number + i - 1) % 99) + 1 } : job);
     act.mutate({ type: 'generate', jobs }, { onSuccess: () => setOpen(false) });
   };
 
@@ -47,14 +56,17 @@ export function MakeReelsButton({ busy, reciters }: { busy: boolean; reciters: s
       </button>
       <Modal open={open} onClose={() => setOpen(false)} title="Make reels" icon={Sparkles} wide
         text="They render on GitHub (about 2 minutes each), then wait in Review for Claude and you.">
-        <div role="radiogroup" aria-label="Type" className="grid grid-cols-2 gap-2">
-          {([['ayah', 'Quran ayah', BookOpen], ['tasbih', 'Tasbih', CircleDot]] as const).map(([k, label, Icon]) => (
-            <button key={k} type="button" role="radio" aria-checked={kind === k} onClick={() => setKind(k)}
-              className={cn('flex h-11 cursor-pointer items-center justify-center gap-2 rounded-lg border text-sm font-medium',
-                kind === k ? 'border-accent bg-accent/10 text-accent' : 'border-paper-line text-ink-soft hover:bg-paper-alt')}>
-              <Icon className="h-4 w-4" aria-hidden="true" /> {label}
-            </button>
-          ))}
+        <div role="radiogroup" aria-label="Type" className="grid grid-cols-2 gap-2 sm:grid-cols-5">
+          {KINDS.map((k) => {
+            const Icon = KIND[k].icon;
+            return (
+              <button key={k} type="button" role="radio" aria-checked={kind === k} onClick={() => setKind(k)}
+                className={cn('flex h-11 cursor-pointer items-center justify-center gap-2 rounded-lg border px-2 text-sm font-medium',
+                  kind === k ? 'border-accent bg-accent/10 text-accent' : 'border-paper-line text-ink-soft hover:bg-paper-alt')}>
+                <Icon className="h-4 w-4 shrink-0" aria-hidden="true" /> <span className="truncate">{KIND[k].label}</span>
+              </button>
+            );
+          })}
         </div>
 
         {kind === 'ayah' ? (
@@ -79,8 +91,39 @@ export function MakeReelsButton({ busy, reciters }: { busy: boolean; reciters: s
               </FormRow>
             </div>
           </div>
+        ) : kind === 'dua' ? (
+          <FormRow label="Kind of dua" hint="Text and recitation from Hisn al-Muslim. The Arafah dua only posts on the Day of Arafah.">
+            <select value={category} onChange={(e) => setCategory(e.target.value)} className={FIELD}>
+              <option value="">What the coming days need</option>
+              {Object.entries(DUA_LABEL).map(([k, label]) => <option key={k} value={k}>{label}</option>)}
+            </select>
+          </FormRow>
+        ) : kind === 'asma' ? (
+          <div className="grid gap-3 sm:grid-cols-2">
+            <FormRow label="Name" hint="The series posts 1 → 99 in order.">
+              <select value={nameNo} onChange={(e) => setNameNo(e.target.value)} className={FIELD}>
+                <option value="">Next in the series</option>
+                {Array.from({ length: 99 }, (_, i) => <option key={i + 1} value={i + 1}>Name {i + 1} of 99</option>)}
+              </select>
+            </FormRow>
+            <FormRow label="Reciter (the ayah)">
+              <select value={reciter} onChange={(e) => setReciter(e.target.value)} className={FIELD}>
+                <option value="">Random reciter</option>
+                {reciters.map((r) => <option key={r} value={r}>{r}</option>)}
+              </select>
+            </FormRow>
+          </div>
+        ) : kind === 'quiz' ? (
+          <FormRow label="Level" hint="Easy: Juz Amma. Medium: well-known surahs. Hard: any surah.">
+            <select value={level} onChange={(e) => setLevel(e.target.value)} className={FIELD}>
+              <option value="">Mixed (mostly easy)</option>
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </FormRow>
         ) : (
-          <FormRow label="Dhikr" hint="Each tasbih reel is one minute: 33 counts down to 0.">
+          <FormRow label="Dhikr" hint="Each tasbih reel is one minute: 33 counts down to 0, with the Kaaba.">
             <select value={set} onChange={(e) => setSet(e.target.value)} className={FIELD}>
               <option value="">Least used so far</option>
               {TASBIH_SETS.map(([k, label]) => <option key={k} value={k}>33× {label}</option>)}

@@ -17,6 +17,8 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
+import nature
+
 HERE = Path(__file__).parent
 CACHE = HERE / "cache"
 OUT = HERE / "reels"
@@ -263,6 +265,14 @@ def frame_layer(theme, surah_info, reciter, path):
     with_shadow(img, path)
 
 
+def dim_panel(frame_path):
+    """Darken the area behind the ayah text (for busy video backgrounds), under the header/footer layer."""
+    panel = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    ImageDraw.Draw(panel).rounded_rectangle((50, 430, W - 50, 1520), 48, fill=(4, 8, 12, 118))
+    panel = panel.filter(ImageFilter.GaussianBlur(28))
+    Image.alpha_composite(panel, Image.open(frame_path).convert("RGBA")).save(frame_path)
+
+
 def card(theme, surah_info, s, a, ar, en, reciter, path):
     acc = theme[2]
     img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
@@ -407,14 +417,25 @@ def build(start=None, seed=None, exclude=(), reciter=None, surah=None, progress=
     # audio list
     (work / "audio.txt").write_text("".join(f"file '{audio(folder, s, a).resolve()}'\n" for a, _ in ayahs))
 
-    inputs = ["-loop", "1", "-i", str(work / "bg.jpg"),
+    # background: real nature video (Pixabay) when the key is set, else the drawn one
+    scene = None
+    if nature.available():
+        try:
+            scene, clips = nature.pick(total, rnd)
+            nature.render_background(clips, total, work / "bg.mp4")
+            dim_panel(work / "frame.png")
+        except Exception as e:  # noqa: BLE001
+            print(f"nature background failed ({e}), using the drawn one")
+            scene = None
+    inputs = (["-i", str(work / "bg.mp4")] if scene else ["-loop", "1", "-i", str(work / "bg.jpg")]) + [
               "-f", "concat", "-safe", "0", "-i", str(work / "audio.txt"),
               "-loop", "1", "-i", str(work / "frame.png")]
     for p, _, _ in cards:
         inputs += ["-i", str(p)]
 
     bw, bh = int(W * 1.12), int(H * 1.12)
-    f = [f"[0:v]crop={W}:{H}:x='({bw - W})/2+({bw - W})/2*sin(t/{total:.2f}*3.1416)':"
+    f = [f"[0:v]format=yuv420p,fps=30[bg0]" if scene else
+         f"[0:v]crop={W}:{H}:x='({bw - W})/2+({bw - W})/2*sin(t/{total:.2f}*3.1416)':"
          f"y='({bh - H})*t/{total:.2f}',format=yuv420p,fps=30[bg0]",
          "[bg0][2:v]overlay=0:0:shortest=1[bg]"]
     last = "bg"
@@ -464,7 +485,7 @@ def build(start=None, seed=None, exclude=(), reciter=None, surah=None, progress=
     return {
         "kind": "ayah", "file": str(mp4), "caption": caption, "duration": round(total, 1),
         "passage": [s, a0], "ref": ref, "whole_surah": whole, "surah": ch["name_simple"], "reciter": reciter,
-        "title": f"Surah {ch['name_simple']} {ref} · {reciter}",
+        "title": f"Surah {ch['name_simple']} {ref} · {reciter}", "background": scene or "drawn",
     }
 
 

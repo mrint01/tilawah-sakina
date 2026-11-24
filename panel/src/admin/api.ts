@@ -1,5 +1,5 @@
 export type Status = 'pending' | 'approved' | 'rejected' | 'posted' | 'failed';
-export type Kind = 'ayah' | 'tasbih';
+export type Kind = 'ayah' | 'dua' | 'asma' | 'tasbih' | 'quiz';
 
 export interface Reel {
   id: string;
@@ -22,6 +22,16 @@ export interface Reel {
   surah?: string;
   ref?: string;
   set?: string;
+  /** dua: kind of dua (morning, after_salah, need, friday, arafah) and its Hisn al-Muslim id */
+  category?: string;
+  dua_id?: number;
+  source?: string;
+  /** asma: the name's number, 1-99 */
+  number?: number;
+  /** quiz: easy / medium / hard */
+  level?: string;
+  /** surah reels: nature theme of the video background, or "drawn" */
+  background?: string;
 }
 
 export interface Run {
@@ -38,7 +48,10 @@ export interface MakeProgress {
 /** One reel to make, from the "Make reels" popup. No surah = a curated passage; no reciter/set = picked for you. */
 export type MakeJob =
   | { kind: 'ayah'; surah?: number; ayah?: number; reciter?: string }
-  | { kind: 'tasbih'; set?: string };
+  | { kind: 'dua'; category?: string }
+  | { kind: 'asma'; number?: number; reciter?: string }
+  | { kind: 'tasbih'; set?: string }
+  | { kind: 'quiz'; level?: string };
 
 /** Reels posted again every week (Friday Al-Kahf parts). Same fields as a reel where it matters. */
 export interface WeeklyReel {
@@ -51,7 +64,7 @@ export interface PanelState {
   repo: string;
   assets: string;
   items: Reel[];
-  config: { enabled: boolean; alternate: Kind[]; buffer: number; reciters: Record<string, string> };
+  config: { enabled: boolean; buffer_days: number; reciters: Record<string, string> };
   panel: { name: string };
   instagram: boolean;
   runs: Run[];
@@ -99,8 +112,8 @@ export type Action =
   | { type: 'mark_posted'; id: string; permalink?: string }
   | { type: 'unmark_posted'; id: string }
   | { type: 'toggle'; enabled: boolean }
-  | { type: 'settings'; settings: { config?: { alternate?: Kind[]; buffer?: number; reciters?: Record<string, string> }; panel?: { name: string } } }
-  | { type: 'post_now' }
+  | { type: 'settings'; settings: { config?: { buffer_days?: number; reciters?: Record<string, string> }; panel?: { name: string } } }
+  | { type: 'post_now'; kind?: Kind }
   | { type: 'generate'; ayah?: number; tasbih?: number; jobs?: MakeJob[] };
 
 export const api = {
@@ -139,32 +152,46 @@ export async function fetchFullVideo(id: string, onProgress?: (done: number) => 
   return new File(parts, `tilawah-sakina-${id}.mp4`, { type: 'video/mp4' });
 }
 
-/** Same order the posting workflow uses: alternate kinds, oldest approved first within a kind. */
-export function postingOrder(items: Reel[], alternate: Kind[]): Reel[] {
-  const approved = items.filter((i) => i.status === 'approved');
-  const posted = items.filter((i) => i.status === 'posted');
-  const order = alternate.length ? alternate : (['ayah', 'tasbih'] as Kind[]);
-  let last = posted.at(-1)?.kind;
-  const out: Reel[] = [];
-  const left = [...approved];
-  while (left.length) {
-    const want = last && order.includes(last) ? order[(order.indexOf(last) + 1) % order.length] : order[0];
-    const i = Math.max(0, left.findIndex((x) => x.kind === want));
-    const [it] = left.splice(i, 1);
-    out.push(it);
-    last = it.kind;
-  }
-  return out;
-}
+/** The daily plan (Tunisia time, UTC+1). The same as pipeline.py SLOTS and the crons in post.yml / generate.yml. */
+export const SLOTS: { time: string; utcHour: number; kind: Kind; label: string }[] = [
+  { time: '00:00', utcHour: 23, kind: 'ayah', label: 'Surah' },
+  { time: '06:00', utcHour: 5, kind: 'dua', label: 'Dua' },
+  { time: '12:00', utcHour: 11, kind: 'asma', label: 'Asma al-Husna' },
+  { time: '18:00', utcHour: 17, kind: 'tasbih', label: 'Tasbih' },
+  { time: '21:00', utcHour: 20, kind: 'quiz', label: 'Quiz' },
+];
+export const MAKE_TIME = '03:00';
+export const REVIEW_TIME = '04:30';
+/** The 06:00 dua by weekday (0 = Sunday, as Date.getDay()). Same as DUA_BY_WEEKDAY in pipeline.py. */
+export const DUA_BY_DAY = ['after_salah', 'morning', 'need', 'morning', 'after_salah', 'friday', 'morning'];
+export const DUA_LABEL: Record<string, string> = {
+  morning: 'Morning adhkar', after_salah: 'Dua after salah', need: 'Dua for a need', friday: 'Salawat & Friday', arafah: 'Day of Arafah',
+};
 
-/** Next slots of the posting schedule: 08:00 and 18:00 UTC (09:00 / 19:00 Tunisia). */
-export function nextSlots(n: number, from = new Date()): Date[] {
-  const out: Date[] = [];
-  const d = new Date(Date.UTC(from.getUTCFullYear(), from.getUTCMonth(), from.getUTCDate()));
+export interface Upcoming { at: Date; kind: Kind; label: string; reel: Reel | null }
+
+/** The next n posting slots and the approved reel each one will post (null = nothing approved of that kind). */
+export function upcoming(items: Reel[], n: number, from = new Date()): Upcoming[] {
+  const left = items.filter((i) => i.status === 'approved');
+  const take = (kind: Kind, day: Date) => {
+    let pool = left.filter((r) => r.kind === kind);
+    if (kind === 'asma') pool.sort((x, y) => (x.number ?? 0) - (y.number ?? 0));
+    if (kind === 'dua') {
+      pool = pool.filter((r) => r.category !== 'arafah');
+      const tunis = new Date(day.getTime() + 3600_000);
+      const want = DUA_BY_DAY[tunis.getUTCDay()];
+      pool = [...pool.filter((r) => r.category === want), ...pool.filter((r) => r.category !== want)];
+    }
+    const r = pool[0] ?? null;
+    if (r) left.splice(left.indexOf(r), 1);
+    return r;
+  };
+  const out: Upcoming[] = [];
+  const d = new Date(Date.UTC(from.getUTCFullYear(), from.getUTCMonth(), from.getUTCDate() - 1));
   while (out.length < n) {
-    for (const h of [8, 18]) {
-      const t = new Date(d.getTime() + h * 3600_000);
-      if (t > from && out.length < n) out.push(t);
+    for (const sl of [...SLOTS].sort((x, y) => x.utcHour - y.utcHour)) {
+      const t = new Date(d.getTime() + sl.utcHour * 3600_000);
+      if (t > from && out.length < n) out.push({ at: t, kind: sl.kind, label: sl.label, reel: take(sl.kind, t) });
     }
     d.setUTCDate(d.getUTCDate() + 1);
   }
@@ -182,6 +209,9 @@ export const CHECK_LABEL: Record<string, string> = {
   length_whole_surah: 'Whole surah, up to 90 s',
   length_60s: 'Length 60 s',
   length_up_to_3min: 'Length up to 3 min',
+  length_10_60s: 'Length 10–60 s',
+  length_8_75s: 'Length 8–75 s',
+  length_50_150s: 'Length 50–150 s',
   audio_not_silent: 'Audio not silent',
   file_under_100mb: 'File under 100 MB',
 };
