@@ -228,12 +228,19 @@ def cmd_generate(args):
     jobs = plan_jobs(args)
     ensure_release()
     prog = Progress(len(jobs))
-    try:
-        for i, job in enumerate(jobs):
+    # one reel failing must not lose the others: note it, go on, and fail the run only if nothing was made
+    failed = []
+    for i, job in enumerate(jobs):
+        try:
             make_one(job, i, q, recent, prog, make_reel, make_tasbih, make_dua, make_asma, make_quiz)
-    except BaseException as e:
-        prog.close(error=str(e) or type(e).__name__)
-        raise
+        except (Exception, SystemExit) as e:  # noqa: BLE001
+            import traceback
+            traceback.print_exc()
+            failed.append(f"{job.get('kind')}: {e}")
+            print(f"::warning::could not make {job}: {e}")
+    if failed and len(failed) == len(jobs):
+        prog.close(error="; ".join(failed)[:300])
+        sys.exit("no reel could be made: " + "; ".join(failed))
     prog.close()
 
 

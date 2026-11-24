@@ -171,7 +171,6 @@ def render(number, reciter=None, seed=None, progress=None):
     pool = mr.active_reciters()
     known = {**mr.RECITERS, **pool}
     reciter = reciter if reciter in known else rnd.choice(list(pool))
-    folder = known[reciter]
     work = mr.CACHE / "work" / f"asma_{n['number']:02d}"
     work.mkdir(parents=True, exist_ok=True)
     background(work / "bg.jpg")
@@ -180,7 +179,17 @@ def render(number, reciter=None, seed=None, progress=None):
     scenes.shadowed(Image.new("RGBA", (W, H), (0, 0, 0, 0)), full, 10, 0.18).save(work / "layer.png")
     report(0.2)
     s, a = n["ayah"]
-    src = mr.audio(folder, s, a)
+    # some whole-surah recordings can't be cut cleanly at every ayah: then use another reciter
+    src = None
+    for name in [reciter] + [r for r in known if r != reciter]:
+        try:
+            src = mr.audio(known[name], s, a)
+            reciter = name
+            break
+        except Exception as e:  # noqa: BLE001
+            print(f"{name}: no clean audio for {s}:{a} ({e}), trying another reciter")
+    if src is None:
+        raise SystemExit(f"no recitation found for {s}:{a}")
     dur = mr.duration(src)
     lead, tail = 1.5, 2.0
     total = lead + dur + tail
