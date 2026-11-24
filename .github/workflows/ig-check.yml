@@ -20,13 +20,17 @@ jobs:
           for m in p.ig("GET", f"{u}/media", fields="timestamp,media_product_type,permalink", limit=5)["data"]:
               print(m["timestamp"], m.get("media_product_type"), m.get("permalink"))
           print(json.dumps(p.ig("GET", f"{u}/content_publishing_limit", fields="quota_usage,config")))
-          last = p.ig("GET", f"{u}/media", fields="id,media_product_type", limit=3)["data"]
-          for m in last:
-              for met in ("views,reach,saved,shares,likes,comments,total_interactions", "plays", "ig_reels_avg_watch_time"):
-                  try:
-                      print("insights", m["id"], m.get("media_product_type"), met, json.dumps(p.ig("GET", f"{m['id']}/insights", fatal=False, metric=met))[:400])
-                  except Exception as e:
-                      print("insights", m["id"], met, str(e)[:300])
+          rows = p.ig("GET", f"{u}/media", fields="id,permalink,timestamp,media_product_type,like_count,comments_count", limit=50)["data"]
+          print("permalink | type | views likes comments saved shares reach total_interactions")
+          for m in rows:
+              try:
+                  ins = p.ig("GET", f"{m['id']}/insights", fatal=False, metric="views,reach,saved,shares,total_interactions")["data"]
+                  v = {x["name"]: x["values"][0]["value"] for x in ins}
+              except Exception as e:
+                  v = {"error": str(e)[:120]}
+              print(m["permalink"], m["timestamp"][:16], m.get("media_product_type"), "views", v.get("views"), "likes", m.get("like_count"),
+                    "comments", m.get("comments_count"), "saved", v.get("saved"), "shares", v.get("shares"), "reach", v.get("reach"),
+                    "total", v.get("total_interactions"), v.get("error", ""))
           for path, f in (("me", "id,name"), ("me/permissions", None)):
               try:
                   print(path, json.dumps(p.ig("GET", path, fatal=False, **({"fields": f} if f else {}))))
