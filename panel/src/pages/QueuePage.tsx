@@ -1,16 +1,18 @@
 import { useNavigate } from 'react-router-dom';
-import { CalendarClock, Hand, Play, RotateCcw } from 'lucide-react';
+import { useState } from 'react';
+import { CalendarClock, Hand, Play, RotateCcw, Trash2 } from 'lucide-react';
 import { slot, upcoming, type Reel, type Upcoming } from '../admin/api';
 import { KIND, KindBadge, Thumb, useAct, useAppState } from '../admin/hooks';
 import { matchFilters, ReelFilterBar, useReelFilters } from '../admin/ReelFilters';
 import { WeeklySection } from '../admin/WeeklySection';
-import { ago, Badge, dateTime, Empty, PageHeader, Pager, Skeleton, usePaged } from '../admin/ui';
+import { ago, Badge, dateTime, Empty, Modal, PageHeader, Pager, Skeleton, usePaged } from '../admin/ui';
 
 /** The coming posting slots (5 a day) and the approved reel each one posts; empty slots show what is missing. */
 export default function QueuePage() {
   const navigate = useNavigate();
   const state = useAppState();
-  const act = useAct((a) => (a.type === 'post_now' ? 'Posting started, watch Workflow runs' : 'Moved back to review'));
+  const act = useAct((a) => (a.type === 'post_now' ? 'Posting started, watch Workflow runs' : a.type === 'reject' ? 'Removed: it will not be posted' : 'Moved back to review'));
+  const [removing, setRemoving] = useState<Reel | null>(null);
   const s = state.data;
   const approvedCount = s ? s.items.filter((i) => i.status === 'approved').length : 0;
   const plan: Upcoming[] = s ? upcoming(s.items, Math.max(10, approvedCount * 5 + 5)) : [];
@@ -69,8 +71,8 @@ export default function QueuePage() {
               if (!r) return <EmptySlot key={p.at.toISOString()} p={p} phone />;
               const i = order.indexOf(r);
               return (
-                <li key={r.id}>
-                  <button type="button" onClick={() => navigate(`/review?reel=${r.id}`)} className="flex w-full cursor-pointer items-start gap-3 px-4 py-3 text-start hover:bg-paper-alt">
+                <li key={r.id} className="flex items-start">
+                  <button type="button" onClick={() => navigate(`/review?reel=${r.id}`)} className="flex min-w-0 flex-1 cursor-pointer items-start gap-3 py-3 ps-4 text-start hover:bg-paper-alt">
                     <span className="num w-5 shrink-0 pt-0.5 text-xs text-ink-mute">{i + 1}</span>
                     <Thumb state={s} reel={r} className="h-14 w-8" />
                     <span className="min-w-0 flex-1">
@@ -83,6 +85,10 @@ export default function QueuePage() {
                         {s.config.enabled ? <span className={i === 0 ? 'font-semibold text-ok' : ''}>{slot(p.at)}</span> : <span className="text-ink-mute">paused</span>}
                       </span>
                     </span>
+                  </button>
+                  <button type="button" aria-label="Remove, don't post" onClick={() => setRemoving(r)}
+                    className="m-3 inline-flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-md border border-paper-line text-ink-soft hover:border-danger hover:text-danger">
+                    <Trash2 className="h-4 w-4" aria-hidden="true" />
                   </button>
                 </li>
               );
@@ -122,11 +128,16 @@ export default function QueuePage() {
                       <td className="num px-4 py-2.5 text-right">{r.duration}s</td>
                       <td className="px-4 py-2.5 text-ink-soft" title={dateTime(r.reviewed ?? null)}>{ago(r.reviewed ?? null)}</td>
                       <td className="px-4 py-2.5">{s.config.enabled ? (i === 0 ? <Badge tone="green">{slot(p.at)}</Badge> : slot(p.at)) : <span className="text-ink-mute">paused</span>}</td>
-                      <td className="px-4 py-2.5 text-right">
+                      <td className="whitespace-nowrap px-4 py-2.5 text-right">
                         <button type="button" aria-label="Back to review" title="Back to review" disabled={act.isPending}
                           onClick={(e) => { e.stopPropagation(); act.mutate({ type: 'requeue', id: r.id }); }}
                           className="inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-md border border-paper-line text-ink-soft hover:border-accent hover:text-accent">
                           <RotateCcw className="h-4 w-4" aria-hidden="true" />
+                        </button>
+                        <button type="button" aria-label="Remove, don't post" title="Remove, don't post" disabled={act.isPending}
+                          onClick={(e) => { e.stopPropagation(); setRemoving(r); }}
+                          className="ms-2 inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-md border border-paper-line text-ink-soft hover:border-danger hover:text-danger">
+                          <Trash2 className="h-4 w-4" aria-hidden="true" />
                         </button>
                       </td>
                     </tr>
@@ -139,6 +150,20 @@ export default function QueuePage() {
         )}
         <Pager paged={paged} className="border-t border-paper-line px-4 py-3" />
       </section>
+
+      <Modal open={Boolean(removing)} onClose={() => setRemoving(null)} title="Remove this reel?" icon={Trash2} tone="danger"
+        text="It will not be posted. Its video file is deleted from GitHub at the next posting run; the next approved reel of the same type takes its slot.">
+        <p className="text-sm font-semibold">{removing?.title}</p>
+        <div className="flex justify-end gap-2 pt-1">
+          <button type="button" autoFocus onClick={() => setRemoving(null)}
+            className="h-10 cursor-pointer rounded-lg border border-paper-line px-4 text-sm font-medium text-ink-soft hover:bg-paper-alt">Cancel</button>
+          <button type="button" disabled={act.isPending}
+            onClick={() => { if (removing) act.mutate({ type: 'reject', id: removing.id, note: 'Removed from Up next in the panel' }, { onSuccess: () => setRemoving(null) }); }}
+            className="flex h-10 cursor-pointer items-center gap-2 rounded-lg bg-danger px-4 text-sm font-semibold text-white hover:opacity-90 disabled:opacity-50">
+            <Trash2 className="h-4 w-4" aria-hidden="true" /> Remove
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 }
