@@ -1,0 +1,28 @@
+name: Pixabay check
+
+# Read-only: checks the Pixabay key and lists calm nature clips (no people) for the surah backgrounds.
+on: workflow_dispatch
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          KEY: ${{ secrets.PIXABAY_API_KEY }}
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.parse, urllib.request
+          key = os.environ["KEY"]
+          print("key set:", bool(key))
+          bad = {"woman", "man", "people", "girl", "boy", "person", "couple", "child", "model", "party", "beach party", "bikini"}
+          for q in ["clouds sky", "ocean waves", "forest", "mountains", "rain", "night sky stars", "desert dunes", "river", "sunset"]:
+              url = "https://pixabay.com/api/videos/?" + urllib.parse.urlencode(
+                  {"key": key, "q": q, "safesearch": "true", "per_page": 20, "video_type": "film", "order": "popular"})
+              with urllib.request.urlopen(url, timeout=30) as r:
+                  hits = json.loads(r.read())["hits"]
+              ok = [h for h in hits if not (set(t.strip() for t in h["tags"].split(",")) & bad)]
+              print(f"\n== {q}: {len(hits)} hits, {len(ok)} without people")
+              for h in ok[:6]:
+                  v = h["videos"].get("large") or h["videos"]["medium"]
+                  print(h["id"], h["duration"], f'{v["width"]}x{v["height"]}', h["tags"], v["url"])
+          PY
