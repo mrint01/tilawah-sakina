@@ -20,18 +20,26 @@ jobs:
           for m in p.ig("GET", f"{u}/media", fields="timestamp,media_product_type,permalink", limit=5)["data"]:
               print(m["timestamp"], m.get("media_product_type"), m.get("permalink"))
           print(json.dumps(p.ig("GET", f"{u}/content_publishing_limit", fields="quota_usage,config")))
-          rows = p.ig("GET", f"{u}/media", fields="id,permalink,timestamp,media_product_type,like_count,comments_count,caption", limit=50)["data"]
-          print("permalink | type | views likes comments saved shares reach total_interactions")
-          for m in rows:
+          mid = "18072069047188497"
+          rows = p.ig("GET", f"{u}/media", fields="id,permalink", limit=50)["data"]
+          mid = next(m["id"] for m in rows if "DgAt40ahEth" in m["permalink"])
+          try:
+              p.ig("GET", f"{mid}/insights", fatal=False, metric="nonsense")
+          except Exception as e:
+              print("ALLOWED", str(e)[:1500])
+          for met in ["views", "reach", "likes", "comments", "saved", "shares", "total_interactions", "reposts", "replies",
+                      "follows", "profile_visits", "profile_activity", "navigation", "ig_reels_video_view_total_time",
+                      "ig_reels_avg_watch_time", "facebook_views", "crossposted_views", "impressions"]:
               try:
-                  ins = p.ig("GET", f"{m['id']}/insights", fatal=False, metric="views,reach,saved,shares,total_interactions")["data"]
-                  v = {x["name"]: x["values"][0]["value"] for x in ins}
+                  r = p.ig("GET", f"{mid}/insights", fatal=False, metric=met)["data"]
+                  print("METRIC", met, json.dumps([(x["name"], x["values"][0]["value"] if x.get("values") else x.get("total_value")) for x in r])[:300])
               except Exception as e:
-                  v = {"error": str(e)[:120]}
-              print(m["permalink"], m["timestamp"][:16], m.get("media_product_type"), "views", v.get("views"), "likes", m.get("like_count"),
-                    "comments", m.get("comments_count"), "saved", v.get("saved"), "shares", v.get("shares"), "reach", v.get("reach"),
-                    "total", v.get("total_interactions"), v.get("error", ""))
-              print("CAPTION", m["permalink"], json.dumps((m.get("caption") or "")[:200]))
+                  print("METRIC", met, "ERR", str(e)[:160])
+          try:
+              r = p.ig("GET", f"{mid}/insights", fatal=False, metric="profile_activity", breakdown="action_type")
+              print("BREAK", json.dumps(r)[:600])
+          except Exception as e:
+              print("BREAK ERR", str(e)[:200])
           for path, f in (("me", "id,name"), ("me/permissions", None)):
               try:
                   print(path, json.dumps(p.ig("GET", path, fatal=False, **({"fields": f} if f else {}))))
