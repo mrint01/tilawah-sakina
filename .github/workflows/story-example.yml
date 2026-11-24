@@ -1,0 +1,33 @@
+name: Story example
+
+# Renders one "Stories of the Prophets" reel as a downloadable artifact (nothing is queued or posted).
+on:
+  workflow_dispatch:
+    inputs:
+      prophet:
+        description: "Prophet key (see make_story.py STORIES)"
+        default: "adam"
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install ffmpeg and Arabic text shaping
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg libraqm0 libfribidi0 libharfbuzz0b
+          pip install -q pillow numpy
+      - name: Render
+        run: |
+          python3 make_story.py "${{ inputs.prophet }}"
+          python3 -c "import pipeline; from pathlib import Path; pipeline.contact_sheet(Path('reels/story_${{ inputs.prophet }}.mp4'), Path('reels/story_${{ inputs.prophet }}.png'), n=8)"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: story-${{ inputs.prophet }}
+          path: |
+            reels/story_${{ inputs.prophet }}.mp4
+            reels/story_${{ inputs.prophet }}.png
