@@ -168,8 +168,10 @@ def render(number, reciter=None, seed=None, progress=None):
     report = progress or (lambda f: None)
     rnd = random.Random(seed)
     n = next(x for x in catalog() if x["number"] == int(number))
-    reciter = reciter or rnd.choice(mr.active_reciters())
-    folder = mr.RECITERS[reciter]
+    pool = mr.active_reciters()
+    known = {**mr.RECITERS, **pool}
+    reciter = reciter if reciter in known else rnd.choice(list(pool))
+    folder = known[reciter]
     work = mr.CACHE / "work" / f"asma_{n['number']:02d}"
     work.mkdir(parents=True, exist_ok=True)
     background(work / "bg.jpg")
