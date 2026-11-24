@@ -75,7 +75,12 @@ function Console() {
   const badges = {
     review: items.filter((i) => i.status === 'pending').length,
     queue: items.filter((i) => i.status === 'approved').length,
-    failed: (state.data?.runs ?? []).filter((r) => r.conclusion === 'failure' && Date.now() - +new Date(r.created) < 86400_000).length,
+    // workflows whose latest finished run failed (a failure fixed by a later successful run no longer counts)
+    failed: (() => {
+      const latest = new Map<string, string | null>();
+      for (const r of state.data?.runs ?? []) if (r.status === 'completed' && !latest.has(r.name)) latest.set(r.name, r.conclusion);
+      return [...latest.values()].filter((c) => c === 'failure').length;
+    })(),
   };
   const signOut = async () => {
     await api.logout().catch(() => {});

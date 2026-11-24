@@ -27,7 +27,7 @@ const PAGE_HANDLE = 'tilawah.sakina';
 const BASE = '';
 const MINI_KEY = 'admin.sidebar';
 
-interface NavItem { to: string; label: string; icon: LucideIcon; end?: boolean; badge?: string }
+interface NavItem { to: string; label: string; icon: LucideIcon; end?: boolean; badge?: string; badgeHint?: string; danger?: boolean }
 // Same groups and icons in every console, so they all read the same way. Drop what the app doesn't have.
 const NAV_GROUPS: { title: string; items: NavItem[] }[] = [
   { title: 'Overview', items: [
@@ -39,7 +39,7 @@ const NAV_GROUPS: { title: string; items: NavItem[] }[] = [
     { to: '/posted', label: 'Posted', icon: Send },
   ] },
   { title: 'Health', items: [
-    { to: '/runs', label: 'Workflow runs', icon: Activity, badge: 'failed' },
+    { to: '/runs', label: 'Workflow runs', icon: Activity, badge: 'failed', badgeHint: 'failed, not fixed yet', danger: true },
   ] },
   { title: 'System', items: [
     { to: '/settings', label: 'Settings', icon: Settings },
@@ -162,7 +162,8 @@ export function AdminLayout({ children, email, name, onSignOut, badges = {}, ala
                       ) : (
                         <>
                           <span className="flex-1 truncate">{n.label}</span>
-                          {count > 0 && <span className="num rounded-full bg-accent/15 px-1.5 text-[11px] font-semibold leading-[18px] text-accent">{count}</span>}
+                          {count > 0 && <span title={n.badgeHint ? `${count} ${n.badgeHint}` : undefined}
+                            className={cn('num rounded-full px-1.5 text-[11px] font-semibold leading-[18px]', n.danger ? 'bg-danger-light text-danger' : 'bg-accent/15 text-accent')}>{count}</span>}
                         </>
                       )}
                     </>
