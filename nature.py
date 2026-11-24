@@ -18,7 +18,8 @@ THEMES = ["clouds sky", "ocean waves", "forest sunlight", "mountains", "waterfal
 NO = {"woman", "man", "people", "girl", "boy", "person", "couple", "child", "children", "model", "party", "bikini",
       "fashion", "dance", "music", "festival", "church", "cross", "christmas", "temple", "buddha", "statue", "alcohol",
       "wine", "beer", "dog", "cat", "car", "city", "building", "traffic", "face", "portrait", "selfie", "hand", "hands",
-      "hut", "mountain hut", "house", "cabin", "home", "tent", "camping", "village", "road", "bridge", "boat", "ship"}
+      "hut", "mountain hut", "house", "cabin", "home", "tent", "camping", "village", "road", "bridge", "boat", "ship",
+      "pagoda", "shrine", "torii", "japan", "tower", "castle", "ruins", "monastery", "mosque", "lighthouse", "windmill", "flag"}
 SLOW = 1.2   # clips play a little slower: calmer
 FADE = 1.0   # crossfade between clips, seconds
 
