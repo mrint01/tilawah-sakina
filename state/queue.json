@@ -1780,9 +1780,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-24T21:10:04+00:00"
+      "status": "approved",
+      "review": "Claude routine: arch layout, Arabic and English render cleanly, text inside arch",
+      "created": "2026-11-24T21:10:04+00:00",
+      "reviewed": "2026-11-24T21:13:27+00:00"
     },
     {
       "id": "20261124-211019-dua",
@@ -1803,9 +1804,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-24T21:10:23+00:00"
+      "status": "approved",
+      "review": "Claude routine: arch layout, Arabic and English render cleanly, text inside arch",
+      "created": "2026-11-24T21:10:23+00:00",
+      "reviewed": "2026-11-24T21:13:27+00:00"
     },
     {
       "id": "20261124-211030-asma",
@@ -1825,9 +1827,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-24T21:10:34+00:00"
+      "status": "approved",
+      "review": "Claude routine: name, ayah and dots render correctly, N matches",
+      "created": "2026-11-24T21:10:34+00:00",
+      "reviewed": "2026-11-24T21:13:28+00:00"
     },
     {
       "id": "20261124-211045-asma",
@@ -1847,9 +1850,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-24T21:10:49+00:00"
+      "status": "approved",
+      "review": "Claude routine: name, ayah and dots render correctly, N matches",
+      "created": "2026-11-24T21:10:49+00:00",
+      "reviewed": "2026-11-24T21:13:28+00:00"
     },
     {
       "id": "20261124-211134-quiz",
@@ -1896,9 +1900,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-24T21:11:43+00:00"
+      "status": "approved",
+      "review": "Claude routine: quiz frames clean, answer frame green box matches questions",
+      "created": "2026-11-24T21:11:43+00:00",
+      "reviewed": "2026-11-24T21:13:28+00:00"
     },
     {
       "id": "20261124-211229-quiz",
@@ -1945,9 +1950,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-24T21:12:39+00:00"
+      "status": "approved",
+      "review": "Claude routine: quiz frames clean, answer frame green box matches questions",
+      "created": "2026-11-24T21:12:39+00:00",
+      "reviewed": "2026-11-24T21:13:28+00:00"
     }
   ]
 }
