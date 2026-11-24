@@ -53,15 +53,17 @@ def clip_file(hit):
 
 
 def pick(total, rnd):
-    """Clips of one random theme covering `total` seconds (with crossfades). Returns (theme, [(path, seconds)])."""
+    """Clips covering `total` seconds (with crossfades): one random theme, or several in a row for long videos.
+    Returns (theme(s), [(path, seconds, pixabay id)])."""
     themes = THEMES[:]
     rnd.shuffle(themes)
+    out, covered, used = [], 0.0, []
     for theme in themes:
         hits = search(theme)
         if len(hits) < 3:
             continue
         rnd.shuffle(hits)
-        out, covered = [], 0.0
+        used.append(theme)
         for h in hits:
             try:
                 path = clip_file(h)
@@ -71,25 +73,43 @@ def pick(total, rnd):
             out.append((path, secs, h["id"]))
             covered += secs - (FADE if len(out) > 1 else 0)
             if covered >= total + 1:
-                return theme, out
-    raise RuntimeError("no Pixabay clips")
+                return " + ".join(used), out
+    raise RuntimeError("not enough Pixabay clips")
+
+
+def _xfade(parts, out, prep, grade_total=None):
+    """Join [(file, seconds)] with crossfades. prep: filter applied to each input first."""
+    ins, f = [], []
+    for i, (path, _) in enumerate(parts):
+        ins += ["-i", str(path)]
+        f.append(f"[{i}:v]{prep}[c{i}]")
+    last, offset = "c0", parts[0][1] - FADE
+    for i in range(1, len(parts)):
+        f.append(f"[{last}][c{i}]xfade=transition=fade:duration={FADE}:offset={offset:.3f}[x{i}]")
+        last = f"x{i}"
+        offset += parts[i][1] - FADE
+    tail = f",trim=duration={grade_total:.3f},setpts=PTS-STARTPTS,eq=brightness=-0.08:saturation=0.9,vignette=PI/4.5" if grade_total else ""
+    f.append(f"[{last}]null{tail}[bg]")
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *ins, "-filter_complex", ";".join(f), "-map", "[bg]", "-an",
+                    "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p", str(out)], check=True, timeout=3600)
+    return offset + FADE  # length of the joined video
 
 
 def render_background(clips, total, out):
-    """Cover-crop each clip to 9:16, slow it, crossfade them, darken + vignette: a silent 30 fps video of `total` s."""
-    ins, f = [], []
-    for i, (path, _, _) in enumerate(clips):
-        ins += ["-i", str(path)]
-        f.append(f"[{i}:v]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},setsar=1,"
-                 f"setpts={SLOW}*(PTS-STARTPTS),fps=30,format=yuv420p[c{i}]")
-    last, offset = "c0", clips[0][1] - FADE
-    for i in range(1, len(clips)):
-        f.append(f"[{last}][c{i}]xfade=transition=fade:duration={FADE}:offset={offset:.3f}[x{i}]")
-        last = f"x{i}"
-        offset += clips[i][1] - FADE
-    f.append(f"[{last}]trim=duration={total:.3f},setpts=PTS-STARTPTS,eq=brightness=-0.08:saturation=0.9,vignette=PI/4.5[bg]")
-    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *ins, "-filter_complex", ";".join(f), "-map", "[bg]", "-an",
-                    "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p", str(out)], check=True, timeout=900)
+    """Cover-crop each clip to 9:16, slow it, crossfade them, darken + vignette: a silent 30 fps video of `total` s.
+    Long videos are joined in chunks of 8 clips (then the chunks are crossfaded), to keep memory low."""
+    prep = f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},setsar=1,setpts={SLOW}*(PTS-STARTPTS),fps=30,format=yuv420p"
+    parts = [(p, secs) for p, secs, _ in clips]
+    if len(parts) <= 8:
+        _xfade(parts, out, prep, total)
+        return out
+    chunks = []
+    for k in range(0, len(parts), 8):
+        cf = Path(out).with_name(f"{Path(out).stem}_chunk{k // 8}.mp4")
+        chunks.append((cf, _xfade(parts[k:k + 8], cf, prep)))
+    _xfade(chunks, out, "format=yuv420p,fps=30", total)
+    for cf, _ in chunks:
+        cf.unlink(missing_ok=True)
     return out
 
 

@@ -1,0 +1,75 @@
+name: Remake weekly videos
+
+# Re-renders the Friday Surah Al-Kahf videos (parts 1 and 2) with the current design (nature video background)
+# and replaces them in the 'weekly' release. Run by hand; the Friday posts then use the new files.
+on:
+  workflow_dispatch:
+    inputs:
+      parts:
+        description: "Which parts"
+        type: choice
+        options: [both, part1, part2]
+        default: both
+
+permissions:
+  contents: write
+
+concurrency:
+  group: queue-state
+  cancel-in-progress: false
+
+jobs:
+  remake:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install ffmpeg and Arabic text shaping
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg libraqm0 libfribidi0 libharfbuzz0b
+          pip install -q pillow numpy
+      - name: Render, shrink under 95 MB, upload
+        env:
+          PARTS: ${{ inputs.parts }}
+        run: |
+          set -e
+          render() {  # id first last label
+            python3 make_long.py 18 "$2" "$3" --part "$4" --out "reels/weekly/$1.mp4"
+            f="reels/weekly/$1.mp4"
+            size=$(stat -c %s "$f")
+            if [ "$size" -gt 95000000 ]; then  # Instagram + GitHub Pages: keep it small
+              dur=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$f")
+              kbps=$(python3 -c "print(int(90e6*8/1000/$dur) - 170)")
+              ffmpeg -y -loglevel error -i "$f" -c:v libx264 -preset medium -b:v ${kbps}k -maxrate ${kbps}k -bufsize $((kbps*2))k \
+                -pix_fmt yuv420p -c:a copy -movflags +faststart "$f.small.mp4" && mv "$f.small.mp4" "$f"
+            fi
+            python3 -c "import pipeline; from pathlib import Path; pipeline.contact_sheet(Path('$f'), Path('reels/weekly/$1.png'))"
+            ls -la "reels/weekly/$1."*
+            gh release upload weekly "reels/weekly/$1.mp4" "reels/weekly/$1.png" --clobber
+            python3 - "$1" <<'PY'
+          import json, subprocess, sys
+          from pathlib import Path
+          i, f = sys.argv[1], Path(f"reels/weekly/{sys.argv[1]}.mp4")
+          dur = float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(f)]))
+          w = json.load(open("state/weekly.json"))
+          for it in w["items"]:
+              if it["id"] == i:
+                  it.update(duration=round(dur, 1), size_mb=round(f.stat().st_size / 1e6, 1))
+          open("state/weekly.json", "w").write(json.dumps(w, indent=2, ensure_ascii=False) + "\n")
+          PY
+          }
+          if [ "$PARTS" != "part2" ]; then render kahf-part1 1 50 "Part 1 of 2"; fi
+          if [ "$PARTS" != "part1" ]; then render kahf-part2 51 110 "Part 2 of 2"; fi
+      - name: Save sizes
+        run: |
+          git config user.name "tilawah-sakina-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add state/weekly.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Weekly Al-Kahf videos remade with nature backgrounds"
+          for i in 1 2 3; do git pull --rebase -q && git push && exit 0; sleep 5; done
+          exit 1

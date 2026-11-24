@@ -14,6 +14,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 
 import make_reel as mr
+import nature
 
 FOLDER = "quranicaudio/maher_256"
 RECITER = "Maher Al-Muaiqly"
@@ -69,21 +70,34 @@ def build(s, first, last, part, out, theme_idx=0):
                     "-vn", "-af", f"afade=t=in:d=0.05,afade=t=out:st={total - 1.2:.2f}:d=1.2",
                     "-c:a", "aac", "-b:a", "160k", str(audio)], check=True)
 
+    # background: nature video (Pixabay) when the key is set, else the drawn one drifting slowly
+    scene = None
+    if nature.available():
+        import random
+        try:
+            scene, clips = nature.pick(total, random.Random(s * 1000 + first))
+            nature.render_background(clips, total, work / "bg.mp4")
+            mr.dim_panel(work / "frame.png")
+        except Exception as e:  # noqa: BLE001
+            print(f"nature background failed ({e}), using the drawn one")
+            scene = None
     bw, bh = int(mr.W * 1.12), int(mr.H * 1.12)
     period = 120.0  # slow drift of the background, repeating every 2 minutes
-    fc = (f"[0:v]crop={mr.W}:{mr.H}:x='({bw - mr.W})/2+({bw - mr.W})/2*sin(t/{period}*3.1416)':"
-          f"y='({bh - mr.H})/2+({bh - mr.H})/2*sin(t/{period * 1.3:.1f}*3.1416)',format=yuv420p,fps=30[bg0];"
-          f"[bg0][1:v]overlay=0:0:shortest=1[bg];"
+    bg0 = ("[0:v]format=yuv420p,fps=30[bg0];" if scene else
+           f"[0:v]crop={mr.W}:{mr.H}:x='({bw - mr.W})/2+({bw - mr.W})/2*sin(t/{period}*3.1416)':"
+           f"y='({bh - mr.H})/2+({bh - mr.H})/2*sin(t/{period * 1.3:.1f}*3.1416)',format=yuv420p,fps=30[bg0];")
+    fc = (bg0 + f"[bg0][1:v]overlay=0:0:shortest=1[bg];"
           f"[2:v]format=rgba,fps=30[cards];[bg][cards]overlay=0:0:eof_action=repeat,"
           f"fade=t=out:st={total - 0.8:.2f}:d=0.8[vout]")
     out.parent.mkdir(parents=True, exist_ok=True)
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-stats",
-                    "-loop", "1", "-i", str(work / "bg.jpg"), "-loop", "1", "-i", str(work / "frame.png"),
+                    *(["-i", str(work / "bg.mp4")] if scene else ["-loop", "1", "-i", str(work / "bg.jpg")]),
+                    "-loop", "1", "-i", str(work / "frame.png"),
                     "-f", "concat", "-safe", "0", "-i", str(work / "cards.txt"), "-i", str(audio),
                     "-filter_complex", fc, "-map", "[vout]", "-map", "3:a", "-t", f"{total:.2f}",
                     "-c:v", "libx264", "-preset", "medium", "-crf", "23", "-pix_fmt", "yuv420p", "-r", "30",
                     "-c:a", "copy", "-movflags", "+faststart", str(out)], check=True)
-    print(f"{out}  ({total / 60:.1f} min, {last - first + 1} ayahs)")
+    print(f"{out}  ({total / 60:.1f} min, {last - first + 1} ayahs, background: {scene or 'drawn'})")
     return total
 
 

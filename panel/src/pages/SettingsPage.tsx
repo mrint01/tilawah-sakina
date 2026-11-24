@@ -44,55 +44,56 @@ export default function SettingsPage() {
       <PageHeader title="Settings" text="Your name in the console, the daily plan, the reciters and the accounts it uses." />
       {!s ? <Skeleton className="h-64" /> : (
         <div className="grid grid-cols-1 items-start gap-4 xl:grid-cols-2">
-          <Card icon={User} title="Profile" hint="The name shown at the top right.">
-            <form className="flex flex-col gap-4" onSubmit={(e) => { e.preventDefault(); save.mutate({ type: 'settings', settings: { panel: { name: name.trim() } } }); }}>
-              <FormRow label="Full name"><input value={name} onChange={(e) => setName(e.target.value)} maxLength={60} className={INPUT} placeholder="Your name" /></FormRow>
-              <button type="submit" disabled={save.isPending} className="h-10 w-fit cursor-pointer rounded-lg bg-accent px-4 text-sm font-semibold text-white hover:bg-accent-dark disabled:opacity-50">Save</button>
-            </form>
-          </Card>
-
-          <Card icon={SlidersHorizontal} title="Automation" hint="The daily plan, Tunisia time. Made, checked by Claude and posted by itself." pill={<Pill on={s.config.enabled} yes="On" no="Off" />}>
-            <DailyPlan bufferDays={s.config.buffer_days ?? 3} />
-            <form className="flex flex-col gap-4" onSubmit={(e) => { e.preventDefault(); save.mutate({ type: 'settings', settings: { config: { buffer_days: days } } }); }}>
-              <FormRow label="Days ready" hint="How many days of each type to keep made and waiting. 3 = a stock of 15 reels.">
-                <input type="number" min={1} max={14} value={days} onChange={(e) => setDays(Number(e.target.value))} className={cn(INPUT, 'sm:w-40')} />
-              </FormRow>
-              <button type="submit" disabled={save.isPending} className="h-10 w-fit cursor-pointer rounded-lg bg-accent px-4 text-sm font-semibold text-white hover:bg-accent-dark disabled:opacity-50">Save</button>
-            </form>
-          </Card>
-
-          <RecitersCard reciters={s.config.reciters} />
-
-          <Card icon={Link2} title="Connections" hint="Where reels are stored and where they are posted.">
-            <div className="flex items-start gap-3">
-              <Github className="mt-0.5 h-5 w-5 shrink-0 text-ink-soft" aria-hidden="true" />
-              <div className="min-w-0 flex-1">
-                <p className="flex items-center gap-2 font-medium">GitHub <Pill on /></p>
-                <p className="text-xs text-ink-mute">Repo <a className="text-accent hover:underline" href={`https://github.com/${s.repo}`} target="_blank" rel="noreferrer">{s.repo}</a>: scripts, queue, and the workflows that make and post reels.</p>
+          {/* two independent columns, so a short card never leaves a gap under it */}
+          <div className="flex flex-col gap-4">
+            <Card icon={User} title="Profile" hint="The name shown at the top right.">
+              <form className="flex flex-col gap-4" onSubmit={(e) => { e.preventDefault(); save.mutate({ type: 'settings', settings: { panel: { name: name.trim() } } }); }}>
+                <FormRow label="Full name"><input value={name} onChange={(e) => setName(e.target.value)} maxLength={60} className={INPUT} placeholder="Your name" /></FormRow>
+                <button type="submit" disabled={save.isPending} className="h-10 w-fit cursor-pointer rounded-lg bg-accent px-4 text-sm font-semibold text-white hover:bg-accent-dark disabled:opacity-50">Save</button>
+              </form>
+            </Card>
+            <RecitersCard reciters={s.config.reciters} />
+            <Card icon={KeyRound} title="Password" hint="One password protects this console.">
+              <p className="text-sm text-ink-soft">The password is the <code className="font-mono text-xs">PANEL_PASSWORD</code> environment variable in Vercel. To change it, edit it there and redeploy. To sign out every device, also change <code className="font-mono text-xs">SESSION_SECRET</code>.</p>
+              <p className="text-xs text-ink-mute">Sessions last 30 days. Wrong passwords are slowed down to stop guessing.</p>
+            </Card>
+          </div>
+          <div className="flex flex-col gap-4">
+            <Card icon={SlidersHorizontal} title="Automation" hint="The daily plan, Tunisia time. Made, checked by Claude and posted by itself." pill={<Pill on={s.config.enabled} yes="On" no="Off" />}>
+              <DailyPlan bufferDays={s.config.buffer_days ?? 3} />
+              <form className="flex flex-col gap-4" onSubmit={(e) => { e.preventDefault(); save.mutate({ type: 'settings', settings: { config: { buffer_days: days } } }); }}>
+                <FormRow label="Days ready" hint="How many days of each type to keep made and waiting. 3 = a stock of 15 reels.">
+                  <input type="number" min={1} max={14} value={days} onChange={(e) => setDays(Number(e.target.value))} className={cn(INPUT, 'sm:w-40')} />
+                </FormRow>
+                <button type="submit" disabled={save.isPending} className="h-10 w-fit cursor-pointer rounded-lg bg-accent px-4 text-sm font-semibold text-white hover:bg-accent-dark disabled:opacity-50">Save</button>
+              </form>
+            </Card>
+            <Card icon={Link2} title="Connections" hint="Where reels are stored and where they are posted.">
+              <div className="flex items-start gap-3">
+                <Github className="mt-0.5 h-5 w-5 shrink-0 text-ink-soft" aria-hidden="true" />
+                <div className="min-w-0 flex-1">
+                  <p className="flex items-center gap-2 font-medium">GitHub <Pill on /></p>
+                  <p className="text-xs text-ink-mute">Repo <a className="text-accent hover:underline" href={`https://github.com/${s.repo}`} target="_blank" rel="noreferrer">{s.repo}</a>: scripts, queue, and the workflows that make and post reels.</p>
+                </div>
               </div>
-            </div>
-            <div className="flex items-start gap-3">
-              <Instagram className="mt-0.5 h-5 w-5 shrink-0 text-ink-soft" aria-hidden="true" />
-              <div className="min-w-0 flex-1">
-                <p className="flex items-center gap-2 font-medium">Instagram <Pill on={s.instagram && !ig.data?.error} no={s.instagram ? 'Error' : 'Not connected'} /></p>
-                {s.instagram ? (
-                  ig.data?.error ? <p className="flex items-center gap-1 text-xs text-danger"><XCircle className="h-3.5 w-3.5" aria-hidden="true" /> {ig.data.error}</p>
-                    : <p className="flex items-center gap-1 text-xs text-ink-mute"><CheckCircle2 className="h-3.5 w-3.5 text-ok" aria-hidden="true" /> {ig.data?.profile ? `@${ig.data.profile.username} · ${ig.data.profile.followers_count} followers` : 'Checking…'}</p>
-                ) : (
-                  <ol className="mt-1 list-decimal space-y-1 ps-4 text-xs text-ink-soft">
-                    <li>Create the Meta app and get the Instagram token (Instagram API with Instagram login).</li>
-                    <li>GitHub repo → Settings → Secrets → Actions: add <code className="font-mono">IG_ACCESS_TOKEN</code> and <code className="font-mono">IG_USER_ID</code>, so posting works.</li>
-                    <li>Vercel project → Settings → Environment Variables: add the same <code className="font-mono">IG_ACCESS_TOKEN</code>, then redeploy, so stats show here.</li>
-                  </ol>
-                )}
+              <div className="flex items-start gap-3">
+                <Instagram className="mt-0.5 h-5 w-5 shrink-0 text-ink-soft" aria-hidden="true" />
+                <div className="min-w-0 flex-1">
+                  <p className="flex items-center gap-2 font-medium">Instagram <Pill on={s.instagram && !ig.data?.error} no={s.instagram ? 'Error' : 'Not connected'} /></p>
+                  {s.instagram ? (
+                    ig.data?.error ? <p className="flex items-center gap-1 text-xs text-danger"><XCircle className="h-3.5 w-3.5" aria-hidden="true" /> {ig.data.error}</p>
+                      : <p className="flex items-center gap-1 text-xs text-ink-mute"><CheckCircle2 className="h-3.5 w-3.5 text-ok" aria-hidden="true" /> {ig.data?.profile ? `@${ig.data.profile.username} · ${ig.data.profile.followers_count} followers` : 'Checking…'}</p>
+                  ) : (
+                    <ol className="mt-1 list-decimal space-y-1 ps-4 text-xs text-ink-soft">
+                      <li>Create the Meta app and get the Instagram token (Instagram API with Instagram login).</li>
+                      <li>GitHub repo → Settings → Secrets → Actions: add <code className="font-mono">IG_ACCESS_TOKEN</code> and <code className="font-mono">IG_USER_ID</code>, so posting works.</li>
+                      <li>Vercel project → Settings → Environment Variables: add the same <code className="font-mono">IG_ACCESS_TOKEN</code>, then redeploy, so stats show here.</li>
+                    </ol>
+                  )}
+                </div>
               </div>
-            </div>
-          </Card>
-
-          <Card icon={KeyRound} title="Password" hint="One password protects this console.">
-            <p className="text-sm text-ink-soft">The password is the <code className="font-mono text-xs">PANEL_PASSWORD</code> environment variable in Vercel. To change it, edit it there and redeploy. To sign out every device, also change <code className="font-mono text-xs">SESSION_SECRET</code>.</p>
-            <p className="text-xs text-ink-mute">Sessions last 30 days. Wrong passwords are slowed down to stop guessing.</p>
-          </Card>
+            </Card>
+          </div>
         </div>
       )}
     </div>
