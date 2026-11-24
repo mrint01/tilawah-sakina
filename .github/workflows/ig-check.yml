@@ -20,7 +20,7 @@ jobs:
           for m in p.ig("GET", f"{u}/media", fields="timestamp,media_product_type,permalink", limit=5)["data"]:
               print(m["timestamp"], m.get("media_product_type"), m.get("permalink"))
           print(json.dumps(p.ig("GET", f"{u}/content_publishing_limit", fields="quota_usage,config")))
-          rows = p.ig("GET", f"{u}/media", fields="id,permalink,timestamp,media_product_type,like_count,comments_count", limit=50)["data"]
+          rows = p.ig("GET", f"{u}/media", fields="id,permalink,timestamp,media_product_type,like_count,comments_count,caption", limit=50)["data"]
           print("permalink | type | views likes comments saved shares reach total_interactions")
           for m in rows:
               try:
@@ -31,6 +31,7 @@ jobs:
               print(m["permalink"], m["timestamp"][:16], m.get("media_product_type"), "views", v.get("views"), "likes", m.get("like_count"),
                     "comments", m.get("comments_count"), "saved", v.get("saved"), "shares", v.get("shares"), "reach", v.get("reach"),
                     "total", v.get("total_interactions"), v.get("error", ""))
+              print("CAPTION", m["permalink"], json.dumps((m.get("caption") or "")[:200]))
           for path, f in (("me", "id,name"), ("me/permissions", None)):
               try:
                   print(path, json.dumps(p.ig("GET", path, fatal=False, **({"fields": f} if f else {}))))
