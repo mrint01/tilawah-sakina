@@ -1954,6 +1954,156 @@
       "review": "Claude routine: quiz frames clean, answer frame green box matches questions",
       "created": "2026-11-24T21:12:39+00:00",
       "reviewed": "2026-11-24T21:13:28+00:00"
+    },
+    {
+      "id": "20261124-212132-ayah",
+      "kind": "ayah",
+      "caption": "Blessed is He in whose hand is dominion, and He is over all things competent.\n\nSurah Al-Mulk (The Sovereignty) · 67:1-7\nRecited by Maher Al-Muaiqly\n\nListen till the end and share it with someone who needs it today 🤍\n\n#quran #quranrecitation #islam #almulk #almuaiqly",
+      "duration": 70.8,
+      "passage": [
+        67,
+        1
+      ],
+      "ref": "67:1-7",
+      "whole_surah": false,
+      "surah": "Al-Mulk",
+      "reciter": "Maher Al-Muaiqly",
+      "title": "Surah Al-Mulk 67:1-7 · Maher Al-Muaiqly",
+      "background": "ocean waves",
+      "size_mb": 56.6,
+      "mean_volume_db": -15.8,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60_90s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-24T21:21:54+00:00"
+    },
+    {
+      "id": "20261124-212510-ayah",
+      "kind": "ayah",
+      "caption": "Exalt the name of your Lord, the Most High.\n\nSurah Al-A'la (The Most High) · 87:1-14\nRecited by Mishary Alafasy\n\nListen till the end and share it with someone who needs it today 🤍\n\n#quran #quranrecitation #islam #alala #alafasy",
+      "duration": 71.0,
+      "passage": [
+        87,
+        1
+      ],
+      "ref": "87:1-14",
+      "whole_surah": false,
+      "surah": "Al-A'la",
+      "reciter": "Mishary Alafasy",
+      "title": "Surah Al-A'la 87:1-14 · Mishary Alafasy",
+      "background": "snow mountains",
+      "size_mb": 56.1,
+      "mean_volume_db": -20.6,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60_90s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-24T21:25:29+00:00"
+    },
+    {
+      "id": "20261124-212842-ayah",
+      "kind": "ayah",
+      "caption": "And We had certainly given Luqmān wisdom [and said], Be grateful to Allāh.\n\nSurah Luqman (Luqman) · 31:12-14\nRecited by Mishary Alafasy\n\nListen till the end and share it with someone who needs it today 🤍\n\n#quran #quranrecitation #islam #luqman #alafasy",
+      "duration": 67.2,
+      "passage": [
+        31,
+        12
+      ],
+      "ref": "31:12-14",
+      "whole_surah": false,
+      "surah": "Luqman",
+      "reciter": "Mishary Alafasy",
+      "title": "Surah Luqman 31:12-14 · Mishary Alafasy",
+      "background": "rain leaves",
+      "size_mb": 42.2,
+      "mean_volume_db": -24.3,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60_90s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-24T21:28:59+00:00"
+    },
+    {
+      "id": "20261124-212945-tasbih",
+      "kind": "tasbih",
+      "caption": "The Prophet ﷺ sought forgiveness more than 70 times a day. Repeat this 3 times for 100 🤍\n\n33× Astaghfirullah. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#astaghfirullah #istighfar #dhikr #tasbih #islam",
+      "duration": 60.0,
+      "set": "astaghfirullah",
+      "title": "33× Astaghfirullah",
+      "size_mb": 4.9,
+      "mean_volume_db": -40.6,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-24T21:29:53+00:00"
+    },
+    {
+      "id": "20261124-213040-tasbih",
+      "kind": "tasbih",
+      "caption": "The best dhikr is La ilaha illallah (Tirmidhi). Count down with me 🤍\n\n33× La ilaha illallah. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#dhikr #tawheed #tasbih #islam #reminder",
+      "duration": 60.0,
+      "set": "tahlil",
+      "title": "33× La ilaha illallah",
+      "size_mb": 4.9,
+      "mean_volume_db": -40.5,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-24T21:30:49+00:00"
+    },
+    {
+      "id": "20261124-213136-tasbih",
+      "kind": "tasbih",
+      "caption": "Say it 100 times and your sins are wiped away, even if they are like the foam of the sea (Bukhari). Repeat this 3 times 🤍\n\n33× SubhanAllahi wa bihamdihi. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#dhikr #subhanallah #tasbih #islam #sunnah",
+      "duration": 60.0,
+      "set": "wabihamdihi",
+      "title": "33× SubhanAllahi wa bihamdihi",
+      "size_mb": 5.0,
+      "mean_volume_db": -40.6,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-24T21:31:45+00:00"
     }
   ]
 }
