@@ -6,7 +6,7 @@ const METRICS = [
   { key: 'views', label: 'Views', icon: Eye, tone: 'blue' },
   { key: 'likes', label: 'Likes', icon: Heart, tone: 'red' },
   { key: 'comments', label: 'Comments', icon: MessageCircle, tone: 'violet' },
-  { key: 'shares', label: 'Sends', icon: Send, tone: 'green' },
+  { key: 'shares', label: 'Shares', icon: Send, tone: 'green' },
   { key: 'saves', label: 'Saves', icon: Bookmark, tone: 'orange' },
 ] as const;
 
