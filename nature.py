@@ -46,9 +46,15 @@ def search(theme):
 
 
 def clip_file(hit):
-    v = hit["videos"].get("medium") or hit["videos"]["large"]
-    if not v.get("url"):
-        v = hit["videos"]["large"]
+    """Download the HD / 2K version of a clip (short side 1080-1440 px), never 4K: enough for a 1080x1920 reel,
+    and much lighter to process. Falls back to the closest size available."""
+    vids = [v for v in hit["videos"].values() if v.get("url") and v.get("width") and v.get("height")]
+    if not vids:
+        v = hit["videos"].get("medium") or hit["videos"]["large"]
+    else:
+        short = lambda v: min(v["width"], v["height"])
+        ok = [v for v in vids if 1080 <= short(v) <= 1440]
+        v = min(ok, key=short) if ok else min(vids, key=lambda v: abs(short(v) - 1080))
     return _get(v["url"], CACHE / "clips" / f"{hit['id']}.mp4")
 
 
