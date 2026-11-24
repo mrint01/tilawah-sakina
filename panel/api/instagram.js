@@ -34,10 +34,13 @@ async function allMedia(user, max = 200) {
 }
 
 /** views / reach / saves / shares need the instagram_manage_insights permission; null when not allowed (yet). */
-async function insights(id) {
-  const ins = await ig(`${id}/insights`, { metric: 'views,reach,saved,shares,total_interactions' });
+async function insights(id, isReel) {
+  const metric = 'views,reach,saved,shares,total_interactions' + (isReel ? ',ig_reels_avg_watch_time' : '');
+  const ins = await ig(`${id}/insights`, { metric });
   const v = (n) => ins.data?.find((x) => x.name === n)?.values?.[0]?.value ?? null;
-  return { views: v('views'), reach: v('reach'), saves: v('saved'), shares: v('shares'), interactions: v('total_interactions') };
+  const watch = v('ig_reels_avg_watch_time');
+  return { views: v('views'), reach: v('reach'), saves: v('saved'), shares: v('shares'), interactions: v('total_interactions'),
+    watch: watch == null ? null : Math.round(watch / 100) / 10 };  // seconds, 1 decimal
 }
 
 /**
@@ -57,8 +60,8 @@ export default async function handler(req, res) {
 
     let insightsError = null;
     const posts = await Promise.all(list.map(async (m) => {
-      let st = { views: null, reach: null, saves: null, shares: null, interactions: null };
-      try { st = await insights(m.id); } catch (e) { insightsError ??= e.message; }
+      let st = { views: null, reach: null, saves: null, shares: null, interactions: null, watch: null };
+      try { st = await insights(m.id, (m.media_product_type || m.media_type) === 'REELS'); } catch (e) { insightsError ??= e.message; }
       return {
         id: m.id, permalink: m.permalink, timestamp: m.timestamp, type: m.media_product_type || m.media_type,
         caption: m.caption ?? '', thumbnail: m.thumbnail_url || (m.media_type === 'IMAGE' ? m.media_url : null),

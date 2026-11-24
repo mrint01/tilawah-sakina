@@ -1,4 +1,4 @@
-import { Bookmark, Eye, Heart, MessageCircle, Radar, Share2, TriangleAlert } from 'lucide-react';
+import { Bookmark, Eye, Heart, MessageCircle, Radar, Share2, Timer, TriangleAlert } from 'lucide-react';
 import type { InstagramStats, MediaStats } from './api';
 import { int, KpiCard } from './ui';
 
@@ -40,15 +40,16 @@ export function InsightsNote({ text }: { text: string }) {
 
 /** The numbers of one post, as a small grid (used on the reel page). */
 export function ReelStats({ m }: { m?: MediaStats }) {
-  const cells = [...METRICS, { key: 'reach', label: 'Reach', icon: Radar, tone: 'slate' } as const];
+  const cells = [...METRICS, { key: 'reach', label: 'Reach', icon: Radar, tone: 'slate' } as const,
+    { key: 'watch', label: 'Avg watch', icon: Timer, tone: 'slate' } as const];
   return (
-    <dl className="grid grid-cols-3 gap-2 sm:grid-cols-6">
+    <dl className="grid grid-cols-3 gap-2 sm:grid-cols-4 2xl:grid-cols-7">
       {cells.map((c) => {
         const v = m ? (m as unknown as Record<string, number | null>)[c.key] : undefined;
         return (
           <div key={c.key} className="rounded-lg border border-paper-line bg-paper-alt px-2 py-2.5 text-center">
             <dt className="flex items-center justify-center gap-1 text-xs text-ink-mute"><c.icon className="h-3.5 w-3.5" aria-hidden="true" /> {c.label}</dt>
-            <dd className="num mt-0.5 text-lg font-bold">{v == null ? '–' : int.format(v)}</dd>
+            <dd className="num mt-0.5 text-lg font-bold">{v == null ? '–' : c.key === 'watch' ? `${v}s` : int.format(v)}</dd>
           </div>
         );
       })}
