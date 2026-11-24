@@ -58,14 +58,14 @@ export default function OverviewPage() {
       )}
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <KpiCard icon={Send} label="Posted" value={posted.length} tone="blue" delay={0}
+        <KpiCard icon={Users} label="Followers" value={followers ?? 0} tone="violet" delay={0}
+          footer={s.instagram ? (ig.data?.profile ? `@${ig.data.profile.username}` : ig.data?.error ?? 'Loading…') : 'Connect Instagram in Settings'} />
+        <KpiCard icon={Send} label="Posted" value={posted.length} tone="blue" delay={0.05}
           footer={posted.at(-1)?.posted ? <>Last {ago(posted.at(-1)!.posted!)}</> : 'Nothing posted yet'} onClick={() => navigate('/posted')} />
         <KpiCard icon={CheckCircle2} label="Ready to post" value={approved} tone="green" delay={0.05}
           footer={<>≈ {Math.floor(approved / 2)} {Math.floor(approved / 2) === 1 ? 'day' : 'days'} at 2 a day</>} onClick={() => navigate('/queue')} />
         <KpiCard icon={Inbox} label="Waiting for review" value={pending} tone="orange" delay={0.1}
           footer="Approve or reject in Review" onClick={() => navigate('/review')} />
-        <KpiCard icon={Users} label="Followers" value={followers ?? 0} tone="violet" delay={0.15}
-          footer={s.instagram ? (ig.data?.profile ? `@${ig.data.profile.username}` : ig.data?.error ?? 'Loading…') : 'Connect Instagram in Settings'} />
       </div>
 
       {s.instagram && <TotalsRow ig={ig.data} />}
