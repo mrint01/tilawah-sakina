@@ -13,7 +13,8 @@ async function ig(path, params = {}) {
 }
 
 const shortcode = (link) => /instagram\.com\/(?:reel|p|tv)\/([^/?#]+)/.exec(link || '')?.[1] ?? null;
-const HOUR = 3600_000;
+/** First 80 letters/digits of a caption, lower case: the same text however emoji or spacing changed. */
+const key = (t) => (t || '').toLowerCase().normalize('NFKD').replace(/[^\p{L}\p{N}]+/gu, '').slice(0, 80);
 
 /** Every post on the account, oldest first (follows paging, at most `max`). */
 async function allMedia(user, max = 200) {
@@ -69,8 +70,10 @@ export default async function handler(req, res) {
       };
     }));
 
-    // match queue reels to posts
-    const items = (queue.data?.items ?? []).filter((i) => i.status === 'posted');
+    // Match queue reels to posts: by media id, by link, else by caption (posts made by hand reuse the reel's caption;
+    // the time a reel was marked "posted" is not reliable, a post can be scheduled for later in the Instagram app).
+    const items = (queue.data?.items ?? []).filter((i) => i.status === 'posted')
+      .sort((x, y) => String(x.posted).localeCompare(String(y.posted)));
     const byId = new Map(posts.map((p) => [p.id, p]));
     const byCode = new Map(posts.map((p) => [shortcode(p.permalink), p]));
     const take = (it, p) => { if (p && !p.reel) { p.reel = it.id; return true; } return false; };
@@ -78,15 +81,10 @@ export default async function handler(req, res) {
     for (const it of items) {
       if (!(take(it, byId.get(it.ig_media_id)) || take(it, byCode.get(shortcode(it.permalink))))) left.push(it);
     }
-    for (const it of left) {  // hand-posted without a link: closest free post within 36 h, posted before it was marked
-      const t = +new Date(it.posted ?? 0);
-      let best = null;
-      for (const p of posts) {
-        if (p.reel || p.type !== 'REELS') continue;
-        const d = t - +new Date(p.timestamp);
-        if (d > -2 * HOUR && d < 36 * HOUR && (!best || Math.abs(d) < Math.abs(t - +new Date(best.timestamp)))) best = p;
-      }
-      take(it, best);
+    const oldestFirst = posts.slice().sort((x, y) => x.timestamp.localeCompare(y.timestamp));
+    for (const it of left) {  // same caption: the oldest free post (reels with the same text are posted in order)
+      const k = key(it.caption);
+      if (k.length >= 20) take(it, oldestFirst.find((p) => !p.reel && key(p.caption) === k));
     }
 
     const media = {};
