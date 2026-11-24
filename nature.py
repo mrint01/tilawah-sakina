@@ -98,7 +98,7 @@ def _xfade(parts, out, prep, grade_total=None):
     tail = f",trim=duration={grade_total:.3f},setpts=PTS-STARTPTS,eq=brightness=-0.08:saturation=0.9,vignette=PI/4.5" if grade_total else ""
     f.append(f"[{last}]null{tail}[bg]")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *ins, "-filter_complex", ";".join(f), "-map", "[bg]", "-an",
-                    "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p", str(out)], check=True, timeout=3600)
+                    "-c:v", "libx264", "-preset", "veryfast", "-crf", "21", "-pix_fmt", "yuv420p", str(out)], check=True, timeout=3600)
     return offset + FADE  # length of the joined video
 
 
