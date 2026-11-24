@@ -16,6 +16,8 @@ from pathlib import Path
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
+import scenes
+
 HERE = Path(__file__).parent
 FONTS = HERE / "fonts"
 OUT = HERE / "reels"
@@ -94,6 +96,14 @@ RING_R = 300
 BEADS = 33
 BEAD_R = 24
 
+# "kaaba" (default): night sky, light rays and the Kaaba with moving tawaf lights; the bead ring sits higher.
+# "classic": the first design (plain gradient, big ring with tassel).
+STYLES = {
+    "kaaba": {"ring": (540, 905), "r": 225, "bead": 17, "tassel": False, "num": 140, "handle_y": 1860,
+              "theme": ((14, 40, 70), (8, 14, 38), (232, 198, 128))},
+    "classic": {"ring": RING_C, "r": RING_R, "bead": BEAD_R, "tassel": True, "num": 150, "handle_y": 1720, "theme": None},
+}
+
 
 def font(name, size):
     return ImageFont.truetype(str(FONTS / name), size)
@@ -164,37 +174,52 @@ def end_layer(theme):
 
 
 # ---------- per-frame drawing ----------
-def draw_ring(d, theme, done_in_cycle, rot, pulse):
+def draw_ring(d, theme, done_in_cycle, rot, pulse, geo=None):
+    geo = geo or STYLES["classic"]
     acc = theme[2]
-    cx, cy = RING_C
+    cx, cy = geo["ring"]
+    R, BR = geo["r"], geo["bead"]
     # thread
-    d.ellipse((cx - RING_R, cy - RING_R, cx + RING_R, cy + RING_R), outline=acc + (70,), width=2)
+    d.ellipse((cx - R, cy - R, cx + R, cy + R), outline=acc + (70,), width=2)
+    if not geo["tassel"]:  # soft halo ring around the beads
+        d.ellipse((cx - R - 42, cy - R - 42, cx + R + 42, cy + R + 42), outline=(255, 255, 255, 28), width=2)
     for i in range(BEADS):
         ang = -math.pi / 2 + (i - rot) * 2 * math.pi / BEADS
-        x, y = cx + RING_R * math.cos(ang), cy + RING_R * math.sin(ang)
+        x, y = cx + R * math.cos(ang), cy + R * math.sin(ang)
         counted = i < done_in_cycle
-        r = BEAD_R
+        r = BR
         if i == done_in_cycle - 1:
-            r = BEAD_R * (1 + 0.35 * pulse)
+            r = BR * (1 + 0.35 * pulse)
         if counted:
             fill, line = acc + (255,), (255, 236, 190, 255)
+        elif not geo["tassel"]:
+            fill, line = (30, 40, 62, 230), (160, 172, 200, 150)
         else:
             fill, line = (60, 70, 66, 200), acc + (90,)
         d.ellipse((x - r, y - r, x + r, y + r), fill=fill, outline=line, width=2)
         # tiny highlight for a glassy bead look
         d.ellipse((x - r * 0.45, y - r * 0.55, x - r * 0.05, y - r * 0.15), fill=(255, 255, 255, 70 if counted else 30))
+    if not geo["tassel"]:
+        return
     # imam bead + tassel at the bottom
-    bx, by = cx, cy + RING_R + 52
+    bx, by = cx, cy + R + 52
     d.ellipse((bx - 30, by - 30, bx + 30, by + 30), fill=acc + (255,), outline=(255, 236, 190, 255), width=2)
     for k in range(-3, 4):
         d.line((bx + k * 4, by + 30, bx + k * 9, by + 110), fill=acc + (200,), width=3)
 
 
-def render(set_key, theme_idx=None, seed=None, progress=None):
+def render(set_key, theme_idx=None, seed=None, progress=None, style="kaaba"):
     rnd = random.Random(seed)
     spec = SETS[set_key]
-    theme = THEMES[theme_idx] if theme_idx is not None else rnd.choice(THEMES)
-    bg = background(theme)
+    geo = STYLES[style]
+    theme = geo["theme"] or (THEMES[theme_idx] if theme_idx is not None else rnd.choice(THEMES))
+    if style == "kaaba":
+        bg = scenes.kaaba_night()
+        ImageDraw.Draw(bg).text((W / 2, geo["handle_y"]), HANDLE, font=font("Lora-var.ttf", 30), fill=CREAM + (160,), anchor="mm")
+        kaaba = scenes.shadowed(Image.new("RGBA", (W, H), (0, 0, 0, 0)), scenes.kaaba_layer(*scenes.KAABA_BASE), 18, 0.8)
+        tawaf = scenes.tawaf_points()
+    else:
+        bg = background(theme)
     layers = {k: phrase_layer(k, theme) for k, _ in spec["steps"]}
     end = end_layer(theme)
 
@@ -241,6 +266,10 @@ def render(set_key, theme_idx=None, seed=None, progress=None):
         finished = ei == len(events) - 1 and since > step
 
         frame = bg.copy()
+        if style == "kaaba":
+            scenes.draw_tawaf(ImageDraw.Draw(frame), tawaf, tt, behind=True)
+            frame.alpha_composite(kaaba)
+            scenes.draw_tawaf(ImageDraw.Draw(frame), tawaf, tt, behind=False)
         # phrase (crossfade when the step changes, end card at the end)
         if finished:
             a = ease((since - step) / 0.6)
@@ -264,19 +293,20 @@ def render(set_key, theme_idx=None, seed=None, progress=None):
             done = BEADS
         # newest bead slides into the top position, like pulling a real misbaha
         rot = (((c - 1) % BEADS)) + (slide - 1) if c else 0
-        draw_ring(d, theme, done, rot=rot, pulse=pulse)
+        draw_ring(d, theme, done, rot=rot, pulse=pulse, geo=geo)
 
         # countdown in the middle of the ring: 33 before the first bead, 0 after the last
         left = n - c
-        size = int(150 * (1 + 0.12 * pulse))
+        size = int(geo["num"] * (1 + 0.12 * pulse))
         f = cnt_font_cache.setdefault(size, font("Lora-var.ttf", size))
+        rcx, rcy = geo["ring"]
         if finished:
-            cx, cy = RING_C[0], RING_C[1] - 20
+            cx, cy = rcx, rcy - 20
             d.line([(cx - 55, cy), (cx - 15, cy + 42), (cx + 60, cy - 48)], fill=theme[2] + (255,), width=18, joint="curve")
-            d.text((RING_C[0], RING_C[1] + 95), "done", font=font("Lora-var.ttf", 40), fill=CREAM + (220,), anchor="mm")
+            d.text((rcx, rcy + 95), "done", font=font("Lora-var.ttf", 40), fill=CREAM + (220,), anchor="mm")
         else:
-            d.text((RING_C[0], RING_C[1] - 25), str(left), font=f, fill=CREAM + (255,), anchor="mm")
-            d.text((RING_C[0], RING_C[1] + 85), f"left of {n}", font=font("Lora-var.ttf", 36), fill=theme[2] + (220,), anchor="mm")
+            d.text((rcx, rcy - 25), str(left), font=f, fill=CREAM + (255,), anchor="mm")
+            d.text((rcx, rcy + 80), f"left of {n}", font=font("Lora-var.ttf", 34), fill=theme[2] + (220,), anchor="mm")
 
         ff.stdin.write(frame.convert("RGB").tobytes())
     ff.stdin.close()

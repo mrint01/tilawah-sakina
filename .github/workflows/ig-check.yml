@@ -29,7 +29,7 @@ jobs:
               print("ALLOWED", str(e)[:1500])
           for met in ["views", "reach", "likes", "comments", "saved", "shares", "total_interactions", "reposts", "replies",
                       "follows", "profile_visits", "profile_activity", "navigation", "ig_reels_video_view_total_time",
-                      "ig_reels_avg_watch_time", "facebook_views", "crossposted_views", "impressions"]:
+                      "ig_reels_avg_watch_time", "viewers", "total_viewers", "total_views", "total_likes", "reels_skip_rate", "link_clicks"]:
               try:
                   r = p.ig("GET", f"{mid}/insights", fatal=False, metric=met)["data"]
                   print("METRIC", met, json.dumps([(x["name"], x["values"][0]["value"] if x.get("values") else x.get("total_value")) for x in r])[:300])
