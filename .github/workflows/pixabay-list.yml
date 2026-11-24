@@ -1,0 +1,32 @@
+name: Pixabay list
+
+# Read-only: saves the Pixabay search results (clip links) for a few queries as an artifact, for local testing.
+on:
+  workflow_dispatch:
+    inputs:
+      queries:
+        description: "Comma-separated searches"
+        default: "earth from space,galaxy stars,starry sky,nebula space,sun rays clouds,garden flowers,falling leaves,sunrise"
+
+jobs:
+  list:
+    runs-on: ubuntu-latest
+    env:
+      PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
+      QUERIES: ${{ inputs.queries }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          python3 - <<'PY'
+          import json, os, nature
+          out = {}
+          for q in os.environ["QUERIES"].split(","):
+              q = q.strip()
+              out[q] = nature.search(q)
+              print(q, len(out[q]))
+          json.dump(out, open("pixabay_list.json", "w"))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pixabay-list
+          path: pixabay_list.json
