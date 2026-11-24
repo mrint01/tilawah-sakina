@@ -8,8 +8,9 @@ import { Badge } from './ui';
 export const makingRun = (s?: PanelState) => s?.runs.find((r) => r.name === 'Generate reels' && r.status !== 'completed') ?? null;
 export const useAppState = () =>
   useQuery({ queryKey: ['state'], queryFn: api.state, refetchInterval: (q) => (makingRun(q.state.data) ? 5_000 : 30_000) });
+/** Instagram numbers: refreshed every minute while the panel is open, and when you come back to the tab. */
 export const useInstagram = (enabled = true) =>
-  useQuery({ queryKey: ['instagram'], queryFn: api.instagram, staleTime: 5 * 60_000, enabled });
+  useQuery({ queryKey: ['instagram'], queryFn: api.instagram, staleTime: 30_000, refetchInterval: 60_000, refetchOnWindowFocus: true, enabled });
 
 /** Runs a panel action, shows a toast, and refreshes the state (GitHub needs a moment to reflect commits). */
 export function useAct(success?: string | ((a: Action) => string)) {
