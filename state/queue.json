@@ -1284,10 +1284,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "status": "rejected",
+      "review": "Replaced by the new design (nature video / Kaaba)",
       "created": "2026-11-20T12:28:02+00:00",
-      "reviewed": "2026-11-20T12:38:56+00:00"
+      "reviewed": "2026-11-24T21:16:12+00:00"
     },
     {
       "id": "20261120-122920-tasbih",
@@ -1306,10 +1306,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "status": "rejected",
+      "review": "Replaced by the new design (nature video / Kaaba)",
       "created": "2026-11-20T12:29:28+00:00",
-      "reviewed": "2026-11-20T12:38:56+00:00"
+      "reviewed": "2026-11-24T21:16:12+00:00"
     },
     {
       "id": "20261120-123026-ayah",
@@ -1335,10 +1335,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "status": "rejected",
+      "review": "Replaced by the new design (nature video / Kaaba)",
       "created": "2026-11-20T12:30:36+00:00",
-      "reviewed": "2026-11-20T12:38:56+00:00"
+      "reviewed": "2026-11-24T21:16:12+00:00"
     },
     {
       "id": "20261120-123106-tasbih",
@@ -1357,10 +1357,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "status": "rejected",
+      "review": "Replaced by the new design (nature video / Kaaba)",
       "created": "2026-11-20T12:31:13+00:00",
-      "reviewed": "2026-11-20T12:38:57+00:00"
+      "reviewed": "2026-11-24T21:16:12+00:00"
     },
     {
       "id": "20261120-123227-ayah",
@@ -1408,10 +1408,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "status": "rejected",
+      "review": "Replaced by the new design (nature video / Kaaba)",
       "created": "2026-11-20T12:33:15+00:00",
-      "reviewed": "2026-11-20T12:38:57+00:00"
+      "reviewed": "2026-11-24T21:16:12+00:00"
     },
     {
       "id": "20261120-123413-ayah",
@@ -1437,10 +1437,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "status": "rejected",
+      "review": "Replaced by the new design (nature video / Kaaba)",
       "created": "2026-11-20T12:34:22+00:00",
-      "reviewed": "2026-11-20T12:38:57+00:00"
+      "reviewed": "2026-11-24T21:16:12+00:00"
     },
     {
       "id": "20261120-123524-ayah",
@@ -1495,10 +1495,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "status": "rejected",
+      "review": "Replaced by the new design (nature video / Kaaba)",
       "created": "2026-11-20T12:36:34+00:00",
-      "reviewed": "2026-11-20T12:38:57+00:00"
+      "reviewed": "2026-11-24T21:16:12+00:00"
     },
     {
       "id": "20261120-123735-ayah",
@@ -1524,10 +1524,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: all checks true, Arabic/English render cleanly, no overlap, refs match",
+      "status": "rejected",
+      "review": "Replaced by the new design (nature video / Kaaba)",
       "created": "2026-11-20T12:37:45+00:00",
-      "reviewed": "2026-11-20T12:38:57+00:00"
+      "reviewed": "2026-11-24T21:16:12+00:00"
     },
     {
       "id": "20261120-125708-ayah",
@@ -1611,10 +1611,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: Arabic joined with harakat, no overlap, refs match, English readable",
+      "status": "rejected",
+      "review": "Replaced by the new design (nature video / Kaaba)",
       "created": "2026-11-20T13:31:21+00:00",
-      "reviewed": "2026-11-20T13:37:23+00:00"
+      "reviewed": "2026-11-24T21:16:12+00:00"
     },
     {
       "id": "20261120-133211-ayah",
@@ -1640,10 +1640,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: Arabic joined with harakat, no overlap, refs match, English readable",
+      "status": "rejected",
+      "review": "Replaced by the new design (nature video / Kaaba)",
       "created": "2026-11-20T13:32:20+00:00",
-      "reviewed": "2026-11-20T13:37:23+00:00"
+      "reviewed": "2026-11-24T21:16:12+00:00"
     },
     {
       "id": "20261120-133311-ayah",
@@ -1669,10 +1669,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: Arabic joined with harakat, no overlap, refs match, English readable",
+      "status": "rejected",
+      "review": "Replaced by the new design (nature video / Kaaba)",
       "created": "2026-11-20T13:33:20+00:00",
-      "reviewed": "2026-11-20T13:37:23+00:00"
+      "reviewed": "2026-11-24T21:16:12+00:00"
     },
     {
       "id": "20261120-133414-ayah",
@@ -1698,10 +1698,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: Arabic joined with harakat, no overlap, refs match, English readable",
+      "status": "rejected",
+      "review": "Replaced by the new design (nature video / Kaaba)",
       "created": "2026-11-20T13:34:23+00:00",
-      "reviewed": "2026-11-20T13:37:23+00:00"
+      "reviewed": "2026-11-24T21:16:12+00:00"
     },
     {
       "id": "20261120-133515-ayah",
@@ -1727,10 +1727,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: Arabic joined with harakat, no overlap, refs match, English readable",
+      "status": "rejected",
+      "review": "Replaced by the new design (nature video / Kaaba)",
       "created": "2026-11-20T13:35:23+00:00",
-      "reviewed": "2026-11-20T13:37:23+00:00"
+      "reviewed": "2026-11-24T21:16:12+00:00"
     },
     {
       "id": "20261120-133617-ayah",
@@ -1756,10 +1756,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: Arabic joined with harakat, no overlap, refs match, English readable",
+      "status": "rejected",
+      "review": "Replaced by the new design (nature video / Kaaba)",
       "created": "2026-11-20T13:36:27+00:00",
-      "reviewed": "2026-11-20T13:37:23+00:00"
+      "reviewed": "2026-11-24T21:16:12+00:00"
     },
     {
       "id": "20261124-210958-dua",
