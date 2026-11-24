@@ -6,6 +6,7 @@ import { MakeProgressCard, MakeReelsButton } from '../admin/MakeReels';
 import { KindBadge, makingRun, Thumb, useAct, useAppState, useInstagram } from '../admin/hooks';
 import { ago, Badge, dateTime, Empty, int, KpiCard, PageHeader, Panel, Skeleton } from '../admin/ui';
 import { RunRow } from './RunsPage';
+import { TotalsRow } from '../admin/IgStats';
 
 export default function OverviewPage() {
   const navigate = useNavigate();
@@ -66,6 +67,8 @@ export default function OverviewPage() {
         <KpiCard icon={Users} label="Followers" value={followers ?? 0} tone="violet" delay={0.15}
           footer={s.instagram ? (ig.data?.profile ? `@${ig.data.profile.username}` : ig.data?.error ?? 'Loading…') : 'Connect Instagram in Settings'} />
       </div>
+
+      {s.instagram && <TotalsRow ig={ig.data} />}
 
       <div className="grid grid-cols-1 items-start gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         <Panel title="Automation" delay={0.1}>

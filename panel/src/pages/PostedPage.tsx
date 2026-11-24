@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowDown, ArrowUp, ArrowUpDown, ExternalLink, Eye, Heart, RefreshCw, Send } from 'lucide-react';
+import { ArrowDown, ArrowUp, ArrowUpDown, ExternalLink, RefreshCw, Send } from 'lucide-react';
 import { cn } from '../admin/cn';
 import type { MediaStats, Reel } from '../admin/api';
 import { KindBadge, Thumb, useAppState, useInstagram } from '../admin/hooks';
 import { matchFilters, ReelFilterBar, useReelFilters } from '../admin/ReelFilters';
-import { ago, dateTime, Empty, int, KpiCard, PageHeader, Pager, Skeleton, usePaged } from '../admin/ui';
+import { ago, dateTime, Empty, int, PageHeader, Pager, Skeleton, usePaged } from '../admin/ui';
+import { TotalsRow } from '../admin/IgStats';
 
 type Sort = 'posted' | 'views' | 'likes';
 
@@ -21,8 +22,6 @@ export default function PostedPage() {
   const [filters, setFilters] = useReelFilters();
   const posted = allPosted.filter((r) => matchFilters(r, filters)).sort((a, b) => (val(a) - val(b)) * sort.dir);
   const paged = usePaged(posted, `${sort.key}${sort.dir}${JSON.stringify(filters)}`, 15);
-  const totalViews = posted.reduce((n, r) => n + (stats(r)?.views ?? 0), 0);
-  const totalLikes = posted.reduce((n, r) => n + (stats(r)?.likes ?? 0), 0);
 
   const th = (key: Sort, label: string, right = false) => {
     const active = sort.key === key;
@@ -51,13 +50,7 @@ export default function PostedPage() {
       {s && !s.instagram && <p className="rounded-xl bg-accent-light p-3 text-sm font-medium text-accent">Views and likes show here once Instagram is connected (Settings → Connections).</p>}
       {ig.data?.error && <p className="rounded-xl bg-danger-light p-3 text-sm text-danger">Instagram: {ig.data.error}</p>}
 
-      {s?.instagram && (
-        <div className="grid gap-4 sm:grid-cols-3">
-          <KpiCard icon={Eye} label="Views, all posts" value={totalViews} tone="blue" />
-          <KpiCard icon={Heart} label="Likes, all posts" value={totalLikes} tone="red" delay={0.05} />
-          <KpiCard icon={Send} label="Average views per reel" value={posted.length ? totalViews / posted.length : 0} tone="green" delay={0.1} />
-        </div>
-      )}
+      {s?.instagram && <TotalsRow ig={ig.data} />}
 
       <section className="overflow-hidden rounded-xl border border-paper-line bg-paper shadow-sm">
         {s && allPosted.length > 0 && <ReelFilterBar items={allPosted} value={filters} onChange={setFilters} shown={posted.length} />}

@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Check, CheckCircle2, Inbox, MousePointerClick, RefreshCw, RotateCcw, Undo2, X, XCircle } from 'lucide-react';
+import { Check, CheckCircle2, ExternalLink, Inbox, MousePointerClick, RefreshCw, RotateCcw, Undo2, X, XCircle } from 'lucide-react';
 import { cn } from '../admin/cn';
 import { asset, CHECK_LABEL, type PanelState, type Reel } from '../admin/api';
 import { ManualPost } from '../admin/ManualPost';
 import { MakeProgressCard, MakeReelsButton } from '../admin/MakeReels';
-import { allChecksOk, makingRun, KindBadge, StatusBadge, Thumb, useAct, useAppState } from '../admin/hooks';
+import { allChecksOk, makingRun, KindBadge, StatusBadge, Thumb, useAct, useAppState, useInstagram } from '../admin/hooks';
+import { InsightsNote, ReelStats } from '../admin/IgStats';
 import { ago, Badge, dateTime, Empty, PageHeader, Pager, SELECT, Skeleton, usePaged } from '../admin/ui';
 
 type Filter = 'pending' | 'rejected' | 'failed' | 'all';
@@ -15,7 +16,8 @@ const FILTERS: { value: Filter; label: string }[] = [
 ];
 const match = (r: Reel, f: Filter) => (f === 'all' ? true : r.status === f);
 
-/** Every reel is checked here before it can be posted. Master–detail: list left, picked reel (?reel=id) right. */
+/** Every reel is checked here before it can be posted. The picked reel (?reel=id) is the main column, the list is on the right;
+ *  on phones the picked reel comes first and the list under it. */
 export default function ReviewPage() {
   const state = useAppState();
   const [params, setParams] = useSearchParams();
@@ -28,8 +30,8 @@ export default function ReviewPage() {
   const count = (f: Filter) => list.filter((r) => match(r, f)).length;
   const open = (id: string) => {
     setParams({ reel: id }, { replace: true });
-    // phones: the picked reel sits above the list, so bring it into view once it has rendered
-    if (window.matchMedia('(max-width: 1023px)').matches) requestAnimationFrame(() => document.getElementById('reel')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    // the picked reel is at the top: bring it into view once it has rendered
+    requestAnimationFrame(() => document.getElementById('reel')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
   };
 
   return (
@@ -53,23 +55,23 @@ export default function ReviewPage() {
       {state.data && <MakeProgressCard s={state.data} />}
       {state.error && <p className="rounded-xl bg-danger-light p-3 text-sm text-danger">{(state.error as Error).message}</p>}
 
-      <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)]">
-        <section className="flex flex-col rounded-xl border border-paper-line bg-paper shadow-sm">
+      <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,24rem)]">
+        {/* phones: the picked reel shows above the list; with nothing picked only the list shows */}
+        {state.data && <ReelPanel s={state.data} r={selected} className={selected ? 'scroll-mt-16' : 'hidden lg:block'} />}
+        <section className="flex flex-col rounded-xl border border-paper-line bg-paper shadow-sm lg:sticky lg:top-16 lg:max-h-[calc(100vh-5rem)]">
           <div className="border-b border-paper-line px-4 py-3">
-            <h2 className="text-sm font-semibold">Reels</h2>
+            <h2 className="text-sm font-semibold">{selected ? 'Other reels' : 'Reels'}</h2>
             <p className="text-xs text-ink-mute">{state.data ? `${shown.length} shown` : 'Loading…'}</p>
           </div>
           {!state.data ? <div className="p-4"><Skeleton className="h-40" /></div> : shown.length === 0 ? (
             <Empty icon={Inbox} text={filter === 'pending' ? 'Nothing waiting. New reels arrive every morning, or press “Make reels”.' : 'Nothing here for this status.'} />
           ) : (
-            <ul className="divide-y divide-paper-line">
+            <ul className="divide-y divide-paper-line lg:overflow-y-auto">
               {paged.items?.map((r) => <ReelRow key={r.id} s={state.data!} r={r} active={r.id === selected?.id} onOpen={() => open(r.id)} />)}
             </ul>
           )}
           <Pager paged={paged} className="border-t border-paper-line px-4 py-3" />
         </section>
-        {/* phones: the picked reel shows above the list; with nothing picked only the list shows */}
-        {state.data && <ReelPanel s={state.data} r={selected} className={selected ? 'order-first scroll-mt-16 lg:order-none' : 'hidden lg:block'} />}
       </div>
     </div>
   );
@@ -106,13 +108,14 @@ function ReelPanel({ s, r, className = '' }: { s: PanelState; r: Reel | null; cl
   const act = useAct((a) => (a.type === 'approve' ? 'Approved: it joins the posting schedule' : a.type === 'reject' ? 'Rejected: it will not be posted' : a.type === 'unmark_posted' ? 'Back in the posting schedule' : 'Moved back to review'));
   const [note, setNote] = useState('');
   useEffect(() => setNote(''), [r?.id]);
+  const ig = useInstagram(Boolean(s.instagram));
 
   if (!r) {
     return (
       <section id="reel" className={`rounded-xl border border-paper-line bg-paper shadow-sm ${className}`}>
         <div className="border-b border-paper-line px-4 py-3">
           <h2 className="text-sm font-semibold">Pick a reel</h2>
-          <p className="text-xs text-ink-mute">Select a reel on the left to watch it, see its checks and approve or reject it.</p>
+          <p className="text-xs text-ink-mute">Select a reel in the list to watch it, see its numbers and checks, and approve or reject it.</p>
         </div>
         <p className="flex flex-col items-center gap-2 px-4 py-12 text-sm text-ink-mute"><MousePointerClick className="h-6 w-6" aria-hidden="true" /> Nothing selected.</p>
       </section>
@@ -120,8 +123,11 @@ function ReelPanel({ s, r, className = '' }: { s: PanelState; r: Reel | null; cl
   }
   const ok = allChecksOk(r);
   const decided = r.status === 'approved' || r.status === 'rejected' || r.status === 'failed';
+  const m = ig.data?.media?.[r.id];
+  const link = r.permalink || m?.permalink;
+  const hasVideo = r.status !== 'posted' || r.manual;
   return (
-    <section id="reel" className={`rounded-xl border border-paper-line bg-paper shadow-sm lg:sticky lg:top-16 ${className}`}>
+    <section id="reel" className={`rounded-xl border border-paper-line bg-paper shadow-sm ${className}`}>
       <div className="flex items-start gap-3 border-b border-paper-line px-4 py-3">
         <div className="min-w-0 flex-1">
           <h2 className="flex flex-wrap items-center gap-1.5 text-sm font-semibold"><KindBadge kind={r.kind} /> <span className="truncate">{r.title}</span></h2>
@@ -130,15 +136,37 @@ function ReelPanel({ s, r, className = '' }: { s: PanelState; r: Reel | null; cl
         <StatusBadge status={r.status} />
       </div>
 
-      <div className="flex flex-col gap-4 p-4">
-        {r.status !== 'posted' || r.manual ? (
-          <video key={r.id} src={`/api/video?id=${encodeURIComponent(r.id)}#t=0.5`} controls playsInline preload="metadata"
-            className="mx-auto aspect-[9/16] max-h-[60vh] w-auto rounded-lg border border-paper-line bg-black" />
-        ) : null}
-        {r.status === 'posted' && r.permalink ? (
-          <a href={r.permalink} target="_blank" rel="noreferrer" className="text-sm font-medium text-accent hover:underline">Open on Instagram</a>
-        ) : null}
+      <div className="grid gap-4 p-4 xl:grid-cols-[minmax(0,20rem)_minmax(0,1fr)]">
+        {/* left: the reel itself and its Instagram numbers */}
+        <div className="flex flex-col items-center gap-3">
+          {hasVideo ? (
+            <video key={r.id} src={`/api/video?id=${encodeURIComponent(r.id)}#t=0.5`} controls playsInline preload="metadata"
+              className="aspect-[9/16] max-h-[60vh] w-auto max-w-full rounded-lg border border-paper-line bg-black" />
+          ) : m?.thumbnail ? (
+            <a href={link} target="_blank" rel="noreferrer" className="block">
+              <img src={m.thumbnail} alt="Cover of the reel on Instagram" className="aspect-[9/16] max-h-[60vh] w-auto rounded-lg border border-paper-line object-cover" />
+            </a>
+          ) : (
+            <img src={asset(s, r.id, 'png')} alt="Six frames spread over the reel" loading="lazy" className="w-full rounded-lg border border-paper-line" />
+          )}
+          {link && (
+            <a href={link} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-sm font-medium text-accent hover:underline">
+              <ExternalLink className="h-4 w-4" aria-hidden="true" /> Open on Instagram
+            </a>
+          )}
+        </div>
 
+        <div className="flex min-w-0 flex-col gap-4">
+        {r.status === 'posted' && (
+          <div className="flex flex-col gap-2">
+            <p className="text-xs font-semibold uppercase tracking-wide text-ink-mute">
+              On Instagram{m?.timestamp ? ` · posted ${ago(m.timestamp)}` : ''}
+            </p>
+            {s.instagram ? <ReelStats m={m} /> : <p className="text-sm text-ink-mute">Connect Instagram to see views, likes and shares.</p>}
+            {s.instagram && ig.data && !m && <p className="text-xs text-ink-mute">This reel isn't matched to a post on the account yet. Add its Instagram link to match it.</p>}
+            {ig.data?.insights_error && <InsightsNote text={ig.data.insights_error} />}
+          </div>
+        )}
         {r.status === 'approved' && !s.instagram && <ManualPost reel={r} />}
 
         {r.status === 'posted' && r.manual && (
@@ -151,7 +179,7 @@ function ReelPanel({ s, r, className = '' }: { s: PanelState; r: Reel | null; cl
           </div>
         )}
 
-        <img src={asset(s, r.id, 'png')} alt="Six frames spread over the reel" loading="lazy" className="w-full rounded-lg border border-paper-line" />
+        {(hasVideo || m?.thumbnail) && <img src={asset(s, r.id, 'png')} alt="Six frames spread over the reel" loading="lazy" className="w-full rounded-lg border border-paper-line" />}
 
         <dl className="grid grid-cols-[5.5rem_1fr] gap-x-3 gap-y-1.5 text-sm">
           {r.kind === 'ayah' ? (
@@ -217,6 +245,7 @@ function ReelPanel({ s, r, className = '' }: { s: PanelState; r: Reel | null; cl
             </button>
           </div>
         )}
+        </div>
       </div>
     </section>
   );

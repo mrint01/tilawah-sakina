@@ -59,12 +59,23 @@ export interface PanelState {
   weekly: WeeklyState;
 }
 
-export interface MediaStats { likes: number; comments: number; permalink?: string; views: number | null; reach: number | null; saves: number | null; shares: number | null; error?: string }
+/** One post on the Instagram account with its numbers. views/reach/saves/shares are null without the insights permission. */
+export interface MediaStats {
+  id?: string; permalink?: string; timestamp?: string; type?: string; caption?: string; thumbnail?: string | null; reel?: string | null;
+  likes: number; comments: number; views: number | null; reach: number | null; saves: number | null; shares: number | null; error?: string;
+}
+export interface IgTotals { posts: number; likes: number | null; comments: number | null; views: number | null; reach: number | null; saves: number | null; shares: number | null }
 export interface InstagramStats {
   connected: boolean;
   error?: string;
-  profile?: { username: string; followers_count: number; media_count: number };
+  /** set when the token can't read views/reach/saves/shares */
+  insights_error?: string | null;
+  profile?: { username: string; followers_count: number; media_count: number; profile_picture_url?: string };
+  /** queue reel id -> its post */
   media?: Record<string, MediaStats>;
+  /** every post on the account, newest first */
+  posts?: MediaStats[];
+  totals?: IgTotals;
 }
 
 export class SignedOut extends Error {}
