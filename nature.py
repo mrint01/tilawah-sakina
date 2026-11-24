@@ -106,6 +106,7 @@ def prep_clip(path, out):
     """One clip on its own: cover-crop to 9:16 at 1080x1920, slowed, 30 fps, no sound. Doing this clip by clip keeps
     memory low (joining several 4K clips at once can exhaust a GitHub runner)."""
     if not out.exists():
+        out.parent.mkdir(parents=True, exist_ok=True)
         subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-threads", "2", "-i", str(path), "-vf",
                         f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},setsar=1,"
                         f"setpts={SLOW}*(PTS-STARTPTS),fps=30,format=yuv420p", "-an",
