@@ -4,7 +4,7 @@
     {
       "name": "panel-api",
       "runtimeExecutable": "bash",
-      "runtimeArgs": ["-c", "cd panel && GITHUB_TOKEN=$(gh auth token) PANEL_PASSWORD=localtest node dev-api.mjs"],
+      "runtimeArgs": ["-c", "cd panel && GITHUB_TOKEN=$(grep -m1 oauth_token ~/.config/gh/hosts.yml | awk '{print $2}') PANEL_PASSWORD=localtest node dev-api.mjs"],
       "port": 3001
     },
     {
