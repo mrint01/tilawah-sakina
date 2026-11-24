@@ -69,7 +69,14 @@ def pick(total, rnd):
                 path = clip_file(h)
             except Exception:  # noqa: BLE001
                 continue
-            secs = h["duration"] * SLOW
+            try:  # the real length: Pixabay's listed duration is rounded and sometimes longer than the file
+                real = float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration",
+                                                      "-of", "csv=p=0", str(path)]).strip())
+            except Exception:  # noqa: BLE001
+                continue
+            if real < 6:
+                continue
+            secs = real * SLOW
             out.append((path, secs, h["id"]))
             covered += secs - (FADE if len(out) > 1 else 0)
             if covered >= total + 1:

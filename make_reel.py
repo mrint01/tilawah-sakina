@@ -427,7 +427,7 @@ def build(start=None, seed=None, exclude=(), reciter=None, surah=None, progress=
         except Exception as e:  # noqa: BLE001
             print(f"nature background failed ({e}), using the drawn one")
             scene = None
-    inputs = (["-i", str(work / "bg.mp4")] if scene else ["-loop", "1", "-i", str(work / "bg.jpg")]) + [
+    inputs = (["-stream_loop", "-1", "-i", str(work / "bg.mp4")] if scene else ["-loop", "1", "-i", str(work / "bg.jpg")]) + [
               "-f", "concat", "-safe", "0", "-i", str(work / "audio.txt"),
               "-loop", "1", "-i", str(work / "frame.png")]
     for p, _, _ in cards:

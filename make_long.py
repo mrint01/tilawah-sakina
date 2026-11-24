@@ -91,7 +91,7 @@ def build(s, first, last, part, out, theme_idx=0):
           f"fade=t=out:st={total - 0.8:.2f}:d=0.8[vout]")
     out.parent.mkdir(parents=True, exist_ok=True)
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-stats",
-                    *(["-i", str(work / "bg.mp4")] if scene else ["-loop", "1", "-i", str(work / "bg.jpg")]),
+                    *(["-stream_loop", "-1", "-i", str(work / "bg.mp4")] if scene else ["-loop", "1", "-i", str(work / "bg.jpg")]),
                     "-loop", "1", "-i", str(work / "frame.png"),
                     "-f", "concat", "-safe", "0", "-i", str(work / "cards.txt"), "-i", str(audio),
                     "-filter_complex", fc, "-map", "[vout]", "-map", "3:a", "-t", f"{total:.2f}",
