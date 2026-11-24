@@ -2110,6 +2110,35 @@
       "review": "Claude routine: all frames clean, Arabic and layout correct",
       "created": "2026-11-24T21:31:45+00:00",
       "reviewed": "2026-11-24T21:32:48+00:00"
+    },
+    {
+      "id": "20261124-235529-ayah",
+      "kind": "ayah",
+      "caption": "The angels and the Spirit [i.e., Gabriel] will ascend to Him during a Day the extent of which is fifty thousand years.\n\nSurah Al-Ma'arij (The Ascending Stairways) · 70:4-20\nRecited by Maher Al-Muaiqly\n\nListen till the end and share it with someone who needs it today 🤍\n\n#quran #quranrecitation #islam #almaarij #almuaiqly",
+      "duration": 73.5,
+      "passage": [
+        70,
+        4
+      ],
+      "ref": "70:4-20",
+      "whole_surah": false,
+      "surah": "Al-Ma'arij",
+      "reciter": "Maher Al-Muaiqly",
+      "title": "Surah Al-Ma'arij 70:4-20 · Maher Al-Muaiqly",
+      "background": "desert dunes",
+      "size_mb": 35.0,
+      "mean_volume_db": -14.0,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60_90s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-24T23:55:41+00:00"
     }
   ]
 }
