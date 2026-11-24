@@ -1760,6 +1760,194 @@
       "review": "Claude routine: Arabic joined with harakat, no overlap, refs match, English readable",
       "created": "2026-11-20T13:36:27+00:00",
       "reviewed": "2026-11-20T13:37:23+00:00"
+    },
+    {
+      "id": "20261124-210958-dua",
+      "kind": "dua",
+      "caption": "Start your morning with this dhikr 🤍\n\nIn the name of Allah with whose name nothing is harmed on earth nor in the heavens and He is The All-Seeing, The All-Knowing.\n\nSay it 3 times.\n\nAbu Dawud & at-Tirmidhi\n\nSave it and send it to someone you love 🤍\n\n#morningadhkar #adhkar #dua #dhikr #islam",
+      "duration": 41.2,
+      "category": "morning",
+      "dua_id": 86,
+      "source": "Abu Dawud & at-Tirmidhi",
+      "title": "Morning adhkar · In the name of Allah with whose name nothing…",
+      "size_mb": 2.3,
+      "mean_volume_db": -21.1,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_10_60s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-24T21:10:04+00:00"
+    },
+    {
+      "id": "20261124-211019-dua",
+      "kind": "dua",
+      "caption": "Say this after your salah 🤍\n\nO Allah, I ask You, as I bear witness that You are Allah, none has the right to be worshipped except You, The One, AS-Samad Who begets not nor was He begotten and there is none like unto Him.\n\nHisn al-Muslim\n\nSave it and send it to someone you love 🤍\n\n#afterSalah #dua #adhkar #salah #islam",
+      "duration": 19.4,
+      "category": "after_salah",
+      "dua_id": 65,
+      "source": "Hisn al-Muslim",
+      "title": "Dua after salah · O Allah, I ask You, as I bear witness that…",
+      "size_mb": 1.4,
+      "mean_volume_db": -20.4,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_10_60s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-24T21:10:23+00:00"
+    },
+    {
+      "id": "20261124-211030-asma",
+      "kind": "asma",
+      "caption": "الرَّحْمَنُ · Ar Rahmaan\nThe Beneficent\n\nName 1 of 99. Follow so you don't miss the next one 🤍\n\n\"The Entirely Merciful, the Especially Merciful,\" (Al-Fatihah 1:3)\n\nThe Prophet ﷺ said: Allah has ninety-nine names; whoever learns them will enter Paradise (Bukhari & Muslim).\n\n#asmaulhusna #99namesofallah #allah #islam #quran",
+      "duration": 10.4,
+      "number": 1,
+      "reciter": "Yasser Al-Dosari",
+      "title": "Name 1 of 99 · Ar Rahmaan · The Beneficent",
+      "size_mb": 0.8,
+      "mean_volume_db": -17.6,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_8_75s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-24T21:10:34+00:00"
+    },
+    {
+      "id": "20261124-211045-asma",
+      "kind": "asma",
+      "caption": "الرَّحِيمُ · Ar Raheem\nThe Merciful\n\nName 2 of 99. Follow so you don't miss the next one 🤍\n\n\"The Entirely Merciful, the Especially Merciful,\" (Al-Fatihah 1:3)\n\nThe Prophet ﷺ said: Allah has ninety-nine names; whoever learns them will enter Paradise (Bukhari & Muslim).\n\n#asmaulhusna #99namesofallah #allah #islam #quran",
+      "duration": 8.1,
+      "number": 2,
+      "reciter": "Mishary Alafasy",
+      "title": "Name 2 of 99 · Ar Raheem · The Merciful",
+      "size_mb": 0.6,
+      "mean_volume_db": -23.4,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_8_75s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-24T21:10:49+00:00"
+    },
+    {
+      "id": "20261124-211134-quiz",
+      "kind": "quiz",
+      "caption": "Guess the surah 🤍 5 questions, level: easy.\n\nListen to the ayah and pick before the timer ends. How many did you get? Comment your score!\n\nAnswers: 1) Al-A'la · 2) Ash-Shams · 3) 'Abasa · 4) Al-Ma'un · 5) An-Nazi'at\n\nFollow for a new quiz every night.\n\n#quranquiz #guessthesurah #quran #islamicquiz #islam",
+      "duration": 85.9,
+      "level": "easy",
+      "questions": [
+        [
+          87,
+          15,
+          16
+        ],
+        [
+          91,
+          10,
+          11
+        ],
+        [
+          80,
+          31,
+          32
+        ],
+        [
+          107,
+          1,
+          2
+        ],
+        [
+          79,
+          24,
+          25
+        ]
+      ],
+      "reciter": "Mishary Alafasy",
+      "title": "Guess the surah · easy · Al-A'la, Ash-Shams, 'Abasa, Al-Ma'un, An-Nazi'at",
+      "size_mb": 2.9,
+      "mean_volume_db": -23.5,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_50_150s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-24T21:11:43+00:00"
+    },
+    {
+      "id": "20261124-211229-quiz",
+      "kind": "quiz",
+      "caption": "Guess the surah 🤍 5 questions, level: easy.\n\nListen to the ayah and pick before the timer ends. How many did you get? Comment your score!\n\nAnswers: 1) Al-Inshiqaq · 2) Al-Qari'ah · 3) Al-Ghashiyah · 4) Al-Ma'un · 5) Al-Buruj\n\nFollow for a new quiz every night.\n\n#quranquiz #guessthesurah #quran #islamicquiz #islam",
+      "duration": 92.6,
+      "level": "easy",
+      "questions": [
+        [
+          84,
+          1,
+          2
+        ],
+        [
+          101,
+          10,
+          11
+        ],
+        [
+          88,
+          16,
+          17
+        ],
+        [
+          107,
+          4,
+          5
+        ],
+        [
+          85,
+          3,
+          4
+        ]
+      ],
+      "reciter": "Mishary Alafasy",
+      "title": "Guess the surah · easy · Al-Inshiqaq, Al-Qari'ah, Al-Ghashiyah, Al-Ma'un, Al-Buruj",
+      "size_mb": 3.1,
+      "mean_volume_db": -23.3,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_50_150s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-24T21:12:39+00:00"
     }
   ]
 }
