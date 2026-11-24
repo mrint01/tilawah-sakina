@@ -102,19 +102,36 @@ def _xfade(parts, out, prep, grade_total=None):
     return offset + FADE  # length of the joined video
 
 
+def prep_clip(path, out):
+    """One clip on its own: cover-crop to 9:16 at 1080x1920, slowed, 30 fps, no sound. Doing this clip by clip keeps
+    memory low (joining several 4K clips at once can exhaust a GitHub runner)."""
+    if not out.exists():
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-threads", "2", "-i", str(path), "-vf",
+                        f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},setsar=1,"
+                        f"setpts={SLOW}*(PTS-STARTPTS),fps=30,format=yuv420p", "-an",
+                        "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-g", "30", str(out)], check=True, timeout=1800)
+    return out
+
+
 def render_background(clips, total, out):
-    """Cover-crop each clip to 9:16, slow it, crossfade them, darken + vignette: a silent 30 fps video of `total` s.
-    Long videos are joined in chunks of 8 clips (then the chunks are crossfaded), to keep memory low."""
-    prep = f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},setsar=1,setpts={SLOW}*(PTS-STARTPTS),fps=30,format=yuv420p"
-    parts = [(p, secs) for p, secs, _ in clips]
-    if len(parts) <= 8:
-        _xfade(parts, out, prep, total)
+    """Prepare each clip (9:16, slowed), crossfade them, darken + vignette: a silent 30 fps video of `total` s.
+    Long videos are joined in chunks of 6 clips (then the chunks are crossfaded)."""
+    out = Path(out)
+    parts = []
+    for p, secs, cid in clips:
+        q = prep_clip(p, CACHE / "prepped" / f"{cid}.mp4")
+        real = float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration",
+                                              "-of", "csv=p=0", str(q)]).strip())
+        parts.append((q, real))
+    light = "format=yuv420p,fps=30"
+    if len(parts) <= 6:
+        _xfade(parts, out, light, total)
         return out
     chunks = []
-    for k in range(0, len(parts), 8):
-        cf = Path(out).with_name(f"{Path(out).stem}_chunk{k // 8}.mp4")
-        chunks.append((cf, _xfade(parts[k:k + 8], cf, prep)))
-    _xfade(chunks, out, "format=yuv420p,fps=30", total)
+    for k in range(0, len(parts), 6):
+        cf = out.with_name(f"{out.stem}_chunk{k // 6}.mp4")
+        chunks.append((cf, _xfade(parts[k:k + 6], cf, light)))
+    _xfade(chunks, out, light, total)
     for cf, _ in chunks:
         cf.unlink(missing_ok=True)
     return out

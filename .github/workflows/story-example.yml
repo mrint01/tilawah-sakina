@@ -25,6 +25,8 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq ffmpeg libraqm0 libfribidi0 libharfbuzz0b
           pip install -q pillow numpy
+      - name: Watch memory and disk (in the log every 15 s)
+        run: (while true; do echo "MON $(date +%H:%M:%S) $(free -m | awk 'NR==2{print "mem used " $3 " MB, avail " $7 " MB"}') disk $(df -h / | awk 'NR==2{print $4}') free"; sleep 15; done) &
       - name: Render
         run: |
           python3 make_story.py "${{ inputs.prophet }}"
