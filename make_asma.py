@@ -210,94 +210,14 @@ def render(number, reciter=None, seed=None, progress=None):
             "reciter": reciter, "title": f"Name {n['number']} of 99 · {n['translit']} · {n['meaning']}"}
 
 
-# ---------- the special reel: all 99 names in one video ----------
-ALL_AYAHS = [(59, 22), (59, 23), (59, 24), (7, 180), (17, 110), (20, 8)]  # the ayahs about Allah's names
-
-
-def card_png(lines, path):
-    """Intro / outro page on the same paper: [(text, size, colour)]."""
-    img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    d = ImageDraw.Draw(img)
-    y = 760 - sum(sz * 1.5 for _, sz, _ in lines) / 2
-    for text, size, col in lines:
-        for ln in mr.wrap(d, text, mr.font("Lora-var.ttf", size), W - 220):
-            d.text((W / 2, y), ln, font=mr.font("Lora-var.ttf", size), fill=col + (255,), anchor="mm")
-            y += size * 1.45
-        y += size * 0.4
-    d.text((W / 2, 1760), mr.HANDLE, font=mr.font("Lora-var.ttf", 28), fill=INK + (170,), anchor="mm")
-    img.save(path)
-
-
-def render_all(reciter="Maher Al-Muaiqly", progress=None):
-    """All 99 names, one after another over the recitation of the ayahs about the names; ends asking to save it."""
-    report = progress or (lambda f: None)
-    names = catalog()
-    work = mr.CACHE / "work" / "asma_all"
-    work.mkdir(parents=True, exist_ok=True)
-    background(work / "bg.jpg")
-    known = {**mr.RECITERS, **mr.active_reciters()}
-    files = []
-    for s_, a_ in ALL_AYAHS:
-        for name in [reciter] + [r for r in known if r != reciter]:
-            try:
-                files.append(mr.audio(known[name], s_, a_))
-                break
-            except Exception:  # noqa: BLE001
-                continue
-    rec = sum(mr.duration(f) for f in files)
-    intro, outro = 3.5, 4.0
-    per = max(1.0, (rec - 1.0) / 99)
-    total = intro + per * 99 + outro
-    card_png([("Allah has 99 Names", 66, GOLD_D), ("Whoever learns them will enter Paradise", 44, INK),
-              ("Sahih al-Bukhari & Muslim", 30, GOLD_D)], work / "intro.png")
-    card_png([("Save this and learn them one by one", 50, INK), ("A new name every day at 12:00", 40, GOLD_D),
-              ("Follow @tilawah.sakina", 36, INK)], work / "outro.png")
-    segs = [(work / "intro.png", intro)]
-    for n in names:
-        lay, _ = name_layer(n, None)
-        lay = Image.alpha_composite(lay, dots_layer(n["number"], None))
-        p = work / f"n{n['number']:02d}.png"
-        lay.save(p)
-        segs.append((p, per))
-        report(0.5 * n["number"] / 99)
-    segs.append((work / "outro.png", outro))
-    with open(work / "cards.txt", "w") as f:
-        for p, dsec in segs:
-            f.write(f"file '{p.resolve()}'\nduration {dsec:.3f}\n")
-        f.write(f"file '{segs[-1][0].resolve()}'\n")
-    (work / "a.txt").write_text("".join(f"file '{x.resolve()}'\n" for x in files))
-    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(work / "a.txt"),
-                    "-af", f"adelay={int(intro * 1000)}:all=1,apad=whole_dur={total:.2f},afade=t=out:st={total - 1.5:.2f}:d=1.5",
-                    "-t", f"{total:.2f}", "-ar", "48000", "-ac", "2", "-c:a", "aac", "-b:a", "160k", str(work / "audio.m4a")], check=True)
-    bw, bh = int(W * 1.12), int(H * 1.12)
-    fc = (f"[0:v]crop={W}:{H}:x='({bw - W})/2+({bw - W})/2*sin(t/{total:.2f}*3.1416)':y='({bh - H})/2',format=yuv420p,fps=30[bg];"
-          f"[1:v]format=rgba,fps=30[l];[bg][l]overlay=0:0:eof_action=repeat,fade=t=out:st={total - 0.6:.2f}:d=0.6[v]")
-    mp4 = mr.OUT / "asma_all.mp4"
-    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-loop", "1", "-i", str(work / "bg.jpg"), "-f", "concat", "-safe", "0",
-                    "-i", str(work / "cards.txt"), "-i", str(work / "audio.m4a"), "-filter_complex", fc, "-map", "[v]", "-map", "2:a",
-                    "-t", f"{total:.2f}", "-c:v", "libx264", "-preset", "medium", "-crf", "21", "-pix_fmt", "yuv420p", "-r", "30",
-                    "-c:a", "copy", "-movflags", "+faststart", str(mp4)], check=True, timeout=1800)
-    report(1.0)
-    caption = ("The 99 Names of Allah 🤍\n\nThe Prophet ﷺ said: Allah has ninety-nine names; whoever learns them will enter "
-               "Paradise (Bukhari & Muslim).\n\nSave this reel and learn them one by one. A new name every day at 12:00 on our "
-               "page.\n\n\"And to Allah belong the best names, so invoke Him by them\" (Al-A'raf 7:180)\n\n"
-               "#asmaulhusna #99namesofallah #allah #islam #quran")
-    return {"kind": "asma", "file": str(mp4), "caption": caption, "duration": round(total, 1), "number": 0,
-            "reciter": reciter, "title": "All 99 Names of Allah · special"}
-
-
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--build-catalog", action="store_true")
     ap.add_argument("--list", action="store_true")
     ap.add_argument("--number", type=int)
     ap.add_argument("--reciter")
-    ap.add_argument("--all", action="store_true", help="the special reel with all 99 names")
     a = ap.parse_args()
-    if a.all:
-        m = render_all(a.reciter or "Maher Al-Muaiqly")
-        print(m["file"], m["duration"], "s")
-    elif a.build_catalog:
+    if a.build_catalog:
         build_catalog()
     elif a.list:
         for x in catalog():
