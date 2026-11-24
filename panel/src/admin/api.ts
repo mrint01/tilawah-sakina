@@ -64,9 +64,11 @@ export interface MediaStats {
   id?: string; permalink?: string; timestamp?: string; type?: string; caption?: string; thumbnail?: string | null; reel?: string | null;
   likes: number; comments: number; views: number | null; reach: number | null; saves: number | null; shares: number | null;
   /** average watch time of a reel, seconds */
-  watch?: number | null; error?: string;
+  watch?: number | null; reposts?: number | null;
+  /** % of viewers who swiped away in the first seconds */
+  skip?: number | null; error?: string;
 }
-export interface IgTotals { posts: number; likes: number | null; comments: number | null; views: number | null; reach: number | null; saves: number | null; shares: number | null }
+export interface IgTotals { posts: number; likes: number | null; comments: number | null; views: number | null; reach: number | null; saves: number | null; shares: number | null; reposts?: number | null }
 export interface InstagramStats {
   connected: boolean;
   error?: string;

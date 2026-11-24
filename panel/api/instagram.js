@@ -36,11 +36,12 @@ async function allMedia(user, max = 200) {
 
 /** views / reach / saves / shares need the instagram_manage_insights permission; null when not allowed (yet). */
 async function insights(id, isReel) {
-  const metric = 'views,reach,saved,shares,total_interactions' + (isReel ? ',ig_reels_avg_watch_time' : '');
+  const metric = 'views,reach,saved,shares,total_interactions' + (isReel ? ',ig_reels_avg_watch_time,reposts,reels_skip_rate' : '');
   const ins = await ig(`${id}/insights`, { metric });
   const v = (n) => ins.data?.find((x) => x.name === n)?.values?.[0]?.value ?? null;
   const watch = v('ig_reels_avg_watch_time');
   return { views: v('views'), reach: v('reach'), saves: v('saved'), shares: v('shares'), interactions: v('total_interactions'),
+    reposts: v('reposts'), skip: v('reels_skip_rate'),
     watch: watch == null ? null : Math.round(watch / 100) / 10 };  // seconds, 1 decimal
 }
 
@@ -61,7 +62,7 @@ export default async function handler(req, res) {
 
     let insightsError = null;
     const posts = await Promise.all(list.map(async (m) => {
-      let st = { views: null, reach: null, saves: null, shares: null, interactions: null, watch: null };
+      let st = { views: null, reach: null, saves: null, shares: null, interactions: null, watch: null, reposts: null, skip: null };
       try { st = await insights(m.id, (m.media_product_type || m.media_type) === 'REELS'); } catch (e) { insightsError ??= e.message; }
       return {
         id: m.id, permalink: m.permalink, timestamp: m.timestamp, type: m.media_product_type || m.media_type,
@@ -92,7 +93,7 @@ export default async function handler(req, res) {
     const sum = (k) => (posts.some((p) => p[k] != null) ? posts.reduce((n, p) => n + (p[k] ?? 0), 0) : null);
     const totals = {
       posts: posts.length, likes: sum('likes'), comments: sum('comments'), views: sum('views'),
-      reach: sum('reach'), saves: sum('saves'), shares: sum('shares'),
+      reach: sum('reach'), saves: sum('saves'), shares: sum('shares'), reposts: sum('reposts'),
     };
     send(res, 200, {
       connected: true, profile, media, posts: posts.slice().reverse(), totals,

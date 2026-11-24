@@ -69,7 +69,7 @@ export default function PostedPage() {
                   {th('likes', 'Likes', true)}
                   <th className="px-4 py-2.5 text-right font-semibold">Comments</th>
                   <th className="px-4 py-2.5 text-right font-semibold">Saves</th>
-                  <th className="px-4 py-2.5 text-right font-semibold">Shares</th>
+                  <th className="px-4 py-2.5 text-right font-semibold" title="Times the reel was sent (DM / paper plane), as Instagram's API counts it">Sends</th>
                   <th className="px-4 py-2.5" />
                 </tr>
               </thead>
@@ -122,7 +122,7 @@ export default function PostedPage() {
                 <tr className="border-b border-paper-line text-left text-xs uppercase text-ink-mute">
                   <th className="px-4 py-2.5 font-semibold">Post</th>
                   <th className="px-4 py-2.5 font-semibold">Posted</th>
-                  {['Views', 'Likes', 'Comments', 'Saves', 'Shares'].map((h) => <th key={h} className="px-4 py-2.5 text-right font-semibold">{h}</th>)}
+                  {['Views', 'Likes', 'Comments', 'Saves', 'Sends'].map((h) => <th key={h} className="px-4 py-2.5 text-right font-semibold">{h}</th>)}
                   <th className="px-4 py-2.5" />
                 </tr>
               </thead>
