@@ -78,7 +78,7 @@ NARRATED = {
             ("n", "وَمَا آمَنَ مَعَهُ إِلَّا قَلِيلٌ، وَمَعَ ذَلِكَ لَمْ يَتَوَقَّفْ نُوحٌ عَنْ دَعْوَتِهِمْ إِلَى اللَّهِ.",
              "Only a few believed. And still, Nuh never stopped calling them to Allah.", 30222),
             ("n", "فِي الْجُزْءِ الثَّانِي: يَأْمُرُ اللَّهُ نُوحًا بِبِنَاءِ السَّفِينَةِ.",
-             "In part two: Allah commands Nuh to build the Ark.", 2382),
+             "In part two: Allah commands Nuh to build the Ark.", 341601),
         ],
     ]),
 }
