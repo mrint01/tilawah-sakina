@@ -3,5 +3,11 @@
   "alternate": [
     "ayah",
     "tasbih"
-  ]
+  ],
+  "reciters": {
+    "Mishary Alafasy": "Alafasy_128kbps",
+    "Maher Al-Muaiqly": "quranicaudio/maher_256",
+    "Yasser Al-Dosari": "Yasser_Ad-Dussary_128kbps",
+    "Ahmed Al-Ajamy": "ahmed_ibn_ali_al_ajamy_128kbps"
+  }
 }
