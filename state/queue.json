@@ -2322,7 +2322,8 @@
       "status": "approved",
       "review": "approved in panel",
       "created": "2026-11-25T11:03:14+00:00",
-      "reviewed": "2026-11-25T12:24:14+00:00"
+      "reviewed": "2026-11-25T12:24:14+00:00",
+      "post_at": "2026-11-26T20:00:00+00:00"
     }
   ],
   "slots": {
@@ -2355,11 +2356,12 @@
     },
     "2026-11-24 21:00": {
       "kind": "quiz",
-      "status": "failed",
+      "status": "resolved",
       "reason": "Test row (added to preview this page): Instagram could not process the video",
       "tries": 2,
       "at": "2026-11-24T21:00:00+01:00",
-      "test": true
+      "test": true,
+      "resolved": "2026-11-25T13:16:27.689Z"
     }
   }
 }
