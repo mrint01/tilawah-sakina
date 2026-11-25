@@ -89,7 +89,9 @@ export default async function handler(req, res) {
         break;
       }
       case 'post_now':
-        await dispatch('post.yml', { dry_run: 'false', kind: ['ayah', 'dua', 'asma', 'tasbih', 'quiz'].includes(b.kind) ? b.kind : 'auto' });
+        // "Publish now" on one reel (its id), or the next reel of a kind / of the nearest slot
+        if (b.id && !/^\d{8}-\d{6}-(ayah|tasbih|dua|asma|quiz|story)$/.test(b.id)) return send(res, 400, { error: 'Unknown reel.' });
+        await dispatch('post.yml', { dry_run: 'false', id: b.id || '', kind: ['ayah', 'dua', 'asma', 'tasbih', 'quiz'].includes(b.kind) ? b.kind : 'auto' });
         break;
       case 'generate': {
         // From the "Make reels" popup: a list of jobs (surah / start ayah / reciter, a tasbih kind, a dua kind,

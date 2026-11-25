@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { CalendarClock, Hand, Play, RotateCcw, Trash2 } from 'lucide-react';
+import { CalendarClock, Hand, Play, RotateCcw, Send, Trash2 } from 'lucide-react';
 import { slot, upcoming, type Reel, type Upcoming } from '../admin/api';
-import { KIND, KindBadge, Thumb, useAct, useAppState } from '../admin/hooks';
+import { KIND, KindBadge, postingRun, Thumb, useAct, useAppState } from '../admin/hooks';
+import { PublishProgress } from '../admin/PublishProgress';
 import { matchFilters, ReelFilterBar, useReelFilters } from '../admin/ReelFilters';
 import { WeeklySection } from '../admin/WeeklySection';
 import { ago, Badge, dateTime, Empty, Modal, PageHeader, Pager, Skeleton, usePaged } from '../admin/ui';
@@ -11,9 +12,11 @@ import { ago, Badge, dateTime, Empty, Modal, PageHeader, Pager, Skeleton, usePag
 export default function QueuePage() {
   const navigate = useNavigate();
   const state = useAppState();
-  const act = useAct((a) => (a.type === 'post_now' ? 'Posting started, watch Workflow runs' : a.type === 'reject' ? 'Removed: it will not be posted' : 'Moved back to review'));
+  const act = useAct((a) => (a.type === 'post_now' ? 'Publishing started: follow it below' : a.type === 'reject' ? 'Removed: it will not be posted' : 'Moved back to review'));
   const [removing, setRemoving] = useState<Reel | null>(null);
+  const [publishing, setPublishing] = useState<Reel | null>(null);
   const s = state.data;
+  const busy = Boolean(s && postingRun(s));
   const approvedCount = s ? s.items.filter((i) => i.status === 'approved').length : 0;
   const plan: Upcoming[] = s ? upcoming(s.items, Math.max(10, approvedCount * 5 + 5)) : [];
   // keep empty slots up to the last planned reel, plus the next 5 slots
@@ -46,6 +49,7 @@ export default function QueuePage() {
           </div>
         }
       />
+      {s && <PublishProgress s={s} />}
       {s && <WeeklySection s={s} />}
       {s && !s.config.enabled && <p className="rounded-xl bg-accent-light p-3 text-sm font-medium text-accent">Automation is OFF, so nothing posts until you turn it on in Overview.</p>}
       {s && s.config.enabled && missing.size > 0 && (
@@ -86,8 +90,12 @@ export default function QueuePage() {
                       </span>
                     </span>
                   </button>
+                  <button type="button" aria-label="Publish now" disabled={busy || !s.instagram} onClick={() => setPublishing(r)}
+                    className="my-3 ms-2 inline-flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-md bg-accent text-white hover:bg-accent-dark disabled:opacity-40">
+                    <Send className="h-4 w-4" aria-hidden="true" />
+                  </button>
                   <button type="button" aria-label="Remove, don't post" onClick={() => setRemoving(r)}
-                    className="m-3 inline-flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-md border border-paper-line text-ink-soft hover:border-danger hover:text-danger">
+                    className="m-3 ms-2 inline-flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-md border border-paper-line text-ink-soft hover:border-danger hover:text-danger">
                     <Trash2 className="h-4 w-4" aria-hidden="true" />
                   </button>
                 </li>
@@ -129,6 +137,11 @@ export default function QueuePage() {
                       <td className="px-4 py-2.5 text-ink-soft" title={dateTime(r.reviewed ?? null)}>{ago(r.reviewed ?? null)}</td>
                       <td className="px-4 py-2.5">{s.config.enabled ? (i === 0 ? <Badge tone="green">{slot(p.at)}</Badge> : slot(p.at)) : <span className="text-ink-mute">paused</span>}</td>
                       <td className="whitespace-nowrap px-4 py-2.5 text-right">
+                        <button type="button" disabled={busy || !s.instagram} title={busy ? 'A post is already being published' : 'Publish this reel on Instagram now'}
+                          onClick={(e) => { e.stopPropagation(); setPublishing(r); }}
+                          className="me-2 inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-md bg-accent px-2.5 text-xs font-semibold text-white hover:bg-accent-dark disabled:cursor-default disabled:opacity-40">
+                          <Send className="h-3.5 w-3.5" aria-hidden="true" /> Publish now
+                        </button>
                         <button type="button" aria-label="Back to review" title="Back to review" disabled={act.isPending}
                           onClick={(e) => { e.stopPropagation(); act.mutate({ type: 'requeue', id: r.id }); }}
                           className="inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-md border border-paper-line text-ink-soft hover:border-accent hover:text-accent">
@@ -150,6 +163,21 @@ export default function QueuePage() {
         )}
         <Pager paged={paged} className="border-t border-paper-line px-4 py-3" />
       </section>
+
+      <Modal open={Boolean(publishing)} onClose={() => setPublishing(null)} title="Publish this reel now?" icon={Send}
+        text="It goes to Instagram right away with its caption. Follow the progress on this page until it is live.">
+        <p className="text-sm font-semibold">{publishing?.title}</p>
+        <p className="max-h-40 overflow-y-auto whitespace-pre-wrap rounded-lg border border-paper-line bg-paper-alt p-3 text-xs text-ink-soft">{publishing?.caption}</p>
+        <div className="flex justify-end gap-2 pt-1">
+          <button type="button" autoFocus onClick={() => setPublishing(null)}
+            className="h-10 cursor-pointer rounded-lg border border-paper-line px-4 text-sm font-medium text-ink-soft hover:bg-paper-alt">Cancel</button>
+          <button type="button" disabled={act.isPending || busy}
+            onClick={() => { if (publishing) act.mutate({ type: 'post_now', id: publishing.id }, { onSuccess: () => { setPublishing(null); window.scrollTo({ top: 0, behavior: 'smooth' }); } }); }}
+            className="flex h-10 cursor-pointer items-center gap-2 rounded-lg bg-accent px-4 text-sm font-semibold text-white hover:bg-accent-dark disabled:opacity-50">
+            <Send className="h-4 w-4" aria-hidden="true" /> Publish now
+          </button>
+        </div>
+      </Modal>
 
       <Modal open={Boolean(removing)} onClose={() => setRemoving(null)} title="Remove this reel?" icon={Trash2} tone="danger"
         text="It will not be posted. Its video file is deleted from GitHub at the next posting run; the next approved reel of the same type takes its slot.">

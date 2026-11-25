@@ -3,6 +3,7 @@ import { Hand, CheckCircle2, Clock3, Inbox, Instagram, Play, Power, RefreshCw, S
 import { cn } from '../admin/cn';
 import { slot, upcoming } from '../admin/api';
 import { DailyPlan } from '../admin/DailyPlan';
+import { PublishProgress } from '../admin/PublishProgress';
 import { MakeProgressCard, MakeReelsButton } from '../admin/MakeReels';
 import { KindBadge, makingRun, Thumb, useAct, useAppState, useInstagram } from '../admin/hooks';
 import { ago, Badge, dateTime, Empty, int, KpiCard, PageHeader, Panel, Skeleton } from '../admin/ui';
@@ -50,6 +51,7 @@ export default function OverviewPage() {
     <div className="flex flex-col gap-6">
       {header}
       <MakeProgressCard s={s} />
+      <PublishProgress s={s} />
 
       {pending > 0 && (
         <button type="button" onClick={() => navigate('/review')} className="flex cursor-pointer items-center gap-2 rounded-2xl bg-accent-light p-4 text-start font-semibold text-accent hover:underline">

@@ -11,6 +11,9 @@ on:
     - cron: "7 20 * * *"   # 21:00 quiz
   workflow_dispatch:
     inputs:
+      id:
+        description: "Publish this reel now (from the panel's Publish now); empty = the slot's next reel"
+        default: ""
       kind:
         description: "What to post (auto = the kind of the nearest slot)"
         type: choice
@@ -46,7 +49,15 @@ jobs:
         env:
           CRON: ${{ github.event.schedule }}
           KIND: ${{ inputs.kind }}
+          ID: ${{ inputs.id }}
         run: |
+          if [ -n "$ID" ]; then
+            id=$(python3 pipeline.py check "$ID")
+            echo "id=$id" >> "$GITHUB_OUTPUT"
+            if [ -z "$id" ]; then python3 pipeline.py posting failed --id "$ID" --error "This reel is no longer approved"; exit 1; fi
+            python3 pipeline.py posting preparing --id "$id"
+            exit 0
+          fi
           case "$CRON" in
             "7 23 * * *") args="--slot 00:00";; "7 5 * * *") args="--slot 06:00";; "7 11 * * *") args="--slot 12:00";;
             "7 17 * * *") args="--slot 18:00";; "7 20 * * *") args="--slot 21:00";;
@@ -54,13 +65,14 @@ jobs:
           esac
           id=$(python3 pipeline.py next $args)
           echo "id=$id" >> "$GITHUB_OUTPUT"
-          if [ -z "$id" ]; then echo "::warning::Nothing approved to post for this slot ($args)."; fi
+          if [ -z "$id" ]; then echo "::warning::Nothing approved to post for this slot ($args)."; else python3 pipeline.py posting preparing --id "$id"; fi
 
       - name: Download the video
         if: steps.pick.outputs.id != ''
         run: |
           mkdir -p site/v
           gh release download queue -p "${{ steps.pick.outputs.id }}.mp4" -D site/v
+          python3 pipeline.py posting video
           echo '<!doctype html><title>Tilawah Sakina</title><p>Reel hosting for @tilawah.sakina</p>' > site/index.html
 
       - name: Convert to Instagram's standard format
@@ -97,6 +109,7 @@ jobs:
         run: |
           url="${{ steps.deploy.outputs.page_url }}v/${{ steps.pick.outputs.id }}.mp4"
           echo "VIDEO_URL=$url" >> "$GITHUB_ENV"
+          python3 pipeline.py posting hosting
           for i in 1 2 3 4 5 6; do
             code=$(curl -s -o /dev/null -w "%{http_code} %{content_type}" "$url")
             echo "$code"; case "$code" in 200*) exit 0;; esac; sleep 10
@@ -109,6 +122,16 @@ jobs:
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
         run: python3 pipeline.py post "${{ steps.pick.outputs.id }}" --url "$VIDEO_URL"
+
+      - name: Tell the panel it failed
+        if: failure() && steps.pick.outputs.id != ''
+        run: |
+          python3 - <<'EOF'
+          import json, pipeline
+          d = json.loads(pipeline.POSTING.read_text()) if pipeline.POSTING.exists() else {}
+          if not d.get("finished"):
+              pipeline.posting("failed", error="Posting failed: see the run on GitHub")
+          EOF
 
       - name: Save state and remove the posted video
         if: always() && steps.pick.outputs.id != '' && !inputs.dry_run

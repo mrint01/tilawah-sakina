@@ -45,6 +45,13 @@ export interface MakeProgress {
   frac: number; pct: number; finished: boolean; updated?: string; error?: string | null;
 }
 
+/** Live progress of a post, written by pipeline.py (posting.json in the release). */
+export interface PostingProgress {
+  run_id: string; id?: string; title?: string; started?: string; updated?: string;
+  stage: 'preparing' | 'video' | 'hosting' | 'uploading' | 'processing' | 'publishing' | 'live' | 'failed';
+  pct: number; finished: boolean; permalink?: string; error?: string;
+}
+
 /** One reel to make, from the "Make reels" popup. No surah = a curated passage; no reciter/set = picked for you. */
 export type MakeJob =
   | { kind: 'ayah'; surah?: number; ayah?: number; reciter?: string }
@@ -69,6 +76,7 @@ export interface PanelState {
   instagram: boolean;
   runs: Run[];
   progress: MakeProgress | null;
+  posting: PostingProgress | null;
   weekly: WeeklyState;
 }
 
@@ -113,7 +121,7 @@ export type Action =
   | { type: 'unmark_posted'; id: string }
   | { type: 'toggle'; enabled: boolean }
   | { type: 'settings'; settings: { config?: { buffer_days?: number; reciters?: Record<string, string> }; panel?: { name: string } } }
-  | { type: 'post_now'; kind?: Kind }
+  | { type: 'post_now'; kind?: Kind; id?: string }
   | { type: 'generate'; ayah?: number; tasbih?: number; jobs?: MakeJob[] };
 
 export const api = {

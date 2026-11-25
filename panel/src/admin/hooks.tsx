@@ -6,8 +6,10 @@ import { Badge } from './ui';
 
 /** A "Generate reels" run is queued or working: the panel then refreshes every 5 s to show its progress. */
 export const makingRun = (s?: PanelState) => s?.runs.find((r) => r.name === 'Generate reels' && r.status !== 'completed') ?? null;
+/** A posting run that is queued or working (a slot, or "Publish now"). */
+export const postingRun = (s?: PanelState) => s?.runs.find((r) => r.name === 'Post next reel' && r.status !== 'completed') ?? null;
 export const useAppState = () =>
-  useQuery({ queryKey: ['state'], queryFn: api.state, refetchInterval: (q) => (makingRun(q.state.data) ? 5_000 : 30_000) });
+  useQuery({ queryKey: ['state'], queryFn: api.state, refetchInterval: (q) => (postingRun(q.state.data) ? 3_000 : makingRun(q.state.data) ? 5_000 : 30_000) });
 /** Instagram numbers: refreshed every minute while the panel is open, and when you come back to the tab. */
 export const useInstagram = (enabled = true) =>
   useQuery({ queryKey: ['instagram'], queryFn: api.instagram, staleTime: 30_000, refetchInterval: 60_000, refetchOnWindowFocus: true, enabled });

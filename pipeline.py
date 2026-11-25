@@ -454,31 +454,75 @@ def publish(user, cid):
     return ig("POST", f"{user}/media_publish", creation_id=cid)
 
 
+POSTING = STAGING / "posting.json"
+POST_STAGES = {"preparing": 10, "video": 25, "hosting": 40, "uploading": 50, "processing": 55, "publishing": 90,
+               "live": 100, "failed": 100}
+
+
+def posting(stage, item_id=None, pct=None, **extra):
+    """Live progress of a post for the panel: posting.json in the 'queue' release (no commit)."""
+    d = json.loads(POSTING.read_text()) if POSTING.exists() else {}
+    run = os.environ.get("GITHUB_RUN_ID", "local")
+    if d.get("run_id") != run:
+        d = {"run_id": run, "started": now()}
+    if item_id:
+        d["id"] = item_id
+        try:
+            d["title"] = find(queue(), item_id).get("title")
+        except SystemExit:
+            pass
+    d.update(stage=stage, pct=pct if pct is not None else POST_STAGES.get(stage, 0), updated=now(),
+             finished=stage in ("live", "failed"), **extra)
+    STAGING.mkdir(exist_ok=True)
+    POSTING.write_text(json.dumps(d, ensure_ascii=False))
+    subprocess.run(["gh", "release", "upload", RELEASE_TAG, str(POSTING), "--clobber"], capture_output=True, cwd=HERE)
+
+
+def cmd_posting(args):
+    posting(args.stage, args.id, error=args.error) if args.error else posting(args.stage, args.id)
+
+
 def cmd_post(args):
     q = queue()
     it = find(q, args.id)
     user = os.environ["IG_USER_ID"]
+    posting("uploading", it["id"])
     c = ig("POST", f"{user}/media", media_type="REELS", video_url=args.url,
            caption=it["caption"], share_to_feed="true")
     cid = c["id"]
     print("container", cid)
-    for _ in range(60):  # up to ~10 minutes of processing
+    for k in range(60):  # up to ~10 minutes of processing
         st = ig("GET", cid, fields="status_code,status")
         print("status", st.get("status_code"))
+        posting("processing", pct=min(85, 55 + k * 4))
         if st.get("status_code") == "FINISHED":
             break
         if st.get("status_code") in ("ERROR", "EXPIRED"):
             it.update(status="failed", review=f"instagram: {st.get('status')}")
             save(QUEUE, q)
+            posting("failed", error=f"Instagram could not process the video ({st.get('status')})")
             sys.exit(f"Instagram could not process the video: {st}")
         time.sleep(10)
     else:
+        posting("failed", error="Instagram took too long to process the video")
         sys.exit("timed out waiting for Instagram to process the video")
+    posting("publishing")
     pub = publish(user, cid)
     media = ig("GET", pub["id"], fields="permalink")
     it.update(status="posted", posted=now(), ig_media_id=pub["id"], permalink=media.get("permalink"))
     save(QUEUE, q)
+    posting("live", permalink=media.get("permalink"))
     print("posted", media.get("permalink"))
+
+
+def cmd_check(args):
+    """(CI) Is this reel approved and ready to publish? Prints its id, or nothing."""
+    q = queue()
+    it = next((i for i in q["items"] if i["id"] == args.id), None)
+    if it and it["status"] == "approved":
+        print(it["id"])
+    else:
+        print(f"{args.id} is not an approved reel ({it['status'] if it else 'not found'})", file=sys.stderr)
 
 
 def ensure_release():
@@ -502,5 +546,7 @@ if __name__ == "__main__":
     sub.add_parser("status")
     n = sub.add_parser("next"); n.add_argument("--slot", help="posting slot, e.g. 06:00 (Tunisia)"); n.add_argument("--kind", choices=KINDS)
     p = sub.add_parser("post"); p.add_argument("id"); p.add_argument("--url", required=True)
+    pp = sub.add_parser("posting"); pp.add_argument("stage", choices=list(POST_STAGES)); pp.add_argument("--id"); pp.add_argument("--error")
+    ck = sub.add_parser("check"); ck.add_argument("id")
     args = ap.parse_args()
     globals()[f"cmd_{args.cmd}"](args)

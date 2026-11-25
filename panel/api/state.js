@@ -4,7 +4,7 @@ import { ASSETS, REPO, fail, gh, guard, readJson, send } from './_lib.js';
 export default async function handler(req, res) {
   if (!guard(req, res)) return;
   try {
-    const [queue, config, panel, runs, progress, weekly] = await Promise.all([
+    const [queue, config, panel, runs, progress, weekly, posting] = await Promise.all([
       readJson('state/queue.json'),
       readJson('state/config.json'),
       readJson('state/panel.json'),
@@ -12,6 +12,8 @@ export default async function handler(req, res) {
       // live render progress, written by pipeline.py into the release while it works
       fetch(`${ASSETS}progress.json?t=${Date.now()}`, { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null)).catch(() => null),
       readJson('state/weekly.json'),
+      // live progress of a post ("Publish now" / the scheduled slots), written by pipeline.py into the release
+      fetch(`${ASSETS}posting.json?t=${Date.now()}`, { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null)).catch(() => null),
     ]);
     send(res, 200, {
       repo: REPO,
@@ -21,6 +23,7 @@ export default async function handler(req, res) {
       panel: { name: '', ...(panel.data ?? {}) },
       instagram: Boolean(process.env.IG_ACCESS_TOKEN),
       progress,
+      posting,
       // reels posted again every week (Friday Al-Kahf); their files are in the 'weekly' release
       weekly: { assets: `https://github.com/${REPO}/releases/download/weekly/`, items: weekly.data?.items ?? [], posted: weekly.data?.posted ?? [] },
       runs: (runs.workflow_runs ?? []).map((r) => ({
