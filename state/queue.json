@@ -2265,9 +2265,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-25T11:01:52+00:00"
+      "status": "approved",
+      "review": "approved in panel",
+      "created": "2026-11-25T11:01:52+00:00",
+      "reviewed": "2026-11-25T12:24:17+00:00"
     },
     {
       "id": "20261125-110301-quiz",
