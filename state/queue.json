@@ -2319,10 +2319,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "approved in panel",
+      "status": "rejected",
+      "review": "Removed from Up next in the panel",
       "created": "2026-11-25T11:03:14+00:00",
-      "reviewed": "2026-11-25T12:24:14+00:00",
+      "reviewed": "2026-11-25T13:29:57+00:00",
       "post_at": "2026-11-26T20:00:00+00:00"
     },
     {
@@ -2386,7 +2386,7 @@
       "title": "Guess the surah · easy · Al-Fil, Al-Humazah, Al-Bayyinah, Al-Fatihah, Al-A'la",
       "cover": true,
       "size_mb": 3.1,
-      "mean_volume_db": -23.0,
+      "mean_volume_db": -23,
       "checks": {
         "size_1080x1920": true,
         "video_h264": true,
