@@ -41,6 +41,34 @@ STORIES = {
 }
 TOTAL_PROPHETS = 25
 
+# Narrated stories: an English narrator tells the story (from the Quran, authentic hadith and Ibn Kathir's
+# Qasas al-Anbiya, without weak reports), and at the key moments Mishary Alafasy recites the ayah itself.
+# Segments: ("n", narration, scene) or ("a", surah, ayah, scene).
+VOICE = "en-US-AndrewNeural"
+SOURCES = "Quran · Sahih al-Bukhari · Ibn Kathir, Qasas al-Anbiya"
+NARRATED = {
+    "nuh": (3, "نوح", "Nuh", [
+        [  # Part 1: the call
+            ("n", "Long after Adam, there were righteous men among the people. When they died, Shaytan whispered to "
+                  "the people: make statues of them, so you remember them.", "misty valley"),
+            ("n", "Generations passed. The knowledge was forgotten, and the people began to worship those statues "
+                  "instead of Allah.", "dark storm clouds"),
+            ("n", "So Allah sent to them His messenger: Nuh, peace be upon him.", "sun rays clouds"),
+            ("a", 71, 1, "sunrise sky"),
+            ("n", "Nuh called his people night and day, in public and in secret. He stayed among them for nine "
+                  "hundred and fifty years.", "night sky stars"),
+            ("a", 71, 7, "thunderstorm clouds"),
+            ("n", "He told them: ask your Lord for forgiveness, and He will send you rain, and give you wealth and "
+                  "children.", "rain drops leaves"),
+            ("a", 71, 10, "rain forest"),
+            ("n", "But the leaders mocked him. You are only a man like us, they said, and only the weakest among us "
+                  "follow you.", "dry desert"),
+            ("n", "Only a few believed. And still, Nuh never stopped calling them to Allah.", "lone tree field"),
+            ("n", "In part two: Allah commands Nuh to build the Ark.", "ocean horizon"),
+        ],
+    ]),
+}
+
 
 def scene_clip(query, seconds, rnd, out):
     """A clip (or a few joined) for one ayah, cropped to 9:16, darkened, exactly `seconds` long."""
@@ -71,7 +99,7 @@ def scene_clip(query, seconds, rnd, out):
     return out
 
 
-def frame_png(no, ar, en, path):
+def frame_png(no, ar, en, path, part=None, footer=None):
     """Header (series + prophet) and footer (reciter, handle) over the whole story."""
     img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
@@ -82,10 +110,131 @@ def frame_png(no, ar, en, path):
            direction="rtl", language="ar")
     d.text((W / 2, 350), f"The story of {en} (peace be upon him)", font=mr.font("Lora-var.ttf", 34),
            fill=(240, 234, 220, 230), anchor="mm")
-    d.text((W / 2, 1720), RECITER, font=mr.font("Lora-var.ttf", 34), fill=gold + (240,), anchor="mm")
+    if part:
+        pill = f"PART {part[0]} OF {part[1]}"
+        f = mr.font("Lora-var.ttf", 26)
+        tw = d.textlength(pill, font=f)
+        d.rounded_rectangle((W / 2 - tw / 2 - 22, 388, W / 2 + tw / 2 + 22, 432), 22, outline=gold + (220,), width=2)
+        d.text((W / 2, 410), pill, font=f, fill=gold + (255,), anchor="mm")
+    if footer:
+        d.text((W / 2, 1668), footer, font=mr.font("Lora-var.ttf", 24), fill=(240, 234, 220, 170), anchor="mm")
+    d.text((W / 2, 1720), RECITER if not footer else f"Recitation: {RECITER}", font=mr.font("Lora-var.ttf", 34),
+           fill=gold + (240,), anchor="mm")
     d.text((W / 2, 1772), mr.HANDLE, font=mr.font("Lora-var.ttf", 28), fill=(240, 234, 220, 190), anchor="mm")
     mr.with_shadow(img, path)
     mr.dim_panel(path)
+
+
+def narration(text, out):
+    """English narration with a neural voice (edge-tts), slightly slow and calm."""
+    if not out.exists():
+        subprocess.run(["edge-tts", "--voice", VOICE, "--rate=-6%", "--text", text, "--write-media", str(out)],
+                       check=True, timeout=120)
+    return out
+
+
+def narr_card(text, path):
+    """The narration as subtitles in the middle panel (English, large, centred)."""
+    img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    for size in range(60, 36, -2):
+        f = mr.font("Lora-var.ttf", size)
+        lines = mr.wrap(d, text, f, W - 190)
+        lh = int(size * 1.5)
+        if len(lines) * lh <= 760:
+            break
+    y = 975 - len(lines) * lh / 2
+    for ln in lines:
+        d.text((W / 2, y + lh / 2), ln, font=f, fill=(246, 240, 226, 255), anchor="mm")
+        y += lh
+    mr.with_shadow(img, path)
+
+
+def compose(segs, cards, audio, frame, total, out):
+    """Scene clips one after another (soft fades), the frame and cards over them, the audio under them."""
+    work = Path(frame).parent
+    ins, f = [], []
+    for i, (p, d_) in enumerate(segs):
+        ins += ["-i", str(p)]
+        f.append(f"[{i}:v]trim=duration={d_:.3f},setpts=PTS-STARTPTS,fade=t=in:st=0:d=0.35,"
+                 f"fade=t=out:st={max(0, d_ - 0.35):.3f}:d=0.35[s{i}]")
+    f.append("".join(f"[s{i}]" for i in range(len(segs))) + f"concat=n={len(segs)}:v=1:a=0,tpad=stop_mode=clone:stop_duration=2[bg]")
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *ins, "-filter_complex", ";".join(f), "-map", "[bg]",
+                    "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p", str(work / "bg.mp4")],
+                   check=True, timeout=1800)
+    a_ins, a_f = [], []
+    for i, (p, d_, lead) in enumerate(audio):
+        a_ins += ["-i", str(p)]
+        a_f.append(f"[{i}:a]aresample=48000,aformat=channel_layouts=stereo,loudnorm=I=-16:TP=-1.5,"
+                   f"adelay={int(lead * 1000)}:all=1,apad=whole_dur={d_:.3f},atrim=0:{d_:.3f}[a{i}]")
+    a_f.append("".join(f"[a{i}]" for i in range(len(audio))) + f"concat=n={len(audio)}:v=0:a=1,apad=whole_dur={total:.2f}[aout]")
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *a_ins, "-filter_complex", ";".join(a_f), "-map", "[aout]",
+                    "-t", f"{total:.2f}", "-c:a", "aac", "-b:a", "160k", str(work / "audio.m4a")], check=True, timeout=600)
+    with open(work / "cards.txt", "w") as fh:
+        for p, d_ in cards:
+            fh.write(f"file '{Path(p).resolve()}'\nduration {d_:.3f}\n")
+        fh.write(f"file '{Path(cards[-1][0]).resolve()}'\n")
+    fc = ("[0:v]format=yuv420p,fps=30[b0];[b0][1:v]overlay=0:0:shortest=1[b1];[2:v]format=rgba,fps=30[c];"
+          f"[b1][c]overlay=0:0:eof_action=repeat,fade=t=out:st={total - 0.8:.2f}:d=0.8[v]")
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(work / "bg.mp4"), "-loop", "1", "-i", str(frame),
+                    "-f", "concat", "-safe", "0", "-i", str(work / "cards.txt"), "-i", str(work / "audio.m4a"),
+                    "-filter_complex", fc, "-map", "[v]", "-map", "3:a", "-t", f"{total:.2f}", "-c:v", "libx264",
+                    "-preset", "medium", "-crf", "21", "-pix_fmt", "yuv420p", "-r", "30", "-c:a", "copy",
+                    "-movflags", "+faststart", str(out)], check=True, timeout=1800)
+
+
+def scene(query, seconds, rnd, out):
+    """scene_clip, falling back to calm sky footage when the search finds nothing usable."""
+    for q in (query, "clouds sky", "sunset sky"):
+        try:
+            return scene_clip(q, seconds, rnd, out)
+        except RuntimeError as e:
+            print("scene:", e)
+    raise RuntimeError(f"no scene for {query!r}")
+
+
+def render_narrated(key, part=1, seed=None):
+    rnd = random.Random(seed)
+    no, ar_name, en_name, parts = NARRATED[key]
+    segs_in = parts[part - 1]
+    chs = mr.chapters()
+    folder = mr.RECITERS[RECITER]
+    theme = mr.THEMES[0]
+    work = mr.CACHE / "work" / f"story_{key}_{part}"
+    work.mkdir(parents=True, exist_ok=True)
+    frame_png(no, ar_name, en_name, work / "frame.png", part=(part, len(parts)), footer=f"Sources: {SOURCES}")
+    segs, cards, audio, t = [], [], [], 0.0
+    for i, sg in enumerate(segs_in):
+        lead = 0.6 if i == 0 else 0.25
+        if sg[0] == "n":
+            _, text, query = sg
+            mp3 = narration(text, work / f"n{i}.mp3")
+            narr_card(text, work / f"card{i}.png")
+            cards.append((work / f"card{i}.png", 0))
+        else:
+            _, su, ay, query = sg
+            mp3 = mr.audio(folder, su, ay)
+            ar, en = mr.verse(su, ay)
+            for n in range(1, 6):
+                pieces, shares = mr.split_parts(ar, en, n) if n > 1 else ([(ar, en)], [1.0])
+                paths = [work / f"card{i}_{k}.png" for k in range(n)]
+                if all(mr.card(theme, chs[su], su, ay, pa, pe, RECITER, pp) for (pa, pe), pp in zip(pieces, paths)):
+                    break
+        dur = mr.duration(mp3) + lead + 0.45
+        if sg[0] == "n":
+            cards[-1] = (cards[-1][0], dur)
+        else:
+            cards += [(pp, dur * sh) for pp, sh in zip(paths, shares)]
+        segs.append((scene(query, dur, rnd, work / f"bg{i}.mp4"), dur))
+        audio.append((mp3, dur, lead))
+        t += dur
+    total = t + 1.2
+    mr.OUT.mkdir(exist_ok=True)
+    mp4 = mr.OUT / f"story_{key}_{part}.mp4"
+    compose(segs, cards, audio, work / "frame.png", total, mp4)
+    print(mp4, round(total, 1), "s")
+    return {"kind": "story", "file": str(mp4), "duration": round(total, 1), "prophet": key, "part": part,
+            "title": f"Stories of the Prophets {no}/{TOTAL_PROPHETS} · {en_name} · Part {part} of {len(parts)}"}
 
 
 def render(key, seed=None):
@@ -162,7 +311,11 @@ def render(key, seed=None):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("prophet", choices=list(STORIES))
+    ap.add_argument("prophet", choices=list(STORIES) + list(NARRATED))
+    ap.add_argument("--part", type=int, default=1)
     ap.add_argument("--seed", type=int)
     a = ap.parse_args()
-    render(a.prophet, a.seed)
+    if a.prophet in NARRATED:
+        render_narrated(a.prophet, a.part, a.seed)
+    else:
+        render(a.prophet, a.seed)
