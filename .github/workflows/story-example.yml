@@ -31,8 +31,9 @@ jobs:
       - name: Watch memory and disk (in the log every 15 s)
         run: (while true; do echo "MON $(date +%H:%M:%S) $(free -m | awk 'NR==2{print "mem used " $3 " MB, avail " $7 " MB"}') disk $(df -h / | awk 'NR==2{print $4}') free"; sleep 15; done) &
       - name: Render
+        timeout-minutes: 30
         run: |
-          python3 make_story.py "${{ inputs.prophet }}" --part "${{ inputs.part }}"
+          python3 -u make_story.py "${{ inputs.prophet }}" --part "${{ inputs.part }}"
           f=$(ls -t reels/story_*.mp4 | head -1); echo "$f"
           python3 -c "import pipeline, sys; from pathlib import Path; p = Path(sys.argv[1]); pipeline.contact_sheet(p, p.with_suffix('.png'), n=8)" "$f"
       - uses: actions/upload-artifact@v4
