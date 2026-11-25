@@ -1980,10 +1980,13 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
+      "status": "posted",
       "review": "Claude routine: all frames clean, Arabic and layout correct",
       "created": "2026-11-24T21:21:54+00:00",
-      "reviewed": "2026-11-24T21:32:48+00:00"
+      "reviewed": "2026-11-24T21:32:48+00:00",
+      "posted": "2026-11-25T00:05:56+00:00",
+      "ig_media_id": "18097320323166691",
+      "permalink": "https://www.instagram.com/reel/DgJM2qzCuWy/"
     },
     {
       "id": "20261124-212510-ayah",
