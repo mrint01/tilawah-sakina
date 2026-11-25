@@ -273,9 +273,14 @@ def scene(query, seconds, rnd, out):
         path = nature.clip_file(hit)
         real = float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration",
                                               "-of", "csv=p=0", str(path)]).strip()) * nature.SLOW
+        if real < 3:
+            raise RuntimeError(f"clip {query} is too short ({real:.1f}s)")
         n = 1
-        while real * n - nature.FADE * (n - 1) < seconds + 0.5:
+        while real * n - nature.FADE * (n - 1) < seconds + 0.5 and n < 8:
             n += 1
+        v = max(hit["videos"].values(), key=lambda x: x.get("width") or 0)
+        print(f"  scene {query}: {real:.1f}s clip x{n} for {seconds:.1f}s (source up to {v.get('width')}x{v.get('height')})",
+              flush=True)
         nature.render_background([(path, real, hit["id"])] * n, seconds, out)
         return out
     for q in (query, "clouds sky", "sunset sky"):
@@ -297,7 +302,10 @@ def render_narrated(key, part=1, seed=None):
     work.mkdir(parents=True, exist_ok=True)
     frame_png(no, ar_name, en_name, work / "frame.png", part=(part, PARTS.get(key, len(parts))), footer=f"Sources: {SOURCES}")
     segs, cards, audio, t = [], [], [], 0.0
+    import time
+    t0 = time.time()
     for i, sg in enumerate(segs_in):
+        print(f"[{time.time() - t0:5.0f}s] segment {i + 1}/{len(segs_in)}: {sg[0]} {sg[1:3] if sg[0] == 'a' else ''}", flush=True)
         lead = 0.6 if i == 0 else 0.25
         if sg[0] == "n":
             _, text, en, query = sg
@@ -324,6 +332,7 @@ def render_narrated(key, part=1, seed=None):
     total = t + 1.2
     mr.OUT.mkdir(exist_ok=True)
     mp4 = mr.OUT / f"story_{key}_{part}.mp4"
+    print(f"[{time.time() - t0:5.0f}s] composing {total:.1f}s", flush=True)
     compose(segs, cards, audio, work / "frame.png", total, mp4)
     print(mp4, round(total, 1), "s")
     return {"kind": "story", "file": str(mp4), "duration": round(total, 1), "prophet": key, "part": part,
