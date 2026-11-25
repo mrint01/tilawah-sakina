@@ -1907,10 +1907,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
-      "review": "Claude routine: quiz frames clean, answer frame green box matches questions",
+      "status": "rejected",
+      "review": "Removed from the reel page in the panel",
       "created": "2026-11-24T21:11:43+00:00",
-      "reviewed": "2026-11-24T21:13:28+00:00",
+      "reviewed": "2026-11-25T13:15:19+00:00",
       "cover": true,
       "post_at": "2026-11-25T20:00:00+00:00"
     },
