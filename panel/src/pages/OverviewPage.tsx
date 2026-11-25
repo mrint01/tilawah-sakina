@@ -1,10 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import { Hand, CheckCircle2, Clock3, Inbox, Instagram, Play, Power, RefreshCw, Send, Users } from 'lucide-react';
+import { Hand, CheckCircle2, Clock3, Inbox, Instagram, Play, Power, RefreshCw, Send, Users, CalendarX2 } from 'lucide-react';
 import { cn } from '../admin/cn';
-import { slotText, upcoming } from '../admin/api';
+import { notPosted, slotText, upcoming } from '../admin/api';
 import { DailyPlan } from '../admin/DailyPlan';
 import { PublishProgress } from '../admin/PublishProgress';
-import { MissedPosts } from '../admin/MissedPosts';
 import { MakeProgressCard, MakeReelsButton } from '../admin/MakeReels';
 import { KindBadge, makingRun, Thumb, useAct, useAppState, useInstagram } from '../admin/hooks';
 import { ago, Badge, dateTime, Empty, int, KpiCard, PageHeader, Panel, Skeleton } from '../admin/ui';
@@ -44,6 +43,7 @@ export default function OverviewPage() {
   const approved = count('approved');
   const pending = count('pending');
   const posted = s.items.filter((i) => i.status === 'posted');
+  const missed = notPosted(s);
   const next = upcoming(s.items, 5, new Date(), s.slots);
   const firstReel = next.find((p) => p.reel)?.reel;
   const followers = ig.data?.profile?.followers_count;
@@ -53,7 +53,6 @@ export default function OverviewPage() {
       {header}
       <MakeProgressCard s={s} />
       <PublishProgress s={s} />
-      <MissedPosts s={s} compact />
 
       {pending > 0 && (
         <button type="button" onClick={() => navigate('/review')} className="flex cursor-pointer items-center gap-2 rounded-2xl bg-accent-light p-4 text-start font-semibold text-accent hover:underline">
@@ -62,7 +61,7 @@ export default function OverviewPage() {
         </button>
       )}
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5">
         <KpiCard icon={Users} label="Followers" value={followers ?? 0} tone="violet" delay={0}
           footer={s.instagram ? (ig.data?.profile ? `@${ig.data.profile.username}` : ig.data?.error ?? 'Loading…') : 'Connect Instagram in Settings'} />
         <KpiCard icon={Send} label="Posted" value={posted.length} tone="blue" delay={0.05}
@@ -70,7 +69,9 @@ export default function OverviewPage() {
         <KpiCard icon={CheckCircle2} label="Ready to post" value={approved} tone="green" delay={0.05}
           footer={<>≈ {Math.floor(approved / 5)} {Math.floor(approved / 5) === 1 ? 'day' : 'days'} at 5 a day</>} onClick={() => navigate('/queue')} />
         <KpiCard icon={Inbox} label="Waiting for review" value={pending} tone="orange" delay={0.1}
-          footer={`Claude checks them at 04:30`} onClick={() => navigate('/review')} />
+          footer={`Claude checks them at 04:30 and 13:30`} onClick={() => navigate('/review')} />
+        <KpiCard icon={CalendarX2} label="Not posted" value={missed.length} tone={missed.length ? 'red' : 'green'} delay={0.1}
+          footer={missed.length ? `${missed[0].entry.reason ?? 'See why'}` : 'Every slot of the last 7 days went out'} onClick={() => navigate('/not-posted')} />
       </div>
 
       {s.instagram && <TotalsRow ig={ig.data} />}

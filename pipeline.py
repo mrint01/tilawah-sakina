@@ -447,7 +447,7 @@ def _posted_in(q, kind, t, end):
     """A reel of this kind that went out for this slot (also a "Publish now" shortly before or during it)."""
     from datetime import timedelta
     for it in q["items"]:
-        if it["kind"] == kind and it["status"] == "posted" and it.get("posted"):
+        if it["kind"] == kind and it["status"] == "posted" and it.get("posted") and not it.get("made_up"):
             p = datetime.fromisoformat(it["posted"])
             if t - timedelta(minutes=30) <= p < end:
                 return it
@@ -630,6 +630,11 @@ def cmd_post(args):
     media = ig("GET", pub["id"], fields="permalink")
     it.update(status="posted", posted=now(), ig_media_id=pub["id"], permalink=media.get("permalink"))
     slot_result(q, it["id"], True)
+    e = q.get("slots", {}).get(getattr(args, "slot", None) or "")
+    if e and e["status"] in ("missed", "failed"):  # published from the panel's "Not posted" page
+        late = int((datetime.fromisoformat(it["posted"]) - datetime.fromisoformat(e["at"])).total_seconds() // 60) if e.get("at") else 0
+        it["made_up"] = args.slot  # it stands for that slot, not for a slot that is due now
+        e.update(status="posted", recovered=True, id=it["id"], title=it.get("title"), posted=it["posted"], late_min=max(0, late))
     save(QUEUE, q)
     posting("live", permalink=media.get("permalink"))
     print("posted", media.get("permalink"))
@@ -687,7 +692,7 @@ if __name__ == "__main__":
     n.add_argument("--due", action="store_true", help="the slot due now (late runs catch up, a slot posts once)")
     n.add_argument("--dry", action="store_true", help="with --due: only record missed slots and say what is due")
     sf = sub.add_parser("slotfail"); sf.add_argument("id"); sf.add_argument("--error")
-    p = sub.add_parser("post"); p.add_argument("id"); p.add_argument("--url", required=True); p.add_argument("--cover-url")
+    p = sub.add_parser("post"); p.add_argument("id"); p.add_argument("--url", required=True); p.add_argument("--cover-url"); p.add_argument("--slot", help="a missed slot this post makes up for (\"2026-11-25 06:00\")")
     pp = sub.add_parser("posting"); pp.add_argument("stage", choices=list(POST_STAGES)); pp.add_argument("--id"); pp.add_argument("--error")
     ck = sub.add_parser("check"); ck.add_argument("id")
     sub.add_parser("covers")

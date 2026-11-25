@@ -4,13 +4,14 @@ import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-route
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider, useQuery, useQueryClient } from '@tanstack/react-query';
 import { KeyRound, Loader2 } from 'lucide-react';
 import { AdminLayout, LogoMark } from './admin/AdminLayout';
-import { api, SignedOut } from './admin/api';
+import { api, notPosted, SignedOut } from './admin/api';
 import { ToastProvider } from './admin/toast';
 import { INPUT } from './admin/ui';
 import OverviewPage from './pages/OverviewPage';
 import ReviewPage from './pages/ReviewPage';
 import QueuePage from './pages/QueuePage';
 import PostedPage from './pages/PostedPage';
+import NotPostedPage from './pages/NotPostedPage';
 import RunsPage from './pages/RunsPage';
 import SettingsPage from './pages/SettingsPage';
 import './index.css';
@@ -75,6 +76,7 @@ function Console() {
   const badges = {
     review: items.filter((i) => i.status === 'pending').length,
     queue: items.filter((i) => i.status === 'approved').length,
+    missed: state.data ? notPosted(state.data).length : 0,
     // workflows whose latest finished run failed (a failure fixed by a later successful run no longer counts)
     failed: (() => {
       const latest = new Map<string, string | null>();
@@ -94,6 +96,7 @@ function Console() {
         <Route path="/review" element={<ReviewPage />} />
         <Route path="/queue" element={<QueuePage />} />
         <Route path="/posted" element={<PostedPage />} />
+        <Route path="/not-posted" element={<NotPostedPage />} />
         <Route path="/runs" element={<RunsPage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />

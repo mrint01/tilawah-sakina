@@ -16,6 +16,9 @@ on:
         type: choice
         options: [auto, due, ayah, dua, asma, tasbih, quiz]
         default: auto
+      slot:
+        description: "With id: the missed slot this post makes up for (from the panel's Not posted page)"
+        default: ""
       dry_run:
         description: "Only publish the video link, don't post to Instagram"
         type: boolean
@@ -145,7 +148,8 @@ jobs:
         env:
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
-        run: python3 pipeline.py post "${{ steps.pick.outputs.id }}" --url "$VIDEO_URL" ${COVER_URL:+--cover-url "$COVER_URL"}
+          SLOT: ${{ inputs.slot }}
+        run: python3 pipeline.py post "${{ steps.pick.outputs.id }}" --url "$VIDEO_URL" ${COVER_URL:+--cover-url "$COVER_URL"} ${SLOT:+--slot "$SLOT"}
 
       - name: Tell the panel it failed
         if: failure() && steps.pick.outputs.id != ''

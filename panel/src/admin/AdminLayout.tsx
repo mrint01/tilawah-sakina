@@ -3,8 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
 import {
   Activity, AtSign, BellOff, BellRing, Clapperboard, ChevronLeft, ChevronRight, Gauge, Inbox, ListOrdered, LogOut, Menu, Moon,
-  Send, Settings, Sun, X, type LucideIcon,
-} from 'lucide-react';
+  CalendarX2, Send, Settings, Sun, X, type LucideIcon } from 'lucide-react';
 import { cn } from './cn';
 
 /**
@@ -37,6 +36,7 @@ const NAV_GROUPS: { title: string; items: NavItem[] }[] = [
     { to: '/review', label: 'Review', icon: Inbox, badge: 'review' },
     { to: '/queue', label: 'Up next', icon: ListOrdered, badge: 'queue' },
     { to: '/posted', label: 'Posted', icon: Send },
+    { to: '/not-posted', label: 'Not posted', icon: CalendarX2, badge: 'missed', badgeHint: 'slots not posted in the last 7 days', danger: true },
   ] },
   { title: 'Health', items: [
     { to: '/runs', label: 'Workflow runs', icon: Activity, badge: 'failed', badgeHint: 'failed, not fixed yet', danger: true },

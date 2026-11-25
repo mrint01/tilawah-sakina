@@ -129,7 +129,7 @@ export type Action =
   | { type: 'unmark_posted'; id: string }
   | { type: 'toggle'; enabled: boolean }
   | { type: 'settings'; settings: { config?: { buffer_days?: number; reciters?: Record<string, string> }; panel?: { name: string } } }
-  | { type: 'post_now'; kind?: Kind; id?: string }
+  | { type: 'post_now'; kind?: Kind; id?: string; slot?: string }
   | { type: 'generate'; ayah?: number; tasbih?: number; jobs?: MakeJob[] };
 
 export const api = {
@@ -185,6 +185,26 @@ export const DUA_LABEL: Record<string, string> = {
 };
 
 export interface Upcoming { at: Date; kind: Kind; label: string; reel: Reel | null; late?: boolean }
+
+/** A posting slot that did not go out (last 7 days), with the approved reel that can be published for it now. */
+export interface NotPosted { key: string; entry: SlotEntry; reel: Reel | null }
+
+/** Missed (and failing) slots of the last 7 days, newest first; each gets its own approved reel of the same type. */
+export function notPosted(s: PanelState): NotPosted[] {
+  const cut = new Date(Date.now() - 7 * 86400_000 + 3600_000).toISOString().slice(0, 10);
+  const rows = Object.entries(s.slots ?? {})
+    .filter(([k, e]) => k >= cut && (e.status === 'missed' || e.status === 'failed'))
+    .sort(([a], [b]) => a.localeCompare(b));
+  const left = s.items.filter((i) => i.status === 'approved');
+  const out = rows.map(([key, entry]) => {
+    let pool = left.filter((r) => r.kind === entry.kind);
+    if (entry.kind === 'asma') pool = [...pool].sort((x, y) => (x.number ?? 0) - (y.number ?? 0));
+    const reel = pool.find((r) => r.id === entry.id) ?? pool[0] ?? null;
+    if (reel) left.splice(left.indexOf(reel), 1);
+    return { key, entry, reel };
+  });
+  return out.reverse();
+}
 
 const LATE_H = 3; // same as SLOT_LATE_H in pipeline.py
 /** "2026-11-25 06:00": a slot's key in the slot log (Tunisia date and time). */
