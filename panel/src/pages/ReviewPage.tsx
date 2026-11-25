@@ -7,6 +7,8 @@ import { ManualPost } from '../admin/ManualPost';
 import { MakeProgressCard, MakeReelsButton } from '../admin/MakeReels';
 import { allChecksOk, makingRun, KindBadge, StatusBadge, Thumb, useAct, useAppState, useInstagram } from '../admin/hooks';
 import { InsightsNote, ReelStats } from '../admin/IgStats';
+import { PublishProgress } from '../admin/PublishProgress';
+import { ReelActions } from '../admin/ReelActions';
 import { ago, Badge, dateTime, Empty, PageHeader, Pager, SELECT, Skeleton, usePaged } from '../admin/ui';
 
 type Filter = 'pending' | 'rejected' | 'failed' | 'all';
@@ -52,6 +54,7 @@ export default function ReviewPage() {
           </div>
         }
       />
+      {state.data && <PublishProgress s={state.data} />}
       {state.data && <MakeProgressCard s={state.data} />}
       {state.error && <p className="rounded-xl bg-danger-light p-3 text-sm text-danger">{(state.error as Error).message}</p>}
 
@@ -249,9 +252,15 @@ function ReelPanel({ s, r, className = '' }: { s: PanelState; r: Reel | null; cl
           </form>
         )}
 
+        {r.status === 'approved' && (
+          <div className="flex flex-col gap-2 rounded-lg border border-paper-line p-3">
+            <Badge tone="green" className="w-fit">In the posting schedule</Badge>
+            <ReelActions s={s} r={r} />
+          </div>
+        )}
+
         {decided && (
-          <div className="flex items-center justify-between gap-2">
-            {r.status === 'approved' ? <Badge tone="green">In the posting schedule</Badge> : <span />}
+          <div className="flex items-center justify-end gap-2">
             <button type="button" disabled={act.isPending} onClick={() => act.mutate({ type: 'requeue', id: r.id })}
               className="flex h-9 cursor-pointer items-center gap-2 rounded-lg border border-paper-line px-3 text-sm font-medium text-ink-soft hover:bg-paper-alt disabled:opacity-50">
               <RotateCcw className="h-4 w-4" aria-hidden="true" /> Back to review
