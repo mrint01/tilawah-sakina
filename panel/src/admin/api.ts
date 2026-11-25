@@ -84,7 +84,7 @@ export interface PanelState {
 
 /** One posting slot: posted (maybe late), being posted, failed (retried within 3 hours) or missed (with why). */
 export interface SlotEntry {
-  kind: Kind; status: 'posting' | 'posted' | 'failed' | 'missed' | 'off';
+  kind: Kind; status: 'posting' | 'posted' | 'failed' | 'missed' | 'off' | 'resolved';
   id?: string; title?: string; reason?: string | null; posted?: string; late_min?: number; tries?: number; at?: string;
 }
 
@@ -130,6 +130,7 @@ export type Action =
   | { type: 'toggle'; enabled: boolean }
   | { type: 'settings'; settings: { config?: { buffer_days?: number; reciters?: Record<string, string> }; panel?: { name: string } } }
   | { type: 'post_now'; kind?: Kind; id?: string; slot?: string }
+  | { type: 'slot_resolve'; slot: string }
   | { type: 'generate'; ayah?: number; tasbih?: number; jobs?: MakeJob[] };
 
 export const api = {
@@ -205,6 +206,13 @@ export function notPosted(s: PanelState): NotPosted[] {
   });
   return out.reverse();
 }
+
+const keyDay = new Intl.DateTimeFormat('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+/** "Wed 25 Nov · 06:00" for a slot key. */
+export const slotWhen = (key: string) => {
+  const [day, time] = key.split(' ');
+  return `${keyDay.format(new Date(`${day}T12:00:00Z`))} · ${time}`;
+};
 
 const LATE_H = 3; // same as SLOT_LATE_H in pipeline.py
 /** "2026-11-25 06:00": a slot's key in the slot log (Tunisia date and time). */

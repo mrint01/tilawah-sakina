@@ -41,6 +41,16 @@ export default async function handler(req, res) {
         if (!b.note?.trim()) return send(res, 400, { error: 'Say why it is rejected.' });
         await setStatus(b.id, 'rejected', b.note.trim());
         break;
+      case 'slot_resolve':
+        // "Keep in schedule" on the Not posted page: the slot is let go, its reel stays approved for its next slot
+        if (!/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(b.slot || '')) return send(res, 400, { error: 'Unknown slot.' });
+        await updateJson('state/queue.json', (q) => {
+          const e = q.slots?.[b.slot];
+          if (!e) throw Object.assign(new Error('That slot is not in the log.'), { status: 404 });
+          if (e.status === 'missed' || e.status === 'failed') Object.assign(e, { status: 'resolved', resolved: new Date().toISOString() });
+          return q;
+        }, `Panel: slot ${b.slot} kept in the schedule`);
+        break;
       case 'requeue':
         await setStatus(b.id, 'pending', null);
         break;

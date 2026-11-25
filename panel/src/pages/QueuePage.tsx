@@ -4,6 +4,7 @@ import { CalendarClock, Hand, Play, RotateCcw, Send, Trash2 } from 'lucide-react
 import { slotText, upcoming, type Reel, type Upcoming } from '../admin/api';
 import { KIND, KindBadge, postingRun, Thumb, useAct, useAppState } from '../admin/hooks';
 import { PublishProgress } from '../admin/PublishProgress';
+import { NotPostedBar } from '../admin/NotPostedBar';
 import { matchFilters, ReelFilterBar, useReelFilters } from '../admin/ReelFilters';
 import { WeeklySection } from '../admin/WeeklySection';
 import { ago, Badge, dateTime, Empty, Modal, PageHeader, Pager, Skeleton, usePaged } from '../admin/ui';
@@ -50,6 +51,7 @@ export default function QueuePage() {
         }
       />
       {s && <PublishProgress s={s} />}
+      {s && <NotPostedBar s={s} />}
       {s && <WeeklySection s={s} />}
       {s && !s.config.enabled && <p className="rounded-xl bg-accent-light p-3 text-sm font-medium text-accent">Automation is OFF, so nothing posts until you turn it on in Overview.</p>}
       {s && s.config.enabled && missing.size > 0 && (

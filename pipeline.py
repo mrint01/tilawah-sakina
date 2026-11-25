@@ -465,7 +465,7 @@ def update_slots(q, at=None):
         if key < SLOTS_FROM or t > at:
             continue
         e = log.get(key)
-        if e and e["status"] in ("posted", "missed", "off"):
+        if e and e["status"] in ("posted", "missed", "off", "resolved"):
             continue
         kind = SLOTS[s]
         it = _posted_in(q, kind, t, end)

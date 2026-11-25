@@ -4,6 +4,7 @@ import { cn } from '../admin/cn';
 import { notPosted, slotText, upcoming } from '../admin/api';
 import { DailyPlan } from '../admin/DailyPlan';
 import { PublishProgress } from '../admin/PublishProgress';
+import { NotPostedBar } from '../admin/NotPostedBar';
 import { MakeProgressCard, MakeReelsButton } from '../admin/MakeReels';
 import { KindBadge, makingRun, Thumb, useAct, useAppState, useInstagram } from '../admin/hooks';
 import { ago, Badge, dateTime, Empty, int, KpiCard, PageHeader, Panel, Skeleton } from '../admin/ui';
@@ -53,6 +54,7 @@ export default function OverviewPage() {
       {header}
       <MakeProgressCard s={s} />
       <PublishProgress s={s} />
+      <NotPostedBar s={s} />
 
       {pending > 0 && (
         <button type="button" onClick={() => navigate('/review')} className="flex cursor-pointer items-center gap-2 rounded-2xl bg-accent-light p-4 text-start font-semibold text-accent hover:underline">
