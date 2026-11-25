@@ -40,7 +40,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      actions: write
     outputs:
       go: ${{ steps.due.outputs.go }}
     steps:
@@ -58,20 +57,6 @@ jobs:
           git diff --cached --quiet && exit 0
           git commit -qm "Slots: record missed posts"
           for i in 1 2 3; do git pull --rebase -q && git push && exit 0; sleep 5; done
-      - name: Refill when a type runs low
-        # A reel removed or rejected during the day is replaced now, not at 03:00: start the reel making (it only
-        # makes what is missing) unless one is already running or started in the last 3 hours.
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          low=$(python3 pipeline.py lowstock)
-          [ -z "$low" ] && { echo "every type is stocked"; exit 0; }
-          echo "low: $low"
-          recent=$(gh run list -w generate.yml -L 5 --json status,createdAt -q \
-            "[.[] | select(.status != \"completed\" or (.createdAt | fromdateiso8601) > (now - 10800))] | length")
-          if [ "$recent" != "0" ]; then echo "reel making ran or runs recently, not starting another"; exit 0; fi
-          gh workflow run generate.yml -f auto=true && echo "started reel making for: $low"
-
   post:
     needs: check
     if: ${{ !cancelled() && (needs.check.outputs.go == 'true' || (github.event_name == 'workflow_dispatch' && inputs.kind != 'due')) }}

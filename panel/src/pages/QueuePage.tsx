@@ -57,7 +57,7 @@ export default function QueuePage() {
       {s && !s.config.enabled && <p className="rounded-xl bg-accent-light p-3 text-sm font-medium text-accent">Automation is OFF, so nothing posts until you turn it on in Overview.</p>}
       {s && s.config.enabled && missing.size > 0 && (
         <p className="rounded-xl bg-accent-light p-3 text-sm font-medium text-accent">
-          Nothing approved yet for: {[...missing].map((k) => KIND[k].label).join(', ')}. A new one is being made now (the hourly check refills any type that runs low) and Claude checks it within 3 hours.
+          Nothing approved yet for: {[...missing].map((k) => KIND[k].label).join(', ')}. Those slots are skipped until new reels are made at 03:00 and checked by Claude at 04:30.
         </p>
       )}
 
@@ -187,7 +187,7 @@ export default function QueuePage() {
       </Modal>
 
       <Modal open={Boolean(removing)} onClose={() => setRemoving(null)} title="Remove this reel?" icon={Trash2} tone="danger"
-        text="It will not be posted. Its video file is deleted from GitHub at the next posting run; the next approved reel of the same type takes its slot, and a new one is made within the hour to replace it.">
+        text="It will not be posted. Its video file is deleted from GitHub at the next posting run; the next approved reel of the same type takes its slot. A new one is made at 03:00.">
         <p className="text-sm font-semibold">{removing?.title}</p>
         <div className="flex justify-end gap-2 pt-1">
           <button type="button" autoFocus onClick={() => setRemoving(null)}

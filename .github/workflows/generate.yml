@@ -3,7 +3,7 @@ name: Generate reels
 on:
   schedule:
     # 02:00 UTC = 03:00 Tunisia: tops up every kind to 3 days ready (skips when automation is OFF).
-    # Claude reviews the new reels at 04:30, before the first post of the day at 06:00 (and every 3 hours after, for reels made during the day).
+    # Claude reviews the new reels at 04:30, before the first post of the day at 06:00 (and again at 13:30, in case this run started late).
     # The panel's Vercel cron (api/tick.js) also starts it in the same hour, in case GitHub skips this run.
     - cron: "0 2 * * *"
   workflow_dispatch:

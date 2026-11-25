@@ -41,7 +41,7 @@ export function ReelActions({ s, r, onDone }: { s: PanelState; r: Reel; onDone?:
       </Modal>
 
       <Modal open={ask === 'remove'} onClose={() => setAsk(null)} title="Remove this reel?" icon={Trash2} tone="danger"
-        text="It will not be posted. Its video file is deleted from GitHub at the next posting run; the next approved reel of the same type takes its slot, and a new one is made within the hour to replace it.">
+        text="It will not be posted. Its video file is deleted from GitHub at the next posting run; the next approved reel of the same type takes its slot. A new one is made at 03:00.">
         <p className="text-sm font-semibold">{r.title}</p>
         <div className="flex justify-end gap-2 pt-1">
           <button type="button" autoFocus onClick={() => setAsk(null)}
