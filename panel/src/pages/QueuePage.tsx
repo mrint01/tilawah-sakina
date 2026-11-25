@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { CalendarClock, Hand, Play, RotateCcw, Send, Trash2 } from 'lucide-react';
-import { slot, upcoming, type Reel, type Upcoming } from '../admin/api';
+import { slotText, upcoming, type Reel, type Upcoming } from '../admin/api';
 import { KIND, KindBadge, postingRun, Thumb, useAct, useAppState } from '../admin/hooks';
 import { PublishProgress } from '../admin/PublishProgress';
+import { MissedPosts } from '../admin/MissedPosts';
 import { matchFilters, ReelFilterBar, useReelFilters } from '../admin/ReelFilters';
 import { WeeklySection } from '../admin/WeeklySection';
 import { ago, Badge, dateTime, Empty, Modal, PageHeader, Pager, Skeleton, usePaged } from '../admin/ui';
@@ -18,7 +19,7 @@ export default function QueuePage() {
   const s = state.data;
   const busy = Boolean(s && postingRun(s));
   const approvedCount = s ? s.items.filter((i) => i.status === 'approved').length : 0;
-  const plan: Upcoming[] = s ? upcoming(s.items, Math.max(10, approvedCount * 5 + 5)) : [];
+  const plan: Upcoming[] = s ? upcoming(s.items, Math.max(10, approvedCount * 5 + 5), new Date(), s.slots) : [];
   // keep empty slots up to the last planned reel, plus the next 5 slots
   const lastFull = plan.map((p) => Boolean(p.reel)).lastIndexOf(true);
   const rows = plan.slice(0, Math.max(lastFull + 1, 5));
@@ -50,6 +51,7 @@ export default function QueuePage() {
         }
       />
       {s && <PublishProgress s={s} />}
+      {s && <MissedPosts s={s} />}
       {s && <WeeklySection s={s} />}
       {s && !s.config.enabled && <p className="rounded-xl bg-accent-light p-3 text-sm font-medium text-accent">Automation is OFF, so nothing posts until you turn it on in Overview.</p>}
       {s && s.config.enabled && missing.size > 0 && (
@@ -86,7 +88,7 @@ export default function QueuePage() {
                         <KindBadge kind={r.kind} />
                         <span className="num">{r.duration}s</span>
                         <span>·</span>
-                        {s.config.enabled ? <span className={i === 0 ? 'font-semibold text-ok' : ''}>{slot(p.at)}</span> : <span className="text-ink-mute">paused</span>}
+                        {s.config.enabled ? <span className={i === 0 ? 'font-semibold text-ok' : ''}>{slotText(p)}</span> : <span className="text-ink-mute">paused</span>}
                       </span>
                     </span>
                   </button>
@@ -135,7 +137,7 @@ export default function QueuePage() {
                       <td className="px-4 py-2.5"><KindBadge kind={r.kind} /></td>
                       <td className="num px-4 py-2.5 text-right">{r.duration}s</td>
                       <td className="px-4 py-2.5 text-ink-soft" title={dateTime(r.reviewed ?? null)}>{ago(r.reviewed ?? null)}</td>
-                      <td className="px-4 py-2.5">{s.config.enabled ? (i === 0 ? <Badge tone="green">{slot(p.at)}</Badge> : slot(p.at)) : <span className="text-ink-mute">paused</span>}</td>
+                      <td className="px-4 py-2.5">{s.config.enabled ? (i === 0 ? <Badge tone="green">{slotText(p)}</Badge> : slotText(p)) : <span className="text-ink-mute">paused</span>}</td>
                       <td className="whitespace-nowrap px-4 py-2.5 text-right">
                         <button type="button" disabled={busy || !s.instagram} title={busy ? 'A post is already being published' : 'Publish this reel on Instagram now'}
                           onClick={(e) => { e.stopPropagation(); setPublishing(r); }}
@@ -202,7 +204,7 @@ function EmptySlot({ p, phone }: { p: Upcoming; phone?: boolean }) {
   if (phone) {
     return (
       <li className="flex items-center gap-3 px-4 py-3 text-sm text-ink-mute">
-        <KindBadge kind={p.kind} /> <span className="flex-1">{text}</span> <span className="text-xs">{slot(p.at)}</span>
+        <KindBadge kind={p.kind} /> <span className="flex-1">{text}</span> <span className="text-xs">{slotText(p)}</span>
       </li>
     );
   }
@@ -212,7 +214,7 @@ function EmptySlot({ p, phone }: { p: Upcoming; phone?: boolean }) {
       <td className="px-4 py-2.5 italic">{text}</td>
       <td className="px-4 py-2.5"><KindBadge kind={p.kind} /></td>
       <td className="px-4 py-2.5" /><td className="px-4 py-2.5" />
-      <td className="px-4 py-2.5">{slot(p.at)}</td>
+      <td className="px-4 py-2.5">{slotText(p)}</td>
       <td className="px-4 py-2.5" />
     </tr>
   );

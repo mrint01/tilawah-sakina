@@ -78,6 +78,14 @@ export interface PanelState {
   progress: MakeProgress | null;
   posting: PostingProgress | null;
   weekly: WeeklyState;
+  /** what happened at each posting slot ("2026-11-25 06:00", Tunisia time), from pipeline.py update_slots */
+  slots: Record<string, SlotEntry>;
+}
+
+/** One posting slot: posted (maybe late), being posted, failed (retried within 3 hours) or missed (with why). */
+export interface SlotEntry {
+  kind: Kind; status: 'posting' | 'posted' | 'failed' | 'missed' | 'off';
+  id?: string; title?: string; reason?: string | null; posted?: string; late_min?: number; tries?: number; at?: string;
 }
 
 /** One post on the Instagram account with its numbers. views/reach/saves/shares are null without the insights permission. */
@@ -176,10 +184,17 @@ export const DUA_LABEL: Record<string, string> = {
   morning: 'Morning adhkar', after_salah: 'Dua after salah', need: 'Dua for a need', friday: 'Salawat & Friday', arafah: 'Day of Arafah',
 };
 
-export interface Upcoming { at: Date; kind: Kind; label: string; reel: Reel | null }
+export interface Upcoming { at: Date; kind: Kind; label: string; reel: Reel | null; late?: boolean }
 
-/** The next n posting slots and the approved reel each one will post (null = nothing approved of that kind). */
-export function upcoming(items: Reel[], n: number, from = new Date()): Upcoming[] {
+const LATE_H = 3; // same as SLOT_LATE_H in pipeline.py
+/** "2026-11-25 06:00": a slot's key in the slot log (Tunisia date and time). */
+export const slotKey = (at: Date, time: string) => `${new Date(at.getTime() + 3600_000).toISOString().slice(0, 10)} ${time}`;
+
+/**
+ * The next n posting slots and the approved reel each one will post (null = nothing approved of that kind).
+ * A slot that started less than 3 hours ago and is not posted yet comes first, marked late (the hourly run posts it).
+ */
+export function upcoming(items: Reel[], n: number, from = new Date(), slots: Record<string, SlotEntry> = {}): Upcoming[] {
   const left = items.filter((i) => i.status === 'approved');
   const take = (kind: Kind, day: Date) => {
     let pool = left.filter((r) => r.kind === kind);
@@ -194,12 +209,23 @@ export function upcoming(items: Reel[], n: number, from = new Date()): Upcoming[
     if (r) left.splice(left.indexOf(r), 1);
     return r;
   };
+  const sorted = [...SLOTS].sort((x, y) => x.utcHour - y.utcHour);
   const out: Upcoming[] = [];
   const d = new Date(Date.UTC(from.getUTCFullYear(), from.getUTCMonth(), from.getUTCDate() - 1));
+  let prev: { t: Date; sl: (typeof SLOTS)[number] } | null = null;
   while (out.length < n) {
-    for (const sl of [...SLOTS].sort((x, y) => x.utcHour - y.utcHour)) {
+    for (const sl of sorted) {
       const t = new Date(d.getTime() + sl.utcHour * 3600_000);
-      if (t > from && out.length < n) out.push({ at: t, kind: sl.kind, label: sl.label, reel: take(sl.kind, t) });
+      if (t > from && out.length < n) {
+        // the slot just before now: still due if not posted yet and less than 3 hours late
+        if (prev && !out.length && from.getTime() - prev.t.getTime() < LATE_H * 3600_000) {
+          const e = slots[slotKey(prev.t, prev.sl.time)];
+          if (!e || e.status === 'posting' || e.status === 'failed')
+            out.push({ at: prev.t, kind: prev.sl.kind, label: prev.sl.label, reel: take(prev.sl.kind, prev.t), late: true });
+        }
+        out.push({ at: t, kind: sl.kind, label: sl.label, reel: take(sl.kind, t) });
+      }
+      if (t <= from) prev = { t, sl };
     }
     d.setUTCDate(d.getUTCDate() + 1);
   }
@@ -208,6 +234,8 @@ export function upcoming(items: Reel[], n: number, from = new Date()): Upcoming[
 
 const slotFmt = new Intl.DateTimeFormat('en-GB', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Africa/Tunis' });
 export const slot = (d: Date) => slotFmt.format(d);
+/** A slot's time, or "late" for a slot that is being caught up. */
+export const slotText = (p: Upcoming) => (p.late ? `${slotFmt.format(p.at)} · late, posting now` : slotFmt.format(p.at));
 
 export const CHECK_LABEL: Record<string, string> = {
   size_1080x1920: '1080×1920 vertical',

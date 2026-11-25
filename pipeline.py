@@ -414,21 +414,128 @@ def next_item(slot=None, kind=None):
     return approved[0] if approved else None
 
 
-def posted_recently(kind, hours=3):
-    """True when a reel of this kind went out in the last `hours` (a late scheduled run must not post the slot twice)."""
+# Every slot is tracked in queue.json "slots" ("2026-11-25 06:00" -> what happened), so a slot is never posted twice,
+# a late or skipped GitHub run is caught up by the next hourly run, and a slot that could not be posted in time is
+# kept as "missed" with the reason (shown in the panel).
+SLOT_LATE_H = 3           # a slot may still be posted up to 3 hours late (and never after the next slot starts)
+SLOT_TRIES = 3            # posting attempts per slot
+SLOTS_FROM = "2026-11-25 06:00"   # tracking starts here (older slots are not reported)
+
+
+def _tunis():
     from datetime import timedelta
-    cutoff = (datetime.now(timezone.utc) - timedelta(hours=hours)).isoformat()
-    return any(it["kind"] == kind and it["status"] == "posted" and it.get("posted", "") >= cutoff for it in queue()["items"])
+    return timezone(timedelta(hours=1))
+
+
+def slot_windows(at):
+    """(key, slot, start, end) for every slot of the last 2 days and today, Tunisia time."""
+    from datetime import timedelta
+    out = []
+    for back in (2, 1, 0):
+        day = (at - timedelta(days=back)).date()
+        for s in sorted(SLOTS):
+            h, m = map(int, s.split(":"))
+            out.append((f"{day} {s}", s, datetime(day.year, day.month, day.day, h, m, tzinfo=_tunis())))
+    res = []
+    for i, (key, s, t) in enumerate(out):
+        nxt = out[i + 1][2] if i + 1 < len(out) else t + timedelta(hours=24)
+        res.append((key, s, t, min(nxt, t + timedelta(hours=SLOT_LATE_H))))
+    return res
+
+
+def _posted_in(q, kind, t, end):
+    """A reel of this kind that went out for this slot (also a "Publish now" shortly before or during it)."""
+    from datetime import timedelta
+    for it in q["items"]:
+        if it["kind"] == kind and it["status"] == "posted" and it.get("posted"):
+            p = datetime.fromisoformat(it["posted"])
+            if t - timedelta(minutes=30) <= p < end:
+                return it
+    return None
+
+
+def update_slots(q, at=None):
+    """Bring the slot log up to date; returns (key, slot, start, entry) of the slot to post now, or None."""
+    from datetime import timedelta
+    at = at or datetime.now(_tunis())
+    log = q.setdefault("slots", {})
+    on = config().get("enabled", True)
+    due = None
+    for key, s, t, end in slot_windows(at):
+        if key < SLOTS_FROM or t > at:
+            continue
+        e = log.get(key)
+        if e and e["status"] in ("posted", "missed", "off"):
+            continue
+        kind = SLOTS[s]
+        it = _posted_in(q, kind, t, end)
+        if it:
+            late = int((datetime.fromisoformat(it["posted"]) - t).total_seconds() // 60)
+            log[key] = {"kind": kind, "status": "posted", "id": it["id"], "title": it.get("title"), "posted": it["posted"],
+                        "late_min": max(0, late), "tries": (e or {}).get("tries", 0)}
+            continue
+        if at >= end:
+            if not on:
+                log[key] = {"kind": kind, "status": "off", "reason": "Automation was OFF"}
+            elif e:
+                log[key] = {**e, "status": "missed", "reason": e.get("reason") or "The posting run stopped before the reel was live"}
+            elif not any(i["kind"] == kind and i["status"] == "approved" for i in q["items"]):
+                log[key] = {"kind": kind, "status": "missed", "reason": "Nothing approved of this type to post"}
+            else:
+                log[key] = {"kind": kind, "status": "missed",
+                            "reason": f"GitHub never started the posting run (its scheduler skipped it for {SLOT_LATE_H} hours)"}
+            log[key]["at"] = t.isoformat()
+            continue
+        if on and (not e or e.get("tries", 0) < SLOT_TRIES):
+            due = (key, s, t, e)
+    # keep the log small: last 30 days
+    cut = str((at - timedelta(days=30)).date())
+    for k in [k for k in log if k < cut]:
+        del log[k]
+    return due
 
 
 def cmd_next(args):
-    # scheduled runs (a slot, or no kind given): never post the same slot twice; an explicit --kind always posts
-    if not args.kind and posted_recently(slot_kind(args.slot)):
-        print(f"{slot_kind(args.slot)} already posted in the last 3 hours, skipping this slot", file=sys.stderr)
+    if args.due:
+        # scheduled / catch-up runs: post the current slot if it is not posted yet (late is fine, twice never)
+        q = queue()
+        due = update_slots(q)
+        it = None
+        if due:
+            key, s, t, e = due
+            it = next_item(s)
+            if it and not args.dry:
+                q["slots"][key] = {"kind": SLOTS[s], "status": "posting", "id": it["id"], "title": it.get("title"),
+                                   "tries": (e or {}).get("tries", 0) + 1, "started": now(), "at": t.isoformat(),
+                                   "reason": (e or {}).get("reason")}
+            print(f"slot {key}: {'posting ' + it['id'] if it else 'nothing approved'}", file=sys.stderr)
+        else:
+            print("no slot to post now", file=sys.stderr)
+        save(QUEUE, q)
+        if it:
+            print(it["id"])
         return
     it = next_item(args.slot, args.kind)
     if it:
         print(it["id"])
+
+
+def slot_result(q, item_id, ok, reason=None):
+    """Record how the slot being posted with this reel ended."""
+    for e in q.get("slots", {}).values():
+        if e.get("id") == item_id and e["status"] == "posting":
+            if ok:
+                it = find(q, item_id)
+                late = int((datetime.fromisoformat(it["posted"]) - datetime.fromisoformat(e["at"])).total_seconds() // 60)
+                e.update(status="posted", posted=it["posted"], late_min=max(0, late), reason=None)
+            else:
+                e.update(status="failed", reason=reason or "Posting failed")
+
+
+def cmd_slotfail(args):
+    q = queue()
+    slot_result(q, args.id, False, args.error)
+    save(QUEUE, q)
 
 
 class IGError(Exception):
@@ -522,6 +629,7 @@ def cmd_post(args):
     pub = publish(user, cid)
     media = ig("GET", pub["id"], fields="permalink")
     it.update(status="posted", posted=now(), ig_media_id=pub["id"], permalink=media.get("permalink"))
+    slot_result(q, it["id"], True)
     save(QUEUE, q)
     posting("live", permalink=media.get("permalink"))
     print("posted", media.get("permalink"))
@@ -576,6 +684,9 @@ if __name__ == "__main__":
     r = sub.add_parser("reject"); r.add_argument("id"); r.add_argument("--note", required=True)
     sub.add_parser("status")
     n = sub.add_parser("next"); n.add_argument("--slot", help="posting slot, e.g. 06:00 (Tunisia)"); n.add_argument("--kind", choices=KINDS)
+    n.add_argument("--due", action="store_true", help="the slot due now (late runs catch up, a slot posts once)")
+    n.add_argument("--dry", action="store_true", help="with --due: only record missed slots and say what is due")
+    sf = sub.add_parser("slotfail"); sf.add_argument("id"); sf.add_argument("--error")
     p = sub.add_parser("post"); p.add_argument("id"); p.add_argument("--url", required=True); p.add_argument("--cover-url")
     pp = sub.add_parser("posting"); pp.add_argument("stage", choices=list(POST_STAGES)); pp.add_argument("--id"); pp.add_argument("--error")
     ck = sub.add_parser("check"); ck.add_argument("id")

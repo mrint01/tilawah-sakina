@@ -19,6 +19,7 @@ export default async function handler(req, res) {
       repo: REPO,
       assets: ASSETS,
       items: queue.data?.items ?? [],
+      slots: queue.data?.slots ?? {},
       config: { enabled: true, buffer_days: 3, reciters: { 'Mishary Alafasy': 'Alafasy_128kbps', 'Maher Al-Muaiqly': 'quranicaudio/maher_256', 'Yasser Al-Dosari': 'Yasser_Ad-Dussary_128kbps' }, ...(config.data ?? {}) },
       panel: { name: '', ...(panel.data ?? {}) },
       instagram: Boolean(process.env.IG_ACCESS_TOKEN),

@@ -2,22 +2,19 @@ name: Post next reel
 
 on:
   schedule:
-    # GitHub cron is UTC; Tunisia is UTC+1. Each slot posts one kind (pipeline.py SLOTS). 7 minutes past the hour:
-    # GitHub delays (or drops) runs scheduled exactly on the hour when it is busy.
-    - cron: "7 23 * * *"   # 00:00 surah
-    - cron: "7 5 * * *"    # 06:00 dua
-    - cron: "7 11 * * *"   # 12:00 Asma al-Husna
-    - cron: "7 17 * * *"   # 18:00 tasbih
-    - cron: "7 20 * * *"   # 21:00 quiz
+    # Every hour at 7 past: posts the slot that is due (pipeline.py SLOTS, Tunisia time) if it is not posted yet.
+    # GitHub sometimes skips scheduled runs for hours; the next run catches up (up to 3 hours late, a slot posts once).
+    # The panel (Vercel cron, api/tick.js) also starts this at every slot, as a second trigger.
+    - cron: "7 * * * *"
   workflow_dispatch:
     inputs:
       id:
         description: "Publish this reel now (from the panel's Publish now); empty = the slot's next reel"
         default: ""
       kind:
-        description: "What to post (auto = the kind of the nearest slot)"
+        description: "What to post (auto = the kind of the nearest slot; due = the slot due now, if not posted yet)"
         type: choice
-        options: [auto, ayah, dua, asma, tasbih, quiz]
+        options: [auto, due, ayah, dua, asma, tasbih, quiz]
         default: auto
       dry_run:
         description: "Only publish the video link, don't post to Instagram"
@@ -34,7 +31,31 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Cheap hourly check: records missed slots and says whether a slot is due (no Pages deployment when nothing is).
+  check:
+    if: github.event_name == 'schedule' || inputs.kind == 'due'
+    runs-on: ubuntu-latest
+    outputs:
+      go: ${{ steps.due.outputs.go }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Is a slot due?
+        id: due
+        run: |
+          id=$(python3 pipeline.py next --due --dry)
+          echo "go=$([ -n "$id" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          git config user.name "tilawah-sakina-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add state/queue.json
+          git diff --cached --quiet && exit 0
+          git commit -qm "Slots: record missed posts"
+          for i in 1 2 3; do git pull --rebase -q && git push && exit 0; sleep 5; done
+
   post:
+    needs: check
+    if: ${{ !cancelled() && (needs.check.outputs.go == 'true' || (github.event_name == 'workflow_dispatch' && inputs.kind != 'due')) }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -43,6 +64,8 @@ jobs:
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Pick the next approved reel
         id: pick
@@ -58,14 +81,11 @@ jobs:
             python3 pipeline.py posting preparing --id "$id"
             exit 0
           fi
-          case "$CRON" in
-            "7 23 * * *") args="--slot 00:00";; "7 5 * * *") args="--slot 06:00";; "7 11 * * *") args="--slot 12:00";;
-            "7 17 * * *") args="--slot 18:00";; "7 20 * * *") args="--slot 21:00";;
-            *) if [ -n "$KIND" ] && [ "$KIND" != "auto" ]; then args="--kind $KIND"; else args=""; fi;;
-          esac
+          if [ -n "$CRON" ] || [ "$KIND" = "due" ]; then args="--due"
+          elif [ -n "$KIND" ] && [ "$KIND" != "auto" ]; then args="--kind $KIND"; else args=""; fi
           id=$(python3 pipeline.py next $args)
           echo "id=$id" >> "$GITHUB_OUTPUT"
-          if [ -z "$id" ]; then echo "::warning::Nothing approved to post for this slot ($args)."; else python3 pipeline.py posting preparing --id "$id"; fi
+          if [ -z "$id" ]; then echo "::warning::Nothing to post now ($args)."; else python3 pipeline.py posting preparing --id "$id"; fi
 
       - name: Download the video
         if: steps.pick.outputs.id != ''
@@ -135,6 +155,10 @@ jobs:
           d = json.loads(pipeline.POSTING.read_text()) if pipeline.POSTING.exists() else {}
           if not d.get("finished"):
               pipeline.posting("failed", error="Posting failed: see the run on GitHub")
+              d = json.loads(pipeline.POSTING.read_text())
+          q = pipeline.queue()
+          pipeline.slot_result(q, "${{ steps.pick.outputs.id }}", False, d.get("error") or "Posting failed")
+          pipeline.save(pipeline.QUEUE, q)
           EOF
 
       - name: Save state and remove the posted video

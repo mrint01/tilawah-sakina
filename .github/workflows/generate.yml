@@ -3,7 +3,8 @@ name: Generate reels
 on:
   schedule:
     # 02:00 UTC = 03:00 Tunisia: tops up every kind to 3 days ready (skips when automation is OFF).
-    # Claude reviews the new reels at 04:30, before the first post of the day at 06:00.
+    # Claude reviews the new reels at 04:30, before the first post of the day at 06:00 (and again at 13:30).
+    # The panel's Vercel cron (api/tick.js) also starts it in the same hour, in case GitHub skips this run.
     - cron: "0 2 * * *"
   workflow_dispatch:
     inputs:
@@ -22,6 +23,10 @@ on:
       quiz:
         description: "Quiz reels to make"
         default: "0"
+      auto:
+        description: "Top up every type to the days-ready setting (the daily run; makes nothing when stocked)"
+        type: boolean
+        default: false
       spec:
         description: "From the panel: JSON list of reels to make (surah, reciter, tasbih kind). Overrides the counts."
         default: ""
@@ -58,7 +63,7 @@ jobs:
           SPEC: ${{ inputs.spec }}
           PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
         run: |
-          if [ "${{ github.event_name }}" = "schedule" ]; then
+          if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ inputs.auto }}" = "true" ]; then
             python3 pipeline.py generate --auto
           elif [ -n "$SPEC" ]; then
             python3 pipeline.py generate --spec "$SPEC"

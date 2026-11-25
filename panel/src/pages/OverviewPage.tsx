@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { Hand, CheckCircle2, Clock3, Inbox, Instagram, Play, Power, RefreshCw, Send, Users } from 'lucide-react';
 import { cn } from '../admin/cn';
-import { slot, upcoming } from '../admin/api';
+import { slotText, upcoming } from '../admin/api';
 import { DailyPlan } from '../admin/DailyPlan';
 import { PublishProgress } from '../admin/PublishProgress';
+import { MissedPosts } from '../admin/MissedPosts';
 import { MakeProgressCard, MakeReelsButton } from '../admin/MakeReels';
 import { KindBadge, makingRun, Thumb, useAct, useAppState, useInstagram } from '../admin/hooks';
 import { ago, Badge, dateTime, Empty, int, KpiCard, PageHeader, Panel, Skeleton } from '../admin/ui';
@@ -43,7 +44,7 @@ export default function OverviewPage() {
   const approved = count('approved');
   const pending = count('pending');
   const posted = s.items.filter((i) => i.status === 'posted');
-  const next = upcoming(s.items, 5);
+  const next = upcoming(s.items, 5, new Date(), s.slots);
   const firstReel = next.find((p) => p.reel)?.reel;
   const followers = ig.data?.profile?.followers_count;
 
@@ -52,6 +53,7 @@ export default function OverviewPage() {
       {header}
       <MakeProgressCard s={s} />
       <PublishProgress s={s} />
+      <MissedPosts s={s} compact />
 
       {pending > 0 && (
         <button type="button" onClick={() => navigate('/review')} className="flex cursor-pointer items-center gap-2 rounded-2xl bg-accent-light p-4 text-start font-semibold text-accent hover:underline">
@@ -120,7 +122,7 @@ export default function OverviewPage() {
                   <span className={cn('block truncate', p.reel ? 'font-medium' : 'italic text-ink-mute')}>{p.reel ? p.reel.title : `Nothing approved yet: skipped`}</span>
                   <span className="flex items-center gap-1.5 text-xs text-ink-mute"><KindBadge kind={p.kind} /> {p.reel ? `${p.reel.duration}s` : ''}</span>
                 </span>
-                <span className="flex shrink-0 items-center gap-1 text-xs text-ink-mute"><Clock3 className="h-3.5 w-3.5" aria-hidden="true" /> {s.config.enabled ? slot(p.at) : 'paused'}</span>
+                <span className="flex shrink-0 items-center gap-1 text-xs text-ink-mute"><Clock3 className="h-3.5 w-3.5" aria-hidden="true" /> {s.config.enabled ? slotText(p) : 'paused'}</span>
               </li>
             ))}
           </ul>
