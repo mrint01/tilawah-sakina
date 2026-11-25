@@ -1829,11 +1829,14 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
+      "status": "posted",
       "review": "Claude routine: name, ayah and dots render correctly, N matches",
       "created": "2026-11-24T21:10:34+00:00",
       "reviewed": "2026-11-24T21:13:28+00:00",
-      "cover": true
+      "cover": true,
+      "posted": "2026-11-25T12:00:29+00:00",
+      "ig_media_id": "17886661917528552",
+      "permalink": "https://www.instagram.com/reel/DgKeqM3TgJh/"
     },
     {
       "id": "20261124-211045-asma",
@@ -2323,6 +2326,18 @@
       "status": "missed",
       "reason": "GitHub never started the posting run (its scheduler skipped it for 3 hours)",
       "at": "2026-11-25T06:00:00+01:00"
+    },
+    "2026-11-25 12:00": {
+      "kind": "asma",
+      "status": "posted",
+      "id": "20261124-211030-asma",
+      "title": "Name 1 of 99 · Ar Rahmaan · The Beneficent",
+      "tries": 1,
+      "started": "2026-11-25T11:58:29+00:00",
+      "at": "2026-11-25T12:00:00+01:00",
+      "reason": null,
+      "posted": "2026-11-25T12:00:29+00:00",
+      "late_min": 60
     }
   }
 }
