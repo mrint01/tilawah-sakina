@@ -1,0 +1,40 @@
+name: Daily stats
+
+# Account numbers per day for the panel's Analytics (state/daily.json): views, reach, likes, comments, shares, saves,
+# and the follower count (Instagram gives no follower history below 100 followers, so it is recorded here).
+# Runs every 6 hours; a skipped run is filled in by the next one.
+on:
+  schedule:
+    - cron: "41 */6 * * *"
+  workflow_dispatch:
+    inputs:
+      back:
+        description: "Days back to fill (Instagram keeps about 90)"
+        default: "3"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-stats
+  cancel-in-progress: false
+
+jobs:
+  daily:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read the day's numbers from Instagram
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+        run: python3 pipeline.py daily --back "${{ inputs.back || '3' }}"
+      - name: Save
+        run: |
+          git config user.name "tilawah-sakina-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add state/daily.json
+          git diff --cached --quiet && exit 0
+          git commit -qm "Daily stats"
+          for i in 1 2 3 4; do git pull --rebase -q && git push && exit 0; sleep 5; done
+          exit 1

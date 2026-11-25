@@ -666,6 +666,45 @@ def cmd_post(args):
     print("posted", media.get("permalink"))
 
 
+DAILY = HERE / "state" / "daily.json"
+DAY_METRICS = "views,reach,likes,comments,shares,saves,total_interactions"
+
+
+def cmd_daily(args):
+    """Account numbers per day (Tunisia days) for the panel's Analytics: views, reach, likes, comments, shares,
+    saves from Instagram (it keeps ~90 days), and the follower count, which Instagram only gives per day from
+    100 followers, so it is recorded here every time this runs. Missing days are filled in, the last 2 refreshed."""
+    from datetime import timedelta
+    user = os.environ["IG_USER_ID"]
+    d = load(DAILY, {"days": {}})
+    days = d.setdefault("days", {})
+    today = datetime.now(_tunis()).date()
+    prof = ig("GET", user, fields="followers_count,media_count")
+    days.setdefault(str(today), {})["followers"] = prof["followers_count"]
+    days[str(today)]["posts_total"] = prof.get("media_count")
+    todo = [today - timedelta(days=k) for k in range(args.back, -1, -1)]
+    todo = [x for x in todo if str(x) not in days or "views" not in days[str(x)] or (today - x).days <= 2]
+    print("days to fill:", len(todo))
+    for day in todo:
+        start = datetime(day.year, day.month, day.day, tzinfo=_tunis())
+        end = min(start + timedelta(days=1), datetime.now(_tunis()))
+        try:
+            r = ig("GET", f"{user}/insights", fatal=False, metric=DAY_METRICS, period="day", metric_type="total_value",
+                   since=int(start.timestamp()), until=int(end.timestamp()))
+        except IGError as e:
+            print(day, e)
+            continue
+        row = days.setdefault(str(day), {})
+        for m in r.get("data", []):
+            row[m["name"]] = (m.get("total_value") or {}).get("value", 0)
+        time.sleep(0.3)
+    cut = str(today - timedelta(days=400))
+    d["days"] = {k: days[k] for k in sorted(days) if k >= cut}
+    d["updated"] = now()
+    save(DAILY, d)
+    print("followers", prof["followers_count"], "days", len(d["days"]))
+
+
 def cmd_covers(args):
     """Add grid covers to pending / approved reels that have none (made before covers existed)."""
     import covers
@@ -722,5 +761,6 @@ if __name__ == "__main__":
     pp = sub.add_parser("posting"); pp.add_argument("stage", choices=list(POST_STAGES)); pp.add_argument("--id"); pp.add_argument("--error")
     ck = sub.add_parser("check"); ck.add_argument("id")
     sub.add_parser("covers")
+    dl = sub.add_parser("daily"); dl.add_argument("--back", type=int, default=3, help="days back to fill (Instagram keeps ~90)")
     args = ap.parse_args()
     globals()[f"cmd_{args.cmd}"](args)
