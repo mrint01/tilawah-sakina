@@ -8,6 +8,7 @@ import { api, notPosted, SignedOut } from './admin/api';
 import { ToastProvider } from './admin/toast';
 import { INPUT } from './admin/ui';
 import OverviewPage from './pages/OverviewPage';
+import AnalyticsPage from './pages/AnalyticsPage';
 import ReviewPage from './pages/ReviewPage';
 import QueuePage from './pages/QueuePage';
 import PostedPage from './pages/PostedPage';
@@ -93,6 +94,7 @@ function Console() {
     <AdminLayout name={state.data?.panel.name || 'Admin'} onSignOut={signOut} badges={badges}>
       <Routes location={location}>
         <Route path="/" element={<OverviewPage />} />
+        <Route path="/analytics" element={<AnalyticsPage />} />
         <Route path="/review" element={<ReviewPage />} />
         <Route path="/queue" element={<QueuePage />} />
         <Route path="/posted" element={<PostedPage />} />

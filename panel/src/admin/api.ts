@@ -99,6 +99,9 @@ export interface MediaStats {
   /** % of viewers who swiped away in the first seconds */
   skip?: number | null; error?: string;
 }
+/** One Tunisia day of account numbers (state/daily.json). followers: recorded by the panel from the day it started. */
+export interface DayStats { followers?: number; views?: number; reach?: number; likes?: number; comments?: number; shares?: number; saves?: number; total_interactions?: number }
+export interface Analytics { days: Record<string, DayStats>; updated: string | null }
 export interface IgTotals { posts: number; likes: number | null; comments: number | null; views: number | null; reach: number | null; saves: number | null; shares: number | null; reposts?: number | null }
 export interface InstagramStats {
   connected: boolean;
@@ -139,6 +142,7 @@ export type Action =
 export const api = {
   state: () => call<PanelState>('/api/state'),
   instagram: () => call<InstagramStats>('/api/instagram'),
+  analytics: () => call<Analytics>('/api/analytics'),
   login: (password: string) => call<{ ok: true }>('/api/login', { method: 'POST', body: JSON.stringify({ password }) }),
   logout: () => call<{ ok: true }>('/api/login', { method: 'DELETE' }),
   act: (a: Action) => call<{ ok: true }>('/api/action', { method: 'POST', body: JSON.stringify(a) }),

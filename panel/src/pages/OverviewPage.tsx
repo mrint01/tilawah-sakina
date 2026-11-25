@@ -43,7 +43,8 @@ export default function OverviewPage() {
   const count = (st: string) => s.items.filter((i) => i.status === st).length;
   const approved = count('approved');
   const pending = count('pending');
-  const posted = s.items.filter((i) => i.status === 'posted');
+  // newest first (the queue file is in the order reels were made, not posted)
+  const posted = s.items.filter((i) => i.status === 'posted').sort((a, b) => String(b.posted ?? '').localeCompare(String(a.posted ?? '')));
   const missed = notPosted(s);
   const next = upcoming(s.items, 5, new Date(), s.slots).slice(0, 5);
   const firstReel = next.find((p) => p.reel)?.reel;
@@ -67,7 +68,7 @@ export default function OverviewPage() {
         <KpiCard icon={Users} label="Followers" value={followers ?? 0} tone="violet" delay={0}
           footer={s.instagram ? (ig.data?.profile ? `@${ig.data.profile.username}` : ig.data?.error ?? 'Loading…') : 'Connect Instagram in Settings'} />
         <KpiCard icon={Send} label="Posted" value={posted.length} tone="blue" delay={0.05}
-          footer={posted.at(-1)?.posted ? <>Last {ago(posted.at(-1)!.posted!)}</> : 'Nothing posted yet'} onClick={() => navigate('/posted')} />
+          footer={posted[0]?.posted ? <>Last {ago(posted[0].posted)}</> : 'Nothing posted yet'} onClick={() => navigate('/posted')} />
         <KpiCard icon={CheckCircle2} label="Ready to post" value={approved} tone="green" delay={0.05}
           footer={<>≈ {Math.floor(approved / 5)} {Math.floor(approved / 5) === 1 ? 'day' : 'days'} at 5 a day</>} onClick={() => navigate('/queue')} />
         <KpiCard icon={Inbox} label="Waiting for review" value={pending} tone="orange" delay={0.1}
@@ -134,7 +135,7 @@ export default function OverviewPage() {
         <Panel title="Latest posts" delay={0.2} action={<button type="button" onClick={() => navigate('/posted')} className="cursor-pointer text-xs font-medium text-accent hover:underline">All posts</button>}>
           {posted.length === 0 ? <Empty icon={Send} text="No posts yet. The first one goes out at the next slot once Instagram is connected." /> : (
             <ul className="divide-y divide-paper-line">
-              {posted.slice(-4).reverse().map((r) => {
+              {posted.slice(0, 4).map((r) => {
                 const m = ig.data?.media?.[r.id];
                 return (
                   <li key={r.id} className="flex items-center gap-3 py-2.5">

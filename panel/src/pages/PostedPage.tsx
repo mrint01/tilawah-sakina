@@ -5,10 +5,11 @@ import { cn } from '../admin/cn';
 import type { MediaStats, Reel } from '../admin/api';
 import { KindBadge, Thumb, useAppState, useInstagram } from '../admin/hooks';
 import { matchFilters, ReelFilterBar, useReelFilters } from '../admin/ReelFilters';
-import { ago, dateTime, Empty, int, PageHeader, Pager, Skeleton, usePaged } from '../admin/ui';
+import { ago, Badge, dateTime, Empty, int, PageHeader, Pager, Skeleton, usePaged } from '../admin/ui';
 import { TotalsRow } from '../admin/IgStats';
 
 type Sort = 'posted' | 'views' | 'likes';
+interface Row { key: string; reel?: Reel; m?: MediaStats; at: string }
 
 export default function PostedPage() {
   const navigate = useNavigate();
@@ -17,12 +18,18 @@ export default function PostedPage() {
   const ig = useInstagram(Boolean(s?.instagram));
   const [sort, setSort] = useState<{ key: Sort; dir: 1 | -1 }>({ key: 'posted', dir: -1 });
   const stats = (r: Reel): MediaStats | undefined => ig.data?.media?.[r.id];
-  const val = (r: Reel) => (sort.key === 'posted' ? +new Date(r.posted ?? 0) : sort.key === 'views' ? stats(r)?.views ?? -1 : stats(r)?.likes ?? -1);
   const allPosted = (s?.items ?? []).filter((i) => i.status === 'posted');
   const [filters, setFilters] = useReelFilters();
-  const posted = allPosted.filter((r) => matchFilters(r, filters)).sort((a, b) => (val(a) - val(b)) * sort.dir);
+  const filtering = filters.kind !== 'all' || Boolean(filters.reciter) || Boolean(filters.surah);
+  // one table: the queue's reels, plus posts on the account that are not from the queue (Friday Al-Kahf, by hand)
+  const rows: Row[] = [
+    ...allPosted.filter((r) => matchFilters(r, filters)).map((r) => ({ key: r.id, reel: r, m: stats(r), at: r.posted ?? stats(r)?.timestamp ?? '' })),
+    ...(filtering ? [] : (ig.data?.posts ?? []).filter((p) => !p.reel).map((p) => ({ key: p.id ?? p.permalink ?? '', m: p, at: p.timestamp ?? '' }))),
+  ];
+  const val = (r: Row) => (sort.key === 'posted' ? +new Date(r.at || 0) : sort.key === 'views' ? r.m?.views ?? -1 : r.m?.likes ?? -1);
+  const posted = rows.sort((a, b) => (val(a) - val(b)) * sort.dir);
   const paged = usePaged(posted, `${sort.key}${sort.dir}${JSON.stringify(filters)}`, 15);
-  const others = (ig.data?.posts ?? []).filter((p) => !p.reel);
+  const others = (ig.data?.posts ?? []).filter((p) => !p.reel).length;
 
   const th = (key: Sort, label: string, right = false) => {
     const active = sort.key === key;
@@ -40,7 +47,7 @@ export default function PostedPage() {
     <div className="flex flex-col gap-4">
       <PageHeader
         title="Posted"
-        text={s ? `${allPosted.length} reels on @tilawah.sakina.` : 'Loading…'}
+        text={s ? `${allPosted.length} reels from the queue${others ? ` and ${others} other ${others === 1 ? 'post' : 'posts'}` : ''} on @tilawah.sakina.` : 'Loading…'}
         actions={
           <button type="button" onClick={() => void ig.refetch()} disabled={!s?.instagram}
             className="flex h-9 cursor-pointer items-center gap-2 rounded-lg border border-paper-line bg-paper px-3 text-sm font-medium hover:bg-paper-alt disabled:opacity-50">
@@ -74,27 +81,28 @@ export default function PostedPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-paper-line">
-                {paged.items?.map((r) => {
-                  const m = stats(r);
+                {paged.items?.map(({ key, reel: r, m, at }) => {
                   const n = (v: number | null | undefined) => (v == null ? '–' : int.format(v));
+                  const link = r?.permalink || m?.permalink;
                   return (
-                    <tr key={r.id} onClick={() => navigate(`/review?reel=${r.id}`)} className="cursor-pointer hover:bg-paper-alt">
+                    <tr key={key} onClick={r ? () => navigate(`/review?reel=${r.id}`) : undefined} className={cn(r && 'cursor-pointer', 'hover:bg-paper-alt')}>
                       <td className="px-4 py-2.5">
                         <span className="flex items-center gap-3">
-                          <Thumb state={s} reel={r} className="h-12 w-[27px]" />
-                          <span className="block max-w-[18rem] truncate font-semibold">{r.title}</span>
+                          {r ? <Thumb state={s} reel={r} className="h-12 w-[27px]" />
+                            : m?.thumbnail ? <img src={m.thumbnail} alt="" className="h-12 w-[27px] shrink-0 rounded-md object-cover" /> : <span className="h-12 w-[27px] shrink-0 rounded-md bg-paper-alt" />}
+                          <span className="block max-w-[18rem] truncate font-semibold">{r ? r.title : (m?.caption || '').split('\n')[0] || 'Post'}</span>
                         </span>
                       </td>
-                      <td className="px-4 py-2.5"><KindBadge kind={r.kind} /></td>
-                      <td className="px-4 py-2.5 text-ink-soft" title={dateTime(r.posted ?? null)}>{ago(r.posted ?? null)}</td>
+                      <td className="px-4 py-2.5">{r ? <KindBadge kind={r.kind} /> : <Badge tone="slate" className="whitespace-nowrap">{/kahf/i.test(m?.caption ?? '') ? 'Friday Al-Kahf' : m?.type === 'REELS' ? 'Other reel' : 'Other post'}</Badge>}</td>
+                      <td className="px-4 py-2.5 text-ink-soft" title={dateTime(at || null)}>{ago(at || null)}</td>
                       <td className="num px-4 py-2.5 text-right font-semibold">{n(m?.views)}</td>
                       <td className="num px-4 py-2.5 text-right">{n(m?.likes)}</td>
                       <td className="num px-4 py-2.5 text-right">{n(m?.comments)}</td>
                       <td className="num px-4 py-2.5 text-right">{n(m?.saves)}</td>
                       <td className="num px-4 py-2.5 text-right">{n(m?.shares)}</td>
                       <td className="px-4 py-2.5 text-right">
-                        {(r.permalink || m?.permalink) && (
-                          <a href={r.permalink || m?.permalink} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()} aria-label="Open on Instagram" title="Open on Instagram"
+                        {link && (
+                          <a href={link} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()} aria-label="Open on Instagram" title="Open on Instagram"
                             className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-paper-line text-ink-soft hover:border-accent hover:text-accent">
                             <ExternalLink className="h-4 w-4" aria-hidden="true" />
                           </a>
@@ -110,53 +118,6 @@ export default function PostedPage() {
         <Pager paged={paged} className="border-t border-paper-line px-4 py-3" />
       </section>
 
-      {others.length > 0 && (
-        <section className="overflow-hidden rounded-xl border border-paper-line bg-paper shadow-sm">
-          <div className="border-b border-paper-line px-4 py-3">
-            <h2 className="text-sm font-semibold">Other posts on Instagram</h2>
-            <p className="text-xs text-ink-mute">Posts that are not a reel from the queue (Friday Al-Kahf, pictures, reposts). Counted in the totals.</p>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-paper-line text-left text-xs uppercase text-ink-mute">
-                  <th className="px-4 py-2.5 font-semibold">Post</th>
-                  <th className="px-4 py-2.5 font-semibold">Posted</th>
-                  {['Views', 'Likes', 'Comments', 'Saves', 'Shares'].map((h) => <th key={h} className="px-4 py-2.5 text-right font-semibold">{h}</th>)}
-                  <th className="px-4 py-2.5" />
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-paper-line">
-                {others.map((p) => {
-                  const n = (v: number | null | undefined) => (v == null ? '–' : int.format(v));
-                  return (
-                    <tr key={p.id}>
-                      <td className="px-4 py-2.5">
-                        <span className="flex items-center gap-3">
-                          {p.thumbnail ? <img src={p.thumbnail} alt="" className="h-12 w-[27px] shrink-0 rounded object-cover" /> : <span className="h-12 w-[27px] shrink-0 rounded bg-paper-alt" />}
-                          <span className="block max-w-[18rem] truncate font-semibold">{(p.caption || '').split('\n')[0] || 'Post'}</span>
-                        </span>
-                      </td>
-                      <td className="px-4 py-2.5 text-ink-soft" title={dateTime(p.timestamp ?? null)}>{ago(p.timestamp ?? null)}</td>
-                      <td className="num px-4 py-2.5 text-right font-semibold">{n(p.views)}</td>
-                      <td className="num px-4 py-2.5 text-right">{n(p.likes)}</td>
-                      <td className="num px-4 py-2.5 text-right">{n(p.comments)}</td>
-                      <td className="num px-4 py-2.5 text-right">{n(p.saves)}</td>
-                      <td className="num px-4 py-2.5 text-right">{n(p.shares)}</td>
-                      <td className="px-4 py-2.5 text-right">
-                        <a href={p.permalink} target="_blank" rel="noreferrer" aria-label="Open on Instagram" title="Open on Instagram"
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-paper-line text-ink-soft hover:border-accent hover:text-accent">
-                          <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                        </a>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      )}
     </div>
   );
 }

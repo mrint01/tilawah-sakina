@@ -3,7 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
 import {
   Activity, AtSign, BellOff, BellRing, Clapperboard, ChevronLeft, ChevronRight, Gauge, Inbox, ListOrdered, LogOut, Menu, Moon,
-  CalendarX2, Send, Settings, Sun, X, type LucideIcon } from 'lucide-react';
+  CalendarX2, ChartLine, Send, Settings, Sun, X, type LucideIcon } from 'lucide-react';
 import { cn } from './cn';
 
 /**
@@ -31,6 +31,7 @@ interface NavItem { to: string; label: string; icon: LucideIcon; end?: boolean; 
 const NAV_GROUPS: { title: string; items: NavItem[] }[] = [
   { title: 'Overview', items: [
     { to: '/', label: 'Overview', icon: Gauge, end: true },
+    { to: '/analytics', label: 'Analytics', icon: ChartLine },
   ] },
   { title: 'Content', items: [
     { to: '/review', label: 'Review', icon: Inbox, badge: 'review' },
