@@ -8,6 +8,7 @@ Usage (needs PIXABAY_API_KEY):
 """
 import argparse
 import random
+import re
 import subprocess
 from pathlib import Path
 
@@ -52,31 +53,32 @@ SOURCES = "Quran · Sahih al-Bukhari · Ibn Kathir, Qasas al-Anbiya"
 # scene: a Pixabay video id picked by hand (looked at: no people, buildings, animals or symbols), or a search.
 NARRATED = {
     "nuh": (3, "نوح", "Nuh", [
-        [  # Part 1: the call
-            ("n", "بعد آدمَ بزمنٍ طويل، كان في الناس رجالٌ صالحون. فلما ماتوا، وسوس الشيطانُ للناس: اصنعوا لهم تماثيلَ لتتذكروهم.",
+        [  # Part 1: the call. Narration is fully vowelled so the voice pronounces it right (the screen shows it plain).
+            ("n", "بَعْدَ آدَمَ بِزَمَنٍ طَوِيلٍ، كَانَ فِي النَّاسِ رِجَالٌ صَالِحُونَ. فَلَمَّا مَاتُوا، وَسْوَسَ الشَّيْطَانُ "
+                  "لِلنَّاسِ: اصْنَعُوا لَهُمْ تَمَاثِيلَ لِتَتَذَكَّرُوهُمْ.",
              "Long after Adam, there were righteous men among the people. When they died, Shaytan whispered to them: "
              "make statues of them, so you remember them.", 71344),
-            ("n", "ومضت الأجيال، ونُسِيَ العلم، فعبد الناسُ تلك التماثيلَ من دون الله.",
+            ("n", "وَمَضَتِ الْأَجْيَالُ، وَنُسِيَ الْعِلْمُ، فَعَبَدَ النَّاسُ تِلْكَ التَّمَاثِيلَ مِنْ دُونِ اللَّهِ.",
              "Generations passed, the knowledge was forgotten, and the people worshipped those statues instead of Allah.",
-             38125),
-            ("n", "فأرسل اللهُ إليهم رسولَه نوحًا عليه السلام.",
+             58475),
+            ("n", "فَأَرْسَلَ اللَّهُ إِلَيْهِمْ رَسُولَهُ نُوحًا عَلَيْهِ السَّلَامُ.",
              "So Allah sent them His messenger: Nuh, peace be upon him.", 237672),
             ("a", 71, 1, 204006),
-            ("n", "دعا نوحٌ قومَه ليلًا ونهارًا، في العَلَن وفي السر، وبقي فيهم تسعَمئةٍ وخمسين سنة.",
+            ("n", "دَعَا نُوحٌ قَوْمَهُ لَيْلًا وَنَهَارًا، فِي الْعَلَنِ وَفِي السِّرِّ، وَبَقِيَ فِيهِمْ تِسْعَمِائَةٍ وَخَمْسِينَ سَنَةً.",
              "Nuh called his people night and day, in public and in secret. He stayed among them for nine hundred and "
-             "fifty years.", 1099),
-            ("a", 71, 7, 308832),
-            ("n", "وقال لهم: اطلبوا المغفرةَ من ربكم، فيُنزلَ عليكم المطر، ويرزقَكم المالَ والأولاد.",
+             "fifty years.", 22555),
+            ("a", 71, 7, 125192),
+            ("n", "وَقَالَ لَهُمْ: اطْلُبُوا الْمَغْفِرَةَ مِنْ رَبِّكُمْ، فَيُنْزِلَ عَلَيْكُمُ الْمَطَرَ، وَيَرْزُقَكُمُ الْمَالَ وَالْأَوْلَادَ.",
              "He told them: ask your Lord for forgiveness, and He will send you rain, and give you wealth and children.",
-             204307),
+             26369),
             ("a", 71, 10, 17013),
-            ("n", "لكنّ كبراءَ قومِه سخِروا منه، وقالوا: ما أنت إلا رجلٌ مثلُنا، ولا يتبعك إلا الضعفاءُ منا.",
+            ("n", "لَكِنَّ كُبَرَاءَ قَوْمِهِ سَخِرُوا مِنْهُ، وَقَالُوا: مَا أَنْتَ إِلَّا رَجُلٌ مِثْلُنَا، وَلَا يَتَّبِعُكَ إِلَّا الضُّعَفَاءُ مِنَّا.",
              "But the leaders mocked him. You are only a man like us, they said, and only the weakest among us follow you.",
-             189392),
-            ("n", "وما آمن معه إلا قليل، ومع ذلك لم يتوقف نوحٌ عن دعوتهم إلى الله.",
+             70899),
+            ("n", "وَمَا آمَنَ مَعَهُ إِلَّا قَلِيلٌ، وَمَعَ ذَلِكَ لَمْ يَتَوَقَّفْ نُوحٌ عَنْ دَعْوَتِهِمْ إِلَى اللَّهِ.",
              "Only a few believed. And still, Nuh never stopped calling them to Allah.", 30222),
-            ("n", "في الجزء الثاني: يأمرُ اللهُ نوحًا ببناء السفينة.",
-             "In part two: Allah commands Nuh to build the Ark.", 21175),
+            ("n", "فِي الْجُزْءِ الثَّانِي: يَأْمُرُ اللَّهُ نُوحًا بِبِنَاءِ السَّفِينَةِ.",
+             "In part two: Allah commands Nuh to build the Ark.", 2382),
         ],
     ]),
 }
@@ -140,13 +142,17 @@ def frame_png(no, ar, en, path, part=None, footer=None):
 def narration(text, out):
     """Arabic narration with a neural voice (edge-tts), slightly slow and calm."""
     if not out.exists():
-        subprocess.run(["edge-tts", "--voice", VOICE, "--rate=-8%", "--text", text, "--write-media", str(out)],
+        subprocess.run(["edge-tts", "--voice", VOICE, "--rate=-12%", "--text", text, "--write-media", str(out)],
                        check=True, timeout=120)
     return out
 
 
+HARAKAT = re.compile("[\u064B-\u0652\u0670]")
+
+
 def narr_card(ar, en, path):
-    """The narration in Arabic (large) with the English subtitle under it, in the middle panel."""
+    """The narration in Arabic (large, shown without harakat: cleaner) with the English subtitle under it."""
+    ar = HARAKAT.sub("", ar)
     img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
     for size in range(74, 44, -2):
@@ -171,6 +177,16 @@ def narr_card(ar, en, path):
     mr.with_shadow(img, path)
 
 
+def level_gain(path, target=-17.0):
+    """dB to bring a clip's average loudness to `target` (same level for narrator and recitation, no pumping)."""
+    r = subprocess.run(["ffmpeg", "-hide_banner", "-i", str(path), "-af", "volumedetect", "-f", "null", "-"],
+                       capture_output=True, text=True)
+    m = re.search(r"mean_volume: (-?[\d.]+) dB", r.stderr)
+    mx = re.search(r"max_volume: (-?[\d.]+) dB", r.stderr)
+    gain = target - float(m.group(1)) if m else 0.0
+    return min(gain, -1.0 - float(mx.group(1))) if mx else gain   # never push the peaks over -1 dB
+
+
 def compose(segs, cards, audio, frame, total, out):
     """Scene clips one after another (soft fades), the frame and cards over them, the audio under them."""
     work = Path(frame).parent
@@ -186,11 +202,14 @@ def compose(segs, cards, audio, frame, total, out):
     a_ins, a_f = [], []
     for i, (p, d_, lead) in enumerate(audio):
         a_ins += ["-i", str(p)]
-        a_f.append(f"[{i}:a]aresample=48000,aformat=channel_layouts=stereo,loudnorm=I=-16:TP=-1.5,"
+        a_f.append(f"[{i}:a]aresample=48000:resampler=soxr,aformat=sample_fmts=fltp:channel_layouts=stereo,"
+                   f"highpass=f=70,volume={level_gain(p):.1f}dB,"
                    f"adelay={int(lead * 1000)}:all=1,apad=whole_dur={d_:.3f},atrim=0:{d_:.3f}[a{i}]")
-    a_f.append("".join(f"[a{i}]" for i in range(len(audio))) + f"concat=n={len(audio)}:v=0:a=1,apad=whole_dur={total:.2f}[aout]")
+    a_f.append("".join(f"[a{i}]" for i in range(len(audio))) + f"concat=n={len(audio)}:v=0:a=1,"
+                 f"alimiter=limit=0.95,apad=whole_dur={total:.2f},aresample=48000[aout]")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *a_ins, "-filter_complex", ";".join(a_f), "-map", "[aout]",
-                    "-t", f"{total:.2f}", "-c:a", "aac", "-b:a", "160k", str(work / "audio.m4a")], check=True, timeout=600)
+                    "-t", f"{total:.2f}", "-ar", "48000", "-c:a", "aac", "-b:a", "192k", str(work / "audio.m4a")],
+                   check=True, timeout=600)
     with open(work / "cards.txt", "w") as fh:
         for p, d_ in cards:
             fh.write(f"file '{Path(p).resolve()}'\nduration {d_:.3f}\n")
