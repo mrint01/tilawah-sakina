@@ -2344,9 +2344,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-25T13:21:53+00:00"
+      "status": "approved",
+      "review": "Claude routine: Arabic, layout, 4/99 dots and ayah all render cleanly",
+      "created": "2026-11-25T13:21:53+00:00",
+      "reviewed": "2026-11-25T13:24:41+00:00"
     },
     {
       "id": "20261125-132248-quiz",
@@ -2394,9 +2395,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-25T13:22:57+00:00"
+      "status": "approved",
+      "review": "Claude routine: all frames clean, answer 98:2-3 matches question list",
+      "created": "2026-11-25T13:22:57+00:00",
+      "reviewed": "2026-11-25T13:24:41+00:00"
     },
     {
       "id": "20261125-132341-quiz",
@@ -2444,9 +2446,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-25T13:23:51+00:00"
+      "status": "approved",
+      "review": "Claude routine: all frames clean, answer 110:1-2 matches question list",
+      "created": "2026-11-25T13:23:51+00:00",
+      "reviewed": "2026-11-25T13:24:41+00:00"
     }
   ],
   "slots": {
