@@ -557,6 +557,17 @@ def slot_result(q, item_id, ok, reason=None):
                 e.update(status="failed", reason=reason or "Posting failed")
 
 
+def cmd_lowstock(args):
+    """Prints the kinds with fewer than `buffer_days` reels ready (approved + waiting for review), so the hourly
+    check can start the reel making early (after a reel is removed or rejected) instead of waiting for 03:00."""
+    if not config().get("enabled", True):
+        return
+    days = config().get("buffer_days", 3)
+    q = queue()
+    low = [k for k in KINDS if sum(1 for it in q["items"] if it["kind"] == k and it["status"] in ("pending", "approved")) < days]
+    print(" ".join(low))
+
+
 def cmd_slotfail(args):
     q = queue()
     slot_result(q, args.id, False, args.error)
@@ -756,6 +767,7 @@ if __name__ == "__main__":
     n = sub.add_parser("next"); n.add_argument("--slot", help="posting slot, e.g. 06:00 (Tunisia)"); n.add_argument("--kind", choices=KINDS)
     n.add_argument("--due", action="store_true", help="the slot due now (late runs catch up, a slot posts once)")
     n.add_argument("--dry", action="store_true", help="with --due: only record missed slots and say what is due")
+    sub.add_parser("lowstock")
     sf = sub.add_parser("slotfail"); sf.add_argument("id"); sf.add_argument("--error")
     p = sub.add_parser("post"); p.add_argument("id"); p.add_argument("--url", required=True); p.add_argument("--cover-url"); p.add_argument("--slot", help="a missed slot this post makes up for (\"2026-11-25 06:00\")")
     pp = sub.add_parser("posting"); pp.add_argument("stage", choices=list(POST_STAGES)); pp.add_argument("--id"); pp.add_argument("--error")
