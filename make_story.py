@@ -34,6 +34,10 @@ STORIES = {
         (2, 36, "falling leaves"),
         (2, 37, "sunrise"),
     ]),
+    "idris": (2, "إدريس", "Idris", [
+        (19, 56, "mountain sunrise"),
+        (19, 57, "starry sky"),
+    ]),
 }
 TOTAL_PROPHETS = 25
 
