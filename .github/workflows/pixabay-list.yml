@@ -7,6 +7,10 @@ on:
       queries:
         description: "Comma-separated searches"
         default: "earth from space,galaxy stars,starry sky,nebula space,sun rays clouds,garden flowers,falling leaves,sunrise"
+      raw:
+        description: "Skip the tag filter (to look for clips like ships, which are filtered out by default)"
+        type: boolean
+        default: false
 
 jobs:
   list:
@@ -14,11 +18,14 @@ jobs:
     env:
       PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
       QUERIES: ${{ inputs.queries }}
+      RAW: ${{ inputs.raw }}
     steps:
       - uses: actions/checkout@v4
       - run: |
           python3 - <<'PY'
           import json, os, nature
+          if os.environ.get("RAW") == "true":
+              nature.NO = set()
           out = {}
           for q in os.environ["QUERIES"].split(","):
               q = q.strip()
