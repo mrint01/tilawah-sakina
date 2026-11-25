@@ -140,13 +140,14 @@ export default function QueuePage() {
                       <td className="num px-4 py-2.5 text-right">{r.duration}s</td>
                       <td className="px-4 py-2.5 text-ink-soft" title={dateTime(r.reviewed ?? null)}>{ago(r.reviewed ?? null)}</td>
                       <td className="px-4 py-2.5">{s.config.enabled ? (i === 0 ? <Badge tone="green">{slotText(p)}</Badge> : slotText(p)) : <span className="text-ink-mute">paused</span>}</td>
-                      <td className="whitespace-nowrap px-4 py-2.5 text-right">
+                      <td className="whitespace-nowrap px-4 py-2.5">
+                        <div className="flex items-center justify-end gap-2">
                         <button type="button" disabled={busy || !s.instagram} title={busy ? 'A post is already being published' : 'Publish this reel on Instagram now'}
                           onClick={(e) => { e.stopPropagation(); setPublishing(r); }}
-                          className="me-2 inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-md bg-accent px-2.5 text-xs font-semibold text-white hover:bg-accent-dark disabled:cursor-default disabled:opacity-40">
+                          className="inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-md bg-accent px-2.5 text-xs font-semibold text-white hover:bg-accent-dark disabled:cursor-default disabled:opacity-40">
                           <Send className="h-3.5 w-3.5" aria-hidden="true" /> Publish now
                         </button>
-                        <span className="me-2 inline-flex align-middle"><ChangeTime r={r} next={p.at} small /></span>
+                        <ChangeTime r={r} next={p.at} small />
                         <button type="button" aria-label="Back to review" title="Back to review" disabled={act.isPending}
                           onClick={(e) => { e.stopPropagation(); act.mutate({ type: 'requeue', id: r.id }); }}
                           className="inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-md border border-paper-line text-ink-soft hover:border-accent hover:text-accent">
@@ -154,9 +155,10 @@ export default function QueuePage() {
                         </button>
                         <button type="button" aria-label="Remove, don't post" title="Remove, don't post" disabled={act.isPending}
                           onClick={(e) => { e.stopPropagation(); setRemoving(r); }}
-                          className="ms-2 inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-md border border-paper-line text-ink-soft hover:border-danger hover:text-danger">
+                          className="inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-md border border-paper-line text-ink-soft hover:border-danger hover:text-danger">
                           <Trash2 className="h-4 w-4" aria-hidden="true" />
                         </button>
+                        </div>
                       </td>
                     </tr>
                   );
