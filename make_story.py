@@ -19,7 +19,7 @@ import nature
 W, H = mr.W, mr.H
 RECITER = "Mishary Alafasy"
 # Extra tags never wanted in a prophet story (on top of nature.NO): no depictions, no myths that are not in the Quran.
-STORY_NO = {"angel", "angels", "god", "jesus", "bible", "adam", "eve", "snake", "serpent", "apple", "devil", "demon",
+STORY_NO = {"lantern", "lamp", "umbrella", "angel", "angels", "god", "jesus", "bible", "adam", "eve", "snake", "serpent", "apple", "devil", "demon",
             "religion", "christian", "cross", "heaven art", "painting", "illustration", "cartoon", "sculpture", "nude"}
 
 # prophet -> (number in the series, Arabic name, English name, [(surah, ayah, scene search)])
@@ -45,6 +45,8 @@ TOTAL_PROPHETS = 25
 # Qasas al-Anbiya, without weak reports), and at the key moments Mishary Alafasy recites the ayah itself.
 # Segments: ("n", narration, scene) or ("a", surah, ayah, scene).
 VOICE = "en-US-AndrewNeural"
+# how many parts each narrated story has in total (the later parts are written after part 1 is approved)
+PARTS = {"nuh": 3}
 SOURCES = "Quran · Sahih al-Bukhari · Ibn Kathir, Qasas al-Anbiya"
 NARRATED = {
     "nuh": (3, "نوح", "Nuh", [
@@ -60,7 +62,7 @@ NARRATED = {
             ("a", 71, 7, "thunderstorm clouds"),
             ("n", "He told them: ask your Lord for forgiveness, and He will send you rain, and give you wealth and "
                   "children.", "rain drops leaves"),
-            ("a", 71, 10, "rain forest"),
+            ("a", 71, 10, "rain water drops"),
             ("n", "But the leaders mocked him. You are only a man like us, they said, and only the weakest among us "
                   "follow you.", "dry desert"),
             ("n", "Only a few believed. And still, Nuh never stopped calling them to Allah.", "lone tree field"),
@@ -202,7 +204,7 @@ def render_narrated(key, part=1, seed=None):
     theme = mr.THEMES[0]
     work = mr.CACHE / "work" / f"story_{key}_{part}"
     work.mkdir(parents=True, exist_ok=True)
-    frame_png(no, ar_name, en_name, work / "frame.png", part=(part, len(parts)), footer=f"Sources: {SOURCES}")
+    frame_png(no, ar_name, en_name, work / "frame.png", part=(part, PARTS.get(key, len(parts))), footer=f"Sources: {SOURCES}")
     segs, cards, audio, t = [], [], [], 0.0
     for i, sg in enumerate(segs_in):
         lead = 0.6 if i == 0 else 0.25
@@ -234,7 +236,7 @@ def render_narrated(key, part=1, seed=None):
     compose(segs, cards, audio, work / "frame.png", total, mp4)
     print(mp4, round(total, 1), "s")
     return {"kind": "story", "file": str(mp4), "duration": round(total, 1), "prophet": key, "part": part,
-            "title": f"Stories of the Prophets {no}/{TOTAL_PROPHETS} · {en_name} · Part {part} of {len(parts)}"}
+            "title": f"Stories of the Prophets {no}/{TOTAL_PROPHETS} · {en_name} · Part {part} of {PARTS.get(key, len(parts))}"}
 
 
 def render(key, seed=None):
