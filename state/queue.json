@@ -2398,10 +2398,13 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
+      "status": "posted",
       "review": "Claude routine: all frames clean, answer 98:2-3 matches question list",
       "created": "2026-11-25T13:22:57+00:00",
-      "reviewed": "2026-11-25T13:24:41+00:00"
+      "reviewed": "2026-11-25T13:24:41+00:00",
+      "posted": "2026-11-25T20:15:13+00:00",
+      "ig_media_id": "18065105960535651",
+      "permalink": "https://www.instagram.com/reel/DgLXOf4tmSu/"
     },
     {
       "id": "20261125-132341-quiz",
@@ -2502,6 +2505,18 @@
       "at": "2026-11-25T18:00:00+01:00",
       "reason": "Posting failed: ffmpeg was missing on the GitHub machine (fixed); kept in the schedule, not posted late",
       "resolved": "2026-11-25T17:44:22+00:00"
+    },
+    "2026-11-25 21:00": {
+      "kind": "quiz",
+      "status": "posted",
+      "id": "20261125-132248-quiz",
+      "title": "Guess the surah · easy · Al-Fil, Al-Humazah, Al-Bayyinah, Al-Fatihah, Al-A'la",
+      "tries": 1,
+      "started": "2026-11-25T20:11:47+00:00",
+      "at": "2026-11-25T21:00:00+01:00",
+      "reason": null,
+      "posted": "2026-11-25T20:15:13+00:00",
+      "late_min": 15
     }
   }
 }
