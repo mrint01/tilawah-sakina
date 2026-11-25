@@ -2188,6 +2188,133 @@
       "posted": "2026-11-25T00:25:48+00:00",
       "ig_media_id": "18138358360741435",
       "permalink": "https://www.instagram.com/reel/DgJPHwuDpko/"
+    },
+    {
+      "id": "20261125-110014-ayah",
+      "kind": "ayah",
+      "caption": "O you who wraps himself [in clothing].\n\nSurah Al-Muzzammil (The Enshrouded One) · 73:1-11\nRecited by Mishary Alafasy\n\nListen till the end and share it with someone who needs it today 🤍\n\n#quran #quranrecitation #islam #almuzzammil #alafasy",
+      "duration": 70.9,
+      "passage": [
+        73,
+        1
+      ],
+      "ref": "73:1-11",
+      "whole_surah": false,
+      "surah": "Al-Muzzammil",
+      "reciter": "Mishary Alafasy",
+      "title": "Surah Al-Muzzammil 73:1-11 · Mishary Alafasy",
+      "background": "sunset sky",
+      "cover": true,
+      "size_mb": 22.8,
+      "mean_volume_db": -23.8,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60_90s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-25T11:00:30+00:00"
+    },
+    {
+      "id": "20261125-110117-dua",
+      "kind": "dua",
+      "caption": "Start your morning with this dhikr 🤍\n\nHow perfect Allah is and I praise Him by the number of His creation and His pleasure, and by the weight of His throne, and the ink of His words.\n\nSay it 3 times.\n\nHisn al-Muslim\n\nSave it and send it to someone you love 🤍\n\n#morningadhkar #adhkar #dua #dhikr #islam",
+      "duration": 53.2,
+      "category": "morning",
+      "dua_id": 94,
+      "source": "Hisn al-Muslim",
+      "title": "Morning adhkar · How perfect Allah is and I praise Him by the…",
+      "cover": true,
+      "size_mb": 2.8,
+      "mean_volume_db": -20.8,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_10_60s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-25T11:01:26+00:00"
+    },
+    {
+      "id": "20261125-110145-asma",
+      "kind": "asma",
+      "caption": "الْمَلِكُ · Al Malik\nThe King / Eternal Lord\n\nName 3 of 99. Follow so you don't miss the next one 🤍\n\n\"He is Allāh, other than whom there is no deity, the Sovereign, the Pure, the Perfection, the Grantor of Security, the Overseer, the Exalted in Might, the Compeller, the Superior. Exalted is Allāh above whatever they associate with Him.\" (Al-Hashr 59:23)\n\nThe Prophet ﷺ said: Allah has ninety-nine names; whoever learns them will enter Paradise (Bukhari & Muslim).\n\n#asmaulhusna #99namesofallah #allah #islam #quran",
+      "duration": 26.4,
+      "number": 3,
+      "reciter": "Mishary Alafasy",
+      "title": "Name 3 of 99 · Al Malik · The King / Eternal Lord",
+      "cover": true,
+      "size_mb": 1.8,
+      "mean_volume_db": -18.9,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_8_75s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-25T11:01:52+00:00"
+    },
+    {
+      "id": "20261125-110301-quiz",
+      "kind": "quiz",
+      "caption": "Guess the surah 🤍 5 questions, level: easy.\n\nListen to the ayah and pick before the timer ends. How many did you get? Comment your score!\n\nAnswers: 1) Al-Buruj · 2) Al-'Alaq · 3) Al-Qari'ah · 4) At-Tariq · 5) Al-Layl\n\nFollow for a new quiz every night.\n\n#quranquiz #guessthesurah #quran #islamicquiz #islam",
+      "duration": 96.5,
+      "level": "easy",
+      "questions": [
+        [
+          85,
+          12,
+          13
+        ],
+        [
+          96,
+          15,
+          16
+        ],
+        [
+          101,
+          7,
+          8
+        ],
+        [
+          86,
+          12,
+          13
+        ],
+        [
+          92,
+          19,
+          20
+        ]
+      ],
+      "reciter": "Mishary Alafasy",
+      "title": "Guess the surah · easy · Al-Buruj, Al-'Alaq, Al-Qari'ah, At-Tariq, Al-Layl",
+      "cover": true,
+      "size_mb": 3.2,
+      "mean_volume_db": -22.8,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_50_150s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-25T11:03:14+00:00"
     }
   ]
 }
