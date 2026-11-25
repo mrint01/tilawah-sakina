@@ -403,7 +403,18 @@ def next_item(slot=None, kind=None):
     return approved[0] if approved else None
 
 
+def posted_recently(kind, hours=3):
+    """True when a reel of this kind went out in the last `hours` (a late scheduled run must not post the slot twice)."""
+    from datetime import timedelta
+    cutoff = (datetime.now(timezone.utc) - timedelta(hours=hours)).isoformat()
+    return any(it["kind"] == kind and it["status"] == "posted" and it.get("posted", "") >= cutoff for it in queue()["items"])
+
+
 def cmd_next(args):
+    # scheduled runs (a slot, or no kind given): never post the same slot twice; an explicit --kind always posts
+    if not args.kind and posted_recently(slot_kind(args.slot)):
+        print(f"{slot_kind(args.slot)} already posted in the last 3 hours, skipping this slot", file=sys.stderr)
+        return
     it = next_item(args.slot, args.kind)
     if it:
         print(it["id"])

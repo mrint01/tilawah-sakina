@@ -2,12 +2,13 @@ name: Post next reel
 
 on:
   schedule:
-    # GitHub cron is UTC; Tunisia is UTC+1. Each slot posts one kind (pipeline.py SLOTS):
-    - cron: "0 23 * * *"   # 00:00 surah
-    - cron: "0 5 * * *"    # 06:00 dua
-    - cron: "0 11 * * *"   # 12:00 Asma al-Husna
-    - cron: "0 17 * * *"   # 18:00 tasbih
-    - cron: "0 20 * * *"   # 21:00 quiz
+    # GitHub cron is UTC; Tunisia is UTC+1. Each slot posts one kind (pipeline.py SLOTS). 7 minutes past the hour:
+    # GitHub delays (or drops) runs scheduled exactly on the hour when it is busy.
+    - cron: "7 23 * * *"   # 00:00 surah
+    - cron: "7 5 * * *"    # 06:00 dua
+    - cron: "7 11 * * *"   # 12:00 Asma al-Husna
+    - cron: "7 17 * * *"   # 18:00 tasbih
+    - cron: "7 20 * * *"   # 21:00 quiz
   workflow_dispatch:
     inputs:
       kind:
@@ -47,8 +48,8 @@ jobs:
           KIND: ${{ inputs.kind }}
         run: |
           case "$CRON" in
-            "0 23 * * *") args="--slot 00:00";; "0 5 * * *") args="--slot 06:00";; "0 11 * * *") args="--slot 12:00";;
-            "0 17 * * *") args="--slot 18:00";; "0 20 * * *") args="--slot 21:00";;
+            "7 23 * * *") args="--slot 00:00";; "7 5 * * *") args="--slot 06:00";; "7 11 * * *") args="--slot 12:00";;
+            "7 17 * * *") args="--slot 18:00";; "7 20 * * *") args="--slot 21:00";;
             *) if [ -n "$KIND" ] && [ "$KIND" != "auto" ]; then args="--kind $KIND"; else args=""; fi;;
           esac
           id=$(python3 pipeline.py next $args)
