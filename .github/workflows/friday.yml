@@ -61,7 +61,10 @@ jobs:
           # Instagram processes full-range (yuvj420p) video but then fails to publish it: re-encode to
           # standard yuv420p (tv range, BT.709), AAC 48 kHz, moov atom first.
           f=site/w/${{ steps.pick.outputs.id }}.mp4
-          sudo apt-get install -y -qq ffmpeg >/dev/null 2>&1 || true
+          # newer GitHub machines (Ubuntu 26.04) have no ffmpeg built in: refresh the package list, then install
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          ffmpeg -version | head -1
           ffmpeg -y -loglevel error -i "$f" -vf "scale=in_range=full:out_range=tv,format=yuv420p" \
             -c:v libx264 -preset medium -crf 20 -profile:v high -level 4.1 -r 30 \
             -color_range tv -colorspace bt709 -color_primaries bt709 -color_trc bt709 \
