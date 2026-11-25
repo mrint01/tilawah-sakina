@@ -294,7 +294,18 @@ def make_one(job, i, q, recent, prog, make_reel, make_tasbih, make_dua, make_asm
     preview_video(mp4, small)
     prog.set(stage="uploading", frac=0.92)
     # video + previews go to the release right away, so the panel (and the poster) can reach them
-    subprocess.run(["gh", "release", "upload", RELEASE_TAG, str(mp4), str(png), str(small), "--clobber"], check=True, cwd=HERE)
+    # the grid cover: title centred where Instagram's profile grid always shows it
+    import covers
+    cover = STAGING / f"{item_id}-cover.jpg"
+    try:
+        covers.cover_for({"kind": kind, **meta}, mp4, cover)
+    except Exception as e:  # noqa: BLE001
+        print(f"::warning::no cover for {item_id}: {e}")
+        cover = None
+    subprocess.run(["gh", "release", "upload", RELEASE_TAG, str(mp4), str(png), str(small), *([str(cover)] if cover else []),
+                    "--clobber"], check=True, cwd=HERE)
+    if cover:
+        meta["cover"] = True
     item = {"id": item_id, **meta, **stats, "checks": checks,
             "status": "pending" if all(checks.values()) else "rejected",
             "review": None if all(checks.values()) else "failed automatic checks",
@@ -487,10 +498,11 @@ def cmd_post(args):
     it = find(q, args.id)
     user = os.environ["IG_USER_ID"]
     posting("uploading", it["id"])
+    extra = {"cover_url": args.cover_url} if getattr(args, "cover_url", None) else {}
     c = ig("POST", f"{user}/media", media_type="REELS", video_url=args.url,
-           caption=it["caption"], share_to_feed="true")
+           caption=it["caption"], share_to_feed="true", **extra)
     cid = c["id"]
-    print("container", cid)
+    print("container", cid, "with cover" if extra else "")
     for k in range(60):  # up to ~10 minutes of processing
         st = ig("GET", cid, fields="status_code,status")
         print("status", st.get("status_code"))
@@ -513,6 +525,25 @@ def cmd_post(args):
     save(QUEUE, q)
     posting("live", permalink=media.get("permalink"))
     print("posted", media.get("permalink"))
+
+
+def cmd_covers(args):
+    """Add grid covers to pending / approved reels that have none (made before covers existed)."""
+    import covers
+    q = queue()
+    todo = [it for it in q["items"] if it["status"] in ("pending", "approved") and not it.get("cover")]
+    STAGING.mkdir(exist_ok=True)
+    for it in todo:
+        mp4 = STAGING / f"{it['id']}.mp4"
+        if not mp4.exists():
+            subprocess.run(["gh", "release", "download", RELEASE_TAG, "-p", f"{it['id']}.mp4", "-D", str(STAGING)],
+                           check=True, cwd=HERE)
+        cover = STAGING / f"{it['id']}-cover.jpg"
+        covers.cover_for(it, mp4, cover)
+        subprocess.run(["gh", "release", "upload", RELEASE_TAG, str(cover), "--clobber"], check=True, cwd=HERE)
+        it["cover"] = True
+        print("cover", it["id"], it["title"])
+    save(QUEUE, q)
 
 
 def cmd_check(args):
@@ -545,8 +576,9 @@ if __name__ == "__main__":
     r = sub.add_parser("reject"); r.add_argument("id"); r.add_argument("--note", required=True)
     sub.add_parser("status")
     n = sub.add_parser("next"); n.add_argument("--slot", help="posting slot, e.g. 06:00 (Tunisia)"); n.add_argument("--kind", choices=KINDS)
-    p = sub.add_parser("post"); p.add_argument("id"); p.add_argument("--url", required=True)
+    p = sub.add_parser("post"); p.add_argument("id"); p.add_argument("--url", required=True); p.add_argument("--cover-url")
     pp = sub.add_parser("posting"); pp.add_argument("stage", choices=list(POST_STAGES)); pp.add_argument("--id"); pp.add_argument("--error")
     ck = sub.add_parser("check"); ck.add_argument("id")
+    sub.add_parser("covers")
     args = ap.parse_args()
     globals()[f"cmd_{args.cmd}"](args)

@@ -1783,7 +1783,8 @@
       "status": "approved",
       "review": "Claude routine: arch layout, Arabic and English render cleanly, text inside arch",
       "created": "2026-11-24T21:10:04+00:00",
-      "reviewed": "2026-11-24T21:13:27+00:00"
+      "reviewed": "2026-11-24T21:13:27+00:00",
+      "cover": true
     },
     {
       "id": "20261124-211019-dua",
@@ -1807,7 +1808,8 @@
       "status": "approved",
       "review": "Claude routine: arch layout, Arabic and English render cleanly, text inside arch",
       "created": "2026-11-24T21:10:23+00:00",
-      "reviewed": "2026-11-24T21:13:27+00:00"
+      "reviewed": "2026-11-24T21:13:27+00:00",
+      "cover": true
     },
     {
       "id": "20261124-211030-asma",
@@ -1830,7 +1832,8 @@
       "status": "approved",
       "review": "Claude routine: name, ayah and dots render correctly, N matches",
       "created": "2026-11-24T21:10:34+00:00",
-      "reviewed": "2026-11-24T21:13:28+00:00"
+      "reviewed": "2026-11-24T21:13:28+00:00",
+      "cover": true
     },
     {
       "id": "20261124-211045-asma",
@@ -1853,7 +1856,8 @@
       "status": "approved",
       "review": "Claude routine: name, ayah and dots render correctly, N matches",
       "created": "2026-11-24T21:10:49+00:00",
-      "reviewed": "2026-11-24T21:13:28+00:00"
+      "reviewed": "2026-11-24T21:13:28+00:00",
+      "cover": true
     },
     {
       "id": "20261124-211134-quiz",
@@ -1903,7 +1907,8 @@
       "status": "approved",
       "review": "Claude routine: quiz frames clean, answer frame green box matches questions",
       "created": "2026-11-24T21:11:43+00:00",
-      "reviewed": "2026-11-24T21:13:28+00:00"
+      "reviewed": "2026-11-24T21:13:28+00:00",
+      "cover": true
     },
     {
       "id": "20261124-211229-quiz",
@@ -1953,7 +1958,8 @@
       "status": "approved",
       "review": "Claude routine: quiz frames clean, answer frame green box matches questions",
       "created": "2026-11-24T21:12:39+00:00",
-      "reviewed": "2026-11-24T21:13:28+00:00"
+      "reviewed": "2026-11-24T21:13:28+00:00",
+      "cover": true
     },
     {
       "id": "20261124-212132-ayah",
@@ -2046,7 +2052,8 @@
       "status": "approved",
       "review": "Claude routine: all frames clean, Arabic and layout correct",
       "created": "2026-11-24T21:28:59+00:00",
-      "reviewed": "2026-11-24T21:32:48+00:00"
+      "reviewed": "2026-11-24T21:32:48+00:00",
+      "cover": true
     },
     {
       "id": "20261124-212945-tasbih",
@@ -2068,7 +2075,8 @@
       "status": "approved",
       "review": "Claude routine: all frames clean, Arabic and layout correct",
       "created": "2026-11-24T21:29:53+00:00",
-      "reviewed": "2026-11-24T21:32:48+00:00"
+      "reviewed": "2026-11-24T21:32:48+00:00",
+      "cover": true
     },
     {
       "id": "20261124-213040-tasbih",
@@ -2090,7 +2098,8 @@
       "status": "approved",
       "review": "Claude routine: all frames clean, Arabic and layout correct",
       "created": "2026-11-24T21:30:49+00:00",
-      "reviewed": "2026-11-24T21:32:48+00:00"
+      "reviewed": "2026-11-24T21:32:48+00:00",
+      "cover": true
     },
     {
       "id": "20261124-213136-tasbih",
@@ -2112,7 +2121,8 @@
       "status": "approved",
       "review": "Claude routine: all frames clean, Arabic and layout correct",
       "created": "2026-11-24T21:31:45+00:00",
-      "reviewed": "2026-11-24T21:32:48+00:00"
+      "reviewed": "2026-11-24T21:32:48+00:00",
+      "cover": true
     },
     {
       "id": "20261124-235529-ayah",
@@ -2142,7 +2152,8 @@
       "status": "approved",
       "review": "approved in panel",
       "created": "2026-11-24T23:55:41+00:00",
-      "reviewed": "2026-11-24T23:57:39+00:00"
+      "reviewed": "2026-11-24T23:57:39+00:00",
+      "cover": true
     }
   ]
 }

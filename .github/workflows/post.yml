@@ -72,6 +72,7 @@ jobs:
         run: |
           mkdir -p site/v
           gh release download queue -p "${{ steps.pick.outputs.id }}.mp4" -D site/v
+          gh release download queue -p "${{ steps.pick.outputs.id }}-cover.jpg" -D site/v || echo "no cover: Instagram uses the first frame"
           python3 pipeline.py posting video
           echo '<!doctype html><title>Tilawah Sakina</title><p>Reel hosting for @tilawah.sakina</p>' > site/index.html
 
@@ -109,6 +110,9 @@ jobs:
         run: |
           url="${{ steps.deploy.outputs.page_url }}v/${{ steps.pick.outputs.id }}.mp4"
           echo "VIDEO_URL=$url" >> "$GITHUB_ENV"
+          if [ -f "site/v/${{ steps.pick.outputs.id }}-cover.jpg" ]; then
+            echo "COVER_URL=${{ steps.deploy.outputs.page_url }}v/${{ steps.pick.outputs.id }}-cover.jpg" >> "$GITHUB_ENV"
+          fi
           python3 pipeline.py posting hosting
           for i in 1 2 3 4 5 6; do
             code=$(curl -s -o /dev/null -w "%{http_code} %{content_type}" "$url")
@@ -121,7 +125,7 @@ jobs:
         env:
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
-        run: python3 pipeline.py post "${{ steps.pick.outputs.id }}" --url "$VIDEO_URL"
+        run: python3 pipeline.py post "${{ steps.pick.outputs.id }}" --url "$VIDEO_URL" ${COVER_URL:+--cover-url "$COVER_URL"}
 
       - name: Tell the panel it failed
         if: failure() && steps.pick.outputs.id != ''
@@ -151,6 +155,7 @@ jobs:
           have=$(gh release view queue --json assets -q '.assets[].name')
           for id in $(cat /tmp/done.txt); do
             if echo "$have" | grep -qx "$id.mp4"; then gh release delete-asset queue "$id.mp4" -y || true; fi
+            if echo "$have" | grep -qx "$id-cover.jpg"; then gh release delete-asset queue "$id-cover.jpg" -y || true; fi
           done
           git config user.name "tilawah-sakina-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
