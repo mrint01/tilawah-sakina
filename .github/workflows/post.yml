@@ -193,6 +193,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add state/queue.json
           git diff --cached --quiet && exit 0
-          git commit -m "Posted ${{ steps.pick.outputs.id }}"
+          if [ "${{ job.status }}" = "success" ]; then msg="Posted"; else msg="Posting failed for"; fi
+          git commit -m "$msg ${{ steps.pick.outputs.id }}"
           for i in 1 2 3; do git pull --rebase -q && git push && exit 0; sleep 5; done
           exit 1
