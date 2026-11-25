@@ -19,7 +19,11 @@ NO = {"woman", "man", "people", "girl", "boy", "person", "couple", "child", "chi
       "fashion", "dance", "music", "festival", "church", "cross", "christmas", "temple", "buddha", "statue", "alcohol",
       "wine", "beer", "dog", "cat", "car", "city", "building", "traffic", "face", "portrait", "selfie", "hand", "hands",
       "hut", "mountain hut", "house", "cabin", "home", "tent", "camping", "village", "road", "bridge", "boat", "ship",
-      "pagoda", "shrine", "torii", "japan", "tower", "castle", "ruins", "monastery", "mosque", "lighthouse", "windmill", "flag"}
+      "pagoda", "shrine", "torii", "japan", "tower", "castle", "ruins", "monastery", "mosque", "lighthouse", "windmill", "flag",
+      # people can show up untagged: also skip the settings they come with
+      "human", "male", "female", "adult", "young", "silhouette", "sitting", "relax", "relaxation", "meditation",
+      "yoga", "lonely", "alone", "thinking", "window", "room", "interior", "indoor", "indoors", "chair", "balcony",
+      "bed", "bedroom", "office", "hiker", "hiking", "traveler", "tourist", "walking", "running", "lifestyle"}
 SLOW = 1.2   # clips play a little slower: calmer
 FADE = 1.0   # crossfade between clips, seconds
 

@@ -63,7 +63,7 @@ NARRATED = {
             ("a", 71, 1, "sunrise sky"),
             ("n", "دعا نوحٌ قومَه ليلًا ونهارًا، في العَلَن وفي السر، وبقي فيهم تسعَمئةٍ وخمسين سنة.",
              "Nuh called his people night and day, in public and in secret. He stayed among them for nine hundred and "
-             "fifty years.", "starry night sky"),
+             "fifty years.", "milky way timelapse"),
             ("a", 71, 7, "thunderstorm clouds"),
             ("n", "وقال لهم: اطلبوا المغفرةَ من ربكم، فيُنزلَ عليكم المطر، ويرزقَكم المالَ والأولاد.",
              "He told them: ask your Lord for forgiveness, and He will send you rain, and give you wealth and children.",
