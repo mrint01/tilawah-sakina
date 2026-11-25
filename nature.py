@@ -49,6 +49,12 @@ def search(theme):
     return [h for h in hits if h["duration"] >= 10 and not ({t.strip() for t in h["tags"].split(",")} & NO)]
 
 
+def by_id(vid):
+    """One Pixabay video by its id (hand-picked clips, e.g. the story scenes)."""
+    url = "https://pixabay.com/api/videos/?" + urllib.parse.urlencode({"key": os.environ["PIXABAY_API_KEY"], "id": vid})
+    return json.loads(_get(url, CACHE / "search" / f"id_{vid}.json").read_text())["hits"][0]
+
+
 def clip_file(hit):
     """Download the HD / 2K version of a clip (short side 1080-1440 px), never 4K: enough for a 1080x1920 reel,
     and much lighter to process. Falls back to the closest size available."""

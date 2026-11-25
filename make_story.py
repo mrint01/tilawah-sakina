@@ -49,33 +49,34 @@ VOICE = "ar-SA-HamedNeural"   # Arabic narrator (fusha); he tells the story, he 
 PARTS = {"nuh": 3}
 SOURCES = "Quran · Sahih al-Bukhari · Ibn Kathir, Qasas al-Anbiya"
 # Segments: ("n", Arabic narration, English subtitle, scene) or ("a", surah, ayah, scene).
+# scene: a Pixabay video id picked by hand (looked at: no people, buildings, animals or symbols), or a search.
 NARRATED = {
     "nuh": (3, "نوح", "Nuh", [
         [  # Part 1: the call
             ("n", "بعد آدمَ بزمنٍ طويل، كان في الناس رجالٌ صالحون. فلما ماتوا، وسوس الشيطانُ للناس: اصنعوا لهم تماثيلَ لتتذكروهم.",
              "Long after Adam, there were righteous men among the people. When they died, Shaytan whispered to them: "
-             "make statues of them, so you remember them.", "misty valley"),
+             "make statues of them, so you remember them.", 71344),
             ("n", "ومضت الأجيال، ونُسِيَ العلم، فعبد الناسُ تلك التماثيلَ من دون الله.",
              "Generations passed, the knowledge was forgotten, and the people worshipped those statues instead of Allah.",
-             "dark storm clouds"),
+             38125),
             ("n", "فأرسل اللهُ إليهم رسولَه نوحًا عليه السلام.",
-             "So Allah sent them His messenger: Nuh, peace be upon him.", "sun rays clouds"),
-            ("a", 71, 1, "sunrise sky"),
+             "So Allah sent them His messenger: Nuh, peace be upon him.", 237672),
+            ("a", 71, 1, 204006),
             ("n", "دعا نوحٌ قومَه ليلًا ونهارًا، في العَلَن وفي السر، وبقي فيهم تسعَمئةٍ وخمسين سنة.",
              "Nuh called his people night and day, in public and in secret. He stayed among them for nine hundred and "
-             "fifty years.", "milky way timelapse"),
-            ("a", 71, 7, "thunderstorm clouds"),
+             "fifty years.", 1099),
+            ("a", 71, 7, 308832),
             ("n", "وقال لهم: اطلبوا المغفرةَ من ربكم، فيُنزلَ عليكم المطر، ويرزقَكم المالَ والأولاد.",
              "He told them: ask your Lord for forgiveness, and He will send you rain, and give you wealth and children.",
-             "rain drops leaves"),
-            ("a", 71, 10, "rain water drops"),
+             204307),
+            ("a", 71, 10, 17013),
             ("n", "لكنّ كبراءَ قومِه سخِروا منه، وقالوا: ما أنت إلا رجلٌ مثلُنا، ولا يتبعك إلا الضعفاءُ منا.",
              "But the leaders mocked him. You are only a man like us, they said, and only the weakest among us follow you.",
-             "dry desert"),
+             189392),
             ("n", "وما آمن معه إلا قليل، ومع ذلك لم يتوقف نوحٌ عن دعوتهم إلى الله.",
-             "Only a few believed. And still, Nuh never stopped calling them to Allah.", "lone tree field"),
+             "Only a few believed. And still, Nuh never stopped calling them to Allah.", 30222),
             ("n", "في الجزء الثاني: يأمرُ اللهُ نوحًا ببناء السفينة.",
-             "In part two: Allah commands Nuh to build the Ark.", "ocean horizon"),
+             "In part two: Allah commands Nuh to build the Ark.", 21175),
         ],
     ]),
 }
@@ -204,7 +205,18 @@ def compose(segs, cards, audio, frame, total, out):
 
 
 def scene(query, seconds, rnd, out):
-    """scene_clip, falling back to calm sky footage when the search finds nothing usable."""
+    """A hand-picked Pixabay clip (int id, checked by eye: no people, buildings or animals), repeated if it is
+    shorter than the line; or a search (str), falling back to calm sky footage when it finds nothing usable."""
+    if isinstance(query, int):
+        hit = nature.by_id(query)
+        path = nature.clip_file(hit)
+        real = float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration",
+                                              "-of", "csv=p=0", str(path)]).strip()) * nature.SLOW
+        n = 1
+        while real * n - nature.FADE * (n - 1) < seconds + 0.5:
+            n += 1
+        nature.render_background([(path, real, hit["id"])] * n, seconds, out)
+        return out
     for q in (query, "clouds sky", "sunset sky"):
         try:
             return scene_clip(q, seconds, rnd, out)
