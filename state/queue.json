@@ -2488,6 +2488,16 @@
       "at": "2026-11-24T21:00:00+01:00",
       "test": true,
       "resolved": "2026-11-25T13:16:27.689Z"
+    },
+    "2026-11-25 18:00": {
+      "kind": "tasbih",
+      "status": "failed",
+      "id": "20261124-212945-tasbih",
+      "title": "33× Astaghfirullah",
+      "tries": 1,
+      "started": "2026-11-25T17:04:39+00:00",
+      "at": "2026-11-25T18:00:00+01:00",
+      "reason": "Posting failed: see the run on GitHub"
     }
   }
 }
