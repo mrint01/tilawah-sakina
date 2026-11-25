@@ -2346,10 +2346,11 @@
     },
     "2026-11-24 18:00": {
       "kind": "tasbih",
-      "status": "missed",
+      "status": "resolved",
       "reason": "Test row (added to preview this page): GitHub never started the posting run",
       "at": "2026-11-24T18:00:00+01:00",
-      "test": true
+      "test": true,
+      "resolved": "2026-11-25T13:13:53.264Z"
     },
     "2026-11-24 21:00": {
       "kind": "quiz",
