@@ -13,7 +13,7 @@ export function NotPostedBar({ s }: { s: PanelState }) {
       <button type="button" onClick={() => navigate('/not-posted')}
         className="flex w-full cursor-pointer items-center gap-2 text-start text-sm font-semibold text-danger hover:underline">
         <CalendarX2 className="h-4 w-4 shrink-0" aria-hidden="true" />
-        <span className="flex-1">{rows.length === 1 ? '1 reel was not posted' : `${rows.length} reels were not posted`}: publish it or keep it in the schedule</span>
+        <span className="flex-1">{rows.length === 1 ? '1 reel was not posted' : `${rows.length} reels were not posted`}: publish, change the time or keep it in the schedule</span>
         <ChevronRight className="h-4 w-4" aria-hidden="true" />
       </button>
       <ul className="mt-2 flex flex-col gap-1.5">

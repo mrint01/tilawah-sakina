@@ -398,7 +398,8 @@ def next_item(slot=None, kind=None):
         return None
     q = queue()
     kind = kind or slot_kind(slot)
-    approved = [it for it in q["items"] if it["status"] == "approved" and it["kind"] == kind]
+    # a reel given its own time in the panel (post_at) waits for that time, not for a slot
+    approved = [it for it in q["items"] if it["status"] == "approved" and it["kind"] == kind and not it.get("post_at")]
     if kind == "dua":
         today = tunis_now()
         if is_arafah(today):
@@ -495,12 +496,36 @@ def update_slots(q, at=None):
     return due
 
 
+def pinned_due(q, at=None):
+    """A reel given its own time in the panel whose time has come (up to SLOT_LATE_H late). One that is later
+    than that goes back to the normal schedule (post_at cleared, noted on the reel)."""
+    from datetime import timedelta
+    at = at or datetime.now(timezone.utc)
+    due = []
+    for it in q["items"]:
+        if it["status"] != "approved" or not it.get("post_at"):
+            continue
+        t = datetime.fromisoformat(it["post_at"])
+        if t <= at - timedelta(hours=SLOT_LATE_H):
+            it["post_at_missed"] = it.pop("post_at")
+        elif t <= at + timedelta(minutes=10):
+            due.append((t, it))
+    return min(due, key=lambda x: x[0])[1] if due and config().get("enabled", True) else None
+
+
 def cmd_next(args):
     if args.due:
-        # scheduled / catch-up runs: post the current slot if it is not posted yet (late is fine, twice never)
+        # scheduled / catch-up runs: a reel whose chosen time has come first, else the current slot if it is not
+        # posted yet (late is fine, twice never)
         q = queue()
+        pin = pinned_due(q)
         due = update_slots(q)
         it = None
+        if pin:
+            print(f"chosen time {pin['post_at']}: posting {pin['id']}", file=sys.stderr)
+            save(QUEUE, q)
+            print(pin["id"])
+            return
         if due:
             key, s, t, e = due
             it = next_item(s)
@@ -630,6 +655,7 @@ def cmd_post(args):
     media = ig("GET", pub["id"], fields="permalink")
     it.update(status="posted", posted=now(), ig_media_id=pub["id"], permalink=media.get("permalink"))
     slot_result(q, it["id"], True)
+    it.pop("post_at", None)
     e = q.get("slots", {}).get(getattr(args, "slot", None) or "")
     if e and e["status"] in ("missed", "failed"):  # published from the panel's "Not posted" page
         late = int((datetime.fromisoformat(it["posted"]) - datetime.fromisoformat(e["at"])).total_seconds() // 60) if e.get("at") else 0

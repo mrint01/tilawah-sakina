@@ -3,6 +3,7 @@ import { Send, Trash2 } from 'lucide-react';
 import type { PanelState, Reel } from './api';
 import { postingRun, useAct } from './hooks';
 import { Modal } from './ui';
+import { ChangeTime } from './ChangeTime';
 
 /** "Publish now" and "Remove" for one approved reel, each with its confirmation (used on the reel page). */
 export function ReelActions({ s, r, onDone }: { s: PanelState; r: Reel; onDone?: () => void }) {
@@ -17,6 +18,7 @@ export function ReelActions({ s, r, onDone }: { s: PanelState; r: Reel; onDone?:
           className="flex h-9 cursor-pointer items-center gap-2 rounded-lg bg-accent px-3 text-sm font-semibold text-white hover:bg-accent-dark disabled:cursor-default disabled:opacity-40">
           <Send className="h-4 w-4" aria-hidden="true" /> Publish now
         </button>
+        <ChangeTime r={r} />
         <button type="button" disabled={act.isPending} onClick={() => setAsk('remove')}
           className="flex h-9 cursor-pointer items-center gap-2 rounded-lg border border-danger/50 px-3 text-sm font-medium text-danger hover:bg-danger-light disabled:opacity-50">
           <Trash2 className="h-4 w-4" aria-hidden="true" /> Remove

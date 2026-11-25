@@ -4,6 +4,7 @@ import { CalendarClock, CalendarX2, RotateCw, Send } from 'lucide-react';
 import { notPosted, slotText, slotWhen, upcoming, type NotPosted } from '../admin/api';
 import { KIND, KindBadge, postingRun, Thumb, useAct, useAppState } from '../admin/hooks';
 import { PublishProgress } from '../admin/PublishProgress';
+import { ChangeTime } from '../admin/ChangeTime';
 import { Badge, Empty, Modal, PageHeader, Skeleton } from '../admin/ui';
 
 const when = slotWhen;
@@ -27,7 +28,7 @@ export default function NotPostedPage() {
   return (
     <div className="flex flex-col gap-4">
       <PageHeader title="Not posted"
-        text="Slots of the last 7 days that did not go out, and why. Publish the reel now, or keep it in the schedule (it posts at the next slot of its type). Either way it leaves this list." />
+        text="Slots of the last 7 days that did not go out, and why. Publish the reel now, pick another time for it, or keep it in the schedule (it posts at the next slot of its type). Either way it leaves this list." />
       {s && <PublishProgress s={s} />}
 
       <section className="overflow-hidden rounded-xl border border-paper-line bg-paper shadow-sm">
@@ -64,6 +65,7 @@ export default function NotPostedPage() {
                     <p className="text-xs text-ink-mute lg:w-72">No approved {KIND[e.kind].label.toLowerCase()} reel left to publish.</p>
                   )}
                   <div className="flex shrink-0 flex-wrap gap-2">
+                  {r && <ChangeTime r={r} slot={key} next={nextFor(r.id)?.at} />}
                   <button type="button" disabled={act.isPending || e.status === 'failed'}
                     title={r && nextFor(r.id) ? `It posts ${slotText(nextFor(r.id)!)}` : 'Let this slot go'}
                     onClick={() => act.mutate({ type: 'slot_resolve', slot: key })}

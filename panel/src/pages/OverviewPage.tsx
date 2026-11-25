@@ -45,7 +45,7 @@ export default function OverviewPage() {
   const pending = count('pending');
   const posted = s.items.filter((i) => i.status === 'posted');
   const missed = notPosted(s);
-  const next = upcoming(s.items, 5, new Date(), s.slots);
+  const next = upcoming(s.items, 5, new Date(), s.slots).slice(0, 5);
   const firstReel = next.find((p) => p.reel)?.reel;
   const followers = ig.data?.profile?.followers_count;
 

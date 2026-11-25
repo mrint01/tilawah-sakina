@@ -41,6 +41,23 @@ export default async function handler(req, res) {
         if (!b.note?.trim()) return send(res, 400, { error: 'Say why it is rejected.' });
         await setStatus(b.id, 'rejected', b.note.trim());
         break;
+      case 'schedule': {
+        // "Change time": post this approved reel at a chosen time instead of its slot (at = null: back to the slots).
+        // From the Not posted page it also lets the missed slot go.
+        const at = b.at ? new Date(b.at) : null;
+        if (at && (Number.isNaN(+at) || +at < Date.now() - 5 * 60_000 || +at > Date.now() + 60 * 86400_000))
+          return send(res, 400, { error: 'Pick a time from now up to 60 days ahead.' });
+        await updateJson('state/queue.json', (q) => {
+          const it = (q.items ?? []).find((x) => x.id === b.id);
+          if (!it || it.status !== 'approved') throw Object.assign(new Error('That reel is no longer approved.'), { status: 404 });
+          if (at) it.post_at = at.toISOString().replace('.000Z', '+00:00'); else delete it.post_at;
+          delete it.post_at_missed;
+          const e = b.slot && q.slots?.[b.slot];
+          if (e && (e.status === 'missed' || e.status === 'failed')) Object.assign(e, { status: 'resolved', resolved: new Date().toISOString() });
+          return q;
+        }, at ? `Panel: post ${b.id} at ${at.toISOString()}` : `Panel: ${b.id} back to the normal schedule`);
+        break;
+      }
       case 'slot_resolve':
         // "Keep in schedule" on the Not posted page: the slot is let go, its reel stays approved for its next slot
         if (!/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(b.slot || '')) return send(res, 400, { error: 'Unknown slot.' });

@@ -7,6 +7,7 @@ import { PublishProgress } from '../admin/PublishProgress';
 import { NotPostedBar } from '../admin/NotPostedBar';
 import { matchFilters, ReelFilterBar, useReelFilters } from '../admin/ReelFilters';
 import { WeeklySection } from '../admin/WeeklySection';
+import { ChangeTime } from '../admin/ChangeTime';
 import { ago, Badge, dateTime, Empty, Modal, PageHeader, Pager, Skeleton, usePaged } from '../admin/ui';
 
 /** The coming posting slots (5 a day) and the approved reel each one posts; empty slots show what is missing. */
@@ -96,6 +97,7 @@ export default function QueuePage() {
                     className="my-3 ms-2 inline-flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-md bg-accent text-white hover:bg-accent-dark disabled:opacity-40">
                     <Send className="h-4 w-4" aria-hidden="true" />
                   </button>
+                  <span className="my-3 ms-2 inline-flex"><ChangeTime r={r} next={p.at} small /></span>
                   <button type="button" aria-label="Remove, don't post" onClick={() => setRemoving(r)}
                     className="m-3 ms-2 inline-flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-md border border-paper-line text-ink-soft hover:border-danger hover:text-danger">
                     <Trash2 className="h-4 w-4" aria-hidden="true" />
@@ -144,6 +146,7 @@ export default function QueuePage() {
                           className="me-2 inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-md bg-accent px-2.5 text-xs font-semibold text-white hover:bg-accent-dark disabled:cursor-default disabled:opacity-40">
                           <Send className="h-3.5 w-3.5" aria-hidden="true" /> Publish now
                         </button>
+                        <span className="me-2 inline-flex align-middle"><ChangeTime r={r} next={p.at} small /></span>
                         <button type="button" aria-label="Back to review" title="Back to review" disabled={act.isPending}
                           onClick={(e) => { e.stopPropagation(); act.mutate({ type: 'requeue', id: r.id }); }}
                           className="inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-md border border-paper-line text-ink-soft hover:border-accent hover:text-accent">
