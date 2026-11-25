@@ -29,7 +29,8 @@ export default function QueuePage() {
   const filtering = filters.kind !== 'all' || filters.reciter || filters.surah;
   const shown = filtering ? rows.filter((p) => p.reel && matchFilters(p.reel, filters)) : rows;
   const paged = usePaged(shown, JSON.stringify(filters), 15);
-  const missing = new Set(rows.filter((p) => !p.reel).map((p) => p.kind));
+  // only slots that come before the next 03:00 refill is checked are really skipped
+  const missing = new Set(rows.filter((p) => !p.reel && p.at <= nextRefill().ready).map((p) => p.kind));
 
   return (
     <div className="flex flex-col gap-4">
@@ -57,7 +58,7 @@ export default function QueuePage() {
       {s && !s.config.enabled && <p className="rounded-xl bg-accent-light p-3 text-sm font-medium text-accent">Automation is OFF, so nothing posts until you turn it on in Overview.</p>}
       {s && s.config.enabled && missing.size > 0 && (
         <p className="rounded-xl bg-accent-light p-3 text-sm font-medium text-accent">
-          Nothing approved yet for: {[...missing].map((k) => KIND[k].label).join(', ')}. Those slots are skipped until new reels are made at 03:00 and checked by Claude at 04:30.
+          Nothing approved yet for: {[...missing].map((k) => KIND[k].label).join(', ')}. Those slots are skipped; new reels are made at 03:00 and checked by Claude at 04:30.
         </p>
       )}
 
@@ -204,8 +205,19 @@ export default function QueuePage() {
 }
 
 /** A posting slot with nothing approved of its kind: shown so the gap is visible. */
+/** The next 03:00 refill (Tunisia, 02:00 UTC) and when its reels are checked (04:30). */
+function nextRefill(now = new Date()) {
+  const t = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 2));
+  if (t <= now) t.setUTCDate(t.getUTCDate() + 1);
+  return { at: t, ready: new Date(t.getTime() + 90 * 60_000) };
+}
+const refillDay = new Intl.DateTimeFormat('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'Africa/Tunis' });
+
 function EmptySlot({ p, phone }: { p: Upcoming; phone?: boolean }) {
-  const text = `Nothing approved: this ${KIND[p.kind].label.toLowerCase()} slot is skipped`;
+  const r = nextRefill();
+  const text = p.at > r.ready
+    ? `Not made yet: the ${KIND[p.kind].label.toLowerCase()} for this slot is made at 03:00 on ${refillDay.format(r.at)}`
+    : `Nothing approved: this ${KIND[p.kind].label.toLowerCase()} slot is skipped`;
   if (phone) {
     return (
       <li className="flex items-center gap-3 px-4 py-3 text-sm text-ink-mute">
