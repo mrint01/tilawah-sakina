@@ -41,32 +41,41 @@ STORIES = {
 }
 TOTAL_PROPHETS = 25
 
-# Narrated stories: an English narrator tells the story (from the Quran, authentic hadith and Ibn Kathir's
+# Narrated stories: an Arabic narrator tells the story (English subtitles) (from the Quran, authentic hadith and Ibn Kathir's
 # Qasas al-Anbiya, without weak reports), and at the key moments Mishary Alafasy recites the ayah itself.
 # Segments: ("n", narration, scene) or ("a", surah, ayah, scene).
-VOICE = "en-US-AndrewNeural"
+VOICE = "ar-SA-HamedNeural"   # Arabic narrator (fusha); he tells the story, he never reads Quran words
 # how many parts each narrated story has in total (the later parts are written after part 1 is approved)
 PARTS = {"nuh": 3}
 SOURCES = "Quran · Sahih al-Bukhari · Ibn Kathir, Qasas al-Anbiya"
+# Segments: ("n", Arabic narration, English subtitle, scene) or ("a", surah, ayah, scene).
 NARRATED = {
     "nuh": (3, "نوح", "Nuh", [
         [  # Part 1: the call
-            ("n", "Long after Adam, there were righteous men among the people. When they died, Shaytan whispered to "
-                  "the people: make statues of them, so you remember them.", "misty valley"),
-            ("n", "Generations passed. The knowledge was forgotten, and the people began to worship those statues "
-                  "instead of Allah.", "dark storm clouds"),
-            ("n", "So Allah sent to them His messenger: Nuh, peace be upon him.", "sun rays clouds"),
+            ("n", "بعد آدمَ بزمنٍ طويل، كان في الناس رجالٌ صالحون. فلما ماتوا، وسوس الشيطانُ للناس: اصنعوا لهم تماثيلَ لتتذكروهم.",
+             "Long after Adam, there were righteous men among the people. When they died, Shaytan whispered to them: "
+             "make statues of them, so you remember them.", "misty valley"),
+            ("n", "ومضت الأجيال، ونُسِيَ العلم، فعبد الناسُ تلك التماثيلَ من دون الله.",
+             "Generations passed, the knowledge was forgotten, and the people worshipped those statues instead of Allah.",
+             "dark storm clouds"),
+            ("n", "فأرسل اللهُ إليهم رسولَه نوحًا عليه السلام.",
+             "So Allah sent them His messenger: Nuh, peace be upon him.", "sun rays clouds"),
             ("a", 71, 1, "sunrise sky"),
-            ("n", "Nuh called his people night and day, in public and in secret. He stayed among them for nine "
-                  "hundred and fifty years.", "night sky stars"),
+            ("n", "دعا نوحٌ قومَه ليلًا ونهارًا، في العَلَن وفي السر، وبقي فيهم تسعَمئةٍ وخمسين سنة.",
+             "Nuh called his people night and day, in public and in secret. He stayed among them for nine hundred and "
+             "fifty years.", "starry night sky"),
             ("a", 71, 7, "thunderstorm clouds"),
-            ("n", "He told them: ask your Lord for forgiveness, and He will send you rain, and give you wealth and "
-                  "children.", "rain drops leaves"),
+            ("n", "وقال لهم: اطلبوا المغفرةَ من ربكم، فيُنزلَ عليكم المطر، ويرزقَكم المالَ والأولاد.",
+             "He told them: ask your Lord for forgiveness, and He will send you rain, and give you wealth and children.",
+             "rain drops leaves"),
             ("a", 71, 10, "rain water drops"),
-            ("n", "But the leaders mocked him. You are only a man like us, they said, and only the weakest among us "
-                  "follow you.", "dry desert"),
-            ("n", "Only a few believed. And still, Nuh never stopped calling them to Allah.", "lone tree field"),
-            ("n", "In part two: Allah commands Nuh to build the Ark.", "ocean horizon"),
+            ("n", "لكنّ كبراءَ قومِه سخِروا منه، وقالوا: ما أنت إلا رجلٌ مثلُنا، ولا يتبعك إلا الضعفاءُ منا.",
+             "But the leaders mocked him. You are only a man like us, they said, and only the weakest among us follow you.",
+             "dry desert"),
+            ("n", "وما آمن معه إلا قليل، ومع ذلك لم يتوقف نوحٌ عن دعوتهم إلى الله.",
+             "Only a few believed. And still, Nuh never stopped calling them to Allah.", "lone tree field"),
+            ("n", "في الجزء الثاني: يأمرُ اللهُ نوحًا ببناء السفينة.",
+             "In part two: Allah commands Nuh to build the Ark.", "ocean horizon"),
         ],
     ]),
 }
@@ -128,27 +137,36 @@ def frame_png(no, ar, en, path, part=None, footer=None):
 
 
 def narration(text, out):
-    """English narration with a neural voice (edge-tts), slightly slow and calm."""
+    """Arabic narration with a neural voice (edge-tts), slightly slow and calm."""
     if not out.exists():
-        subprocess.run(["edge-tts", "--voice", VOICE, "--rate=-6%", "--text", text, "--write-media", str(out)],
+        subprocess.run(["edge-tts", "--voice", VOICE, "--rate=-8%", "--text", text, "--write-media", str(out)],
                        check=True, timeout=120)
     return out
 
 
-def narr_card(text, path):
-    """The narration as subtitles in the middle panel (English, large, centred)."""
+def narr_card(ar, en, path):
+    """The narration in Arabic (large) with the English subtitle under it, in the middle panel."""
     img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
-    for size in range(60, 36, -2):
-        f = mr.font("Lora-var.ttf", size)
-        lines = mr.wrap(d, text, f, W - 190)
-        lh = int(size * 1.5)
-        if len(lines) * lh <= 760:
+    for size in range(74, 44, -2):
+        fa = mr.font("Amiri-Regular.ttf", size)
+        la = mr.wrap(d, ar, fa, W - 170, rtl=True)
+        lha = int(size * 1.75)
+        es = max(30, int(size * 0.5))
+        fe = mr.font("Lora-var.ttf", es)
+        le = mr.wrap(d, en, fe, W - 190)
+        lhe = int(es * 1.45)
+        block = len(la) * lha + 56 + len(le) * lhe
+        if block <= 960:
             break
-    y = 975 - len(lines) * lh / 2
-    for ln in lines:
-        d.text((W / 2, y + lh / 2), ln, font=f, fill=(246, 240, 226, 255), anchor="mm")
-        y += lh
+    y = 975 - block / 2
+    for ln in la:
+        d.text((W / 2, y + lha / 2), ln, font=fa, fill=(250, 244, 230, 255), anchor="mm", direction="rtl", language="ar")
+        y += lha
+    y += 56
+    for ln in le:
+        d.text((W / 2, y + lhe / 2), ln, font=fe, fill=(225, 218, 200, 230), anchor="mm")
+        y += lhe
     mr.with_shadow(img, path)
 
 
@@ -209,9 +227,9 @@ def render_narrated(key, part=1, seed=None):
     for i, sg in enumerate(segs_in):
         lead = 0.6 if i == 0 else 0.25
         if sg[0] == "n":
-            _, text, query = sg
+            _, text, en, query = sg
             mp3 = narration(text, work / f"n{i}.mp3")
-            narr_card(text, work / f"card{i}.png")
+            narr_card(text, en, work / f"card{i}.png")
             cards.append((work / f"card{i}.png", 0))
         else:
             _, su, ay, query = sg
