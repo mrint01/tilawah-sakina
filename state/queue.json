@@ -2343,6 +2343,21 @@
       "reason": null,
       "posted": "2026-11-25T12:00:29+00:00",
       "late_min": 60
+    },
+    "2026-11-24 18:00": {
+      "kind": "tasbih",
+      "status": "missed",
+      "reason": "Test row (added to preview this page): GitHub never started the posting run",
+      "at": "2026-11-24T18:00:00+01:00",
+      "test": true
+    },
+    "2026-11-24 21:00": {
+      "kind": "quiz",
+      "status": "failed",
+      "reason": "Test row (added to preview this page): Instagram could not process the video",
+      "tries": 2,
+      "at": "2026-11-24T21:00:00+01:00",
+      "test": true
     }
   }
 }
