@@ -813,18 +813,25 @@
     "2026-11-25": {
       "followers": 49,
       "posts_total": 18,
-      "views": 1879,
-      "reach": 1571,
-      "likes": 207,
-      "comments": 4,
+      "views": 2125,
+      "reach": 1775,
+      "likes": 234,
+      "comments": 5,
       "shares": 10,
-      "saves": 9,
-      "total_interactions": 243
+      "saves": 10,
+      "total_interactions": 272
     },
     "2026-11-26": {
-      "followers": 51,
-      "posts_total": 21
+      "followers": 53,
+      "posts_total": 24,
+      "views": 354,
+      "reach": 278,
+      "likes": 51,
+      "comments": 1,
+      "shares": 1,
+      "saves": 0,
+      "total_interactions": 54
     }
   },
-  "updated": "2026-11-26T01:57:01+00:00"
+  "updated": "2026-11-26T17:19:54+00:00"
 }
