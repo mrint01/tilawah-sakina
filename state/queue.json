@@ -2459,6 +2459,158 @@
       "review": "Claude routine: all frames clean, answer 110:1-2 matches question list",
       "created": "2026-11-25T13:23:51+00:00",
       "reviewed": "2026-11-25T13:24:41+00:00"
+    },
+    {
+      "id": "20261126-025110-ayah",
+      "kind": "ayah",
+      "caption": "Allāh is the Light of the heavens and the earth.\n\nSurah An-Nur (The Light) · 24:35-37\nRecited by Maher Al-Muaiqly\n\nListen till the end and share it with someone who needs it today 🤍\n\n#quran #quranrecitation #islam #annur #almuaiqly",
+      "duration": 86.6,
+      "passage": [
+        24,
+        35
+      ],
+      "ref": "24:35-37",
+      "whole_surah": false,
+      "surah": "An-Nur",
+      "reciter": "Maher Al-Muaiqly",
+      "title": "Surah An-Nur 24:35-37 · Maher Al-Muaiqly",
+      "background": "waterfall",
+      "cover": true,
+      "size_mb": 72.0,
+      "mean_volume_db": -14.8,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60_90s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-26T02:51:28+00:00"
+    },
+    {
+      "id": "20261126-025201-tasbih",
+      "kind": "tasbih",
+      "caption": "Send one salawat and Allah sends ten blessings upon you (Muslim). Here are 33 🤍\n\n33× Salawat upon the Prophet ﷺ. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#salawat #durood #dhikr #prophetmuhammad #islam",
+      "duration": 60.0,
+      "set": "salawat",
+      "title": "33× Salawat upon the Prophet ﷺ",
+      "cover": true,
+      "size_mb": 5.0,
+      "mean_volume_db": -40.5,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-26T02:52:08+00:00"
+    },
+    {
+      "id": "20261126-025317-quiz",
+      "kind": "quiz",
+      "caption": "Guess the surah 🤍 5 questions, level: hard.\n\nListen to the ayah and pick before the timer ends. How many did you get? Comment your score!\n\nAnswers: 1) Al-Masad · 2) An-Nazi'at · 3) Ad-Duhaa · 4) Al-Insan · 5) Al-Layl\n\nFollow for a new quiz every night.\n\n#quranquiz #guessthesurah #quran #islamicquiz #islam",
+      "duration": 104.4,
+      "level": "hard",
+      "questions": [
+        [
+          111,
+          1,
+          2
+        ],
+        [
+          79,
+          26,
+          27
+        ],
+        [
+          93,
+          2,
+          4
+        ],
+        [
+          76,
+          25,
+          26
+        ],
+        [
+          92,
+          13,
+          14
+        ]
+      ],
+      "reciter": "Mishary Alafasy",
+      "title": "Guess the surah · hard · Al-Masad, An-Nazi'at, Ad-Duhaa, Al-Insan, Al-Layl",
+      "cover": true,
+      "size_mb": 3.5,
+      "mean_volume_db": -23.7,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_50_150s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-26T02:53:26+00:00"
+    },
+    {
+      "id": "20261126-025417-quiz",
+      "kind": "quiz",
+      "caption": "Guess the surah 🤍 5 questions, level: easy.\n\nListen to the ayah and pick before the timer ends. How many did you get? Comment your score!\n\nAnswers: 1) Al-Qari'ah · 2) Al-Balad · 3) Al-Infitar · 4) Ash-Sharh · 5) Al-Masad\n\nFollow for a new quiz every night.\n\n#quranquiz #guessthesurah #quran #islamicquiz #islam",
+      "duration": 90.0,
+      "level": "easy",
+      "questions": [
+        [
+          101,
+          6,
+          7
+        ],
+        [
+          90,
+          4,
+          5
+        ],
+        [
+          82,
+          2,
+          4
+        ],
+        [
+          94,
+          7,
+          8
+        ],
+        [
+          111,
+          2,
+          3
+        ]
+      ],
+      "reciter": "Mishary Alafasy",
+      "title": "Guess the surah · easy · Al-Qari'ah, Al-Balad, Al-Infitar, Ash-Sharh, Al-Masad",
+      "cover": true,
+      "size_mb": 3.1,
+      "mean_volume_db": -22.3,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_50_150s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-26T02:54:26+00:00"
     }
   ],
   "slots": {
