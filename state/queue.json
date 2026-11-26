@@ -2618,6 +2618,60 @@
       "review": "Claude routine: Arabic clean, layout fine, answers match Al-Infitar and Ash-Sharh",
       "created": "2026-11-26T02:54:26+00:00",
       "reviewed": "2026-11-26T03:38:26+00:00"
+    },
+    {
+      "id": "20261126-103459-ayah",
+      "kind": "ayah",
+      "caption": "To Allāh belongs whatever is in the heavens and whatever is in the earth.\n\nSurah Al-Baqarah (The Cow) · 2:284-285\nRecited by Mishary Alafasy\n\nListen till the end and share it with someone who needs it today 🤍\n\n#quran #quranrecitation #islam #albaqarah #alafasy",
+      "duration": 64.6,
+      "passage": [
+        2,
+        284
+      ],
+      "ref": "2:284-285",
+      "whole_surah": false,
+      "surah": "Al-Baqarah",
+      "reciter": "Mishary Alafasy",
+      "title": "Surah Al-Baqarah 2:284-285 · Mishary Alafasy",
+      "background": "rain leaves",
+      "cover": true,
+      "size_mb": 29.2,
+      "mean_volume_db": -20.6,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60_90s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-26T10:35:12+00:00"
+    },
+    {
+      "id": "20261126-103523-dua",
+      "kind": "dua",
+      "caption": "Say this after your salah 🤍\n\nO Allah, help me to remember You, to thank You, and to worship You in the best of manners.\n\nHisn al-Muslim\n\nSave it and send it to someone you love 🤍\n\n#afterSalah #dua #adhkar #salah #islam",
+      "duration": 16.1,
+      "category": "after_salah",
+      "dua_id": 59,
+      "source": "Hisn al-Muslim",
+      "title": "Dua after salah · O Allah, help me to remember You, to thank…",
+      "cover": true,
+      "size_mb": 1.0,
+      "mean_volume_db": -22.5,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_10_60s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-26T10:35:27+00:00"
     }
   ],
   "slots": {
