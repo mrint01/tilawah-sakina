@@ -1859,11 +1859,14 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
+      "status": "posted",
       "review": "Claude routine: name, ayah and dots render correctly, N matches",
       "created": "2026-11-24T21:10:49+00:00",
       "reviewed": "2026-11-24T21:13:28+00:00",
-      "cover": true
+      "cover": true,
+      "posted": "2026-11-26T11:43:06+00:00",
+      "ig_media_id": "18138309430738127",
+      "permalink": "https://www.instagram.com/reel/DgNBcVWPPo_/"
     },
     {
       "id": "20261124-211134-quiz",
@@ -2757,6 +2760,18 @@
       "reason": null,
       "posted": "2026-11-26T06:00:17+00:00",
       "late_min": 60
+    },
+    "2026-11-26 12:00": {
+      "kind": "asma",
+      "status": "posted",
+      "id": "20261124-211045-asma",
+      "title": "Name 2 of 99 · Ar Raheem · The Merciful",
+      "tries": 1,
+      "started": "2026-11-26T11:40:09+00:00",
+      "at": "2026-11-26T12:00:00+01:00",
+      "reason": null,
+      "posted": "2026-11-26T11:43:06+00:00",
+      "late_min": 43
     }
   }
 }
