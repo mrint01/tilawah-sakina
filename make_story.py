@@ -118,7 +118,6 @@ NARRATED = {
              "All the wrongdoers perished, and then everything grew still.", 209489),
             ("a", 11, 44, 2950),
             ("n", "وَنَجَّى اللَّهُ نُوحًا وَمَنْ مَعَهُ.", "And Allah saved Nuh and those with him.", 148260),
-            ("a", 11, 48, 21460),
             ("n", "انْتَهَتْ قِصَّةُ نُوحٍ عَلَيْهِ السَّلَامُ. وَفِي الْقِصَّةِ الْقَادِمَةِ: نَبِيُّ اللَّهِ هُودٌ عَلَيْهِ السَّلَامُ.",
              "This was the story of Nuh, peace be upon him. Next: the Prophet Hud, peace be upon him.", 21175),
         ],

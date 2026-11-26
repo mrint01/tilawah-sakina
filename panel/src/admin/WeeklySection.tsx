@@ -37,12 +37,13 @@ export function WeeklySection({ s }: { s: PanelState }) {
 
 function WeeklyRow({ s, w, open, onToggle }: { s: PanelState; w: WeeklyReel; open: boolean; onToggle: () => void }) {
   const last = [...s.weekly.posted].reverse().find((p) => p.id === w.id);
+  const v = w.made ? `?v=${encodeURIComponent(w.made)}` : ''; // new file after a remake: skip the cached old one
   const mins = `${Math.floor(w.duration / 60)}:${String(Math.round(w.duration % 60)).padStart(2, '0')} min`;
   return (
     <li>
       <button type="button" onClick={onToggle} aria-expanded={open} className="flex w-full cursor-pointer items-start gap-3 px-4 py-3 text-start hover:bg-paper-alt">
         <span className="block h-14 w-8 shrink-0 overflow-hidden rounded-md border border-paper-line bg-paper-alt bg-no-repeat"
-          style={{ backgroundImage: `url(${s.weekly.assets}${w.id}.png)`, backgroundSize: 'auto 100%', backgroundPosition: 'left center' }} aria-hidden="true" />
+          style={{ backgroundImage: `url(${s.weekly.assets}${w.id}${w.cover ? '-cover.jpg' : '.png'}${v})`, backgroundSize: w.cover ? 'cover' : 'auto 100%', backgroundPosition: w.cover ? 'center' : 'left center' }} aria-hidden="true" />
         <span className="min-w-0 flex-1">
           <span className="line-clamp-2 text-sm font-semibold">{w.title}</span>
           <span className="mt-1.5 flex flex-wrap items-center gap-2 text-xs text-ink-soft">
@@ -59,7 +60,7 @@ function WeeklyRow({ s, w, open, onToggle }: { s: PanelState; w: WeeklyReel; ope
       </button>
       {open && (
         <div className="flex flex-col gap-3 px-4 pb-4">
-          <video key={w.id} src={`/api/video?id=${encodeURIComponent(w.id)}#t=0.5`} controls playsInline preload="metadata"
+          <video key={w.id} src={`/api/video?id=${encodeURIComponent(w.id)}${w.made ? `&v=${encodeURIComponent(w.made)}` : ''}#t=0.5`} controls playsInline preload="metadata"
             className="mx-auto aspect-[9/16] max-h-[60vh] w-auto rounded-lg border border-paper-line bg-black" />
           <p className="whitespace-pre-wrap rounded-lg border border-paper-line bg-paper-alt p-3 text-sm">{w.caption}</p>
           <ManualPost reel={w} weekly />

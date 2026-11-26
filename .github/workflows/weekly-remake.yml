@@ -14,70 +14,102 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: queue-state
-  cancel-in-progress: false
+# no queue-state lock: rendering takes ~30 min and must not hold back the daily posts (it only edits weekly.json)
 
 jobs:
   remake:
     runs-on: ubuntu-latest
-    timeout-minutes: 300
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:  # each part on its own machine, at the same time (a machine dying only costs one part)
+        include:
+          - { id: kahf-part1, first: 1, last: 50, label: "Part 1 of 2" }
+          - { id: kahf-part2, first: 51, last: 110, label: "Part 2 of 2" }
     env:
       GH_TOKEN: ${{ github.token }}
       PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
     steps:
+      - name: Skip the part not asked for
+        id: want
+        run: |
+          case "${{ inputs.parts }}" in both|"") echo "go=1" >> "$GITHUB_OUTPUT";;
+            part1) [ "${{ matrix.id }}" = kahf-part1 ] && echo "go=1" >> "$GITHUB_OUTPUT" || true;;
+            part2) [ "${{ matrix.id }}" = kahf-part2 ] && echo "go=1" >> "$GITHUB_OUTPUT" || true;; esac
       - uses: actions/checkout@v4
+        if: steps.want.outputs.go
       - name: Free disk space (nature clips and long backgrounds are big)
+        if: steps.want.outputs.go
         run: |
           sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL /usr/local/share/boost || true
           df -h / | tail -1
       - name: Install ffmpeg and Arabic text shaping
+        if: steps.want.outputs.go
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq ffmpeg libraqm0 libfribidi0 libharfbuzz0b
+          ffmpeg -version | head -1
           pip install -q pillow numpy
-      - name: Watch memory and disk (in the log every 15 s)
-        run: (while true; do echo "MON $(date +%H:%M:%S) $(free -m | awk 'NR==2{print "mem used " $3 " MB, avail " $7 " MB"}') disk $(df -h / | awk 'NR==2{print $4}') free"; sleep 15; done) &
-      - name: Render, shrink under 95 MB, upload
-        env:
-          PARTS: ${{ inputs.parts }}
+      - name: Watch memory and disk (in the log every 30 s)
+        if: steps.want.outputs.go
+        run: (while true; do echo "MON $(date +%H:%M:%S) $(free -m | awk 'NR==2{print "mem used " $3 " MB, avail " $7 " MB"}') disk $(df -h / | awk 'NR==2{print $4}') free"; sleep 30; done) &
+      - name: Render
+        if: steps.want.outputs.go
+        run: python3 -u make_long.py 18 ${{ matrix.first }} ${{ matrix.last }} --part "${{ matrix.label }}" --out "reels/weekly/${{ matrix.id }}.mp4"
+      - name: Shrink under 95 MB, contact sheet and grid cover
+        if: steps.want.outputs.go
         run: |
           set -e
-          render() {  # id first last label
-            python3 make_long.py 18 "$2" "$3" --part "$4" --out "reels/weekly/$1.mp4"
-            df -h / | tail -1
-            rm -rf cache/pixabay/clips cache/work
-            f="reels/weekly/$1.mp4"
-            size=$(stat -c %s "$f")
-            if [ "$size" -gt 95000000 ]; then  # Instagram + GitHub Pages: keep it small
-              dur=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$f")
-              kbps=$(python3 -c "print(int(90e6*8/1000/$dur) - 170)")
-              ffmpeg -y -loglevel error -i "$f" -c:v libx264 -preset medium -b:v ${kbps}k -maxrate ${kbps}k -bufsize $((kbps*2))k \
-                -pix_fmt yuv420p -c:a copy -movflags +faststart "$f.small.mp4" && mv "$f.small.mp4" "$f"
-            fi
-            python3 -c "import pipeline; from pathlib import Path; pipeline.contact_sheet(Path('$f'), Path('reels/weekly/$1.png'))"
-            ls -la "reels/weekly/$1."*
-            gh release upload weekly "reels/weekly/$1.mp4" "reels/weekly/$1.png" --clobber
-            python3 - "$1" <<'PY'
-          import json, subprocess, sys
+          rm -rf cache/pixabay/clips cache/work
+          f="reels/weekly/${{ matrix.id }}.mp4"
+          size=$(stat -c %s "$f")
+          if [ "$size" -gt 95000000 ]; then  # Instagram + GitHub Pages: keep it small
+            dur=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$f")
+            kbps=$(python3 -c "print(int(90e6*8/1000/$dur) - 170)")
+            ffmpeg -y -loglevel error -i "$f" -c:v libx264 -preset medium -b:v ${kbps}k -maxrate ${kbps}k -bufsize $((kbps*2))k \
+              -pix_fmt yuv420p -c:a copy -movflags +faststart "$f.small.mp4" && mv "$f.small.mp4" "$f"
+          fi
+          python3 - "${{ matrix.id }}" "${{ matrix.label }}" "${{ matrix.first }}" "${{ matrix.last }}" <<'PY'
+          import sys
           from pathlib import Path
-          i, f = sys.argv[1], Path(f"reels/weekly/{sys.argv[1]}.mp4")
+          import covers, pipeline
+          i, label, first, last = sys.argv[1:]
+          f = Path(f"reels/weekly/{i}.mp4")
+          pipeline.contact_sheet(f, Path(f"reels/weekly/{i}.png"))
+          bg = covers.frame_at(f, 4.0, Path(f"reels/weekly/{i}.frame.png"))
+          covers.make_cover(bg, "Jumu'ah · Friday", "سورة الكهف", "Surah Al-Kahf",
+                            f"{label} · Ayat {first}–{last}", Path(f"reels/weekly/{i}-cover.jpg"))
+          PY
+          ls -la reels/weekly/
+      - name: Replace the old files in the release
+        if: steps.want.outputs.go
+        run: |
+          i=${{ matrix.id }}
+          gh release upload weekly "reels/weekly/$i.mp4" "reels/weekly/$i.png" "reels/weekly/$i-cover.jpg" --clobber
+      - name: Save length, size and date
+        if: steps.want.outputs.go
+        run: |
+          git config user.name "tilawah-sakina-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for n in 1 2 3 4 5; do
+            git fetch -q origin main && git reset -q --hard origin/main
+            python3 - "${{ matrix.id }}" <<'PY'
+          import json, subprocess, sys
+          from datetime import datetime, timezone
+          from pathlib import Path
+          i = sys.argv[1]; f = Path(f"reels/weekly/{i}.mp4")
           dur = float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(f)]))
           w = json.load(open("state/weekly.json"))
           for it in w["items"]:
               if it["id"] == i:
-                  it.update(duration=round(dur, 1), size_mb=round(f.stat().st_size / 1e6, 1))
+                  it.update(duration=round(dur, 1), size_mb=round(f.stat().st_size / 1e6, 1), cover=True,
+                            made=datetime.now(timezone.utc).isoformat(timespec="seconds"))
           open("state/weekly.json", "w").write(json.dumps(w, indent=2, ensure_ascii=False) + "\n")
           PY
-          }
-          if [ "$PARTS" != "part2" ]; then render kahf-part1 1 50 "Part 1 of 2"; fi
-          if [ "$PARTS" != "part1" ]; then render kahf-part2 51 110 "Part 2 of 2"; fi
-      - name: Save sizes
-        run: |
-          git config user.name "tilawah-sakina-bot"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add state/weekly.json
-          git diff --cached --quiet && exit 0
-          git commit -m "Weekly Al-Kahf videos remade with nature backgrounds"
-          for i in 1 2 3; do git pull --rebase -q && git push && exit 0; sleep 5; done
+            git add state/weekly.json
+            git diff --cached --quiet && exit 0
+            git commit -q -m "Weekly: ${{ matrix.id }} remade in the current design"
+            git push -q && exit 0
+            sleep $((RANDOM % 10 + 3))
+          done
           exit 1

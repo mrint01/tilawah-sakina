@@ -66,6 +66,8 @@ export type MakeJob =
 export interface WeeklyReel {
   id: string; title: string; caption: string; file: string; day: string; time: string; cron: string;
   duration: number; size_mb: number; surah?: string; reciter?: string; kind: Kind;
+  /** has a grid cover (<id>-cover.jpg); made: when the video was last rendered */
+  cover?: boolean; made?: string;
 }
 export interface WeeklyState { assets: string; items: WeeklyReel[]; posted: { id: string; at: string; permalink?: string }[] }
 

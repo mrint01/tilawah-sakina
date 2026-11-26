@@ -4,7 +4,7 @@ The videos live in the GitHub release tagged 'weekly', which nothing ever cleans
 state/weekly.json holds their captions and every time they went out.
 
     python3 weekly.py which "<cron string>"     # (CI) the id that this Friday schedule posts
-    python3 weekly.py post <id> --url <mp4 url>  # (CI) publish to Instagram and record it
+    python3 weekly.py post <id> --url <mp4 url> [--cover-url <jpg url>]  # (CI) publish to Instagram and record it
 """
 import argparse
 import json
@@ -35,8 +35,9 @@ def cmd_post(args):
     w = load()
     it = next(i for i in w["items"] if i["id"] == args.id)
     user = os.environ["IG_USER_ID"]
+    extra = {"cover_url": args.cover_url} if args.cover_url else {}
     c = pipeline.ig("POST", f"{user}/media", media_type="REELS", video_url=args.url,
-                    caption=it["caption"], share_to_feed="true")
+                    caption=it["caption"], share_to_feed="true", **extra)
     for _ in range(120):  # long videos take a while to process (up to ~20 min)
         st = pipeline.ig("GET", c["id"], fields="status_code,status")
         print("status", st.get("status_code"))
@@ -59,6 +60,6 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("which").add_argument("cron")
-    p = sub.add_parser("post"); p.add_argument("id"); p.add_argument("--url", required=True)
+    p = sub.add_parser("post"); p.add_argument("id"); p.add_argument("--url", required=True); p.add_argument("--cover-url")
     a = ap.parse_args()
     globals()[f"cmd_{a.cmd}"](a)
