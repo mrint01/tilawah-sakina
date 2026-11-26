@@ -2464,10 +2464,13 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
+      "status": "posted",
       "review": "Claude routine: all frames clean, answer 110:1-2 matches question list",
       "created": "2026-11-25T13:23:51+00:00",
-      "reviewed": "2026-11-25T13:24:41+00:00"
+      "reviewed": "2026-11-25T13:24:41+00:00",
+      "posted": "2026-11-26T20:14:54+00:00",
+      "ig_media_id": "18136414267774987",
+      "permalink": "https://www.instagram.com/reel/DgN7-0Co4kB/"
     },
     {
       "id": "20261126-025110-ayah",
@@ -2789,6 +2792,18 @@
       "reason": null,
       "posted": "2026-11-26T17:06:59+00:00",
       "late_min": 6
+    },
+    "2026-11-26 21:00": {
+      "kind": "quiz",
+      "status": "posted",
+      "id": "20261125-132341-quiz",
+      "title": "Guess the surah · easy · Ash-Sharh, Al-Layl, Al-Qari'ah, An-Nasr, Al-'Adiyat",
+      "tries": 1,
+      "started": "2026-11-26T20:11:49+00:00",
+      "at": "2026-11-26T21:00:00+01:00",
+      "reason": null,
+      "posted": "2026-11-26T20:14:54+00:00",
+      "late_min": 14
     }
   }
 }
