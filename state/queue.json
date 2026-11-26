@@ -2111,11 +2111,14 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
+      "status": "posted",
       "review": "Claude routine: all frames clean, Arabic and layout correct",
       "created": "2026-11-24T21:30:49+00:00",
       "reviewed": "2026-11-24T21:32:48+00:00",
-      "cover": true
+      "cover": true,
+      "posted": "2026-11-26T17:06:59+00:00",
+      "ig_media_id": "18051253898818407",
+      "permalink": "https://www.instagram.com/reel/DgNmfEhh2Dg/"
     },
     {
       "id": "20261124-213136-tasbih",
@@ -2774,6 +2777,18 @@
       "reason": null,
       "posted": "2026-11-26T11:43:06+00:00",
       "late_min": 43
+    },
+    "2026-11-26 18:00": {
+      "kind": "tasbih",
+      "status": "posted",
+      "id": "20261124-213040-tasbih",
+      "title": "33× La ilaha illallah",
+      "tries": 1,
+      "started": "2026-11-26T17:04:36+00:00",
+      "at": "2026-11-26T18:00:00+01:00",
+      "reason": null,
+      "posted": "2026-11-26T17:06:59+00:00",
+      "late_min": 6
     }
   }
 }
