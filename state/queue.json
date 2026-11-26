@@ -2648,9 +2648,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-26T10:35:12+00:00"
+      "status": "approved",
+      "review": "Claude routine: Arabic and English render cleanly, rain-leaves background has no people, ref 2:284/2:285 matches",
+      "created": "2026-11-26T10:35:12+00:00",
+      "reviewed": "2026-11-26T12:38:41+00:00"
     },
     {
       "id": "20261126-103523-dua",
@@ -2672,9 +2673,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-26T10:35:27+00:00"
+      "status": "approved",
+      "review": "Claude routine: arch, Arabic dua and English fit inside, source and handle present",
+      "created": "2026-11-26T10:35:27+00:00",
+      "reviewed": "2026-11-26T12:38:42+00:00"
     }
   ],
   "slots": {
