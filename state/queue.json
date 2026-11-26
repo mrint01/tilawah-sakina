@@ -1805,11 +1805,14 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
+      "status": "posted",
       "review": "Claude routine: arch layout, Arabic and English render cleanly, text inside arch",
       "created": "2026-11-24T21:10:23+00:00",
       "reviewed": "2026-11-24T21:13:27+00:00",
-      "cover": true
+      "cover": true,
+      "posted": "2026-11-26T06:00:17+00:00",
+      "ig_media_id": "18077809391750267",
+      "permalink": "https://www.instagram.com/reel/DgMaOkGNjHz/"
     },
     {
       "id": "20261124-211030-asma",
@@ -2688,6 +2691,18 @@
       "reason": null,
       "posted": "2026-11-25T23:12:26+00:00",
       "late_min": 12
+    },
+    "2026-11-26 06:00": {
+      "kind": "dua",
+      "status": "posted",
+      "id": "20261124-211019-dua",
+      "title": "Dua after salah · O Allah, I ask You, as I bear witness that…",
+      "tries": 1,
+      "started": "2026-11-26T05:58:18+00:00",
+      "at": "2026-11-26T06:00:00+01:00",
+      "reason": null,
+      "posted": "2026-11-26T06:00:17+00:00",
+      "late_min": 60
     }
   }
 }
