@@ -2486,9 +2486,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-26T02:51:28+00:00"
+      "status": "rejected",
+      "review": "Claude routine: frame 1 (bottom right) shows an unclear man-made/structure-like shape over the waterfall background; unsure it is appropriate",
+      "created": "2026-11-26T02:51:28+00:00",
+      "reviewed": "2026-11-26T03:38:26+00:00"
     },
     {
       "id": "20261126-025201-tasbih",
@@ -2508,9 +2509,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-26T02:52:08+00:00"
+      "status": "approved",
+      "review": "Claude routine: countdown 30->1 decreasing, Arabic and ﷺ render fine, Kaaba scene ok",
+      "created": "2026-11-26T02:52:08+00:00",
+      "reviewed": "2026-11-26T03:38:26+00:00"
     },
     {
       "id": "20261126-025317-quiz",
@@ -2558,9 +2560,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-26T02:53:26+00:00"
+      "status": "approved",
+      "review": "Claude routine: Arabic clean, layout fine, answer frame matches Surah An-Nazi'at 79:26-27",
+      "created": "2026-11-26T02:53:26+00:00",
+      "reviewed": "2026-11-26T03:38:26+00:00"
     },
     {
       "id": "20261126-025417-quiz",
@@ -2608,9 +2611,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-26T02:54:26+00:00"
+      "status": "approved",
+      "review": "Claude routine: Arabic clean, layout fine, answers match Al-Infitar and Ash-Sharh",
+      "created": "2026-11-26T02:54:26+00:00",
+      "reviewed": "2026-11-26T03:38:26+00:00"
     }
   ],
   "slots": {
