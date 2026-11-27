@@ -3273,9 +3273,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T14:27:57+00:00"
+      "status": "rejected",
+      "review": "Canyon scene had two hikers; remade",
+      "created": "2026-11-27T14:27:57+00:00",
+      "reviewed": "2026-11-27T14:32:41+00:00"
     }
   ],
   "slots": {
