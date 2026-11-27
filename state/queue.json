@@ -3439,6 +3439,38 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-27T15:27:52+00:00"
+    },
+    {
+      "id": "20261127-152824-story",
+      "kind": "story",
+      "prophet": "ibrahim",
+      "part": 4,
+      "parts": 5,
+      "series_no": 6,
+      "order": 604,
+      "caption": "The story of Ibrahim (peace be upon him) · Part 4 of 5: The valley 🤍\n\nStories of the Prophets · 6 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: Ibrahim 14:37, Al-Baqarah 2:127\n\nPart 5 comes next on our page (Monday, Wednesday and Saturday at 15:00).\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophetibrahim #quran #islam",
+      "keep_as": "story-ibrahim-4",
+      "title": "Stories of the Prophets 6/25 · Ibrahim · Part 4 of 5 · The valley",
+      "cover_label": "Stories of the Prophets · 6 / 25",
+      "cover_ar": "قصة إبراهيم",
+      "cover_en": "The story of Ibrahim",
+      "cover_sub": "Part 4 of 5 · The valley",
+      "duration": 125.2,
+      "size_mb": 48.0,
+      "mean_volume_db": -18.9,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T15:28:53+00:00"
     }
   ],
   "slots": {
