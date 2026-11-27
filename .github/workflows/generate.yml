@@ -86,6 +86,8 @@ jobs:
           cur = json.load(open("state/queue.json"))
           have = {it["id"] for it in cur["items"]}
           cur["items"] += [it for it in mine["items"] if it["id"] not in have]
+          if mine.get("last_auto"):  # the day the daily refill ran (it runs once a day)
+              cur["last_auto"] = max(mine["last_auto"], cur.get("last_auto", ""))
           open("state/queue.json", "w").write(json.dumps(cur, indent=2, ensure_ascii=False) + "\n")
           EOF
             git add state/queue.json
