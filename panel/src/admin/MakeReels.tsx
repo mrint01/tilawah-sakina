@@ -39,7 +39,7 @@ export function MakeReelsButton({ busy, reciters }: { busy: boolean; reciters: s
       : kind === 'dua' ? { kind, ...(category ? { category } : {}) }
       : kind === 'asma' ? { kind, ...(nameNo ? { number: Number(nameNo) } : {}), ...(reciter ? { reciter } : {}) }
       : kind === 'quiz' ? { kind, ...(level ? { level } : {}) }
-      : { kind, ...(surah ? { surah: Number(surah) } : {}), ...(surah && ayah ? { ayah: ayahNum } : {}), ...(reciter ? { reciter } : {}) };
+      : { kind: 'ayah' as const, ...(surah ? { surah: Number(surah) } : {}), ...(surah && ayah ? { ayah: ayahNum } : {}), ...(reciter ? { reciter } : {}) };
     // a start ayah / a chosen name applies to the first reel; the others pick on their own
     const jobs: MakeJob[] = Array.from({ length: count }, (_, i) =>
       i > 0 && job.kind === 'ayah' && job.ayah ? { ...job, ayah: undefined }

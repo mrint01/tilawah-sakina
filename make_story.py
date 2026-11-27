@@ -48,6 +48,13 @@ TOTAL_PROPHETS = 25
 VOICE = "ar-SA-HamedNeural"   # Arabic narrator (fusha); he tells the story, he never reads Quran words
 # how many parts each narrated story has in total (the later parts are written after part 1 is approved)
 PARTS = {"nuh": 3}
+PART_TITLES = {"nuh": ["The call", "The Ark", "The Flood"]}
+# the series in order (Adam -> Muhammad ﷺ): key, English name
+SERIES = [("adam", "Adam"), ("idris", "Idris"), ("nuh", "Nuh"), ("hud", "Hud"), ("salih", "Salih"), ("ibrahim", "Ibrahim"),
+          ("lut", "Lut"), ("ismail", "Ismail"), ("ishaq", "Ishaq"), ("yaqub", "Ya'qub"), ("yusuf", "Yusuf"),
+          ("ayyub", "Ayyub"), ("shuayb", "Shu'ayb"), ("musa", "Musa"), ("harun", "Harun"), ("dhulkifl", "Dhul-Kifl"),
+          ("dawud", "Dawud"), ("sulayman", "Sulayman"), ("ilyas", "Ilyas"), ("alyasa", "Al-Yasa'"), ("yunus", "Yunus"),
+          ("zakariya", "Zakariya"), ("yahya", "Yahya"), ("isa", "'Isa"), ("muhammad", "Muhammad ﷺ")]
 SOURCES = "Quran · Sahih al-Bukhari · Ibn Kathir, Qasas al-Anbiya"
 # Segments: ("n", Arabic narration, English subtitle, scene) or ("a", surah, ayah, scene).
 # scene: a Pixabay video id picked by hand (looked at: no people, buildings, animals or symbols), or a search.
@@ -408,6 +415,37 @@ def render(key, seed=None):
     print(mp4, round(total, 1), "s")
     return {"kind": "story", "file": str(mp4), "caption": caption, "duration": round(total, 1), "prophet": key,
             "title": f"Stories of the Prophets {no}/{TOTAL_PROPHETS} · {en_name}"}
+
+
+def story_meta(key, part):
+    """Title, caption, cover text and series order of one part of a narrated story (for the queue)."""
+    no, ar_name, en_name, parts = NARRATED[key]
+    n = PARTS.get(key, len(parts))
+    chs = mr.chapters()
+    ptitle = (PART_TITLES.get(key) or [""] * n)[part - 1]
+    refs = []
+    for seg in parts[part - 1]:
+        if seg[0] == "a":
+            r = f"{chs[seg[1]]['name_simple']} {seg[1]}:{seg[2]}"
+            if r not in refs:
+                refs.append(r)
+    if part < n:
+        nxt = f"Part {part + 1} comes next on our page (Monday, Wednesday and Saturday at 15:00)."
+    else:
+        i = [k for k, _ in SERIES].index(key)
+        nxt = f"Next: the story of the Prophet {SERIES[i + 1][1]}." if i + 1 < len(SERIES) else "This is the last story of the series."
+    peace = "" if key == "muhammad" else " (peace be upon him)"
+    caption = (f"The story of {en_name}{peace} · Part {part} of {n}{': ' + ptitle if ptitle else ''} 🤍\n\n"
+               f"Stories of the Prophets · {no} of {TOTAL_PROPHETS}\n"
+               f"Told from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\n"
+               + (f"Ayat recited by {RECITER}: {', '.join(refs)}\n" if refs else "") +
+               f"\n{nxt}\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n"
+               f"#storiesoftheprophets #qasasalanbiya #prophet{en_name.lower().replace(' ', '')} #quran #islam")
+    return {"kind": "story", "prophet": key, "part": part, "parts": n, "series_no": no, "order": no * 100 + part,
+            "caption": caption, "keep_as": f"story-{key}-{part}",
+            "title": f"Stories of the Prophets {no}/{TOTAL_PROPHETS} · {en_name} · Part {part} of {n}{' · ' + ptitle if ptitle else ''}",
+            "cover_label": f"Stories of the Prophets · {no} / {TOTAL_PROPHETS}", "cover_ar": f"قصة {ar_name}",
+            "cover_en": f"The story of {en_name}", "cover_sub": f"Part {part} of {n}{' · ' + ptitle if ptitle else ''}"}
 
 
 if __name__ == "__main__":

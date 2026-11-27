@@ -28,6 +28,7 @@ export function DailyPlan({ bufferDays }: { bufferDays: number }) {
             {s.kind === 'asma' && 'The next of the 99 Names, with an ayah'}
             {s.kind === 'tasbih' && '33 counts with the Kaaba'}
             {s.kind === 'quiz' && '“Guess the surah”, 5 questions'}
+            {s.kind === 'story' && 'Mon, Wed, Sat: the next part of the Stories of the Prophets (made by hand, approved by you)'}
           </span>
         </li>
       ))}

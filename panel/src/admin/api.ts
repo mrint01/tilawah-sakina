@@ -1,5 +1,5 @@
 export type Status = 'pending' | 'approved' | 'rejected' | 'posted' | 'failed';
-export type Kind = 'ayah' | 'dua' | 'asma' | 'tasbih' | 'quiz';
+export type Kind = 'ayah' | 'dua' | 'asma' | 'tasbih' | 'quiz' | 'story';
 
 export interface Reel {
   id: string;
@@ -32,6 +32,8 @@ export interface Reel {
   number?: number;
   /** quiz: easy / medium / hard */
   level?: string;
+  /** story: prophet key, part of parts, place in the series (Adam 101 ... Muhammad ﷺ 2506) */
+  prophet?: string; part?: number; parts?: number; series_no?: number; order?: number;
   /** surah reels: nature theme of the video background, or "drawn" */
   background?: string;
 }
@@ -179,10 +181,12 @@ export async function fetchFullVideo(id: string, onProgress?: (done: number) => 
 }
 
 /** The daily plan (Tunisia time, UTC+1). The same as pipeline.py SLOTS and the crons in post.yml / generate.yml. */
-export const SLOTS: { time: string; utcHour: number; kind: Kind; label: string }[] = [
+export const SLOTS: { time: string; utcHour: number; kind: Kind; label: string; days?: number[] }[] = [
   { time: '00:00', utcHour: 23, kind: 'ayah', label: 'Surah' },
   { time: '06:00', utcHour: 5, kind: 'dua', label: 'Dua' },
   { time: '12:00', utcHour: 11, kind: 'asma', label: 'Asma al-Husna' },
+  // Stories of the Prophets: Monday, Wednesday, Saturday (Date.getUTCDay of the Tunisia date). Same as STORY_DAYS in pipeline.py
+  { time: '15:00', utcHour: 14, kind: 'story', label: 'Story', days: [1, 3, 6] },
   { time: '18:00', utcHour: 17, kind: 'tasbih', label: 'Tasbih' },
   { time: '21:00', utcHour: 20, kind: 'quiz', label: 'Quiz' },
 ];
@@ -209,6 +213,7 @@ export function notPosted(s: PanelState): NotPosted[] {
   const out = rows.map(([key, entry]) => {
     let pool = left.filter((r) => r.kind === entry.kind);
     if (entry.kind === 'asma') pool = [...pool].sort((x, y) => (x.number ?? 0) - (y.number ?? 0));
+    if (entry.kind === 'story') pool = [...pool].sort((x, y) => (x.order ?? 0) - (y.order ?? 0));
     const reel = pool.find((r) => r.id === entry.id) ?? pool[0] ?? null;
     if (reel) left.splice(left.indexOf(reel), 1);
     return { key, entry, reel };
@@ -236,6 +241,7 @@ export function upcoming(items: Reel[], n: number, from = new Date(), slots: Rec
   const take = (kind: Kind, day: Date) => {
     let pool = left.filter((r) => r.kind === kind);
     if (kind === 'asma') pool.sort((x, y) => (x.number ?? 0) - (y.number ?? 0));
+    if (kind === 'story') pool.sort((x, y) => (x.order ?? 0) - (y.order ?? 0));
     if (kind === 'dua') {
       pool = pool.filter((r) => r.category !== 'arafah');
       const tunis = new Date(day.getTime() + 3600_000);
@@ -246,13 +252,17 @@ export function upcoming(items: Reel[], n: number, from = new Date(), slots: Rec
     if (r) left.splice(left.indexOf(r), 1);
     return r;
   };
-  const sorted = [...SLOTS].sort((x, y) => x.utcHour - y.utcHour);
+  // the story slot counts once a story is in the queue (as in pipeline.py slots_on)
+  const stories = items.some((i) => i.kind === 'story');
+  const sorted = [...SLOTS].filter((sl) => sl.kind !== 'story' || stories).sort((x, y) => x.utcHour - y.utcHour);
+  const onDay = (sl: (typeof SLOTS)[number], t: Date) => !sl.days || sl.days.includes(new Date(t.getTime() + 3600_000).getUTCDay());
   const out: Upcoming[] = [];
   const d = new Date(Date.UTC(from.getUTCFullYear(), from.getUTCMonth(), from.getUTCDate() - 1));
   let prev: { t: Date; sl: (typeof SLOTS)[number] } | null = null;
   while (out.length < n) {
     for (const sl of sorted) {
       const t = new Date(d.getTime() + sl.utcHour * 3600_000);
+      if (!onDay(sl, t)) continue;
       if (t > from && out.length < n) {
         // the slot just before now: still due if not posted yet and less than 3 hours late
         if (prev && !out.length && from.getTime() - prev.t.getTime() < LATE_H * 3600_000) {

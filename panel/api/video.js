@@ -5,7 +5,7 @@ import { ASSETS, REPO, guard, send } from './_lib.js';
 //   ?id=…          the small preview (player in the panel)
 //   ?id=…&full=1   the full-quality reel, for "Post manually". The panel fetches it in ≤3 MB ranges
 //                  (Vercel caps one response at 4.5 MB) and joins them into one file on the phone.
-const ID = /^\d{8}-\d{6}-(ayah|tasbih|dua|asma|quiz)$/;
+const ID = /^\d{8}-\d{6}-(ayah|tasbih|dua|asma|quiz|story)$/;
 // Weekly reels (Friday Al-Kahf, ~12 min, ~38 MB) live in the 'weekly' release. Too big to hold in memory:
 // every range is fetched from GitHub as a range and passed on. They have no separate preview.
 const WEEKLY_ID = /^kahf-part[12]$/;

@@ -72,6 +72,7 @@ const TONES = {
   violet: 'bg-violet-50 text-violet-700 dark:bg-violet-950 dark:text-violet-300',
   red: 'bg-danger-light text-danger',
   slate: 'bg-paper-alt text-ink-soft',
+  amber: 'bg-amber-50 text-amber-800 dark:bg-amber-950 dark:text-amber-300',
 } as const;
 
 export function Delta({ now, before, invert }: { now: number; before: number; invert?: boolean }) {

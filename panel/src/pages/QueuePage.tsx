@@ -36,7 +36,7 @@ export default function QueuePage() {
     <div className="flex flex-col gap-4">
       <PageHeader
         title="Up next"
-        text={s ? `${approvedCount} approved ${approvedCount === 1 ? 'reel' : 'reels'}, posted 5 a day: surah 00:00, dua 06:00, Asma al-Husna 12:00, tasbih 18:00, quiz 21:00.` : 'Loading…'}
+        text={s ? `${approvedCount} approved ${approvedCount === 1 ? 'reel' : 'reels'}, posted 5 a day: surah 00:00, dua 06:00, Asma al-Husna 12:00, tasbih 18:00, quiz 21:00, and a story at 15:00 on Mon, Wed and Sat.` : 'Loading…'}
         actions={
           <div className="flex flex-wrap gap-2">
           {s && !s.instagram && order[0] && (
@@ -215,7 +215,9 @@ const refillDay = new Intl.DateTimeFormat('en-GB', { weekday: 'short', day: 'num
 
 function EmptySlot({ p, phone }: { p: Upcoming; phone?: boolean }) {
   const r = nextRefill();
-  const text = p.at > r.ready
+  const text = p.kind === 'story'
+    ? 'No story part approved yet: stories are made by hand, approve the next part to fill this slot'
+    : p.at > r.ready
     ? `Not made yet: the ${KIND[p.kind].label.toLowerCase()} for this slot is made at 03:00 on ${refillDay.format(r.at)}`
     : `Nothing approved: this ${KIND[p.kind].label.toLowerCase()} slot is skipped`;
   if (phone) {

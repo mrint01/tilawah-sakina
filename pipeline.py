@@ -88,6 +88,7 @@ LENGTH_CHECK = {
     "dua": lambda d: {"length_10_60s": 10 <= d <= 62},
     "asma": lambda d: {"length_8_75s": 8 <= d <= 75},
     "quiz": lambda d: {"length_50_150s": 50 <= d <= 150},
+    "story": lambda d: {"length_up_to_3min": 30 <= d <= 179},
 }
 KINDS = ("ayah", "dua", "asma", "tasbih", "quiz")
 
@@ -352,6 +353,21 @@ def cmd_status(args):
 
 # Daily posting slots, Tunisia time (UTC+1, no daylight saving) -> the kind posted. post.yml runs at these times.
 SLOTS = {"00:00": "ayah", "06:00": "dua", "12:00": "asma", "18:00": "tasbih", "21:00": "quiz"}
+# Stories of the Prophets: one part at 15:00 on Monday, Wednesday and Saturday (weekday(): Monday = 0).
+# Hand-made (make_story.py + addstory), never by the daily refill; the files are also kept in the 'stories' release.
+STORY_SLOT, STORY_DAYS = "15:00", (0, 2, 5)
+
+
+def slots_on(day, q=None):
+    """The slot times of a day ("06:00", ...). The story slot counts once a story is in the queue."""
+    out = list(SLOTS)
+    if day.weekday() in STORY_DAYS and (q is None or any(it["kind"] == "story" for it in q["items"])):
+        out.append(STORY_SLOT)
+    return sorted(out)
+
+
+def kind_of(slot):
+    return "story" if slot == STORY_SLOT else SLOTS[slot]
 # The 06:00 dua by weekday (Monday = 0): morning adhkar 3x, after salah 2x, a need, salawat on Friday.
 DUA_BY_WEEKDAY = ["morning", "need", "morning", "after_salah", "friday", "morning", "after_salah"]
 
@@ -388,8 +404,8 @@ def is_arafah(day):
 
 def slot_kind(slot=None):
     """The kind for a slot ("06:00"), or for the slot closest to now (manual runs)."""
-    if slot in SLOTS:
-        return SLOTS[slot]
+    if slot in SLOTS or slot == STORY_SLOT:
+        return kind_of(slot)
     now = tunis_now()
     mins = now.hour * 60 + now.minute
     def dist(t):
@@ -420,6 +436,8 @@ def next_item(slot=None, kind=None):
         return (pick or approved or [None])[0]
     if kind == "asma":  # keep the series in order
         approved.sort(key=lambda it: it.get("number", 0))
+    if kind == "story":  # Adam -> Muhammad ﷺ, each prophet's parts in order
+        approved.sort(key=lambda it: it.get("order", 0))
     return approved[0] if approved else None
 
 
@@ -436,13 +454,13 @@ def _tunis():
     return timezone(timedelta(hours=1))
 
 
-def slot_windows(at):
+def slot_windows(at, q=None):
     """(key, slot, start, end) for every slot of the last 2 days and today, Tunisia time."""
     from datetime import timedelta
     out = []
     for back in (2, 1, 0):
         day = (at - timedelta(days=back)).date()
-        for s in sorted(SLOTS):
+        for s in slots_on(day, q):
             h, m = map(int, s.split(":"))
             out.append((f"{day} {s}", s, datetime(day.year, day.month, day.day, h, m, tzinfo=_tunis())))
     res = []
@@ -470,13 +488,13 @@ def update_slots(q, at=None):
     log = q.setdefault("slots", {})
     on = config().get("enabled", True)
     due = None
-    for key, s, t, end in slot_windows(at):
+    for key, s, t, end in slot_windows(at, q):
         if key < SLOTS_FROM or t > at:
             continue
         e = log.get(key)
         if e and e["status"] in ("posted", "missed", "off", "resolved"):
             continue
-        kind = SLOTS[s]
+        kind = kind_of(s)
         it = _posted_in(q, kind, t, end)
         if it:
             late = int((datetime.fromisoformat(it["posted"]) - t).total_seconds() // 60)
@@ -538,7 +556,7 @@ def cmd_next(args):
             key, s, t, e = due
             it = next_item(s)
             if it and not args.dry:
-                q["slots"][key] = {"kind": SLOTS[s], "status": "posting", "id": it["id"], "title": it.get("title"),
+                q["slots"][key] = {"kind": kind_of(s), "status": "posting", "id": it["id"], "title": it.get("title"),
                                    "tries": (e or {}).get("tries", 0) + 1, "started": now(), "at": t.isoformat(),
                                    "reason": (e or {}).get("reason")}
             print(f"slot {key}: {'posting ' + it['id'] if it else 'nothing approved'}", file=sys.stderr)
@@ -744,6 +762,43 @@ def cmd_remake(args):
         print(f"remade {rid}: {it['title']}")
 
 
+def cmd_addstory(args):
+    """Put a rendered story part in the queue (Needs review). Its video and cover are also kept for good in the
+    'stories' release (story-<prophet>-<part>.mp4), so the series can be posted again without remaking it."""
+    import covers
+    import make_story
+    STAGING.mkdir(exist_ok=True)
+    q = queue()
+    meta = make_story.story_meta(args.prophet, args.part)
+    for it in q["items"]:
+        if it["kind"] == "story" and it.get("keep_as") == meta["keep_as"] and it["status"] in ("pending", "approved"):
+            sys.exit(f"{meta['keep_as']} is already waiting ({it['id']}): reject it first to replace it")
+    item_id = datetime.now().strftime("%Y%m%d-%H%M%S") + "-story"
+    mp4 = STAGING / f"{item_id}.mp4"
+    shutil.copy(args.file, mp4)
+    checks, stats = run_checks(mp4, "story")
+    png, small, cover = STAGING / f"{item_id}.png", STAGING / f"{item_id}-preview.mp4", STAGING / f"{item_id}-cover.jpg"
+    contact_sheet(mp4, png, n=8)
+    preview_video(mp4, small)
+    covers.cover_for(meta, mp4, cover)
+    subprocess.run(["gh", "release", "upload", RELEASE_TAG, str(mp4), str(png), str(small), str(cover), "--clobber"],
+                   check=True, cwd=HERE)
+    if subprocess.run(["gh", "release", "view", "stories"], cwd=HERE, capture_output=True).returncode:
+        subprocess.run(["gh", "release", "create", "stories", "--title", "Stories of the Prophets (kept for good)",
+                        "--notes", "Every approved story part, kept so the series can be posted again."], check=True, cwd=HERE)
+    keep = STAGING / f"{meta['keep_as']}.mp4"
+    keep_cover = STAGING / f"{meta['keep_as']}-cover.jpg"
+    shutil.copy(mp4, keep)
+    shutil.copy(cover, keep_cover)
+    subprocess.run(["gh", "release", "upload", "stories", str(keep), str(keep_cover), "--clobber"], check=True, cwd=HERE)
+    item = {"id": item_id, **meta, **stats, "checks": checks, "cover": True, "reciter": make_story.RECITER,
+            "status": "pending" if all(checks.values()) else "rejected",
+            "review": None if all(checks.values()) else "failed automatic checks", "created": now()}
+    q["items"].append(item)
+    save(QUEUE, q)
+    print(f"{item_id}: {item['title']}  checks={checks}")
+
+
 def cmd_covers(args):
     """Add grid covers to pending / approved reels that have none (made before covers existed)."""
     import covers
@@ -801,6 +856,7 @@ if __name__ == "__main__":
     ck = sub.add_parser("check"); ck.add_argument("id")
     sub.add_parser("covers")
     sub.add_parser("remake").add_argument("ids", nargs="+")
+    a_ = sub.add_parser("addstory"); a_.add_argument("prophet"); a_.add_argument("part", type=int); a_.add_argument("--file", required=True)
     dl = sub.add_parser("daily"); dl.add_argument("--back", type=int, default=3, help="days back to fill (Instagram keeps ~90)")
     args = ap.parse_args()
     globals()[f"cmd_{args.cmd}"](args)

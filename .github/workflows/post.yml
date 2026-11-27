@@ -14,7 +14,7 @@ on:
       kind:
         description: "What to post (auto = the kind of the nearest slot; due = the slot due now, if not posted yet)"
         type: choice
-        options: [auto, due, ayah, dua, asma, tasbih, quiz]
+        options: [auto, due, ayah, dua, asma, tasbih, quiz, story]
         default: auto
       slot:
         description: "With id: the missed slot this post makes up for (from the panel's Not posted page)"
