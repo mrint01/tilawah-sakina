@@ -2909,6 +2909,38 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-27T11:23:10+00:00"
+    },
+    {
+      "id": "20261127-112643-story",
+      "kind": "story",
+      "prophet": "adam",
+      "part": 2,
+      "parts": 2,
+      "series_no": 1,
+      "order": 102,
+      "caption": "The story of Adam (peace be upon him) · Part 2 of 2: The garden 🤍\n\nStories of the Prophets · 1 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: Al-Baqarah 2:35, Taha 20:120, Al-A'raf 7:23, Al-Baqarah 2:37, Al-Baqarah 2:38\n\nNext: the story of the Prophet Idris.\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophetadam #quran #islam",
+      "keep_as": "story-adam-2",
+      "title": "Stories of the Prophets 1/25 · Adam · Part 2 of 2 · The garden",
+      "cover_label": "Stories of the Prophets · 1 / 25",
+      "cover_ar": "قصة آدم",
+      "cover_en": "The story of Adam",
+      "cover_sub": "Part 2 of 2 · The garden",
+      "duration": 152.9,
+      "size_mb": 89.3,
+      "mean_volume_db": -18.7,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T11:27:16+00:00"
     }
   ],
   "slots": {
