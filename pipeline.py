@@ -730,8 +730,8 @@ def cmd_remake(args):
         covers.cover_for({**it, **meta}, mp4, cover)
         subprocess.run(["gh", "release", "upload", RELEASE_TAG, str(mp4), str(png), str(small), str(cover), "--clobber"],
                        check=True, cwd=HERE)
-        it.update(duration=meta["duration"], reciter=meta["reciter"], caption=meta["caption"], cover=True,
-                  remade=now(), **stats, checks=checks)
+        it.update({**stats, "duration": meta["duration"], "reciter": meta["reciter"], "caption": meta["caption"],
+                   "cover": True, "remade": now(), "checks": checks})
         save(QUEUE, q)
         print(f"remade {rid}: {it['title']}")
 
