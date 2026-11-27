@@ -4367,6 +4367,38 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-27T15:54:27+00:00"
+    },
+    {
+      "id": "20261127-155414-story",
+      "kind": "story",
+      "prophet": "sulayman",
+      "part": 2,
+      "parts": 3,
+      "series_no": 18,
+      "order": 1802,
+      "caption": "The story of Sulayman (peace be upon him) · Part 2 of 3: The ant and the hoopoe 🤍\n\nStories of the Prophets · 18 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: An-Naml 27:18, An-Naml 27:19, An-Naml 27:23, An-Naml 27:24\n\nPart 3 comes next on our page (Monday, Wednesday and Saturday at 15:00).\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophetsulayman #quran #islam",
+      "keep_as": "story-sulayman-2",
+      "title": "Stories of the Prophets 18/25 · Sulayman · Part 2 of 3 · The ant and the hoopoe",
+      "cover_label": "Stories of the Prophets · 18 / 25",
+      "cover_ar": "قصة سليمان",
+      "cover_en": "The story of Sulayman",
+      "cover_sub": "Part 2 of 3 · The ant and the hoopoe",
+      "duration": 145.3,
+      "size_mb": 55.6,
+      "mean_volume_db": -18.6,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T15:54:42+00:00"
     }
   ],
   "slots": {
