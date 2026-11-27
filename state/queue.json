@@ -4655,6 +4655,38 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-27T15:59:10+00:00"
+    },
+    {
+      "id": "20261127-155859-story",
+      "kind": "story",
+      "prophet": "isa",
+      "part": 2,
+      "parts": 3,
+      "series_no": 24,
+      "order": 2402,
+      "caption": "The story of 'Isa (peace be upon him) · Part 2 of 3: The cradle 🤍\n\nStories of the Prophets · 24 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: Maryam 19:29, Maryam 19:30, Maryam 19:31, Maryam 19:33, Ali 'Imran 3:49\n\nPart 3 comes next on our page (Monday, Wednesday and Saturday at 15:00).\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophet'isa #quran #islam",
+      "keep_as": "story-isa-2",
+      "title": "Stories of the Prophets 24/25 · 'Isa · Part 2 of 3 · The cradle",
+      "cover_label": "Stories of the Prophets · 24 / 25",
+      "cover_ar": "قصة عيسى",
+      "cover_en": "The story of 'Isa",
+      "cover_sub": "Part 2 of 3 · The cradle",
+      "duration": 126.8,
+      "size_mb": 46.4,
+      "mean_volume_db": -17.5,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T15:59:23+00:00"
     }
   ],
   "slots": {
