@@ -2732,7 +2732,7 @@
       "reciter": "Yasser Al-Dosari",
       "title": "Name 5 of 99 · As Salaam · The Source of Peace",
       "cover": true,
-      "size_mb": 1.9,
+      "size_mb": 1.8,
       "mean_volume_db": -14.2,
       "checks": {
         "size_1080x1920": true,
@@ -2745,7 +2745,8 @@
       "status": "approved",
       "review": "Claude routine: layout clean, 05/99 with 5 dots filled, Arabic fine",
       "created": "2026-11-27T02:48:06+00:00",
-      "reviewed": "2026-11-27T03:38:29+00:00"
+      "reviewed": "2026-11-27T03:38:29+00:00",
+      "remade": "2026-11-27T10:14:59+00:00"
     },
     {
       "id": "20261127-024839-tasbih",
