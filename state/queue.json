@@ -2289,11 +2289,14 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
+      "status": "posted",
       "review": "approved in panel",
       "created": "2026-11-25T11:01:52+00:00",
       "reviewed": "2026-11-25T12:24:17+00:00",
-      "remade": "2026-11-27T09:17:05+00:00"
+      "remade": "2026-11-27T09:17:05+00:00",
+      "posted": "2026-11-27T11:42:23+00:00",
+      "ig_media_id": "17988920907104462",
+      "permalink": "https://www.instagram.com/reel/DgPmKdtixTf/"
     },
     {
       "id": "20261125-110301-quiz",
@@ -3125,6 +3128,18 @@
       "status": "missed",
       "reason": "Nothing approved of this type to post",
       "at": "2026-11-25T15:00:00+01:00"
+    },
+    "2026-11-27 12:00": {
+      "kind": "asma",
+      "status": "posted",
+      "id": "20261125-110145-asma",
+      "title": "Name 3 of 99 · Al Malik · The King / Eternal Lord",
+      "tries": 1,
+      "started": "2026-11-27T11:40:13+00:00",
+      "at": "2026-11-27T12:00:00+01:00",
+      "reason": null,
+      "posted": "2026-11-27T11:42:23+00:00",
+      "late_min": 42
     }
   }
 }
