@@ -3343,9 +3343,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:26:21+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:26:21+00:00",
+      "reviewed": "2026-11-27T18:38:47+00:00"
     },
     {
       "id": "20261127-152604-story",
@@ -3375,9 +3376,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:26:23+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:26:23+00:00",
+      "reviewed": "2026-11-27T18:38:47+00:00"
     },
     {
       "id": "20261127-152557-story",
@@ -3407,9 +3409,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:26:25+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:26:25+00:00",
+      "reviewed": "2026-11-27T18:38:47+00:00"
     },
     {
       "id": "20261127-152724-story",
@@ -3439,9 +3442,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:27:52+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:27:52+00:00",
+      "reviewed": "2026-11-27T18:38:47+00:00"
     },
     {
       "id": "20261127-152824-story",
@@ -3471,9 +3475,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:28:53+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:28:53+00:00",
+      "reviewed": "2026-11-27T18:38:47+00:00"
     },
     {
       "id": "20261127-153012-story",
@@ -3503,9 +3508,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:30:39+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:30:39+00:00",
+      "reviewed": "2026-11-27T18:38:47+00:00"
     },
     {
       "id": "20261127-153243-story",
@@ -3535,9 +3541,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:33:12+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:33:12+00:00",
+      "reviewed": "2026-11-27T18:38:47+00:00"
     },
     {
       "id": "20261127-153456-story",
@@ -3567,9 +3574,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:35:20+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:35:20+00:00",
+      "reviewed": "2026-11-27T18:38:48+00:00"
     },
     {
       "id": "20261127-153458-story",
@@ -3599,9 +3607,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:35:25+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:35:25+00:00",
+      "reviewed": "2026-11-27T18:38:48+00:00"
     },
     {
       "id": "20261127-153521-story",
@@ -3663,9 +3672,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:36:05+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:36:05+00:00",
+      "reviewed": "2026-11-27T18:38:48+00:00"
     },
     {
       "id": "20261127-153553-story",
@@ -3727,9 +3737,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:37:29+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:37:29+00:00",
+      "reviewed": "2026-11-27T18:38:48+00:00"
     },
     {
       "id": "20261127-153755-story",
@@ -3759,9 +3770,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:38:28+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:38:28+00:00",
+      "reviewed": "2026-11-27T18:38:48+00:00"
     },
     {
       "id": "20261127-153800-story",
@@ -3791,9 +3803,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:38:33+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:38:33+00:00",
+      "reviewed": "2026-11-27T18:38:48+00:00"
     },
     {
       "id": "20261127-154524-story",
@@ -3823,9 +3836,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:45:52+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:45:52+00:00",
+      "reviewed": "2026-11-27T18:38:48+00:00"
     },
     {
       "id": "20261127-154601-story",
@@ -3855,9 +3869,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:46:19+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:46:19+00:00",
+      "reviewed": "2026-11-27T18:38:48+00:00"
     },
     {
       "id": "20261127-154559-story",
@@ -3887,9 +3902,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:46:28+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:46:28+00:00",
+      "reviewed": "2026-11-27T18:38:48+00:00"
     },
     {
       "id": "20261127-154648-story",
@@ -3919,9 +3935,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:47:24+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:47:24+00:00",
+      "reviewed": "2026-11-27T18:38:48+00:00"
     },
     {
       "id": "20261127-154757-story",
@@ -3951,9 +3968,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:48:23+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:48:23+00:00",
+      "reviewed": "2026-11-27T18:38:49+00:00"
     },
     {
       "id": "20261127-154851-story",
@@ -3983,9 +4001,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:49:21+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:49:21+00:00",
+      "reviewed": "2026-11-27T18:38:49+00:00"
     },
     {
       "id": "20261127-155003-story",
@@ -4048,9 +4067,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:50:54+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:50:54+00:00",
+      "reviewed": "2026-11-27T18:38:49+00:00"
     },
     {
       "id": "20261127-155044-story",
@@ -4113,9 +4133,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:51:23+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:51:23+00:00",
+      "reviewed": "2026-11-27T18:38:49+00:00"
     },
     {
       "id": "20261127-155116-story",
@@ -4145,9 +4166,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:51:46+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:51:46+00:00",
+      "reviewed": "2026-11-27T18:38:49+00:00"
     },
     {
       "id": "20261127-155131-story",
@@ -4177,9 +4199,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:52:04+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:52:04+00:00",
+      "reviewed": "2026-11-27T18:38:49+00:00"
     },
     {
       "id": "20261127-155140-story",
@@ -4209,9 +4232,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:52:13+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:52:13+00:00",
+      "reviewed": "2026-11-27T18:38:49+00:00"
     },
     {
       "id": "20261127-155159-story",
@@ -4241,9 +4265,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:52:15+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:52:15+00:00",
+      "reviewed": "2026-11-27T18:38:49+00:00"
     },
     {
       "id": "20261127-155219-story",
@@ -4273,9 +4298,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:52:44+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:52:44+00:00",
+      "reviewed": "2026-11-27T18:38:49+00:00"
     },
     {
       "id": "20261127-155259-story",
@@ -4338,9 +4364,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:53:57+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:53:57+00:00",
+      "reviewed": "2026-11-27T18:38:49+00:00"
     },
     {
       "id": "20261127-155406-story",
@@ -4370,9 +4397,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:54:27+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:54:27+00:00",
+      "reviewed": "2026-11-27T18:38:50+00:00"
     },
     {
       "id": "20261127-155414-story",
@@ -4402,9 +4430,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:54:42+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:54:42+00:00",
+      "reviewed": "2026-11-27T18:38:50+00:00"
     },
     {
       "id": "20261127-155517-story",
@@ -4499,9 +4528,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:56:26+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:56:26+00:00",
+      "reviewed": "2026-11-27T18:38:50+00:00"
     },
     {
       "id": "20261127-155600-story",
@@ -4563,9 +4593,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:57:32+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:57:32+00:00",
+      "reviewed": "2026-11-27T18:38:50+00:00"
     },
     {
       "id": "20261127-155752-story",
@@ -4595,9 +4626,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:58:09+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:58:09+00:00",
+      "reviewed": "2026-11-27T18:38:50+00:00"
     },
     {
       "id": "20261127-155800-story",
@@ -4627,9 +4659,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:58:18+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:58:18+00:00",
+      "reviewed": "2026-11-27T18:38:50+00:00"
     },
     {
       "id": "20261127-155842-story",
@@ -4659,9 +4692,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:59:10+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:59:10+00:00",
+      "reviewed": "2026-11-27T18:38:50+00:00"
     },
     {
       "id": "20261127-155859-story",
@@ -4691,9 +4725,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:59:23+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:59:23+00:00",
+      "reviewed": "2026-11-27T18:38:50+00:00"
     },
     {
       "id": "20261127-155925-story",
@@ -4723,9 +4758,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:59:44+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T15:59:44+00:00",
+      "reviewed": "2026-11-27T18:38:50+00:00"
     },
     {
       "id": "20261127-155944-story",
@@ -4755,9 +4791,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T16:00:05+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T16:00:05+00:00",
+      "reviewed": "2026-11-27T18:38:50+00:00"
     },
     {
       "id": "20261127-155950-story",
@@ -4787,9 +4824,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T16:00:13+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T16:00:13+00:00",
+      "reviewed": "2026-11-27T18:38:51+00:00"
     },
     {
       "id": "20261127-160113-story",
@@ -4819,9 +4857,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T16:01:37+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T16:01:37+00:00",
+      "reviewed": "2026-11-27T18:38:51+00:00"
     },
     {
       "id": "20261127-160137-story",
@@ -4851,9 +4890,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T16:02:03+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T16:02:03+00:00",
+      "reviewed": "2026-11-27T18:38:51+00:00"
     },
     {
       "id": "20261127-160246-story",
@@ -4883,9 +4923,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T16:03:12+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T16:03:12+00:00",
+      "reviewed": "2026-11-27T18:38:51+00:00"
     },
     {
       "id": "20261127-160726-story",
@@ -4947,9 +4988,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T16:24:01+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T16:24:01+00:00",
+      "reviewed": "2026-11-27T18:38:51+00:00"
     },
     {
       "id": "20261127-162641-story",
@@ -4979,9 +5021,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T16:27:27+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T16:27:27+00:00",
+      "reviewed": "2026-11-27T18:38:51+00:00"
     },
     {
       "id": "20261127-162703-story",
@@ -5011,9 +5054,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T16:28:20+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T16:28:20+00:00",
+      "reviewed": "2026-11-27T18:38:51+00:00"
     },
     {
       "id": "20261127-162825-story",
@@ -5043,9 +5087,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T16:29:05+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T16:29:05+00:00",
+      "reviewed": "2026-11-27T18:38:51+00:00"
     },
     {
       "id": "20261127-163125-story",
@@ -5075,9 +5120,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T16:35:41+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T16:35:41+00:00",
+      "reviewed": "2026-11-27T18:38:51+00:00"
     },
     {
       "id": "20261127-163901-story",
@@ -5107,9 +5153,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T16:40:08+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T16:40:08+00:00",
+      "reviewed": "2026-11-27T18:38:52+00:00"
     },
     {
       "id": "20261127-164126-story",
@@ -5139,9 +5186,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T16:41:42+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T16:41:42+00:00",
+      "reviewed": "2026-11-27T18:38:52+00:00"
     },
     {
       "id": "20261127-164228-story",
@@ -5171,9 +5219,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T16:43:33+00:00"
+      "status": "approved",
+      "review": "approved by owner",
+      "created": "2026-11-27T16:43:33+00:00",
+      "reviewed": "2026-11-27T18:38:52+00:00"
     }
   ],
   "slots": {
