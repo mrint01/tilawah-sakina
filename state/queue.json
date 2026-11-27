@@ -3044,6 +3044,38 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-27T12:22:29+00:00"
+    },
+    {
+      "id": "20261127-122453-story",
+      "kind": "story",
+      "prophet": "nuh",
+      "part": 2,
+      "parts": 3,
+      "series_no": 3,
+      "order": 302,
+      "caption": "The story of Nuh (peace be upon him) · Part 2 of 3: The Ark 🤍\n\nStories of the Prophets · 3 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: Al-Qamar 54:10, Hud 11:37, Hud 11:38, Hud 11:40\n\nPart 3 comes next on our page (Monday, Wednesday and Saturday at 15:00).\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophetnuh #quran #islam",
+      "keep_as": "story-nuh-2",
+      "title": "Stories of the Prophets 3/25 · Nuh · Part 2 of 3 · The Ark",
+      "cover_label": "Stories of the Prophets · 3 / 25",
+      "cover_ar": "قصة نوح",
+      "cover_en": "The story of Nuh",
+      "cover_sub": "Part 2 of 3 · The Ark",
+      "duration": 145.8,
+      "size_mb": 68.9,
+      "mean_volume_db": -19.1,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T12:25:36+00:00"
     }
   ],
   "slots": {
