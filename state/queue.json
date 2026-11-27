@@ -4944,6 +4944,38 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-27T16:24:01+00:00"
+    },
+    {
+      "id": "20261127-162641-story",
+      "kind": "story",
+      "prophet": "zakariya",
+      "part": 1,
+      "parts": 1,
+      "series_no": 22,
+      "order": 2201,
+      "caption": "The story of Zakariya (peace be upon him): The secret prayer 🤍\n\nStories of the Prophets · 22 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: Ali 'Imran 3:37, Maryam 19:4, Ali 'Imran 3:39, Maryam 19:9, Maryam 19:10\n\nNext: the story of the Prophet Yahya.\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophetzakariya #quran #islam",
+      "keep_as": "story-zakariya-1",
+      "title": "Stories of the Prophets 22/25 · Zakariya · The secret prayer",
+      "cover_label": "Stories of the Prophets · 22 / 25",
+      "cover_ar": "قصة زكريا",
+      "cover_en": "The story of Zakariya",
+      "cover_sub": "The secret prayer",
+      "duration": 171.2,
+      "size_mb": 66.4,
+      "mean_volume_db": -17.7,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T16:27:27+00:00"
     }
   ],
   "slots": {
