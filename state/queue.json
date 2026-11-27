@@ -3759,6 +3759,38 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-27T15:38:28+00:00"
+    },
+    {
+      "id": "20261127-153800-story",
+      "kind": "story",
+      "prophet": "yusuf",
+      "part": 1,
+      "parts": 6,
+      "series_no": 11,
+      "order": 1101,
+      "caption": "The story of Yusuf (peace be upon him) · Part 1 of 6: The dream 🤍\n\nStories of the Prophets · 11 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: Yusuf 12:4, Yusuf 12:5, Yusuf 12:15, Yusuf 12:18\n\nPart 2 comes next on our page (Monday, Wednesday and Saturday at 15:00).\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophetyusuf #quran #islam",
+      "keep_as": "story-yusuf-1",
+      "title": "Stories of the Prophets 11/25 · Yusuf · Part 1 of 6 · The dream",
+      "cover_label": "Stories of the Prophets · 11 / 25",
+      "cover_ar": "قصة يوسف",
+      "cover_en": "The story of Yusuf",
+      "cover_sub": "Part 1 of 6 · The dream",
+      "duration": 141.6,
+      "size_mb": 66.2,
+      "mean_volume_db": -18.4,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T15:38:33+00:00"
     }
   ],
   "slots": {
