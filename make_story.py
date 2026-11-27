@@ -47,8 +47,9 @@ TOTAL_PROPHETS = 25
 # Segments: ("n", narration, scene) or ("a", surah, ayah, scene).
 VOICE = "ar-SA-HamedNeural"   # Arabic narrator (fusha); he tells the story, he never reads Quran words
 # how many parts each narrated story has in total (the later parts are written after part 1 is approved)
-PARTS = {"nuh": 3}
-PART_TITLES = {"nuh": ["The call", "The Ark", "The Flood"]}
+PARTS = {"adam": 2, "idris": 1, "nuh": 3}
+PART_TITLES = {"adam": ["The creation", "The garden"], "idris": ["Raised to a high place"],
+               "nuh": ["The call", "The Ark", "The Flood"]}
 # the series in order (Adam -> Muhammad ﷺ): key, English name
 SERIES = [("adam", "Adam"), ("idris", "Idris"), ("nuh", "Nuh"), ("hud", "Hud"), ("salih", "Salih"), ("ibrahim", "Ibrahim"),
           ("lut", "Lut"), ("ismail", "Ismail"), ("ishaq", "Ishaq"), ("yaqub", "Ya'qub"), ("yusuf", "Yusuf"),
@@ -59,6 +60,80 @@ SOURCES = "Quran · Sahih al-Bukhari · Ibn Kathir, Qasas al-Anbiya"
 # Segments: ("n", Arabic narration, English subtitle, scene) or ("a", surah, ayah, scene).
 # scene: a Pixabay video id picked by hand (looked at: no people, buildings, animals or symbols), or a search.
 NARRATED = {
+    "adam": (1, "آدم", "Adam", [
+        [  # Part 1: the creation (Al-Baqarah 2:30-34, Al-A'raf 7:11-17, Sad 38:71-85, Al-Kahf 18:50)
+            ("n", "قَبْلَ أَنْ يَكُونَ عَلَى الْأَرْضِ إِنْسَانٌ، أَخْبَرَ اللَّهُ الْمَلَائِكَةَ أَنَّهُ سَيَجْعَلُ فِي الْأَرْضِ خَلِيفَةً.",
+             "Before there was any human on the earth, Allah told the angels that He would place a successor upon it.", 20763),
+            ("a", 2, 30, 48899),
+            ("n", "فَخَلَقَ اللَّهُ آدَمَ مِنْ طِينٍ، مِنْ تُرَابِ هَذِهِ الْأَرْضِ، ثُمَّ نَفَخَ فِيهِ مِنْ رُوحِهِ، فَصَارَ إِنْسَانًا حَيًّا.",
+             "Allah created Adam from clay, from the dust of this earth. Then He breathed into him of His spirit, and he "
+             "became a living man.", 248632),
+            ("n", "وَعَلَّمَهُ اللَّهُ أَسْمَاءَ الْأَشْيَاءِ كُلِّهَا، ثُمَّ عَرَضَهَا عَلَى الْمَلَائِكَةِ، وَسَأَلَهُمْ عَنْهَا.",
+             "And Allah taught him the names of all things. Then He showed them to the angels, and asked them about them.",
+             1099),
+            ("a", 2, 32, 6343),
+            ("n", "ثُمَّ أَمَرَ اللَّهُ الْمَلَائِكَةَ أَنْ يَسْجُدُوا لِآدَمَ سُجُودَ تَحِيَّةٍ وَإِكْرَامٍ، فَسَجَدُوا جَمِيعًا، إِلَّا إِبْلِيسَ.",
+             "Then Allah commanded the angels to bow down to Adam, a bow of greeting and honour. They all bowed, "
+             "except Iblis.", 229685),
+            ("a", 2, 34, 2147),
+            ("n", "وَكَانَ إِبْلِيسُ مِنَ الْجِنِّ، فَتَكَبَّرَ، وَقَالَ: أَنَا خَيْرٌ مِنْهُ.",
+             "Iblis was one of the jinn. He grew arrogant, and said: I am better than him.", 38998),
+            ("a", 7, 12, 34532),
+            ("n", "فَطَرَدَهُ اللَّهُ مِنْ رَحْمَتِهِ. فَطَلَبَ إِبْلِيسُ أَنْ يُمْهَلَ إِلَى يَوْمِ الْقِيَامَةِ، وَأَقْسَمَ أَنْ يُغْوِيَ بَنِي آدَمَ.",
+             "So Allah cast him out of His mercy. Iblis asked to be given time until the Day of Resurrection, and swore "
+             "to lead the children of Adam astray.", 2150),
+            ("n", "فِي الْجُزْءِ الثَّانِي: آدَمُ وَزَوْجُهُ فِي الْجَنَّةِ.",
+             "In part two: Adam and his wife in Paradise.", 7127),
+        ],
+        [  # Part 2: the garden (Al-Baqarah 2:35-38, Al-A'raf 7:19-25, Ta-Ha 20:115-123)
+            ("n", "وَخَلَقَ اللَّهُ لِآدَمَ زَوْجَهُ حَوَّاءَ، لِيَسْكُنَ إِلَيْهَا، وَأَسْكَنَهُمَا الْجَنَّةَ.",
+             "Allah created for Adam his wife, Hawwa, so he would find comfort with her, and He let them live in "
+             "Paradise.", 246856),
+            ("a", 2, 35, 238393),
+            ("n", "لَكِنَّ إِبْلِيسَ لَمْ يَنْسَ عَدَاوَتَهُ، فَوَسْوَسَ لَهُمَا، وَحَلَفَ لَهُمَا إِنَّهُ لَهُمَا نَاصِحٌ.",
+             "But Iblis had not forgotten his hatred. He whispered to them, and swore to them that he was a sincere "
+             "adviser.", 110493),
+            ("a", 20, 120, 217491),
+            ("n", "فَأَكَلَا مِنَ الشَّجَرَةِ، فَعَرَفَا أَنَّهُمَا أَخْطَآ، وَعَصَيَا أَمْرَ رَبِّهِمَا.",
+             "They ate from the tree, and they knew they had done wrong, and disobeyed their Lord.", 136193),
+            ("n", "لَمْ يَتَكَبَّرَا كَمَا تَكَبَّرَ إِبْلِيسُ، بَلْ نَدِمَا، وَرَجَعَا إِلَى اللَّهِ بِقَلْبٍ صَادِقٍ.",
+             "They did not grow arrogant as Iblis had. They regretted it, and turned back to Allah with sincere hearts.",
+             2527),
+            ("a", 7, 23, 120005),
+            ("a", 2, 37, 237673),
+            ("n", "وَأَنْزَلَهُمَا اللَّهُ إِلَى الْأَرْضِ، لِتَبْدَأَ عَلَيْهَا حَيَاةُ الْإِنْسَانِ، وَوَعَدَهُمْ بِالْهُدَى.",
+             "Allah sent them down to the earth, where human life would begin, and He promised them guidance.", 46936),
+            ("a", 2, 38, 179200),
+            ("n", "عَصَى إِبْلِيسُ وَأَصَرَّ، وَأَخْطَأَ آدَمُ فَتَابَ. فَمَنْ أَخْطَأَ مِنَّا، فَلْيَرْجِعْ إِلَى رَبِّهِ.",
+             "Iblis disobeyed and persisted. Adam made a mistake, and repented. So whoever of us does wrong, let him "
+             "return to his Lord.", 192799),
+            ("n", "انْتَهَتْ قِصَّةُ آدَمَ عَلَيْهِ السَّلَامُ. وَفِي الْقِصَّةِ الْقَادِمَةِ: نَبِيُّ اللَّهِ إِدْرِيسُ عَلَيْهِ السَّلَامُ.",
+             "This was the story of Adam, peace be upon him. Next: the Prophet Idris, peace be upon him.", 168829),
+        ],
+    ]),
+    "idris": (2, "إدريس", "Idris", [
+        [  # One part: Maryam 19:56-57, Al-Anbiya 21:85-86, and the Mi'raj (Sahih al-Bukhari 3207)
+            ("n", "بَعْدَ آدَمَ، وَقَبْلَ نُوحٍ، بَعَثَ اللَّهُ نَبِيًّا صَادِقًا، اسْمُهُ إِدْرِيسُ عَلَيْهِ السَّلَامُ.",
+             "After Adam, and before Nuh, Allah sent a truthful prophet named Idris, peace be upon him.", 59291),
+            ("n", "ذَكَرَهُ اللَّهُ فِي الْقُرْآنِ فِي مَوْضِعَيْنِ، وَأَثْنَى عَلَيْهِ.",
+             "Allah mentions him in the Quran in two places, and praises him.", 204680),
+            ("a", 19, 56, 7127),
+            ("a", 19, 57, 70549),
+            ("n", "وَذَكَرَهُ اللَّهُ مَعَ إِسْمَاعِيلَ وَذِي الْكِفْلِ، فِي الصَّابِرِينَ.",
+             "And Allah names him with Ismail and Dhul-Kifl, among the patient.", 125695),
+            ("a", 21, 85, 248452),
+            ("n", "وَفِي لَيْلَةِ الْمِعْرَاجِ، رَآهُ نَبِيُّنَا مُحَمَّدٌ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ فِي السَّمَاءِ الرَّابِعَةِ.",
+             "On the night of the Mi'raj, our Prophet Muhammad ﷺ saw him in the fourth heaven.", 1096),
+            ("n", "فَرَحَّبَ بِهِ إِدْرِيسُ، وَقَالَ: مَرْحَبًا بِالْأَخِ الصَّالِحِ، وَالنَّبِيِّ الصَّالِحِ. رَوَاهُ الْبُخَارِيُّ.",
+             "Idris welcomed him, and said: welcome to the righteous brother, and the righteous prophet. "
+             "(Sahih al-Bukhari)", 55990),
+            ("n", "كَانَ صِدِّيقًا فِي قَوْلِهِ وَعَمَلِهِ، فَرَفَعَ اللَّهُ قَدْرَهُ. وَمَنْ صَدَقَ مَعَ اللَّهِ، رَفَعَهُ اللَّهُ.",
+             "He was truthful in word and deed, so Allah raised his rank. Whoever is true with Allah, Allah raises "
+             "him.", 280486),
+            ("n", "انْتَهَتْ قِصَّةُ إِدْرِيسَ عَلَيْهِ السَّلَامُ. وَفِي الْقِصَّةِ الْقَادِمَةِ: نَبِيُّ اللَّهِ نُوحٌ عَلَيْهِ السَّلَامُ.",
+             "This was the story of Idris, peace be upon him. Next: the Prophet Nuh, peace be upon him.", 203322),
+        ],
+    ]),
     "nuh": (3, "نوح", "Nuh", [
         [  # Part 1: the call. Narration is fully vowelled so the voice pronounces it right (the screen shows it plain).
             ("n", "بَعْدَ آدَمَ بِزَمَنٍ طَوِيلٍ، كَانَ فِي النَّاسِ رِجَالٌ صَالِحُونَ. فَلَمَّا مَاتُوا، وَسْوَسَ الشَّيْطَانُ "
@@ -306,7 +381,7 @@ def render_narrated(key, part=1, seed=None):
     theme = mr.THEMES[0]
     work = mr.CACHE / "work" / f"story_{key}_{part}"
     work.mkdir(parents=True, exist_ok=True)
-    frame_png(no, ar_name, en_name, work / "frame.png", part=(part, PARTS.get(key, len(parts))), footer=f"Sources: {SOURCES}")
+    frame_png(no, ar_name, en_name, work / "frame.png", part=(part, PARTS.get(key, len(parts))) if PARTS.get(key, len(parts)) > 1 else None, footer=f"Sources: {SOURCES}")
     segs, cards, audio, t = [], [], [], 0.0
     import time
     t0 = time.time()
@@ -429,13 +504,14 @@ def story_meta(key, part):
             r = f"{chs[seg[1]]['name_simple']} {seg[1]}:{seg[2]}"
             if r not in refs:
                 refs.append(r)
+    pt = f"Part {part} of {n}" if n > 1 else ""
     if part < n:
         nxt = f"Part {part + 1} comes next on our page (Monday, Wednesday and Saturday at 15:00)."
     else:
         i = [k for k, _ in SERIES].index(key)
         nxt = f"Next: the story of the Prophet {SERIES[i + 1][1]}." if i + 1 < len(SERIES) else "This is the last story of the series."
     peace = "" if key == "muhammad" else " (peace be upon him)"
-    caption = (f"The story of {en_name}{peace} · Part {part} of {n}{': ' + ptitle if ptitle else ''} 🤍\n\n"
+    caption = (f"The story of {en_name}{peace}{' · ' + pt if pt else ''}{': ' + ptitle if ptitle else ''} 🤍\n\n"
                f"Stories of the Prophets · {no} of {TOTAL_PROPHETS}\n"
                f"Told from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\n"
                + (f"Ayat recited by {RECITER}: {', '.join(refs)}\n" if refs else "") +
@@ -443,9 +519,9 @@ def story_meta(key, part):
                f"#storiesoftheprophets #qasasalanbiya #prophet{en_name.lower().replace(' ', '')} #quran #islam")
     return {"kind": "story", "prophet": key, "part": part, "parts": n, "series_no": no, "order": no * 100 + part,
             "caption": caption, "keep_as": f"story-{key}-{part}",
-            "title": f"Stories of the Prophets {no}/{TOTAL_PROPHETS} · {en_name} · Part {part} of {n}{' · ' + ptitle if ptitle else ''}",
+            "title": " · ".join(x for x in (f"Stories of the Prophets {no}/{TOTAL_PROPHETS}", en_name, pt, ptitle) if x),
             "cover_label": f"Stories of the Prophets · {no} / {TOTAL_PROPHETS}", "cover_ar": f"قصة {ar_name}",
-            "cover_en": f"The story of {en_name}", "cover_sub": f"Part {part} of {n}{' · ' + ptitle if ptitle else ''}"}
+            "cover_en": f"The story of {en_name}", "cover_sub": " · ".join(x for x in (pt, ptitle) if x)}
 
 
 if __name__ == "__main__":
