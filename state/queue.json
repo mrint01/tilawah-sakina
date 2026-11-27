@@ -3535,6 +3535,38 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-27T15:33:12+00:00"
+    },
+    {
+      "id": "20261127-153456-story",
+      "kind": "story",
+      "prophet": "yusuf",
+      "part": 3,
+      "parts": 6,
+      "series_no": 11,
+      "order": 1103,
+      "caption": "The story of Yusuf (peace be upon him) · Part 3 of 6: The test 🤍\n\nStories of the Prophets · 11 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: Yusuf 12:23, Yusuf 12:27, Yusuf 12:28, Yusuf 12:33, Yusuf 12:34\n\nPart 4 comes next on our page (Monday, Wednesday and Saturday at 15:00).\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophetyusuf #quran #islam",
+      "keep_as": "story-yusuf-3",
+      "title": "Stories of the Prophets 11/25 · Yusuf · Part 3 of 6 · The test",
+      "cover_label": "Stories of the Prophets · 11 / 25",
+      "cover_ar": "قصة يوسف",
+      "cover_en": "The story of Yusuf",
+      "cover_sub": "Part 3 of 6 · The test",
+      "duration": 145.8,
+      "size_mb": 36.2,
+      "mean_volume_db": -18.7,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T15:35:20+00:00"
     }
   ],
   "slots": {
