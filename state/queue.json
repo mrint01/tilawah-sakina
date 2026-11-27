@@ -3087,6 +3087,12 @@
       "reason": null,
       "posted": "2026-11-27T06:00:53+00:00",
       "late_min": 60
+    },
+    "2026-11-25 15:00": {
+      "kind": "story",
+      "status": "missed",
+      "reason": "Nothing approved of this type to post",
+      "at": "2026-11-25T15:00:00+01:00"
     }
   }
 }
