@@ -4623,6 +4623,38 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-27T15:58:18+00:00"
+    },
+    {
+      "id": "20261127-155842-story",
+      "kind": "story",
+      "prophet": "isa",
+      "part": 1,
+      "parts": 3,
+      "series_no": 24,
+      "order": 2401,
+      "caption": "The story of 'Isa (peace be upon him) · Part 1 of 3: Maryam 🤍\n\nStories of the Prophets · 24 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: Ali 'Imran 3:35, Ali 'Imran 3:42, Maryam 19:20, Maryam 19:21, Maryam 19:24, Maryam 19:25\n\nPart 2 comes next on our page (Monday, Wednesday and Saturday at 15:00).\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophet'isa #quran #islam",
+      "keep_as": "story-isa-1",
+      "title": "Stories of the Prophets 24/25 · 'Isa · Part 1 of 3 · Maryam",
+      "cover_label": "Stories of the Prophets · 24 / 25",
+      "cover_ar": "قصة عيسى",
+      "cover_en": "The story of 'Isa",
+      "cover_sub": "Part 1 of 3 · Maryam",
+      "duration": 142.4,
+      "size_mb": 62.0,
+      "mean_volume_db": -18.2,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T15:59:10+00:00"
     }
   ],
   "slots": {
