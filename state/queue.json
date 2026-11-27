@@ -3503,6 +3503,38 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-27T15:30:39+00:00"
+    },
+    {
+      "id": "20261127-153243-story",
+      "kind": "story",
+      "prophet": "ishaq",
+      "part": 1,
+      "parts": 1,
+      "series_no": 9,
+      "order": 901,
+      "caption": "The story of Ishaq (peace be upon him): The good news 🤍\n\nStories of the Prophets · 9 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: Hud 11:71, Hud 11:72, Hud 11:73, As-Saffat 37:112, As-Saffat 37:113, Al-Anbya 21:72\n\nNext: the story of the Prophet Ya'qub.\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophetishaq #quran #islam",
+      "keep_as": "story-ishaq-1",
+      "title": "Stories of the Prophets 9/25 · Ishaq · The good news",
+      "cover_label": "Stories of the Prophets · 9 / 25",
+      "cover_ar": "قصة إسحاق",
+      "cover_en": "The story of Ishaq",
+      "cover_sub": "The good news",
+      "duration": 160.1,
+      "size_mb": 66.3,
+      "mean_volume_db": -18.2,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T15:33:12+00:00"
     }
   ],
   "slots": {
