@@ -328,6 +328,7 @@ HARAKAT = re.compile("[\u064B-\u0652\u0670]")
 def narr_card(ar, en, path):
     """The narration in Arabic (large, shown without harakat: cleaner) with the English subtitle under it."""
     ar = HARAKAT.sub("", ar)
+    en = en.replace("ﷺ", "(peace be upon him)")  # the English font has no ﷺ sign (it showed as an empty box)
     img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
     for size in range(74, 44, -2):

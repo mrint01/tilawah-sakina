@@ -2977,10 +2977,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "approved",
-      "review": "approved by the owner in chat",
+      "status": "rejected",
+      "review": "English subtitle showed an empty box for ﷺ; remade",
       "created": "2026-11-27T11:40:04+00:00",
-      "reviewed": "2026-11-27T12:09:34+00:00"
+      "reviewed": "2026-11-27T12:54:44+00:00"
     },
     {
       "id": "20261127-121905-story",
@@ -3109,9 +3109,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T12:49:54+00:00"
+      "status": "rejected",
+      "review": "English subtitle showed an empty box for ﷺ; remade",
+      "created": "2026-11-27T12:49:54+00:00",
+      "reviewed": "2026-11-27T12:54:50+00:00"
     },
     {
       "id": "20261127-125008-story",
