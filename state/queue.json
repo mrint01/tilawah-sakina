@@ -3727,6 +3727,38 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-27T15:37:29+00:00"
+    },
+    {
+      "id": "20261127-153755-story",
+      "kind": "story",
+      "prophet": "yaqub",
+      "part": 1,
+      "parts": 1,
+      "series_no": 10,
+      "order": 1001,
+      "caption": "The story of Ya'qub (peace be upon him): Beautiful patience 🤍\n\nStories of the Prophets · 10 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: Yusuf 12:18, Yusuf 12:86, Yusuf 12:87, Al-Baqarah 2:132, Al-Baqarah 2:133, Sad 38:45\n\nNext: the story of the Prophet Yusuf.\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophetya'qub #quran #islam",
+      "keep_as": "story-yaqub-1",
+      "title": "Stories of the Prophets 10/25 · Ya'qub · Beautiful patience",
+      "cover_label": "Stories of the Prophets · 10 / 25",
+      "cover_ar": "قصة يعقوب",
+      "cover_en": "The story of Ya'qub",
+      "cover_sub": "Beautiful patience",
+      "duration": 178.5,
+      "size_mb": 62.0,
+      "mean_volume_db": -17.8,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T15:38:28+00:00"
     }
   ],
   "slots": {
