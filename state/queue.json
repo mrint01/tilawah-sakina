@@ -2140,11 +2140,14 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
+      "status": "posted",
       "review": "Claude routine: all frames clean, Arabic and layout correct",
       "created": "2026-11-24T21:31:45+00:00",
       "reviewed": "2026-11-24T21:32:48+00:00",
-      "cover": true
+      "cover": true,
+      "posted": "2026-11-27T17:07:10+00:00",
+      "ig_media_id": "18151721965553474",
+      "permalink": "https://www.instagram.com/reel/DgQLTqQh1Rg/"
     },
     {
       "id": "20261124-235529-ayah",
@@ -5334,6 +5337,18 @@
       "reason": null,
       "posted": "2026-11-27T11:42:23+00:00",
       "late_min": 42
+    },
+    "2026-11-27 18:00": {
+      "kind": "tasbih",
+      "status": "posted",
+      "id": "20261124-213136-tasbih",
+      "title": "33× SubhanAllahi wa bihamdihi",
+      "tries": 1,
+      "started": "2026-11-27T17:04:29+00:00",
+      "at": "2026-11-27T18:00:00+01:00",
+      "reason": null,
+      "posted": "2026-11-27T17:07:10+00:00",
+      "late_min": 7
     }
   }
 }
