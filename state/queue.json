@@ -3012,6 +3012,38 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-27T12:19:32+00:00"
+    },
+    {
+      "id": "20261127-122153-story",
+      "kind": "story",
+      "prophet": "nuh",
+      "part": 3,
+      "parts": 3,
+      "series_no": 3,
+      "order": 303,
+      "caption": "The story of Nuh (peace be upon him) · Part 3 of 3: The Flood 🤍\n\nStories of the Prophets · 3 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: Hud 11:41, Al-Qamar 54:11, Al-Qamar 54:12, Hud 11:42, Hud 11:43, Hud 11:44\n\nNext: the story of the Prophet Hud.\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophetnuh #quran #islam",
+      "keep_as": "story-nuh-3",
+      "title": "Stories of the Prophets 3/25 · Nuh · Part 3 of 3 · The Flood",
+      "cover_label": "Stories of the Prophets · 3 / 25",
+      "cover_ar": "قصة نوح",
+      "cover_en": "The story of Nuh",
+      "cover_sub": "Part 3 of 3 · The Flood",
+      "duration": 171.2,
+      "size_mb": 86.0,
+      "mean_volume_db": -18.1,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T12:22:29+00:00"
     }
   ],
   "slots": {
