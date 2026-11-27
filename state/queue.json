@@ -5139,6 +5139,38 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-27T16:41:42+00:00"
+    },
+    {
+      "id": "20261127-164228-story",
+      "kind": "story",
+      "prophet": "musa",
+      "part": 8,
+      "parts": 8,
+      "series_no": 14,
+      "order": 1408,
+      "caption": "The story of Musa (peace be upon him) · Part 8 of 8: Musa and al-Khidr 🤍\n\nStories of the Prophets · 14 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: Al-Kahf 18:60, Al-Kahf 18:65, Al-Kahf 18:66, Al-Kahf 18:82\n\nNext: the story of the Prophet Harun.\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophetmusa #quran #islam",
+      "keep_as": "story-musa-8",
+      "title": "Stories of the Prophets 14/25 · Musa · Part 8 of 8 · Musa and al-Khidr",
+      "cover_label": "Stories of the Prophets · 14 / 25",
+      "cover_ar": "قصة موسى",
+      "cover_en": "The story of Musa",
+      "cover_sub": "Part 8 of 8 · Musa and al-Khidr",
+      "duration": 156.9,
+      "size_mb": 62.7,
+      "mean_volume_db": -18.5,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T16:43:33+00:00"
     }
   ],
   "slots": {
