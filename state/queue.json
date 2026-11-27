@@ -4047,6 +4047,38 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-27T15:50:54+00:00"
+    },
+    {
+      "id": "20261127-155044-story",
+      "kind": "story",
+      "prophet": "dhulkifl",
+      "part": 1,
+      "parts": 1,
+      "series_no": 16,
+      "order": 1601,
+      "caption": "The story of Dhul-Kifl (peace be upon him): Among the patient 🤍\n\nStories of the Prophets · 16 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: Al-Anbya 21:85, Al-Anbya 21:86, Sad 38:48\n\nNext: the story of the Prophet Dawud.\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophetdhul-kifl #quran #islam",
+      "keep_as": "story-dhulkifl-1",
+      "title": "Stories of the Prophets 16/25 · Dhul-Kifl · Among the patient",
+      "cover_label": "Stories of the Prophets · 16 / 25",
+      "cover_ar": "قصة ذو الكفل",
+      "cover_en": "The story of Dhul-Kifl",
+      "cover_sub": "Among the patient",
+      "duration": 69.8,
+      "size_mb": 20.6,
+      "mean_volume_db": -19.3,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T15:51:04+00:00"
     }
   ],
   "slots": {
