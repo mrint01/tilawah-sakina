@@ -2713,9 +2713,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T02:47:46+00:00"
+      "status": "approved",
+      "review": "Claude routine: river/forest nature bg, no people, Arabic and ayah refs 17:23-27 correct",
+      "created": "2026-11-27T02:47:46+00:00",
+      "reviewed": "2026-11-27T03:38:29+00:00"
     },
     {
       "id": "20261127-024801-asma",
@@ -2736,9 +2737,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T02:48:06+00:00"
+      "status": "approved",
+      "review": "Claude routine: layout clean, 05/99 with 5 dots filled, Arabic fine",
+      "created": "2026-11-27T02:48:06+00:00",
+      "reviewed": "2026-11-27T03:38:29+00:00"
     },
     {
       "id": "20261127-024839-tasbih",
@@ -2758,9 +2760,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T02:48:46+00:00"
+      "status": "approved",
+      "review": "Claude routine: countdown 30 to 1 decreasing, Kaaba and Arabic render fine",
+      "created": "2026-11-27T02:48:46+00:00",
+      "reviewed": "2026-11-27T03:38:30+00:00"
     },
     {
       "id": "20261127-025019-quiz",
@@ -2808,9 +2811,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T02:50:28+00:00"
+      "status": "approved",
+      "review": "Claude routine: 6 sampled frames clean, answer frame green A Al-Waqi'ah matches",
+      "created": "2026-11-27T02:50:28+00:00",
+      "reviewed": "2026-11-27T03:38:30+00:00"
     }
   ],
   "slots": {
