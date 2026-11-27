@@ -47,9 +47,9 @@ TOTAL_PROPHETS = 25
 # Segments: ("n", narration, scene) or ("a", surah, ayah, scene).
 VOICE = "ar-SA-HamedNeural"   # Arabic narrator (fusha); he tells the story, he never reads Quran words
 # how many parts each narrated story has in total (the later parts are written after part 1 is approved)
-PARTS = {"adam": 2, "idris": 1, "nuh": 3}
+PARTS = {"adam": 2, "idris": 1, "nuh": 3, "hud": 2}
 PART_TITLES = {"adam": ["The creation", "The garden"], "idris": ["Raised to a high place"],
-               "nuh": ["The call", "The Ark", "The Flood"]}
+               "nuh": ["The call", "The Ark", "The Flood"], "hud": ["The people of 'Ad", "The wind"]}
 # the series in order (Adam -> Muhammad ﷺ): key, English name
 SERIES = [("adam", "Adam"), ("idris", "Idris"), ("nuh", "Nuh"), ("hud", "Hud"), ("salih", "Salih"), ("ibrahim", "Ibrahim"),
           ("lut", "Lut"), ("ismail", "Ismail"), ("ishaq", "Ishaq"), ("yaqub", "Ya'qub"), ("yusuf", "Yusuf"),
@@ -202,6 +202,58 @@ NARRATED = {
             ("n", "وَنَجَّى اللَّهُ نُوحًا وَمَنْ مَعَهُ.", "And Allah saved Nuh and those with him.", 148260),
             ("n", "انْتَهَتْ قِصَّةُ نُوحٍ عَلَيْهِ السَّلَامُ. وَفِي الْقِصَّةِ الْقَادِمَةِ: نَبِيُّ اللَّهِ هُودٌ عَلَيْهِ السَّلَامُ.",
              "This was the story of Nuh, peace be upon him. Next: the Prophet Hud, peace be upon him.", 21175),
+        ],
+    ]),
+    "hud": (4, "هود", "Hud", [
+        [  # Part 1: the people of 'Ad (Al-A'raf 7:65-72, Hud 11:50-57, Ash-Shu'ara 26:123-135, Fussilat 41:15, Al-Fajr 89:6-8)
+            ("n", "بَعْدَ نُوحٍ، عَاشَتْ فِي جَنُوبِ جَزِيرَةِ الْعَرَبِ، بَيْنَ كُثْبَانِ الْأَحْقَافِ، قَبِيلَةٌ اسْمُهَا عَادٌ.",
+             "After Nuh, in the south of Arabia, among the sand dunes of Al-Ahqaf, lived a tribe called 'Ad.", 16139),
+            ("n", "أَعْطَاهُمُ اللَّهُ قُوَّةً عَظِيمَةً، وَأَجْسَامًا طَوِيلَةً، وَبَنَوْا مَدِينَةً لَمْ يُخْلَقْ مِثْلُهَا فِي الْبِلَادِ.",
+             "Allah gave them great strength and tall bodies, and they built a city whose like had never been made in "
+             "any land.", 258863),
+            ("a", 89, 7, 222163),
+            ("n", "لَكِنَّهُمْ نَسُوا اللَّهَ، وَعَبَدُوا الْأَصْنَامَ، وَظَلَمُوا النَّاسَ، وَاغْتَرُّوا بِقُوَّتِهِمْ.",
+             "But they forgot Allah. They worshipped idols, oppressed people, and were deceived by their own strength.",
+             304330),
+            ("n", "فَأَرْسَلَ اللَّهُ إِلَيْهِمْ رَجُلًا مِنْهُمْ، يَعْرِفُونَ صِدْقَهُ وَنَسَبَهُ: هُودًا عَلَيْهِ السَّلَامُ.",
+             "So Allah sent them a man from among themselves, whose honesty and family they knew: Hud, peace be upon "
+             "him.", 26085),
+            ("a", 7, 65, 284577),
+            ("n", "قَالَ لَهُمْ: لَا أَسْأَلُكُمْ أَجْرًا، إِنَّمَا أَجْرِي عَلَى اللَّهِ. وَدَعَاهُمْ إِلَى التَّوْبَةِ.",
+             "He told them: I ask you for no reward, my reward is only from Allah. And he called them to repent.", 42029),
+            ("a", 11, 52, 152740),
+            ("n", "فَقَالُوا: مَا جِئْتَنَا بِدَلِيلٍ، وَلَنْ نَتْرُكَ آلِهَتَنَا لِقَوْلِكَ، وَلَعَلَّ بَعْضَ آلِهَتِنَا أَصَابَكَ بِسُوءٍ.",
+             "They said: you have brought us no proof, we will not leave our gods because you say so. Perhaps one of "
+             "our gods has struck you with harm.", 147663),
+            ("n", "فَأَجَابَهُمْ هُودٌ بِثِقَةِ الْمُؤْمِنِ بِرَبِّهِ:",
+             "Hud answered them with the confidence of a believer in his Lord:", 1844),
+            ("a", 11, 56, 175487),
+            ("n", "لَكِنَّهُمُ ازْدَادُوا كِبْرًا، وَقَالُوا: لَا أَحَدَ أَقْوَى مِنَّا. وَنَسُوا أَنَّ اللَّهَ الَّذِي خَلَقَهُمْ هُوَ أَشَدُّ مِنْهُمْ قُوَّةً.",
+             "But they only grew more arrogant. No one is stronger than us, they said. They forgot that Allah, who "
+             "created them, is far greater in strength.", 225775),
+            ("n", "فِي الْجُزْءِ الثَّانِي: الرِّيحُ.",
+             "In part two: the wind.", 70898),
+        ],
+        [  # Part 2: the wind (Al-Ahqaf 46:24-25, Al-Haqqah 69:6-8, Hud 11:58-60; Sahih al-Bukhari 1035)
+            ("n", "وَحُبِسَ الْمَطَرُ عَنْ عَادٍ، فَجَفَّتِ الْأَرْضُ، وَطَالَ انْتِظَارُهُمْ لِلْغَيْثِ.",
+             "Then the rain was held back from 'Ad. The land dried up, and they waited a long time for rain.", 328726),
+            ("n", "وَفِي يَوْمٍ، رَأَوْا سَحَابًا عَظِيمًا يَتَّجِهُ نَحْوَ أَوْدِيَتِهِمْ، فَفَرِحُوا بِهِ.",
+             "One day, they saw a great cloud heading toward their valleys, and they rejoiced.", 9041),
+            ("a", 46, 24, 230528),
+            ("n", "كَانَتْ رِيحًا بَارِدَةً شَدِيدَةً، تُدَمِّرُ كُلَّ شَيْءٍ بِأَمْرِ رَبِّهَا.",
+             "It was a fierce, bitterly cold wind, destroying everything by the command of its Lord.", 70899),
+            ("a", 69, 6, 22070),
+            ("a", 69, 7, 63281),
+            ("n", "وَنَجَّى اللَّهُ هُودًا وَالَّذِينَ آمَنُوا مَعَهُ بِرَحْمَتِهِ.",
+             "And Allah saved Hud and those who believed with him, by His mercy.", 145260),
+            ("a", 11, 58, 1844),
+            ("n", "وَقَالَ نَبِيُّنَا مُحَمَّدٌ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ: نُصِرْتُ بِالصَّبَا، وَأُهْلِكَتْ عَادٌ بِالدَّبُورِ. رَوَاهُ الْبُخَارِيُّ.",
+             "Our Prophet Muhammad ﷺ said: I was helped by the east wind, and 'Ad were destroyed by the west wind. "
+             "(Sahih al-Bukhari)", 212437),
+            ("n", "لَمْ تَنْفَعْهُمْ قُوَّتُهُمْ وَلَا بُنْيَانُهُمْ. فَالْقُوَّةُ كُلُّهَا لِلَّهِ.",
+             "Neither their strength nor their buildings could save them. All strength belongs to Allah.", 365737),
+            ("n", "انْتَهَتْ قِصَّةُ هُودٍ عَلَيْهِ السَّلَامُ. وَفِي الْقِصَّةِ الْقَادِمَةِ: نَبِيُّ اللَّهِ صَالِحٌ عَلَيْهِ السَّلَامُ.",
+             "This was the story of Hud, peace be upon him. Next: the Prophet Salih, peace be upon him.", 175495),
         ],
     ]),
 }
