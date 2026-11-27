@@ -76,6 +76,10 @@ def build(s, first, last, part, out, theme_idx=0):
         import random
         try:
             scene, clips = nature.pick(total, random.Random(s * 1000 + first))
+            at = 0.0
+            for _, secs, cid in clips:  # to find a clip again if a scene has to go
+                print(f"  {at / 60:5.1f} min  pixabay {cid}  ({secs:.0f} s)")
+                at += secs - nature.FADE
             nature.render_background(clips, total, work / "bg.mp4")
             mr.dim_panel(work / "frame.png")
         except Exception as e:  # noqa: BLE001

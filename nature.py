@@ -23,7 +23,10 @@ NO = {"woman", "man", "people", "girl", "boy", "person", "couple", "child", "chi
       # people can show up untagged: also skip the settings they come with
       "human", "male", "female", "adult", "young", "silhouette", "sitting", "relax", "relaxation", "meditation",
       "yoga", "lonely", "alone", "thinking", "window", "room", "interior", "indoor", "indoors", "chair", "balcony",
-      "bed", "bedroom", "office", "hiker", "hiking", "traveler", "tourist", "walking", "running", "lifestyle"}
+      "bed", "bedroom", "office", "hiker", "hiking", "traveler", "tourist", "walking", "running", "lifestyle",
+      # cities and buildings (a Dubai skyline came through as "skyline")
+      "cities", "skyline", "cityscape", "skyscraper", "skyscrapers", "buildings", "downtown", "urban", "architecture",
+      "metropolis", "town", "street", "dubai", "burj", "khalifa", "apartment", "construction", "harbor", "harbour", "port"}
 SLOW = 1.2   # clips play a little slower: calmer
 FADE = 1.0   # crossfade between clips, seconds
 
@@ -46,7 +49,13 @@ def search(theme):
         {"key": os.environ["PIXABAY_API_KEY"], "q": theme, "safesearch": "true", "per_page": 50, "video_type": "film"})
     p = _get(url, CACHE / "search" / f"{theme.replace(' ', '_')}.json")
     hits = json.loads(p.read_text())["hits"]
-    return [h for h in hits if h["duration"] >= 10 and not ({t.strip() for t in h["tags"].split(",")} & NO)]
+    return [h for h in hits if h["duration"] >= 10 and not blocked(h)]
+
+
+def blocked(hit):
+    """True when a tag, or any word of a tag ("city skyline" -> "city", "skyline"), is in NO."""
+    tags = {t.strip().lower() for t in hit["tags"].split(",")}
+    return bool((tags | {w for t in tags for w in t.split()}) & NO)
 
 
 def by_id(vid):
