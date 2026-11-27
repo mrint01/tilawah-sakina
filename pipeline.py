@@ -705,6 +705,37 @@ def cmd_daily(args):
     print("followers", prof["followers_count"], "days", len(d["days"]))
 
 
+def cmd_remake(args):
+    """Render waiting reels again in the current design, keeping their id, status and time (Asma for now):
+    the new video, previews and cover replace the old files in the release."""
+    import covers
+    import make_asma
+    STAGING.mkdir(exist_ok=True)
+    q = queue()
+    for rid in args.ids:
+        it = find(q, rid)
+        if it["status"] not in ("pending", "approved"):
+            sys.exit(f"{rid} is {it['status']}: only waiting reels can be remade")
+        if it["kind"] != "asma":
+            sys.exit(f"{rid}: remake only supports asma reels")
+        meta = make_asma.render(it["number"], reciter=it.get("reciter"))
+        mp4 = STAGING / f"{rid}.mp4"
+        shutil.move(meta.pop("file"), mp4)
+        checks, stats = run_checks(mp4, it["kind"], False)
+        if not all(checks.values()):
+            sys.exit(f"{rid}: new video failed checks {checks}")
+        png, small, cover = STAGING / f"{rid}.png", STAGING / f"{rid}-preview.mp4", STAGING / f"{rid}-cover.jpg"
+        contact_sheet(mp4, png)
+        preview_video(mp4, small)
+        covers.cover_for({**it, **meta}, mp4, cover)
+        subprocess.run(["gh", "release", "upload", RELEASE_TAG, str(mp4), str(png), str(small), str(cover), "--clobber"],
+                       check=True, cwd=HERE)
+        it.update(duration=meta["duration"], reciter=meta["reciter"], caption=meta["caption"], cover=True,
+                  remade=now(), **stats, checks=checks)
+        save(QUEUE, q)
+        print(f"remade {rid}: {it['title']}")
+
+
 def cmd_covers(args):
     """Add grid covers to pending / approved reels that have none (made before covers existed)."""
     import covers
@@ -761,6 +792,7 @@ if __name__ == "__main__":
     pp = sub.add_parser("posting"); pp.add_argument("stage", choices=list(POST_STAGES)); pp.add_argument("--id"); pp.add_argument("--error")
     ck = sub.add_parser("check"); ck.add_argument("id")
     sub.add_parser("covers")
+    sub.add_parser("remake").add_argument("ids", nargs="+")
     dl = sub.add_parser("daily"); dl.add_argument("--back", type=int, default=3, help="days back to fill (Instagram keeps ~90)")
     args = ap.parse_args()
     globals()[f"cmd_{args.cmd}"](args)

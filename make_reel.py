@@ -273,7 +273,7 @@ def dim_panel(frame_path):
     Image.alpha_composite(panel, Image.open(frame_path).convert("RGBA")).save(frame_path)
 
 
-def card(theme, surah_info, s, a, ar, en, reciter, path):
+def card(theme, surah_info, s, a, ar, en, reciter, path, ref=None):
     acc = theme[2]
     img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
@@ -305,7 +305,7 @@ def card(theme, surah_info, s, a, ar, en, reciter, path):
     for ln in lines_en:
         d.text((W / 2, y + lh_en / 2), ln, font=fen, fill=(225, 218, 200, 235), anchor="mm")
         y += lh_en
-    d.text((W / 2, y + 45), f"{s}:{a}", font=font("Lora-var.ttf", 30), fill=acc + (200,), anchor="mm")
+    d.text((W / 2, y + 45), ref or f"{s}:{a}", font=font("Lora-var.ttf", 30), fill=acc + (200,), anchor="mm")
     with_shadow(img, path)
     return True
 

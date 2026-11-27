@@ -85,8 +85,8 @@ def cover_text(item):
         import make_asma
         n = next((x for x in make_asma.catalog() if x["number"] == item.get("number")), None)
         if n:
-            return (f"The 99 Names of Allah · {n['number']} / 99", n["ar"], n["translit"].title(), n["meaning"], True)
-        return ("The 99 Names of Allah", "أسماء الله الحسنى", "Asma al-Husna", "", True)
+            return (f"The 99 Names of Allah · {n['number']} / 99", n["ar"], n["translit"].title(), n["meaning"], False)
+        return ("The 99 Names of Allah", "أسماء الله الحسنى", "Asma al-Husna", "", False)
     if kind == "tasbih":
         import make_tasbih
         key = make_tasbih.SETS.get(item.get("set"), {}).get("steps", [[item.get("set")]])[0][0]

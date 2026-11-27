@@ -318,7 +318,7 @@ def render_narrated(key, part=1, seed=None):
             for n in range(1, 6):
                 pieces, shares = mr.split_parts(ar, en, n) if n > 1 else ([(ar, en)], [1.0])
                 paths = [work / f"card{i}_{k}.png" for k in range(n)]
-                if all(mr.card(theme, chs[su], su, ay, pa, pe, RECITER, pp) for (pa, pe), pp in zip(pieces, paths)):
+                if all(mr.card(theme, chs[su], su, ay, pa, pe, RECITER, pp, ref=f"Surah {chs[su]['name_simple']} · {su}:{ay}") for (pa, pe), pp in zip(pieces, paths)):
                     break
         dur = mr.duration(mp3) + lead + 0.45
         if sg[0] == "n":
@@ -358,7 +358,7 @@ def render(key, seed=None):
         for n in range(1, 6):
             parts, shares = mr.split_parts(ar, en, n) if n > 1 else ([(ar, en)], [1.0])
             paths = [work / f"card_{s}_{a}_{k}.png" for k in range(n)]
-            if all(mr.card(theme, chs[s], s, a, pa, pe, RECITER, pp) for (pa, pe), pp in zip(parts, paths)):
+            if all(mr.card(theme, chs[s], s, a, pa, pe, RECITER, pp, ref=f"Surah {chs[s]['name_simple']} · {s}:{a}") for (pa, pe), pp in zip(parts, paths)):
                 break
         for pp, sh in zip(paths, shares):
             cards.append((pp, dur * sh))

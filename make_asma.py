@@ -69,16 +69,17 @@ def catalog():
     return json.loads(CATALOG.read_text())["names"]
 
 
-# ---------- drawing: warm paper, gold calligraphy, a ring of 99 dots ----------
-PAPER = [(0, (244, 236, 218)), (0.6, (236, 224, 198)), (1, (222, 206, 172))]
-INK = (64, 44, 24)
-GOLD_D = (168, 126, 52)
+# ---------- drawing: deep green night (like the other reels), gold calligraphy, a ring of 99 dots ----------
+# (was warm paper: the only light tile on the dark Instagram grid)
+PAPER = [(0, (10, 30, 26)), (0.45, (18, 50, 42)), (1, (5, 14, 12))]
+INK = (246, 238, 220)
+GOLD_D = (226, 190, 118)
 
 
 def background(path):
     bw, bh = int(W * 1.12), int(H * 1.12)
     img = scenes.gradient(PAPER, bw, bh)
-    img = scenes.glow(img, (bw / 2 - 460, bh * 0.22, bw / 2 + 460, bh * 0.62), (255, 250, 236), 120, 260)
+    img = scenes.glow(img, (bw / 2 - 460, bh * 0.22, bw / 2 + 460, bh * 0.62), (60, 110, 88), 90, 260)
     # faint geometric rosettes like a manuscript border
     pat = Image.new("RGBA", (bw, bh), (0, 0, 0, 0))
     d = ImageDraw.Draw(pat)
@@ -88,7 +89,7 @@ def background(path):
             for k in range(2):
                 pts = [(ox + 40 * mr.math.cos(mr.math.radians(45 * k + 90 * i + 45)),
                         gy + 40 * mr.math.sin(mr.math.radians(45 * k + 90 * i + 45))) for i in range(4)]
-                d.polygon(pts, outline=GOLD_D + (26,))
+                d.polygon(pts, outline=GOLD_D + (20,))
     Image.alpha_composite(img, pat).convert("RGB").save(path, quality=95)
 
 
@@ -156,6 +157,22 @@ def dots_layer(number, path):
     return img
 
 
+def still(number, out):
+    """One frame of the reel (no audio): for covers."""
+    n = next(x for x in catalog() if x["number"] == int(number))
+    work = mr.CACHE / "work" / f"asma_{n['number']:02d}"
+    work.mkdir(parents=True, exist_ok=True)
+    background(work / "bg.jpg")
+    name, top = name_layer(n, None)
+    full = Image.alpha_composite(Image.alpha_composite(name, ayah_layer(n, top, None)), dots_layer(n["number"], None))
+    layer = scenes.shadowed(Image.new("RGBA", (W, H), (0, 0, 0, 0)), full, 10, 0.55)
+    bg = Image.open(work / "bg.jpg").convert("RGBA")
+    bw, bh = bg.size
+    bg = bg.crop(((bw - W) // 2, (bh - H) // 2, (bw - W) // 2 + W, (bh - H) // 2 + H))
+    Image.alpha_composite(bg, layer).convert("RGB").save(out, quality=95)
+    return n
+
+
 def caption(n):
     s, a = n["ayah"]
     return (f"{n['ar']} · {n['translit']}\n{n['meaning']}\n\nName {n['number']} of 99. "
@@ -176,7 +193,7 @@ def render(number, reciter=None, seed=None, progress=None):
     background(work / "bg.jpg")
     name, top = name_layer(n, None)
     full = Image.alpha_composite(Image.alpha_composite(name, ayah_layer(n, top, None)), dots_layer(n["number"], None))
-    scenes.shadowed(Image.new("RGBA", (W, H), (0, 0, 0, 0)), full, 10, 0.18).save(work / "layer.png")
+    scenes.shadowed(Image.new("RGBA", (W, H), (0, 0, 0, 0)), full, 10, 0.55).save(work / "layer.png")
     report(0.2)
     s, a = n["ayah"]
     # some whole-surah recordings can't be cut cleanly at every ayah: then use another reciter
