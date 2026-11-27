@@ -4783,6 +4783,38 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-27T16:00:13+00:00"
+    },
+    {
+      "id": "20261127-160113-story",
+      "kind": "story",
+      "prophet": "muhammad",
+      "part": 6,
+      "parts": 6,
+      "series_no": 25,
+      "order": 2506,
+      "caption": "The story of Muhammad ﷺ · Part 6 of 6: The final days 🤍\n\nStories of the Prophets · 25 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: Ali 'Imran 3:123, Al-Isra 17:81, An-Nasr 110:1, An-Nasr 110:2, An-Nasr 110:3, Ali 'Imran 3:144\n\nThis is the last story of the series.\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophetmuhammad #quran #islam",
+      "keep_as": "story-muhammad-6",
+      "title": "Stories of the Prophets 25/25 · Muhammad · Part 6 of 6 · The final days",
+      "cover_label": "Stories of the Prophets · 25 / 25",
+      "cover_ar": "قصة محمد ﷺ",
+      "cover_en": "The story of Muhammad",
+      "cover_sub": "Part 6 of 6 · The final days",
+      "duration": 141.9,
+      "size_mb": 38.1,
+      "mean_volume_db": -18.4,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T16:01:37+00:00"
     }
   ],
   "slots": {
