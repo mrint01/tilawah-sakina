@@ -47,12 +47,15 @@ TOTAL_PROPHETS = 25
 # Segments: ("n", narration, scene) or ("a", surah, ayah, scene).
 VOICE = "ar-SA-HamedNeural"   # Arabic narrator (fusha); he tells the story, he never reads Quran words
 # how many parts each narrated story has in total (the later parts are written after part 1 is approved)
-PARTS = {"adam": 2, "idris": 1, "nuh": 3, "hud": 2, "salih": 2, "ibrahim": 5, "lut": 2}
+PARTS = {"adam": 2, "idris": 1, "nuh": 3, "hud": 2, "salih": 2, "ibrahim": 5, "lut": 2, "ismail": 1, "ishaq": 1, "yaqub": 1}
 PART_TITLES = {"adam": ["The creation", "The garden"], "idris": ["Raised to a high place"],
                "nuh": ["The call", "The Ark", "The Flood"], "hud": ["The people of 'Ad", "The wind"],
                "salih": ["The she-camel", "The blast"],
                "ibrahim": ["The search", "The idols", "The fire", "The valley", "The sacrifice"],
-               "lut": ["The city", "The punishment"]}
+               "lut": ["The city", "The punishment"],
+               "ismail": ["Son of the valley"],
+               "ishaq": ["The good news"],
+               "yaqub": ["Beautiful patience"]}
 # the series in order (Adam -> Muhammad ﷺ): key, English name
 SERIES = [("adam", "Adam"), ("idris", "Idris"), ("nuh", "Nuh"), ("hud", "Hud"), ("salih", "Salih"), ("ibrahim", "Ibrahim"),
           ("lut", "Lut"), ("ismail", "Ismail"), ("ishaq", "Ishaq"), ("yaqub", "Ya'qub"), ("yusuf", "Yusuf"),
@@ -454,6 +457,82 @@ NARRATED = {
             ("a", 29, 35, 65094),
             ("n", "انْتَهَتْ قِصَّةُ لُوطٍ عَلَيْهِ السَّلَامُ. وَفِي الْقِصَّةِ الْقَادِمَةِ: نَبِيُّ اللَّهِ إِسْمَاعِيلُ عَلَيْهِ السَّلَامُ.",
              "This was the story of Lut, peace be upon him. Next: the Prophet Ismail, peace be upon him.", 22183),
+        ],
+    ]),
+    "ismail": (8, "إسماعيل", "Ismail", [
+        [  # One part: As-Saffat 37:101, Al-Baqarah 2:127-129, Maryam 19:54-55; Sahih al-Bukhari 3364, 2899
+            ("n", "نَشَأَ إِسْمَاعِيلُ بْنُ إِبْرَاهِيمَ وَهَاجَرَ فِي وَادِي مَكَّةَ، عِنْدَ مَاءِ زَمْزَمَ.",
+             "Ismail, the son of Ibrahim and Hajar, grew up in the valley of Makkah, by the water of Zamzam.", 7452),
+            ("n", "وَوَصَفَهُ اللَّهُ بِالْحِلْمِ، فَقَدْ صَبَرَ حِينَ أَخْبَرَهُ أَبُوهُ بِالرُّؤْيَا.",
+             "Allah described him as forbearing: he was patient when his father told him about the dream.", 59291),
+            ("a", 37, 101, 280486),
+            ("n", "وَنَزَلَتْ قَبِيلَةُ جُرْهُمَ عِنْدَ زَمْزَمَ، فَتَعَلَّمَ مِنْهُمُ الْعَرَبِيَّةَ، وَتَزَوَّجَ مِنْهُمْ. رَوَاهُ الْبُخَارِيُّ.",
+             "The tribe of Jurhum settled by Zamzam. He learned Arabic from them, and married among them. "
+             "(Sahih al-Bukhari)", 69320),
+            ("n", "وَكَانَ رَامِيًا مَاهِرًا، قَالَ نَبِيُّنَا صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ: ارْمُوا بَنِي إِسْمَاعِيلَ، فَإِنَّ أَبَاكُمْ كَانَ رَامِيًا. "
+                  "رَوَاهُ الْبُخَارِيُّ.",
+             "He was a skilled archer. Our Prophet ﷺ said: shoot, children of Ismail, for your father was an archer. "
+             "(Sahih al-Bukhari)", 284577),
+            ("n", "وَبَنَى الْكَعْبَةَ مَعَ أَبِيهِ، وَدَعَوَا اللَّهَ:",
+             "He built the Kaaba with his father, and together they prayed:", 7127),
+            ("a", 2, 128, 260397),
+            ("n", "وَأَثْنَى اللَّهُ عَلَيْهِ فِي الْقُرْآنِ:",
+             "And Allah praised him in the Quran:", 175495),
+            ("a", 19, 54, 328740),
+            ("a", 19, 55, 46936),
+            ("n", "وَمِنْ ذُرِّيَّتِهِ جَاءَ خَاتَمُ الْأَنْبِيَاءِ مُحَمَّدٌ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ، إِجَابَةً لِدُعَاءِ إِبْرَاهِيمَ وَإِسْمَاعِيلَ.",
+             "From his descendants came the last of the prophets, Muhammad ﷺ, an answer to the prayer of Ibrahim and "
+             "Ismail.", 48899),
+            ("a", 2, 129, 237673),
+            ("n", "انْتَهَتْ قِصَّةُ إِسْمَاعِيلَ عَلَيْهِ السَّلَامُ. وَفِي الْقِصَّةِ الْقَادِمَةِ: نَبِيُّ اللَّهِ إِسْحَاقُ عَلَيْهِ السَّلَامُ.",
+             "This was the story of Ismail, peace be upon him. Next: the Prophet Ishaq, peace be upon him.", 365737),
+        ],
+    ]),
+    "ishaq": (9, "إسحاق", "Ishaq", [
+        [  # One part: Hud 11:69-73, Adh-Dhariyat 51:24-30, As-Saffat 37:112-113, Al-Anbiya 21:72
+            ("n", "كَبِرَتْ سَارَةُ زَوْجَةُ إِبْرَاهِيمَ، وَلَمْ يُرْزَقَا وَلَدًا مِنْهَا.",
+             "Sarah, the wife of Ibrahim, grew old, and they had no child together.", 2950),
+            ("n", "فَجَاءَتْ إِبْرَاهِيمَ مَلَائِكَةٌ فِي صُورَةِ ضُيُوفٍ، فَقَدَّمَ لَهُمْ عِجْلًا مَشْوِيًّا، فَلَمْ يَأْكُلُوا، فَخَافَ مِنْهُمْ.",
+             "Angels came to Ibrahim in the form of guests. He brought them a roasted calf, but they did not eat, and "
+             "he felt afraid of them.", 38998),
+            ("n", "فَقَالُوا: لَا تَخَفْ، إِنَّا أُرْسِلْنَا إِلَى قَوْمِ لُوطٍ.",
+             "They said: do not be afraid, we have been sent to the people of Lut.", 2150),
+            ("a", 11, 71, 237672),
+            ("a", 11, 72, 22713),
+            ("a", 11, 73, 2266),
+            ("n", "وَوُلِدَ إِسْحَاقُ، فَكَانَ نَبِيًّا مِنَ الصَّالِحِينَ، وَبَارَكَ اللَّهُ عَلَيْهِ وَعَلَى أَبِيهِ.",
+             "Ishaq was born. He was a prophet, one of the righteous, and Allah blessed him and his father.", 46936),
+            ("a", 37, 112, 1844),
+            ("a", 37, 113, 175487),
+            ("n", "وَمِنْ إِسْحَاقَ جَاءَ يَعْقُوبُ، وَمِنْ ذُرِّيَّةِ يَعْقُوبَ جَاءَ أَنْبِيَاءُ بَنِي إِسْرَائِيلَ.",
+             "From Ishaq came Ya'qub, and from the children of Ya'qub came the prophets of the Children of Israel.",
+             179200),
+            ("a", 21, 72, 246856),
+            ("n", "انْتَهَتْ قِصَّةُ إِسْحَاقَ عَلَيْهِ السَّلَامُ. وَفِي الْقِصَّةِ الْقَادِمَةِ: نَبِيُّ اللَّهِ يَعْقُوبُ عَلَيْهِ السَّلَامُ.",
+             "This was the story of Ishaq, peace be upon him. Next: the Prophet Ya'qub, peace be upon him.", 21175),
+        ],
+    ]),
+    "yaqub": (10, "يعقوب", "Ya'qub", [
+        [  # One part: Yusuf 12:18, 12:83-87, Al-Baqarah 2:132-133, Sad 38:45-47
+            ("n", "يَعْقُوبُ بْنُ إِسْحَاقَ، وَيُسَمَّى إِسْرَائِيلَ. وَمِنْ أَبْنَائِهِ الِاثْنَيْ عَشَرَ جَاءَتْ أَسْبَاطُ بَنِي إِسْرَائِيلَ.",
+             "Ya'qub, son of Ishaq, is also called Israel. From his twelve sons came the tribes of the Children of "
+             "Israel.", 192799),
+            ("n", "ابْتَلَاهُ اللَّهُ بِفَقْدِ ابْنِهِ يُوسُفَ سِنِينَ طَوِيلَةً، فَقَالَ:",
+             "Allah tested him with the loss of his son Yusuf for many long years, and he said:", 30222),
+            ("a", 12, 18, 30218),
+            ("n", "وَبَكَى حَتَّى ابْيَضَّتْ عَيْنَاهُ مِنَ الْحُزْنِ، لَكِنَّهُ لَمْ يَشْكُ إِلَّا إِلَى اللَّهِ.",
+             "He wept until his eyes turned white with grief, but he complained to no one but Allah.", 7215),
+            ("a", 12, 86, 225775),
+            ("n", "وَلَمْ يَفْقِدِ الْأَمَلَ أَبَدًا:",
+             "And he never lost hope:", 280486),
+            ("a", 12, 87, 260397),
+            ("n", "وَأَوْصَى أَبْنَاءَهُ بِمَا أَوْصَى بِهِ إِبْرَاهِيمُ:",
+             "He advised his sons as Ibrahim had advised his own:", 7127),
+            ("a", 2, 132, 237673),
+            ("a", 2, 133, 48899),
+            ("a", 38, 45, 59291),
+            ("n", "انْتَهَتْ قِصَّةُ يَعْقُوبَ عَلَيْهِ السَّلَامُ. وَفِي الْقِصَّةِ الْقَادِمَةِ: نَبِيُّ اللَّهِ يُوسُفُ عَلَيْهِ السَّلَامُ.",
+             "This was the story of Ya'qub, peace be upon him. Next: the Prophet Yusuf, peace be upon him.", 365737),
         ],
     ]),
 }
