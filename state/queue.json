@@ -3277,6 +3277,38 @@
       "review": "Canyon scene had two hikers; remade",
       "created": "2026-11-27T14:27:57+00:00",
       "reviewed": "2026-11-27T14:32:41+00:00"
+    },
+    {
+      "id": "20261127-144151-story",
+      "kind": "story",
+      "prophet": "salih",
+      "part": 1,
+      "parts": 2,
+      "series_no": 5,
+      "order": 501,
+      "caption": "The story of Salih (peace be upon him) · Part 1 of 2: The she-camel 🤍\n\nStories of the Prophets · 5 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: Al-Fajr 89:9, Hud 11:61, Ash-Shu'ara 26:155, Ash-Shu'ara 26:156\n\nPart 2 comes next on our page (Monday, Wednesday and Saturday at 15:00).\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophetsalih #quran #islam",
+      "keep_as": "story-salih-1",
+      "title": "Stories of the Prophets 5/25 · Salih · Part 1 of 2 · The she-camel",
+      "cover_label": "Stories of the Prophets · 5 / 25",
+      "cover_ar": "قصة صالح",
+      "cover_en": "The story of Salih",
+      "cover_sub": "Part 1 of 2 · The she-camel",
+      "duration": 118.5,
+      "size_mb": 71.0,
+      "mean_volume_db": -19.2,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T14:42:18+00:00"
     }
   ],
   "slots": {
