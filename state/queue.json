@@ -2686,6 +2686,131 @@
       "review": "Claude routine: arch, Arabic dua and English fit inside, source and handle present",
       "created": "2026-11-26T10:35:27+00:00",
       "reviewed": "2026-11-26T12:38:42+00:00"
+    },
+    {
+      "id": "20261127-024731-ayah",
+      "kind": "ayah",
+      "caption": "And your Lord has decreed that you worship not except Him, and to parents, good treatment.\n\nSurah Al-Isra (The Night Journey) · 17:23-27\nRecited by Maher Al-Muaiqly\n\nListen till the end and share it with someone who needs it today 🤍\n\n#quran #quranrecitation #islam #alisra #almuaiqly",
+      "duration": 70.6,
+      "passage": [
+        17,
+        23
+      ],
+      "ref": "17:23-27",
+      "whole_surah": false,
+      "surah": "Al-Isra",
+      "reciter": "Maher Al-Muaiqly",
+      "title": "Surah Al-Isra 17:23-27 · Maher Al-Muaiqly",
+      "background": "river",
+      "cover": true,
+      "size_mb": 59.1,
+      "mean_volume_db": -20.9,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60_90s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T02:47:46+00:00"
+    },
+    {
+      "id": "20261127-024801-asma",
+      "kind": "asma",
+      "caption": "السَّلاَمُ · As Salaam\nThe Source of Peace\n\nName 5 of 99. Follow so you don't miss the next one 🤍\n\n\"He is Allāh, other than whom there is no deity, the Sovereign, the Pure, the Perfection, the Grantor of Security, the Overseer, the Exalted in Might, the Compeller, the Superior. Exalted is Allāh above whatever they associate with Him.\" (Al-Hashr 59:23)\n\nThe Prophet ﷺ said: Allah has ninety-nine names; whoever learns them will enter Paradise (Bukhari & Muslim).\n\n#asmaulhusna #99namesofallah #allah #islam #quran",
+      "duration": 28.9,
+      "number": 5,
+      "reciter": "Yasser Al-Dosari",
+      "title": "Name 5 of 99 · As Salaam · The Source of Peace",
+      "cover": true,
+      "size_mb": 1.9,
+      "mean_volume_db": -14.2,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_8_75s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T02:48:06+00:00"
+    },
+    {
+      "id": "20261127-024839-tasbih",
+      "kind": "tasbih",
+      "caption": "33 Allahu Akbar after your salah. One minute with your Lord 🤍\n\n33× Allahu Akbar. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#allahuakbar #dhikr #tasbih #aftersalah #islam",
+      "duration": 60.0,
+      "set": "allahuakbar",
+      "title": "33× Allahu Akbar",
+      "cover": true,
+      "size_mb": 4.8,
+      "mean_volume_db": -40.6,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T02:48:46+00:00"
+    },
+    {
+      "id": "20261127-025019-quiz",
+      "kind": "quiz",
+      "caption": "Guess the surah 🤍 5 questions, level: medium.\n\nListen to the ayah and pick before the timer ends. How many did you get? Comment your score!\n\nAnswers: 1) Nuh · 2) Al-Kahf · 3) Ar-Rahman · 4) Al-Waqi'ah · 5) Maryam\n\nFollow for a new quiz every night.\n\n#quranquiz #guessthesurah #quran #islamicquiz #islam",
+      "duration": 95.8,
+      "level": "medium",
+      "questions": [
+        [
+          71,
+          13,
+          14
+        ],
+        [
+          18,
+          3,
+          4
+        ],
+        [
+          55,
+          20,
+          21
+        ],
+        [
+          56,
+          28,
+          29
+        ],
+        [
+          19,
+          2,
+          3
+        ]
+      ],
+      "reciter": "Mishary Alafasy",
+      "title": "Guess the surah · medium · Nuh, Al-Kahf, Ar-Rahman, Al-Waqi'ah, Maryam",
+      "cover": true,
+      "size_mb": 3.2,
+      "mean_volume_db": -23.8,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_50_150s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T02:50:28+00:00"
     }
   ],
   "slots": {
