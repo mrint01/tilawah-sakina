@@ -47,7 +47,7 @@ TOTAL_PROPHETS = 25
 # Segments: ("n", narration, scene) or ("a", surah, ayah, scene).
 VOICE = "ar-SA-HamedNeural"   # Arabic narrator (fusha); he tells the story, he never reads Quran words
 # how many parts each narrated story has in total (the later parts are written after part 1 is approved)
-PARTS = {"adam": 2, "idris": 1, "nuh": 3, "hud": 2, "salih": 2, "ibrahim": 5, "lut": 2, "ismail": 1, "ishaq": 1, "yaqub": 1, "yusuf": 6}
+PARTS = {"adam": 2, "idris": 1, "nuh": 3, "hud": 2, "salih": 2, "ibrahim": 5, "lut": 2, "ismail": 1, "ishaq": 1, "yaqub": 1, "yusuf": 6, "ayyub": 1, "shuayb": 2}
 PART_TITLES = {"adam": ["The creation", "The garden"], "idris": ["Raised to a high place"],
                "nuh": ["The call", "The Ark", "The Flood"], "hud": ["The people of 'Ad", "The wind"],
                "salih": ["The she-camel", "The blast"],
@@ -56,7 +56,9 @@ PART_TITLES = {"adam": ["The creation", "The garden"], "idris": ["Raised to a hi
                "ismail": ["Son of the valley"],
                "ishaq": ["The good news"],
                "yaqub": ["Beautiful patience"],
-               "yusuf": ["The dream", "To Egypt", "The test", "The prison", "The king's dream", "The reunion"]}
+               "yusuf": ["The dream", "To Egypt", "The test", "The prison", "The king's dream", "The reunion"],
+               "ayyub": ["Patience"],
+               "shuayb": ["The fair measure", "The day of the shadow"]}
 # the series in order (Adam -> Muhammad ﷺ): key, English name
 SERIES = [("adam", "Adam"), ("idris", "Idris"), ("nuh", "Nuh"), ("hud", "Hud"), ("salih", "Salih"), ("ibrahim", "Ibrahim"),
           ("lut", "Lut"), ("ismail", "Ismail"), ("ishaq", "Ishaq"), ("yaqub", "Ya'qub"), ("yusuf", "Yusuf"),
@@ -644,6 +646,71 @@ NARRATED = {
             ("a", 12, 101, 237672),
             ("n", "انْتَهَتْ قِصَّةُ يُوسُفَ عَلَيْهِ السَّلَامُ. وَفِي الْقِصَّةِ الْقَادِمَةِ: نَبِيُّ اللَّهِ أَيُّوبُ عَلَيْهِ السَّلَامُ.",
              "This was the story of Yusuf, peace be upon him. Next: the Prophet Ayyub, peace be upon him.", 201308),
+        ],
+    ]),
+    "ayyub": (12, "أيوب", "Ayyub", [
+        [  # One part: Al-Anbiya 21:83-84, Sad 38:41-44
+            ("n", "كَانَ أَيُّوبُ نَبِيًّا آتَاهُ اللَّهُ الْمَالَ وَالْأَوْلَادَ وَالصِّحَّةَ، فَكَانَ شَاكِرًا لِرَبِّهِ.",
+             "Ayyub was a prophet to whom Allah gave wealth, children and health, and he was thankful to his Lord.",
+             179200),
+            ("n", "ثُمَّ ابْتَلَاهُ اللَّهُ، فَذَهَبَ مَالُهُ، وَمَاتَ أَوْلَادُهُ، ثُمَّ أَصَابَهُ الْمَرَضُ سِنِينَ طَوِيلَةً.",
+             "Then Allah tested him. His wealth was lost, his children died, and then illness struck him for many "
+             "long years.", 328726),
+            ("n", "وَابْتَعَدَ عَنْهُ النَّاسُ، إِلَّا زَوْجَتَهُ، الَّتِي بَقِيَتْ تَخْدُمُهُ صَابِرَةً.",
+             "People kept away from him, except his wife, who stayed and cared for him with patience.", 284562),
+            ("n", "وَلَمْ يَشْكُ أَيُّوبُ إِلَّا إِلَى اللَّهِ، فَنَادَى رَبَّهُ:",
+             "Ayyub complained to no one but Allah, and he called out to his Lord:", 7215),
+            ("a", 21, 83, 205427),
+            ("a", 38, 41, 225775),
+            ("n", "فَأَمَرَهُ اللَّهُ أَنْ يَضْرِبَ الْأَرْضَ بِرِجْلِهِ، فَنَبَعَتْ عَيْنُ مَاءٍ، فَاغْتَسَلَ مِنْهَا وَشَرِبَ، فَشُفِيَ.",
+             "Allah told him to strike the ground with his foot. A spring of water burst out. He washed in it and "
+             "drank from it, and he was healed.", 220161),
+            ("a", 38, 42, 7452),
+            ("a", 21, 84, 246856),
+            ("a", 38, 44, 237673),
+            ("n", "فَمَنْ صَبَرَ عَلَى الْبَلَاءِ، وَلَمْ يَشْكُ إِلَّا إِلَى اللَّهِ، جَاءَهُ الْفَرَجُ.",
+             "Whoever is patient through hardship, and complains only to Allah, relief will come to him.", 280486),
+            ("n", "انْتَهَتْ قِصَّةُ أَيُّوبَ عَلَيْهِ السَّلَامُ. وَفِي الْقِصَّةِ الْقَادِمَةِ: نَبِيُّ اللَّهِ شُعَيْبٌ عَلَيْهِ السَّلَامُ.",
+             "This was the story of Ayyub, peace be upon him. Next: the Prophet Shu'ayb, peace be upon him.", 21175),
+        ],
+    ]),
+    "shuayb": (13, "شعيب", "Shu'ayb", [
+        [  # Part 1: the fair measure (Al-A'raf 7:85, Hud 11:84-88, Ash-Shu'ara 26:176-183)
+            ("n", "بَعْدَ قَوْمِ لُوطٍ، عَاشَ أَهْلُ مَدْيَنَ فِي شَمَالِ جَزِيرَةِ الْعَرَبِ. كَانُوا تُجَّارًا، يَغُشُّونَ فِي الْمِكْيَالِ وَالْمِيزَانِ.",
+             "After the people of Lut, the people of Madyan lived in the north of Arabia. They were traders who "
+             "cheated in measures and scales.", 69321),
+            ("n", "فَأَرْسَلَ اللَّهُ إِلَيْهِمْ أَخَاهُمْ شُعَيْبًا عَلَيْهِ السَّلَامُ.",
+             "So Allah sent them their brother Shu'ayb, peace be upon him.", 26085),
+            ("a", 7, 85, 304330),
+            ("a", 11, 85, 21444),
+            ("n", "فَسَخِرُوا مِنْهُ وَمِنْ صَلَاتِهِ:",
+             "They mocked him and his prayer:", 147663),
+            ("a", 11, 87, 70898),
+            ("n", "فَأَجَابَهُمْ بِحِلْمٍ:",
+             "He answered them gently:", 7127),
+            ("a", 11, 88, 280486),
+            ("n", "فِي الْجُزْءِ الثَّانِي: يَوْمُ الظُّلَّةِ.",
+             "In part two: the day of the shadow.", 225775),
+        ],
+        [  # Part 2: the day of the shadow (Al-A'raf 7:88-93, Ash-Shu'ara 26:185-191, Hud 11:91-95)
+            ("n", "وَهَدَّدَهُ كُبَرَاءُ قَوْمِهِ بِالطَّرْدِ هُوَ وَالْمُؤْمِنِينَ، إِنْ لَمْ يَعُودُوا إِلَى دِينِهِمْ.",
+             "The leaders of his people threatened to drive him and the believers out, unless they returned to their "
+             "religion.", 2147),
+            ("a", 7, 88, 9041),
+            ("n", "وَتَحَدَّوْهُ أَنْ يُسْقِطَ عَلَيْهِمْ قِطَعًا مِنَ السَّمَاءِ.",
+             "They challenged him to make pieces of the sky fall upon them.", 190331),
+            ("a", 26, 187, 12759),
+            ("n", "فَأَصَابَهُمْ حَرٌّ شَدِيدٌ، ثُمَّ ظَهَرَتْ سَحَابَةٌ، فَاجْتَمَعُوا تَحْتَهَا يَطْلُبُونَ الظِّلَّ، فَجَاءَهُمُ الْعَذَابُ.",
+             "A terrible heat came upon them. Then a cloud appeared, and they gathered under it seeking shade, and the "
+             "punishment came.", 70899),
+            ("a", 26, 189, 230528),
+            ("a", 11, 94, 283428),
+            ("n", "وَتَوَلَّى عَنْهُمْ شُعَيْبٌ، وَقَالَ:",
+             "Shu'ayb turned away from them, and said:", 316435),
+            ("a", 7, 93, 43953),
+            ("n", "انْتَهَتْ قِصَّةُ شُعَيْبٍ عَلَيْهِ السَّلَامُ. وَفِي الْقِصَّةِ الْقَادِمَةِ: كَلِيمُ اللَّهِ مُوسَى عَلَيْهِ السَّلَامُ.",
+             "This was the story of Shu'ayb, peace be upon him. Next: Musa, who spoke with Allah, peace be upon him.",
+             2950),
         ],
     ]),
 }
