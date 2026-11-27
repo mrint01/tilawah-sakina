@@ -4847,6 +4847,38 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-27T16:02:03+00:00"
+    },
+    {
+      "id": "20261127-160246-story",
+      "kind": "story",
+      "prophet": "muhammad",
+      "part": 5,
+      "parts": 6,
+      "series_no": 25,
+      "order": 2505,
+      "caption": "The story of Muhammad ﷺ · Part 5 of 6: The Hijrah 🤍\n\nStories of the Prophets · 25 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: Al-Anfal 8:30, At-Tawbah 9:40\n\nPart 6 comes next on our page (Monday, Wednesday and Saturday at 15:00).\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophetmuhammad #quran #islam",
+      "keep_as": "story-muhammad-5",
+      "title": "Stories of the Prophets 25/25 · Muhammad · Part 5 of 6 · The Hijrah",
+      "cover_label": "Stories of the Prophets · 25 / 25",
+      "cover_ar": "قصة محمد ﷺ",
+      "cover_en": "The story of Muhammad",
+      "cover_sub": "Part 5 of 6 · The Hijrah",
+      "duration": 121.3,
+      "size_mb": 43.8,
+      "mean_volume_db": -18.2,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T16:03:12+00:00"
     }
   ],
   "slots": {
