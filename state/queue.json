@@ -2502,7 +2502,7 @@
       "title": "Surah An-Nur 24:35-37 · Maher Al-Muaiqly",
       "background": "waterfall",
       "cover": true,
-      "size_mb": 72.0,
+      "size_mb": 72,
       "mean_volume_db": -14.8,
       "checks": {
         "size_1080x1920": true,
@@ -2521,11 +2521,11 @@
       "id": "20261126-025201-tasbih",
       "kind": "tasbih",
       "caption": "Send one salawat and Allah sends ten blessings upon you (Muslim). Here are 33 🤍\n\n33× Salawat upon the Prophet ﷺ. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#salawat #durood #dhikr #prophetmuhammad #islam",
-      "duration": 60.0,
+      "duration": 60,
       "set": "salawat",
       "title": "33× Salawat upon the Prophet ﷺ",
       "cover": true,
-      "size_mb": 5.0,
+      "size_mb": 5,
       "mean_volume_db": -40.5,
       "checks": {
         "size_1080x1920": true,
@@ -2598,7 +2598,7 @@
       "id": "20261126-025417-quiz",
       "kind": "quiz",
       "caption": "Guess the surah 🤍 5 questions, level: easy.\n\nListen to the ayah and pick before the timer ends. How many did you get? Comment your score!\n\nAnswers: 1) Al-Qari'ah · 2) Al-Balad · 3) Al-Infitar · 4) Ash-Sharh · 5) Al-Masad\n\nFollow for a new quiz every night.\n\n#quranquiz #guessthesurah #quran #islamicquiz #islam",
-      "duration": 90.0,
+      "duration": 90,
       "level": "easy",
       "questions": [
         [
@@ -2686,7 +2686,7 @@
       "source": "Hisn al-Muslim",
       "title": "Dua after salah · O Allah, help me to remember You, to thank…",
       "cover": true,
-      "size_mb": 1.0,
+      "size_mb": 1,
       "mean_volume_db": -22.5,
       "checks": {
         "size_1080x1920": true,
@@ -2761,7 +2761,7 @@
       "id": "20261127-024839-tasbih",
       "kind": "tasbih",
       "caption": "33 Allahu Akbar after your salah. One minute with your Lord 🤍\n\n33× Allahu Akbar. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#allahuakbar #dhikr #tasbih #aftersalah #islam",
-      "duration": 60.0,
+      "duration": 60,
       "set": "allahuakbar",
       "title": "33× Allahu Akbar",
       "cover": true,
@@ -2872,7 +2872,7 @@
       "cover_en": "The story of Idris",
       "cover_sub": "Raised to a high place",
       "duration": 91.3,
-      "size_mb": 28.0,
+      "size_mb": 28,
       "mean_volume_db": -20.2,
       "checks": {
         "size_1080x1920": true,
@@ -3037,7 +3037,7 @@
       "cover_en": "The story of Nuh",
       "cover_sub": "Part 3 of 3 · The Flood",
       "duration": 171.2,
-      "size_mb": 86.0,
+      "size_mb": 86,
       "mean_volume_db": -18.1,
       "checks": {
         "size_1080x1920": true,
@@ -3301,7 +3301,7 @@
       "cover_en": "The story of Salih",
       "cover_sub": "Part 1 of 2 · The she-camel",
       "duration": 118.5,
-      "size_mb": 71.0,
+      "size_mb": 71,
       "mean_volume_db": -19.2,
       "checks": {
         "size_1080x1920": true,
@@ -3333,7 +3333,7 @@
       "cover_ar": "قصة إبراهيم",
       "cover_en": "The story of Ibrahim",
       "cover_sub": "Part 3 of 5 · The fire",
-      "duration": 121.0,
+      "duration": 121,
       "size_mb": 45.1,
       "mean_volume_db": -19.1,
       "checks": {
@@ -3433,8 +3433,8 @@
       "cover_en": "The story of Ibrahim",
       "cover_sub": "Part 5 of 5 · The sacrifice",
       "duration": 132.2,
-      "size_mb": 41.0,
-      "mean_volume_db": -18.0,
+      "size_mb": 41,
+      "mean_volume_db": -18,
       "checks": {
         "size_1080x1920": true,
         "video_h264": true,
@@ -3466,7 +3466,7 @@
       "cover_en": "The story of Ibrahim",
       "cover_sub": "Part 4 of 5 · The valley",
       "duration": 125.2,
-      "size_mb": 48.0,
+      "size_mb": 48,
       "mean_volume_db": -18.9,
       "checks": {
         "size_1080x1920": true,
@@ -3630,7 +3630,7 @@
       "cover_ar": "قصة يوسف",
       "cover_en": "The story of Yusuf",
       "cover_sub": "Part 5 of 6 · The king's dream",
-      "duration": 185.0,
+      "duration": 185,
       "size_mb": 118.7,
       "mean_volume_db": -19.2,
       "checks": {
@@ -3761,7 +3761,7 @@
       "cover_en": "The story of Ya'qub",
       "cover_sub": "Beautiful patience",
       "duration": 178.5,
-      "size_mb": 62.0,
+      "size_mb": 62,
       "mean_volume_db": -17.8,
       "checks": {
         "size_1080x1920": true,
@@ -3826,7 +3826,7 @@
       "cover_ar": "قصة أيوب",
       "cover_en": "The story of Ayyub",
       "cover_sub": "Patience",
-      "duration": 149.0,
+      "duration": 149,
       "size_mb": 68.3,
       "mean_volume_db": -18.5,
       "checks": {
@@ -3958,7 +3958,7 @@
       "cover_ar": "قصة موسى",
       "cover_en": "The story of Musa",
       "cover_sub": "Part 7 of 8 · The calf",
-      "duration": 130.0,
+      "duration": 130,
       "size_mb": 40.5,
       "mean_volume_db": -19.3,
       "checks": {
@@ -4057,7 +4057,7 @@
       "cover_ar": "قصة سليمان",
       "cover_en": "The story of Sulayman",
       "cover_sub": "Part 1 of 3 · The kingdom",
-      "duration": 113.0,
+      "duration": 113,
       "size_mb": 34.4,
       "mean_volume_db": -18.7,
       "checks": {
@@ -4223,7 +4223,7 @@
       "cover_en": "The story of Musa",
       "cover_sub": "Part 3 of 8 · The fire on the mountain",
       "duration": 130.5,
-      "size_mb": 50.0,
+      "size_mb": 50,
       "mean_volume_db": -18.8,
       "checks": {
         "size_1080x1920": true,
@@ -4683,7 +4683,7 @@
       "cover_en": "The story of 'Isa",
       "cover_sub": "Part 1 of 3 · Maryam",
       "duration": 142.4,
-      "size_mb": 62.0,
+      "size_mb": 62,
       "mean_volume_db": -18.2,
       "checks": {
         "size_1080x1920": true,
@@ -5079,7 +5079,7 @@
       "cover_sub": "Part 5 of 8 · The magicians",
       "duration": 136.2,
       "size_mb": 37.9,
-      "mean_volume_db": -18.0,
+      "mean_volume_db": -18,
       "checks": {
         "size_1080x1920": true,
         "video_h264": true,
@@ -5374,9 +5374,10 @@
     },
     "2026-11-25 15:00": {
       "kind": "story",
-      "status": "missed",
+      "status": "resolved",
       "reason": "Nothing approved of this type to post",
-      "at": "2026-11-25T15:00:00+01:00"
+      "at": "2026-11-25T15:00:00+01:00",
+      "resolved": "2026-11-27T22:19:08.786Z"
     },
     "2026-11-27 12:00": {
       "kind": "asma",
