@@ -3631,6 +3631,38 @@
       "status": "rejected",
       "review": "failed automatic checks",
       "created": "2026-11-27T15:35:55+00:00"
+    },
+    {
+      "id": "20261127-153528-story",
+      "kind": "story",
+      "prophet": "ismail",
+      "part": 1,
+      "parts": 1,
+      "series_no": 8,
+      "order": 801,
+      "caption": "The story of Ismail (peace be upon him): Son of the valley 🤍\n\nStories of the Prophets · 8 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: As-Saffat 37:101, Al-Baqarah 2:128, Maryam 19:54, Maryam 19:55, Al-Baqarah 2:129\n\nNext: the story of the Prophet Ishaq.\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophetismail #quran #islam",
+      "keep_as": "story-ismail-1",
+      "title": "Stories of the Prophets 8/25 · Ismail · Son of the valley",
+      "cover_label": "Stories of the Prophets · 8 / 25",
+      "cover_ar": "قصة إسماعيل",
+      "cover_en": "The story of Ismail",
+      "cover_sub": "Son of the valley",
+      "duration": 154.9,
+      "size_mb": 54.1,
+      "mean_volume_db": -18.7,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T15:36:05+00:00"
     }
   ],
   "slots": {
