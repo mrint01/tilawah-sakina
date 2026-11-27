@@ -1780,11 +1780,14 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
+      "status": "posted",
       "review": "Claude routine: arch layout, Arabic and English render cleanly, text inside arch",
       "created": "2026-11-24T21:10:04+00:00",
       "reviewed": "2026-11-24T21:13:27+00:00",
-      "cover": true
+      "cover": true,
+      "posted": "2026-11-27T06:00:53+00:00",
+      "ig_media_id": "17980209579150566",
+      "permalink": "https://www.instagram.com/reel/DgO_FQZN1PU/"
     },
     {
       "id": "20261124-211019-dua",
@@ -2948,6 +2951,18 @@
       "reason": null,
       "posted": "2026-11-26T23:12:14+00:00",
       "late_min": 12
+    },
+    "2026-11-27 06:00": {
+      "kind": "dua",
+      "status": "posted",
+      "id": "20261124-210958-dua",
+      "title": "Morning adhkar · In the name of Allah with whose name nothing…",
+      "tries": 1,
+      "started": "2026-11-27T05:58:17+00:00",
+      "at": "2026-11-27T06:00:00+01:00",
+      "reason": null,
+      "posted": "2026-11-27T06:00:53+00:00",
+      "late_min": 60
     }
   }
 }
