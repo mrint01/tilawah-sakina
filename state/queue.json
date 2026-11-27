@@ -4079,6 +4079,38 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-27T15:51:04+00:00"
+    },
+    {
+      "id": "20261127-155057-story",
+      "kind": "story",
+      "prophet": "harun",
+      "part": 1,
+      "parts": 1,
+      "series_no": 15,
+      "order": 1501,
+      "caption": "The story of Harun (peace be upon him): The helper 🤍\n\nStories of the Prophets · 15 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: Al-Qasas 28:34, Maryam 19:53, Taha 20:94, Al-A'raf 7:151\n\nNext: the story of the Prophet Dhul-Kifl.\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophetharun #quran #islam",
+      "keep_as": "story-harun-1",
+      "title": "Stories of the Prophets 15/25 · Harun · The helper",
+      "cover_label": "Stories of the Prophets · 15 / 25",
+      "cover_ar": "قصة هارون",
+      "cover_en": "The story of Harun",
+      "cover_sub": "The helper",
+      "duration": 135.5,
+      "size_mb": 42.1,
+      "mean_volume_db": -19.4,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T15:51:23+00:00"
     }
   ],
   "slots": {
