@@ -47,9 +47,10 @@ TOTAL_PROPHETS = 25
 # Segments: ("n", narration, scene) or ("a", surah, ayah, scene).
 VOICE = "ar-SA-HamedNeural"   # Arabic narrator (fusha); he tells the story, he never reads Quran words
 # how many parts each narrated story has in total (the later parts are written after part 1 is approved)
-PARTS = {"adam": 2, "idris": 1, "nuh": 3, "hud": 2}
+PARTS = {"adam": 2, "idris": 1, "nuh": 3, "hud": 2, "salih": 2}
 PART_TITLES = {"adam": ["The creation", "The garden"], "idris": ["Raised to a high place"],
-               "nuh": ["The call", "The Ark", "The Flood"], "hud": ["The people of 'Ad", "The wind"]}
+               "nuh": ["The call", "The Ark", "The Flood"], "hud": ["The people of 'Ad", "The wind"],
+               "salih": ["The she-camel", "The blast"]}
 # the series in order (Adam -> Muhammad ﷺ): key, English name
 SERIES = [("adam", "Adam"), ("idris", "Idris"), ("nuh", "Nuh"), ("hud", "Hud"), ("salih", "Salih"), ("ibrahim", "Ibrahim"),
           ("lut", "Lut"), ("ismail", "Ismail"), ("ishaq", "Ishaq"), ("yaqub", "Ya'qub"), ("yusuf", "Yusuf"),
@@ -254,6 +255,56 @@ NARRATED = {
              "Neither their strength nor their buildings could save them. All strength belongs to Allah.", 365737),
             ("n", "انْتَهَتْ قِصَّةُ هُودٍ عَلَيْهِ السَّلَامُ. وَفِي الْقِصَّةِ الْقَادِمَةِ: نَبِيُّ اللَّهِ صَالِحٌ عَلَيْهِ السَّلَامُ.",
              "This was the story of Hud, peace be upon him. Next: the Prophet Salih, peace be upon him.", 175495),
+        ],
+    ]),
+    "salih": (5, "صالح", "Salih", [
+        [  # Part 1: the she-camel (Hud 11:61-64, Ash-Shu'ara 26:141-156, Al-A'raf 7:73-74, Al-Fajr 89:9)
+            ("n", "بَعْدَ عَادٍ، سَكَنَتْ قَبِيلَةُ ثَمُودَ فِي أَرْضِ الْحِجْرِ، فِي شَمَالِ جَزِيرَةِ الْعَرَبِ.",
+             "After 'Ad, the tribe of Thamud lived in the land of Al-Hijr, in the north of Arabia.", 69321),
+            ("n", "نَحَتُوا بُيُوتَهُمْ فِي الْجِبَالِ، وَعَاشُوا بَيْنَ الْبَسَاتِينِ وَالْعُيُونِ، فِي نِعْمَةٍ عَظِيمَةٍ.",
+             "They carved their homes into the mountains, and lived among gardens and springs, in great blessing.",
+             35737),
+            ("a", 89, 9, 6538),
+            ("n", "لَكِنَّهُمْ عَبَدُوا الْأَصْنَامَ، فَأَرْسَلَ اللَّهُ إِلَيْهِمْ أَخَاهُمْ صَالِحًا عَلَيْهِ السَّلَامُ.",
+             "But they worshipped idols. So Allah sent them their brother, Salih, peace be upon him.", 212579),
+            ("a", 11, 61, 71494),
+            ("n", "فَقَالُوا: كُنَّا نَرْجُو أَنْ تَكُونَ سَيِّدًا فِينَا. ثُمَّ طَلَبُوا مِنْهُ آيَةً تَدُلُّ عَلَى صِدْقِهِ.",
+             "They said: we had hoped you would be a leader among us. Then they asked him for a sign to prove he was "
+             "telling the truth.", 14955),
+            ("n", "فَأَخْرَجَ اللَّهُ لَهُمْ نَاقَةً، آيَةً وَاضِحَةً. لَهَا يَوْمٌ تَشْرَبُ فِيهِ مِنَ الْمَاءِ، وَلَهُمْ يَوْمٌ.",
+             "So Allah brought forth a she-camel for them, a clear sign. She had one day to drink from the water, and "
+             "they had another.", 7452),
+            ("a", 26, 155, 220161),
+            ("a", 26, 156, 190331),
+            ("n", "فِي الْجُزْءِ الثَّانِي: الصَّيْحَةُ.",
+             "In part two: the blast.", 7215),
+        ],
+        [  # Part 2: the blast (Ash-Shams 91:11-15, Al-A'raf 7:77-79, Hud 11:65-68, An-Naml 27:48-53; Sahih al-Bukhari 433)
+            ("n", "عَاشَتِ النَّاقَةُ بَيْنَهُمْ، لَكِنَّ الْمُتَكَبِّرِينَ ضَاقُوا بِهَا، وَتَآمَرُوا عَلَى قَتْلِهَا.",
+             "The she-camel lived among them. But the arrogant could not bear her, and they plotted to kill her.", 69320),
+            ("a", 91, 12, 316435),
+            ("n", "فَقَتَلَهَا أَشْقَاهُمْ، وَرَضِيَ قَوْمُهُ بِفِعْلِهِ، ثُمَّ تَحَدَّوْا صَالِحًا.",
+             "The most wretched of them killed her, his people approved of what he did, and then they challenged "
+             "Salih.", 284562),
+            ("a", 7, 77, 43953),
+            ("n", "فَأَخْبَرَهُمْ صَالِحٌ أَنَّ الْعَذَابَ سَيَأْتِيهِمْ بَعْدَ ثَلَاثَةِ أَيَّامٍ.",
+             "Salih told them the punishment would come to them after three days.", 88562),
+            ("a", 11, 65, 12759),
+            ("n", "وَتَآمَرَ تِسْعَةُ رِجَالٍ عَلَى قَتْلِ صَالِحٍ وَأَهْلِهِ فِي اللَّيْلِ، فَمَكَرُوا، وَمَكَرَ اللَّهُ، وَهُمْ لَا يَشْعُرُونَ.",
+             "Nine men plotted to kill Salih and his family at night. They planned, and Allah planned, while they did "
+             "not know.", 205427),
+            ("n", "وَفِي صَبَاحِ الْيَوْمِ الرَّابِعِ، جَاءَتْهُمْ صَيْحَةٌ عَظِيمَةٌ، وَرَجَفَتْ بِهِمُ الْأَرْضُ.",
+             "On the morning of the fourth day, a mighty blast came upon them, and the earth shook beneath them.",
+             283428),
+            ("a", 11, 67, 125192),
+            ("a", 11, 66, 328740),
+            ("n", "وَلَمَّا مَرَّ نَبِيُّنَا مُحَمَّدٌ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ بِالْحِجْرِ، قَالَ: لَا تَدْخُلُوا مَسَاكِنَ الَّذِينَ ظَلَمُوا "
+                  "أَنْفُسَهُمْ إِلَّا أَنْ تَكُونُوا بَاكِينَ. رَوَاهُ الْبُخَارِيُّ.",
+             "When our Prophet Muhammad ﷺ passed by Al-Hijr, he said: do not enter the homes of those who wronged "
+             "themselves unless you are weeping. (Sahih al-Bukhari)", 86847),
+            ("n", "انْتَهَتْ قِصَّةُ صَالِحٍ عَلَيْهِ السَّلَامُ. وَفِي الْقِصَّةِ الْقَادِمَةِ: خَلِيلُ اللَّهِ إِبْرَاهِيمُ عَلَيْهِ السَّلَامُ.",
+             "This was the story of Salih, peace be upon him. Next: Ibrahim, the friend of Allah, peace be upon him.",
+             201308),
         ],
     ]),
 }
