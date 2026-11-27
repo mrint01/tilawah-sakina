@@ -773,9 +773,23 @@ def cmd_addstory(args):
     for it in q["items"]:
         if it["kind"] == "story" and it.get("keep_as") == meta["keep_as"] and it["status"] in ("pending", "approved"):
             sys.exit(f"{meta['keep_as']} is already waiting ({it['id']}): reject it first to replace it")
-    item_id = datetime.now().strftime("%Y%m%d-%H%M%S") + "-story"
+    # parts rendered at the same time on different machines must not get the same id: the seconds come from the
+    # part's place in the series (the minute from the clock), and an id already in the queue moves on a minute
+    from datetime import timedelta
+    have = {it["id"] for it in q["items"]}
+    t = datetime.now().replace(second=meta["order"] % 60)
+    while (item_id := t.strftime("%Y%m%d-%H%M%S") + "-story") in have:
+        t += timedelta(minutes=1)
     mp4 = STAGING / f"{item_id}.mp4"
     shutil.copy(args.file, mp4)
+    if mp4.stat().st_size > 95e6:  # Instagram via GitHub Pages: keep it under 100 MB
+        dur = float(probe(mp4)["format"]["duration"])
+        kbps = int(90e6 * 8 / 1000 / dur) - 200
+        small_ = mp4.with_suffix(".small.mp4")
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(mp4), "-c:v", "libx264", "-preset", "medium",
+                        "-b:v", f"{kbps}k", "-maxrate", f"{kbps}k", "-bufsize", f"{kbps * 2}k", "-pix_fmt", "yuv420p",
+                        "-c:a", "copy", "-movflags", "+faststart", str(small_)], check=True)
+        small_.replace(mp4)
     checks, stats = run_checks(mp4, "story")
     png, small, cover = STAGING / f"{item_id}.png", STAGING / f"{item_id}-preview.mp4", STAGING / f"{item_id}-cover.jpg"
     contact_sheet(mp4, png, n=8)

@@ -4076,9 +4076,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T15:51:04+00:00"
+      "status": "rejected",
+      "review": "id clash with Musa 5 (same second): remade",
+      "created": "2026-11-27T15:51:04+00:00",
+      "reviewed": "2026-11-27T16:17:09+00:00"
     },
     {
       "id": "20261127-155057-story",
