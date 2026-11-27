@@ -47,11 +47,12 @@ TOTAL_PROPHETS = 25
 # Segments: ("n", narration, scene) or ("a", surah, ayah, scene).
 VOICE = "ar-SA-HamedNeural"   # Arabic narrator (fusha); he tells the story, he never reads Quran words
 # how many parts each narrated story has in total (the later parts are written after part 1 is approved)
-PARTS = {"adam": 2, "idris": 1, "nuh": 3, "hud": 2, "salih": 2, "ibrahim": 5}
+PARTS = {"adam": 2, "idris": 1, "nuh": 3, "hud": 2, "salih": 2, "ibrahim": 5, "lut": 2}
 PART_TITLES = {"adam": ["The creation", "The garden"], "idris": ["Raised to a high place"],
                "nuh": ["The call", "The Ark", "The Flood"], "hud": ["The people of 'Ad", "The wind"],
                "salih": ["The she-camel", "The blast"],
-               "ibrahim": ["The search", "The idols", "The fire", "The valley", "The sacrifice"]}
+               "ibrahim": ["The search", "The idols", "The fire", "The valley", "The sacrifice"],
+               "lut": ["The city", "The punishment"]}
 # the series in order (Adam -> Muhammad ﷺ): key, English name
 SERIES = [("adam", "Adam"), ("idris", "Idris"), ("nuh", "Nuh"), ("hud", "Hud"), ("salih", "Salih"), ("ibrahim", "Ibrahim"),
           ("lut", "Lut"), ("ismail", "Ismail"), ("ishaq", "Ishaq"), ("yaqub", "Ya'qub"), ("yusuf", "Yusuf"),
@@ -408,6 +409,51 @@ NARRATED = {
             ("a", 4, 125, 7127),
             ("n", "انْتَهَتْ قِصَّةُ إِبْرَاهِيمَ عَلَيْهِ السَّلَامُ. وَفِي الْقِصَّةِ الْقَادِمَةِ: نَبِيُّ اللَّهِ لُوطٌ عَلَيْهِ السَّلَامُ.",
              "This was the story of Ibrahim, peace be upon him. Next: the Prophet Lut, peace be upon him.", 238507),
+        ],
+    ]),
+    "lut": (7, "لوط", "Lut", [
+        [  # Part 1: the city (Al-A'raf 7:80-82, Ash-Shu'ara 26:160-169, Al-'Ankabut 29:28-30)
+            ("n", "آمَنَ لُوطٌ بِعَمِّهِ إِبْرَاهِيمَ وَهَاجَرَ مَعَهُ، ثُمَّ أَرْسَلَهُ اللَّهُ إِلَى قَوْمِ سَدُومَ، قُرْبَ الْبَحْرِ الْمَيِّتِ.",
+             "Lut believed in his uncle Ibrahim and emigrated with him. Then Allah sent him to the people of Sodom, "
+             "near the Dead Sea.", 128114),
+            ("n", "كَانُوا يَفْعَلُونَ فَاحِشَةً لَمْ يَفْعَلْهَا أَحَدٌ قَبْلَهُمْ، وَيَقْطَعُونَ الطَّرِيقَ، وَيَأْتُونَ الْمُنْكَرَ فِي مَجَالِسِهِمْ عَلَنًا.",
+             "They committed an indecency no one before them had done. They robbed travellers, and did evil openly in "
+             "their gatherings.", 59252),
+            ("a", 7, 80, 234450),
+            ("n", "دَعَاهُمْ لُوطٌ إِلَى تَقْوَى اللَّهِ وَالطَّهَارَةِ، وَلَمْ يَطْلُبْ مِنْهُمْ أَجْرًا.",
+             "Lut called them to fear Allah and to be pure, and he asked them for no reward.", 352978),
+            ("a", 26, 164, 206379),
+            ("n", "فَرَدُّوا عَلَيْهِ بِالسُّخْرِيَةِ، وَعَدُّوا الطَّهَارَةَ عَيْبًا.",
+             "They answered him with mockery, and treated purity as a fault.", 244539),
+            ("a", 7, 82, 349452),
+            ("n", "فَدَعَا لُوطٌ رَبَّهُ:",
+             "So Lut called upon his Lord:", 2145),
+            ("a", 29, 30, 212057),
+            ("n", "فِي الْجُزْءِ الثَّانِي: الْعَذَابُ.",
+             "In part two: the punishment.", 28916),
+        ],
+        [  # Part 2: the punishment (Hud 11:69-83, Al-Hijr 15:57-77, Al-'Ankabut 29:31-35, At-Tahrim 66:10)
+            ("n", "مَرَّتِ الْمَلَائِكَةُ بِإِبْرَاهِيمَ أَوَّلًا، فَبَشَّرُوهُ بِإِسْحَاقَ، وَأَخْبَرُوهُ أَنَّهُمْ أُرْسِلُوا إِلَى قَوْمِ لُوطٍ.",
+             "The angels passed by Ibrahim first. They gave him the good news of Ishaq, and told him they had been sent "
+             "to the people of Lut.", 34623),
+            ("a", 29, 31, 241748),
+            ("n", "ثُمَّ جَاؤُوا لُوطًا فِي صُورَةِ شَبَابٍ حِسَانٍ، فَخَافَ عَلَيْهِمْ مِنْ قَوْمِهِ.",
+             "Then they came to Lut in the form of handsome young men, and he feared for them because of his people.",
+             32585),
+            ("a", 11, 77, 174891),
+            ("n", "وَأَسْرَعَ قَوْمُهُ إِلَى بَيْتِهِ، فَقَالَ لَهُمْ: اتَّقُوا اللَّهَ، وَلَا تُخْزُونِي فِي ضَيْفِي.",
+             "His people rushed to his house. He told them: fear Allah, and do not disgrace me with my guests.", 205009),
+            ("a", 11, 81, 315523),
+            ("n", "فَخَرَجَ لُوطٌ لَيْلًا بِالْمُؤْمِنِينَ مِنْ أَهْلِهِ. وَبَقِيَتِ امْرَأَتُهُ مَعَ الْقَوْمِ، فَقَدْ كَانَتْ عَلَى كُفْرِهِمْ.",
+             "Lut left at night with the believers of his family. His wife stayed behind with the people, for she shared "
+             "their disbelief.", 219754),
+            ("n", "وَعِنْدَ الشُّرُوقِ، جَاءَ أَمْرُ اللَّهِ.",
+             "And at sunrise, the command of Allah came.", 92312),
+            ("a", 11, 82, 97290),
+            ("a", 11, 83, 260564),
+            ("a", 29, 35, 65094),
+            ("n", "انْتَهَتْ قِصَّةُ لُوطٍ عَلَيْهِ السَّلَامُ. وَفِي الْقِصَّةِ الْقَادِمَةِ: نَبِيُّ اللَّهِ إِسْمَاعِيلُ عَلَيْهِ السَّلَامُ.",
+             "This was the story of Lut, peace be upon him. Next: the Prophet Ismail, peace be upon him.", 22183),
         ],
     ]),
 }
