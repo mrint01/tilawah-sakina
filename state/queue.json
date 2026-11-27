@@ -4175,6 +4175,38 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-27T15:52:04+00:00"
+    },
+    {
+      "id": "20261127-155140-story",
+      "kind": "story",
+      "prophet": "musa",
+      "part": 3,
+      "parts": 8,
+      "series_no": 14,
+      "order": 1403,
+      "caption": "The story of Musa (peace be upon him) · Part 3 of 8: The fire on the mountain 🤍\n\nStories of the Prophets · 14 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: Taha 20:10, Taha 20:11, Taha 20:12, Taha 20:14, Taha 20:24, Taha 20:25, Taha 20:26, Taha 20:27, Taha 20:28\n\nPart 4 comes next on our page (Monday, Wednesday and Saturday at 15:00).\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophetmusa #quran #islam",
+      "keep_as": "story-musa-3",
+      "title": "Stories of the Prophets 14/25 · Musa · Part 3 of 8 · The fire on the mountain",
+      "cover_label": "Stories of the Prophets · 14 / 25",
+      "cover_ar": "قصة موسى",
+      "cover_en": "The story of Musa",
+      "cover_sub": "Part 3 of 8 · The fire on the mountain",
+      "duration": 130.5,
+      "size_mb": 50.0,
+      "mean_volume_db": -18.8,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T15:52:13+00:00"
     }
   ],
   "slots": {
