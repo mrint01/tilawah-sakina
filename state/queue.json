@@ -4207,6 +4207,38 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-27T15:52:13+00:00"
+    },
+    {
+      "id": "20261127-155159-story",
+      "kind": "story",
+      "prophet": "alyasa",
+      "part": 1,
+      "parts": 1,
+      "series_no": 20,
+      "order": 2001,
+      "caption": "The story of Al-Yasa' (peace be upon him): Among the chosen 🤍\n\nStories of the Prophets · 20 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: Al-An'am 6:86, Sad 38:48, Al-An'am 6:90\n\nNext: the story of the Prophet Yunus.\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophetal-yasa' #quran #islam",
+      "keep_as": "story-alyasa-1",
+      "title": "Stories of the Prophets 20/25 · Al-Yasa' · Among the chosen",
+      "cover_label": "Stories of the Prophets · 20 / 25",
+      "cover_ar": "قصة اليسع",
+      "cover_en": "The story of Al-Yasa'",
+      "cover_sub": "Among the chosen",
+      "duration": 82.4,
+      "size_mb": 24.1,
+      "mean_volume_db": -18.3,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T15:52:15+00:00"
     }
   ],
   "slots": {
