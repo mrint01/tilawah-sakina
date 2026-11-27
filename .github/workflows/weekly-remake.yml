@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   remake:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04  # ubuntu-latest (26.04) machines kept shutting down mid-render
     timeout-minutes: 120
     strategy:
       fail-fast: false
