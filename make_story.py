@@ -47,10 +47,11 @@ TOTAL_PROPHETS = 25
 # Segments: ("n", narration, scene) or ("a", surah, ayah, scene).
 VOICE = "ar-SA-HamedNeural"   # Arabic narrator (fusha); he tells the story, he never reads Quran words
 # how many parts each narrated story has in total (the later parts are written after part 1 is approved)
-PARTS = {"adam": 2, "idris": 1, "nuh": 3, "hud": 2, "salih": 2}
+PARTS = {"adam": 2, "idris": 1, "nuh": 3, "hud": 2, "salih": 2, "ibrahim": 5}
 PART_TITLES = {"adam": ["The creation", "The garden"], "idris": ["Raised to a high place"],
                "nuh": ["The call", "The Ark", "The Flood"], "hud": ["The people of 'Ad", "The wind"],
-               "salih": ["The she-camel", "The blast"]}
+               "salih": ["The she-camel", "The blast"],
+               "ibrahim": ["The search", "The idols", "The fire", "The valley", "The sacrifice"]}
 # the series in order (Adam -> Muhammad ﷺ): key, English name
 SERIES = [("adam", "Adam"), ("idris", "Idris"), ("nuh", "Nuh"), ("hud", "Hud"), ("salih", "Salih"), ("ibrahim", "Ibrahim"),
           ("lut", "Lut"), ("ismail", "Ismail"), ("ishaq", "Ishaq"), ("yaqub", "Ya'qub"), ("yusuf", "Yusuf"),
@@ -305,6 +306,108 @@ NARRATED = {
             ("n", "انْتَهَتْ قِصَّةُ صَالِحٍ عَلَيْهِ السَّلَامُ. وَفِي الْقِصَّةِ الْقَادِمَةِ: خَلِيلُ اللَّهِ إِبْرَاهِيمُ عَلَيْهِ السَّلَامُ.",
              "This was the story of Salih, peace be upon him. Next: Ibrahim, the friend of Allah, peace be upon him.",
              201308),
+        ],
+    ]),
+    "ibrahim": (6, "إبراهيم", "Ibrahim", [
+        [  # Part 1: the search (Al-An'am 6:74-79, Maryam 19:41-48)
+            ("n", "فِي أَرْضِ الْعِرَاقِ، بَيْنَ قَوْمٍ يَعْبُدُونَ الْأَصْنَامَ وَالْكَوَاكِبَ، نَشَأَ إِبْرَاهِيمُ عَلَيْهِ السَّلَامُ. "
+                  "وَكَانَ أَبُوهُ آزَرُ يَصْنَعُ الْأَصْنَامَ.",
+             "In the land of Iraq, among a people who worshipped idols and stars, Ibrahim grew up, peace be upon him. "
+             "His father Azar made idols.", 64745),
+            ("a", 6, 74, 110685),
+            ("n", "وَأَرَادَ إِبْرَاهِيمُ أَنْ يُبَيِّنَ لِقَوْمِهِ أَنَّ مَا يَغِيبُ وَيَزُولُ لَا يَكُونُ رَبًّا.",
+             "Ibrahim wanted to show his people that what fades and disappears cannot be a lord.", 1099),
+            ("a", 6, 76, 16802),
+            ("a", 6, 77, 148100),
+            ("a", 6, 78, 152483),
+            ("a", 6, 79, 30850),
+            ("n", "وَدَعَا أَبَاهُ بِرِفْقٍ وَأَدَبٍ:",
+             "And he called his father, gently and with respect:", 236740),
+            ("a", 19, 42, 50746),
+            ("n", "فَغَضِبَ أَبُوهُ وَهَدَّدَهُ بِالرَّجْمِ. فَقَالَ إِبْرَاهِيمُ: سَلَامٌ عَلَيْكَ، سَأَسْتَغْفِرُ لَكَ رَبِّي.",
+             "His father grew angry and threatened to stone him. Ibrahim said: peace be upon you, I will ask my Lord "
+             "to forgive you.", 152699),
+            ("n", "فِي الْجُزْءِ الثَّانِي: الْأَصْنَامُ.",
+             "In part two: the idols.", 6367),
+        ],
+        [  # Part 2: the idols (Al-Anbiya 21:51-67, As-Saffat 37:88-96)
+            ("n", "وَجَاءَ يَوْمُ عِيدٍ لِقَوْمِهِ، فَخَرَجُوا جَمِيعًا مِنَ الْمَدِينَةِ، وَبَقِيَ إِبْرَاهِيمُ.",
+             "A feast day of his people came. They all went out of the city, and Ibrahim stayed behind.", 149180),
+            ("a", 21, 57, 225775),
+            ("n", "فَدَخَلَ بَيْتَ الْأَصْنَامِ، فَكَسَّرَهَا كُلَّهَا، إِلَّا كَبِيرَهَا.",
+             "He went into the house of the idols, and broke them all, except the biggest one.", 128271),
+            ("a", 21, 58, 134115),
+            ("n", "فَلَمَّا رَجَعُوا وَرَأَوْا أَصْنَامَهُمْ مُحَطَّمَةً، قَالُوا: مَنْ فَعَلَ هَذَا؟ وَجَاؤُوا بِإِبْرَاهِيمَ أَمَامَ النَّاسِ.",
+             "When they came back and saw their idols smashed, they said: who did this? And they brought Ibrahim "
+             "before the people.", 2147),
+            ("a", 21, 62, 9041),
+            ("a", 21, 63, 319665),
+            ("n", "فَنَظَرَ بَعْضُهُمْ إِلَى بَعْضٍ، وَعَرَفُوا أَنَّ الْأَصْنَامَ لَا تَنْطِقُ وَلَا تَنْفَعُ.",
+             "They looked at one another. They knew the idols could not speak, nor do any good.", 93914),
+            ("a", 21, 66, 253475),
+            ("n", "فِي الْجُزْءِ الثَّالِثِ: النَّارُ.",
+             "In part three: the fire.", 21531),
+        ],
+        [  # Part 3: the fire and the king (Al-Anbiya 21:68-71, Al-Baqarah 2:258, Al-'Ankabut 29:26; Sahih al-Bukhari 4563)
+            ("n", "فَقَالُوا: أَحْرِقُوهُ. وَجَمَعُوا حَطَبًا كَثِيرًا، وَأَشْعَلُوا نَارًا عَظِيمَةً.",
+             "They said: burn him. They gathered a great amount of wood, and lit a huge fire.", 192687),
+            ("a", 21, 68, 2336),
+            ("n", "وَأَلْقَوْهُ فِيهَا، فَقَالَ إِبْرَاهِيمُ: حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ. رَوَاهُ الْبُخَارِيُّ.",
+             "They threw him into it, and Ibrahim said: Allah is enough for us, and He is the best to rely on. "
+             "(Sahih al-Bukhari)", 51145),
+            ("a", 21, 69, 66810),
+            ("n", "فَلَمْ تَضُرَّهُ النَّارُ، وَخَرَجَ مِنْهَا سَالِمًا.",
+             "The fire did not harm him, and he came out of it safe.", 189813),
+            ("a", 21, 70, 50727),
+            ("n", "ثُمَّ جَادَلَهُ مَلِكُ تِلْكَ الْبِلَادِ، الَّذِي ادَّعَى أَنَّهُ يُحْيِي وَيُمِيتُ.",
+             "Then the king of that land argued with him, the one who claimed that he gives life and death.", 2150),
+            ("a", 2, 258, 246214),
+            ("n", "وَتَرَكَ إِبْرَاهِيمُ قَوْمَهُ، وَهَاجَرَ إِلَى رَبِّهِ، وَمَعَهُ زَوْجَتُهُ سَارَةُ، وَابْنُ أَخِيهِ لُوطٌ.",
+             "Ibrahim left his people and emigrated for the sake of his Lord, with his wife Sarah and his nephew Lut.",
+             236738),
+            ("n", "فِي الْجُزْءِ الرَّابِعِ: هَاجَرُ وَإِسْمَاعِيلُ فِي الْوَادِي.",
+             "In part four: Hajar and Ismail in the valley.", 87158),
+        ],
+        [  # Part 4: the valley of Makkah (Ibrahim 14:37, Al-Baqarah 2:125-127; Sahih al-Bukhari 3364)
+            ("n", "وَرَزَقَ اللَّهُ إِبْرَاهِيمَ عَلَى كِبَرِهِ وَلَدًا مِنْ زَوْجَتِهِ هَاجَرَ، اسْمُهُ إِسْمَاعِيلُ.",
+             "In his old age, Allah gave Ibrahim a son from his wife Hajar, named Ismail.", 57803),
+            ("n", "وَأَمَرَهُ اللَّهُ أَنْ يَأْخُذَهُمَا إِلَى وَادٍ لَيْسَ فِيهِ مَاءٌ وَلَا زَرْعٌ: وَادِي مَكَّةَ.",
+             "Allah commanded him to take them to a valley with no water and no plants: the valley of Makkah.", 71494),
+            ("n", "فَلَمَّا هَمَّ بِالرُّجُوعِ، قَالَتْ هَاجَرُ: آللَّهُ أَمَرَكَ بِهَذَا؟ قَالَ: نَعَمْ. قَالَتْ: إِذَنْ لَا يُضَيِّعُنَا. "
+                  "رَوَاهُ الْبُخَارِيُّ.",
+             "As he turned to leave, Hajar asked: did Allah command you to do this? He said: yes. She said: then He will "
+             "not abandon us. (Sahih al-Bukhari)", 212579),
+            ("a", 14, 37, 26085),
+            ("n", "وَنَفِدَ الْمَاءُ، فَسَعَتْ هَاجَرُ بَيْنَ الصَّفَا وَالْمَرْوَةِ سَبْعَ مَرَّاتٍ تَبْحَثُ عَنِ الْمَاءِ. وَمِنْ هُنَا كَانَ السَّعْيُ فِي الْحَجِّ.",
+             "The water ran out, and Hajar ran between Safa and Marwa seven times, looking for water. This is where the "
+             "sa'i of Hajj comes from.", 284562),
+            ("n", "فَبَعَثَ اللَّهُ مَلَكًا، فَتَفَجَّرَ مَاءُ زَمْزَمَ.",
+             "Then Allah sent an angel, and the water of Zamzam burst forth.", 14121),
+            ("n", "وَسَكَنَ النَّاسُ حَوْلَ الْمَاءِ، وَكَبِرَ إِسْمَاعِيلُ. ثُمَّ رَفَعَ إِبْرَاهِيمُ وَإِسْمَاعِيلُ قَوَاعِدَ الْبَيْتِ الْحَرَامِ.",
+             "People settled around the water, and Ismail grew up. Then Ibrahim and Ismail raised the foundations of "
+             "the Sacred House.", 7127),
+            ("a", 2, 127, 250742),
+            ("n", "فِي الْجُزْءِ الْخَامِسِ: الذَّبْحُ الْعَظِيمُ.",
+             "In part five: the great sacrifice.", 103542),
+        ],
+        [  # Part 5: the sacrifice (As-Saffat 37:99-111, An-Nisa 4:125)
+            ("n", "وَلَمَّا كَبِرَ إِسْمَاعِيلُ وَصَارَ يَمْشِي مَعَ أَبِيهِ، رَأَى إِبْرَاهِيمُ فِي الْمَنَامِ أَنَّهُ يَذْبَحُهُ. وَرُؤْيَا الْأَنْبِيَاءِ وَحْيٌ.",
+             "When Ismail was old enough to walk with his father, Ibrahim saw in a dream that he was sacrificing him. "
+             "And the dreams of prophets are revelation.", 28931),
+            ("a", 37, 102, 325636),
+            ("n", "فَاسْتَسْلَمَ الْأَبُ وَالِابْنُ لِأَمْرِ اللَّهِ.",
+             "The father and the son both submitted to the command of Allah.", 18390),
+            ("a", 37, 103, 277097),
+            ("a", 37, 104, 260397),
+            ("a", 37, 105, 236740),
+            ("a", 37, 107, 59291),
+            ("n", "وَيَذْكُرُ الْمُسْلِمُونَ هَذَا الْيَوْمَ فِي كُلِّ عِيدِ أَضْحَى.",
+             "Muslims remember this day at every Eid al-Adha.", 236738),
+            ("n", "وَأَكْرَمَ اللَّهُ إِبْرَاهِيمَ، فَاتَّخَذَهُ خَلِيلًا.",
+             "And Allah honoured Ibrahim: He took him as a close friend.", 30850),
+            ("a", 4, 125, 7127),
+            ("n", "انْتَهَتْ قِصَّةُ إِبْرَاهِيمَ عَلَيْهِ السَّلَامُ. وَفِي الْقِصَّةِ الْقَادِمَةِ: نَبِيُّ اللَّهِ لُوطٌ عَلَيْهِ السَّلَامُ.",
+             "This was the story of Ibrahim, peace be upon him. Next: the Prophet Lut, peace be upon him.", 238507),
         ],
     ]),
 }
