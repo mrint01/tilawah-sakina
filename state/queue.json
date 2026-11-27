@@ -3567,6 +3567,38 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-27T15:35:20+00:00"
+    },
+    {
+      "id": "20261127-153458-story",
+      "kind": "story",
+      "prophet": "yusuf",
+      "part": 2,
+      "parts": 6,
+      "series_no": 11,
+      "order": 1102,
+      "caption": "The story of Yusuf (peace be upon him) · Part 2 of 6: To Egypt 🤍\n\nStories of the Prophets · 11 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: Yusuf 12:19, Yusuf 12:20, Yusuf 12:21, Yusuf 12:22\n\nPart 3 comes next on our page (Monday, Wednesday and Saturday at 15:00).\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophetyusuf #quran #islam",
+      "keep_as": "story-yusuf-2",
+      "title": "Stories of the Prophets 11/25 · Yusuf · Part 2 of 6 · To Egypt",
+      "cover_label": "Stories of the Prophets · 11 / 25",
+      "cover_ar": "قصة يوسف",
+      "cover_en": "The story of Yusuf",
+      "cover_sub": "Part 2 of 6 · To Egypt",
+      "duration": 144.5,
+      "size_mb": 51.5,
+      "mean_volume_db": -18.8,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T15:35:25+00:00"
     }
   ],
   "slots": {
