@@ -4335,6 +4335,38 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-27T15:53:57+00:00"
+    },
+    {
+      "id": "20261127-155406-story",
+      "kind": "story",
+      "prophet": "ilyas",
+      "part": 1,
+      "parts": 1,
+      "series_no": 19,
+      "order": 1901,
+      "caption": "The story of Ilyas (peace be upon him): Peace upon Ilyas 🤍\n\nStories of the Prophets · 19 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: As-Saffat 37:123, As-Saffat 37:124, As-Saffat 37:125, As-Saffat 37:126, As-Saffat 37:127, As-Saffat 37:128, As-Saffat 37:130\n\nNext: the story of the Prophet Al-Yasa'.\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophetilyas #quran #islam",
+      "keep_as": "story-ilyas-1",
+      "title": "Stories of the Prophets 19/25 · Ilyas · Peace upon Ilyas",
+      "cover_label": "Stories of the Prophets · 19 / 25",
+      "cover_ar": "قصة إلياس",
+      "cover_en": "The story of Ilyas",
+      "cover_sub": "Peace upon Ilyas",
+      "duration": 83.9,
+      "size_mb": 26.7,
+      "mean_volume_db": -18.3,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T15:54:27+00:00"
     }
   ],
   "slots": {
