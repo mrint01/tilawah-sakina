@@ -4687,6 +4687,38 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-27T15:59:23+00:00"
+    },
+    {
+      "id": "20261127-155925-story",
+      "kind": "story",
+      "prophet": "muhammad",
+      "part": 2,
+      "parts": 6,
+      "series_no": 25,
+      "order": 2502,
+      "caption": "The story of Muhammad ﷺ · Part 2 of 6: Read 🤍\n\nStories of the Prophets · 25 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: Al-'Alaq 96:1, Al-'Alaq 96:2, Al-'Alaq 96:3, Al-'Alaq 96:4, Al-'Alaq 96:5, Al-Muddaththir 74:1, Al-Muddaththir 74:2\n\nPart 3 comes next on our page (Monday, Wednesday and Saturday at 15:00).\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophetmuhammad #quran #islam",
+      "keep_as": "story-muhammad-2",
+      "title": "Stories of the Prophets 25/25 · Muhammad · Part 2 of 6 · Read",
+      "cover_label": "Stories of the Prophets · 25 / 25",
+      "cover_ar": "قصة محمد ﷺ",
+      "cover_en": "The story of Muhammad",
+      "cover_sub": "Part 2 of 6 · Read",
+      "duration": 71.1,
+      "size_mb": 20.8,
+      "mean_volume_db": -19.5,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T15:59:44+00:00"
     }
   ],
   "slots": {
