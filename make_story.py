@@ -821,7 +821,7 @@ NARRATED = {
             ("a", 26, 52, 14955),
             ("n", "فَجَمَعَ فِرْعَوْنُ جُنُودَهُ، وَتَبِعَهُمْ، حَتَّى وَصَلُوا إِلَى الْبَحْرِ عِنْدَ الشُّرُوقِ.",
              "Pharaoh gathered his army and pursued them, until they reached the sea at sunrise.", 7487),
-            ("a", 26, 61, 368),
+            ("a", 26, 61, 205011),
             ("a", 26, 62, 280486),
             ("a", 26, 63, 184008),
             ("n", "فَعَبَرَ بَنُو إِسْرَائِيلَ عَلَى أَرْضٍ يَابِسَةٍ، وَتَبِعَهُمْ فِرْعَوْنُ، فَانْطَبَقَ عَلَيْهِمُ الْبَحْرُ.",
@@ -863,7 +863,7 @@ NARRATED = {
             ("a", 18, 66, 280486),
             ("n", "فَخَرَقَ الْخَضِرُ سَفِينَةً، وَقَتَلَ غُلَامًا، وَأَقَامَ جِدَارًا بِلَا أَجْرٍ، وَمُوسَى لَا يَصْبِرُ عَلَى مَا لَا يَعْرِفُ حِكْمَتَهُ.",
              "Al-Khidr damaged a boat, killed a boy, and rebuilt a wall for no pay. And Musa could not stay patient "
-             "with what he did not understand.", 368),
+             "with what he did not understand.", 349452),
             ("n", "ثُمَّ بَيَّنَ لَهُ الْحِكْمَةَ: السَّفِينَةُ لِمَسَاكِينَ، وَالْغُلَامُ كَانَ سَيُرْهِقُ أَبَوَيْهِ، وَالْجِدَارُ تَحْتَهُ كَنْزٌ لِيَتِيمَيْنِ.",
              "Then he explained the wisdom: the boat belonged to poor people, the boy would have burdened his parents, "
              "and under the wall was a treasure for two orphans.", 59291),
@@ -1050,7 +1050,7 @@ NARRATED = {
             ("a", 37, 139, 7487),
             ("a", 37, 140, 283533),
             ("n", "وَهَاجَ الْبَحْرُ، وَثَقُلَتِ السَّفِينَةُ، فَاقْتَرَعُوا، فَوَقَعَتِ الْقُرْعَةُ عَلَى يُونُسَ.",
-             "The sea grew rough and the ship was overloaded. They drew lots, and the lot fell on Yunus.", 368),
+             "The sea grew rough and the ship was overloaded. They drew lots, and the lot fell on Yunus.", 205009),
             ("a", 37, 141, 184008),
             ("a", 37, 142, 63559),
             ("n", "فِي الْجُزْءِ الثَّانِي: فِي الظُّلُمَاتِ.",
