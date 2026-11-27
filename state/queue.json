@@ -3145,6 +3145,38 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-27T12:50:39+00:00"
+    },
+    {
+      "id": "20261127-130221-story",
+      "kind": "story",
+      "prophet": "idris",
+      "part": 1,
+      "parts": 1,
+      "series_no": 2,
+      "order": 201,
+      "caption": "The story of Idris (peace be upon him): Raised to a high place 🤍\n\nStories of the Prophets · 2 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: Maryam 19:56, Maryam 19:57, Al-Anbya 21:85\n\nNext: the story of the Prophet Nuh.\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophetidris #quran #islam",
+      "keep_as": "story-idris-1",
+      "title": "Stories of the Prophets 2/25 · Idris · Raised to a high place",
+      "cover_label": "Stories of the Prophets · 2 / 25",
+      "cover_ar": "قصة إدريس",
+      "cover_en": "The story of Idris",
+      "cover_sub": "Raised to a high place",
+      "duration": 91.3,
+      "size_mb": 28.3,
+      "mean_volume_db": -20.2,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T13:02:42+00:00"
     }
   ],
   "slots": {
