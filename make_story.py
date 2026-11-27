@@ -47,7 +47,7 @@ TOTAL_PROPHETS = 25
 # Segments: ("n", narration, scene) or ("a", surah, ayah, scene).
 VOICE = "ar-SA-HamedNeural"   # Arabic narrator (fusha); he tells the story, he never reads Quran words
 # how many parts each narrated story has in total (the later parts are written after part 1 is approved)
-PARTS = {"adam": 2, "idris": 1, "nuh": 3, "hud": 2, "salih": 2, "ibrahim": 5, "lut": 2, "ismail": 1, "ishaq": 1, "yaqub": 1, "yusuf": 6, "ayyub": 1, "shuayb": 2, "musa": 8, "harun": 1, "dhulkifl": 1, "dawud": 2, "sulayman": 3, "ilyas": 1, "alyasa": 1, "yunus": 2, "zakariya": 1, "yahya": 1, "isa": 3}
+PARTS = {"adam": 2, "idris": 1, "nuh": 3, "hud": 2, "salih": 2, "ibrahim": 5, "lut": 2, "ismail": 1, "ishaq": 1, "yaqub": 1, "yusuf": 6, "ayyub": 1, "shuayb": 2, "musa": 8, "harun": 1, "dhulkifl": 1, "dawud": 2, "sulayman": 3, "ilyas": 1, "alyasa": 1, "yunus": 2, "zakariya": 1, "yahya": 1, "isa": 3, "muhammad": 6}
 PART_TITLES = {"adam": ["The creation", "The garden"], "idris": ["Raised to a high place"],
                "nuh": ["The call", "The Ark", "The Flood"], "hud": ["The people of 'Ad", "The wind"],
                "salih": ["The she-camel", "The blast"],
@@ -63,7 +63,8 @@ PART_TITLES = {"adam": ["The creation", "The garden"], "idris": ["Raised to a hi
                "harun": ["The helper"], "dhulkifl": ["Among the patient"], "dawud": ["Dawud and Jalut", "The mountains glorified with him"],
                "sulayman": ["The kingdom", "The ant and the hoopoe", "The queen of Saba"],
                "ilyas": ["Peace upon Ilyas"], "alyasa": ["Among the chosen"], "yunus": ["The ship", "In the darkness"],
-               "zakariya": ["The secret prayer"], "yahya": ["Wisdom as a child"], "isa": ["Maryam", "The cradle", "Raised up"]}
+               "zakariya": ["The secret prayer"], "yahya": ["Wisdom as a child"], "isa": ["Maryam", "The cradle", "Raised up"],
+               "muhammad": ["The orphan", "Read", "The call", "The Night Journey", "The Hijrah", "The final days"]}
 # the series in order (Adam -> Muhammad ﷺ): key, English name
 SERIES = [("adam", "Adam"), ("idris", "Idris"), ("nuh", "Nuh"), ("hud", "Hud"), ("salih", "Salih"), ("ibrahim", "Ibrahim"),
           ("lut", "Lut"), ("ismail", "Ismail"), ("ishaq", "Ishaq"), ("yaqub", "Ya'qub"), ("yusuf", "Yusuf"),
@@ -1167,6 +1168,124 @@ NARRATED = {
              "This was the story of 'Isa, peace be upon him. Next: the last of the prophets, Muhammad ﷺ.", 59291),
         ],
     ]),
+    "muhammad": (25, "محمد", "Muhammad", [
+        [  # Part 1: the orphan (Ad-Duha 93:6-8, Ash-Sharh 94:1-4; Sahih al-Bukhari 3)
+            ("n", "وُلِدَ مُحَمَّدٌ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ فِي مَكَّةَ، فِي عَامِ الْفِيلِ. مَاتَ أَبُوهُ قَبْلَ وِلَادَتِهِ، وَمَاتَتْ أُمُّهُ وَهُوَ صَغِيرٌ.",
+             "Muhammad ﷺ was born in Makkah, in the Year of the Elephant. His father died before he was born, and his "
+             "mother died when he was a small child.", 26085),
+            ("a", 93, 6, 7127),
+            ("a", 93, 7, 280486),
+            ("a", 93, 8, 59291),
+            ("n", "وَنَشَأَ صَادِقًا أَمِينًا، وَعَمِلَ فِي التِّجَارَةِ، وَتَزَوَّجَ خَدِيجَةَ، الْمَرْأَةَ الْعَاقِلَةَ الْكَرِيمَةَ.",
+             "He grew up truthful and trustworthy. He worked in trade, and married Khadijah, a wise and noble woman.",
+             16139),
+            ("n", "وَقَبْلَ النُّبُوَّةِ، حُبِّبَ إِلَيْهِ الْخَلَاءُ، فَكَانَ يَتَعَبَّدُ اللَّيَالِيَ فِي غَارِ حِرَاءٍ. رَوَاهُ الْبُخَارِيُّ.",
+             "Before prophethood, he came to love solitude, and he would worship for nights in the cave of Hira. "
+             "(Sahih al-Bukhari)", 22555),
+            ("a", 94, 1, 237673),
+            ("a", 94, 4, 48899),
+            ("n", "فِي الْجُزْءِ الثَّانِي: اقْرَأْ.",
+             "In part two: Read.", 1099),
+        ],
+        [  # Part 2: Read (Al-'Alaq 96:1-5, Al-Muddaththir 74:1-2; Sahih al-Bukhari 3)
+            ("n", "وَفِي الْأَرْبَعِينَ مِنْ عُمُرِهِ، جَاءَهُ الْمَلَكُ جِبْرِيلُ فِي الْغَارِ، فَقَالَ: اقْرَأْ. قَالَ: مَا أَنَا بِقَارِئٍ. رَوَاهُ الْبُخَارِيُّ.",
+             "At the age of forty, the angel Jibril came to him in the cave and said: read. He said: I am not a "
+             "reader. (Sahih al-Bukhari)", 14955),
+            ("a", 96, 1, 1096),
+            ("a", 96, 2, 1099),
+            ("a", 96, 3, 237672),
+            ("a", 96, 4, 7127),
+            ("a", 96, 5, 280486),
+            ("n", "وَرَجَعَ إِلَى خَدِيجَةَ يَرْجُفُ فُؤَادُهُ، فَقَالَتْ: وَاللَّهِ لَا يُخْزِيكَ اللَّهُ أَبَدًا، إِنَّكَ لَتَصِلُ الرَّحِمَ، وَتَحْمِلُ الْكَلَّ. "
+                  "رَوَاهُ الْبُخَارِيُّ.",
+             "He went back to Khadijah, his heart trembling. She said: by Allah, Allah will never disgrace you. You keep "
+             "ties of kinship, and you carry the burdens of the weak. (Sahih al-Bukhari)", 46936),
+            ("n", "ثُمَّ نَزَلَ عَلَيْهِ:",
+             "Then this was revealed to him:", 59291),
+            ("a", 74, 1, 48899),
+            ("a", 74, 2, 30850),
+            ("n", "فِي الْجُزْءِ الثَّالِثِ: الدَّعْوَةُ.",
+             "In part three: the call.", 26085),
+        ],
+        [  # Part 3: the call (Ash-Shu'ara 26:214, Al-Masad 111:1, Al-Anbiya 21:107; Sahih al-Bukhari 4770, 3231)
+            ("n", "وَأَمَرَهُ اللَّهُ:",
+             "And Allah commanded him:", 69320),
+            ("a", 26, 214, 71494),
+            ("n", "فَصَعِدَ عَلَى الصَّفَا، وَنَادَى قُرَيْشًا: لَوْ أَخْبَرْتُكُمْ أَنَّ خَيْلًا وَرَاءَ هَذَا الْوَادِي، أَكُنْتُمْ مُصَدِّقِيَّ؟ قَالُوا: "
+                  "مَا جَرَّبْنَا عَلَيْكَ إِلَّا صِدْقًا. قَالَ: فَإِنِّي نَذِيرٌ لَكُمْ. رَوَاهُ الْبُخَارِيُّ.",
+             "He climbed Safa and called Quraysh: if I told you riders were behind this valley, would you believe me? "
+             "They said: we have only known you to be truthful. He said: then I am a warner to you. (Sahih al-Bukhari)",
+             16139),
+            ("n", "فَقَالَ أَبُو لَهَبٍ: تَبًّا لَكَ. فَنَزَلَ:",
+             "Abu Lahab said: may you perish. And this was revealed:", 2150),
+            ("a", 111, 1, 2147),
+            ("n", "وَآذَتْ قُرَيْشٌ الْمُؤْمِنِينَ، وَعُذِّبَ كَثِيرٌ مِنْهُمْ، فَصَبَرُوا. وَذَهَبَ إِلَى الطَّائِفِ يَدْعُو أَهْلَهَا، فَرَدُّوهُ رَدًّا قَاسِيًا.",
+             "Quraysh persecuted the believers, and many were tortured, but they stayed patient. He went to Ta'if to "
+             "call its people, and they turned him away harshly.", 316435),
+            ("n", "فَجَاءَهُ مَلَكُ الْجِبَالِ: إِنْ شِئْتَ أُطْبِقُ عَلَيْهِمُ الْجَبَلَيْنِ. فَقَالَ: بَلْ أَرْجُو أَنْ يُخْرِجَ اللَّهُ مِنْ أَصْلَابِهِمْ "
+                  "مَنْ يَعْبُدُ اللَّهَ وَحْدَهُ. رَوَاهُ الْبُخَارِيُّ.",
+             "The angel of the mountains came: if you wish, I will bring the two mountains down on them. He said: no, "
+             "I hope Allah will bring from their children people who worship Allah alone. (Sahih al-Bukhari)", 22512),
+            ("a", 21, 107, 48899),
+            ("n", "فِي الْجُزْءِ الرَّابِعِ: الْإِسْرَاءُ وَالْمِعْرَاجُ.",
+             "In part four: the Night Journey.", 1096),
+        ],
+        [  # Part 4: the Night Journey (Al-Isra 17:1, An-Najm 53:13-18; Sahih al-Bukhari 3207, 349)
+            ("n", "وَفِي وَقْتٍ مِنَ الْحُزْنِ الشَّدِيدِ، أَكْرَمَهُ اللَّهُ بِرِحْلَةٍ عَظِيمَةٍ:",
+             "At a time of deep sadness, Allah honoured him with a great journey:", 205427),
+            ("a", 17, 1, 1099),
+            ("n", "مِنْ مَكَّةَ إِلَى الْمَسْجِدِ الْأَقْصَى، ثُمَّ عُرِجَ بِهِ إِلَى السَّمَاوَاتِ، فَلَقِيَ الْأَنْبِيَاءَ: آدَمَ، وَعِيسَى، وَيَحْيَى، "
+                  "وَيُوسُفَ، وَإِدْرِيسَ، وَهَارُونَ، وَمُوسَى، وَإِبْرَاهِيمَ. رَوَاهُ الْبُخَارِيُّ.",
+             "From Makkah to Al-Aqsa, then up through the heavens, where he met the prophets: Adam, 'Isa, Yahya, "
+             "Yusuf, Idris, Harun, Musa and Ibrahim. (Sahih al-Bukhari)", 1096),
+            ("a", 53, 14, 7127),
+            ("a", 53, 18, 237673),
+            ("n", "وَهُنَاكَ فَرَضَ اللَّهُ الصَّلَاةَ: خَمْسِينَ، ثُمَّ خَفَّفَهَا إِلَى خَمْسٍ، وَبَقِيَ أَجْرُهَا أَجْرَ خَمْسِينَ. رَوَاهُ الْبُخَارِيُّ.",
+             "There Allah made the prayer obligatory: fifty, then He lightened it to five, with the reward of fifty. "
+             "(Sahih al-Bukhari)", 30850),
+            ("n", "فِي الْجُزْءِ الْخَامِسِ: الْهِجْرَةُ.",
+             "In part five: the Hijrah.", 26085),
+        ],
+        [  # Part 5: the Hijrah (Al-Anfal 8:30, At-Tawbah 9:40; Sahih al-Bukhari 3653)
+            ("n", "وَتَآمَرَتْ قُرَيْشٌ عَلَى قَتْلِهِ:",
+             "Quraysh plotted to kill him:", 9041),
+            ("a", 8, 30, 2147),
+            ("n", "فَخَرَجَ لَيْلًا مَعَ صَاحِبِهِ أَبِي بَكْرٍ، وَاخْتَبَآ فِي غَارِ ثَوْرٍ ثَلَاثَ لَيَالٍ.",
+             "He left at night with his companion Abu Bakr, and they hid in the cave of Thawr for three nights.", 14955),
+            ("n", "وَوَقَفَ الْمُطَارِدُونَ عِنْدَ الْغَارِ، فَقَالَ أَبُو بَكْرٍ: لَوْ نَظَرَ أَحَدُهُمْ إِلَى قَدَمَيْهِ لَرَآنَا. فَقَالَ: مَا ظَنُّكَ بِاثْنَيْنِ "
+                  "اللَّهُ ثَالِثُهُمَا. رَوَاهُ الْبُخَارِيُّ.",
+             "The pursuers stood at the cave. Abu Bakr said: if one of them looked down at his feet, he would see us. "
+             "He said: what do you think of two, when Allah is the third? (Sahih al-Bukhari)", 110685),
+            ("a", 9, 40, 205427),
+            ("n", "وَبَعْدَ رِحْلَةٍ طَوِيلَةٍ، وَصَلَ إِلَى الْمَدِينَةِ، فَخَرَجَ أَهْلُهَا فَرِحِينَ. فَبَنَى الْمَسْجِدَ، وَآخَى بَيْنَ الْمُهَاجِرِينَ وَالْأَنْصَارِ.",
+             "After a long journey, he reached Madinah, and its people came out rejoicing. He built the mosque, and "
+             "made the emigrants and the helpers brothers.", 136609),
+            ("n", "فِي الْجُزْءِ السَّادِسِ: الْأَيَّامُ الْأَخِيرَةُ.",
+             "In part six: the final days.", 7127),
+        ],
+        [  # Part 6: the final days (Al Imran 3:123, Al-Isra 17:81, An-Nasr 110:1-3, Al Imran 3:144; Sahih al-Bukhari 4287, 4463, 3668)
+            ("n", "فِي بَدْرٍ، الْتَقَى قَلِيلٌ مِنَ الْمُؤْمِنِينَ بِجَيْشٍ كَبِيرٍ، فَنَصَرَهُمُ اللَّهُ:",
+             "At Badr, a small band of believers met a large army, and Allah gave them victory:", 70898),
+            ("a", 3, 123, 7127),
+            ("n", "وَبَعْدَ سِنِينَ، دَخَلَ مَكَّةَ فَاتِحًا مُتَوَاضِعًا، وَعَفَا عَنْ أَهْلِهَا، وَأَزَالَ الْأَصْنَامَ وَهُوَ يَتْلُو:",
+             "Years later, he entered Makkah victorious and humble, forgave its people, and removed the idols, "
+             "reciting:", 237673),
+            ("a", 17, 81, 280486),
+            ("a", 110, 1, 59291),
+            ("a", 110, 2, 46936),
+            ("a", 110, 3, 30850),
+            ("n", "ثُمَّ مَرِضَ، وَكَانَ آخِرُ مَا قَالَ: اللَّهُمَّ الرَّفِيقَ الْأَعْلَى. رَوَاهُ الْبُخَارِيُّ.",
+             "Then he fell ill, and his last words were: O Allah, the highest companion. (Sahih al-Bukhari)", 205427),
+            ("n", "فَقَالَ أَبُو بَكْرٍ: مَنْ كَانَ يَعْبُدُ مُحَمَّدًا فَإِنَّ مُحَمَّدًا قَدْ مَاتَ، وَمَنْ كَانَ يَعْبُدُ اللَّهَ فَإِنَّ اللَّهَ حَيٌّ لَا يَمُوتُ. "
+                  "وَتَلَا:",
+             "Abu Bakr said: whoever worshipped Muhammad, Muhammad has died. Whoever worships Allah, Allah is ever "
+             "living and never dies. And he recited:", 52848),
+            ("a", 3, 144, 7215),
+            ("n", "خَمْسَةٌ وَعِشْرُونَ نَبِيًّا، وَرِسَالَةٌ وَاحِدَةٌ: لَا إِلَهَ إِلَّا اللَّهُ. صَلَوَاتُ اللَّهِ وَسَلَامُهُ عَلَيْهِمْ أَجْمَعِينَ.",
+             "Twenty-five prophets, and one message: there is no god but Allah. May Allah's blessings and peace be upon "
+             "them all.", 48899),
+        ],
+    ]),
 }
 
 
@@ -1206,9 +1325,10 @@ def frame_png(no, ar, en, path, part=None, footer=None):
     gold = (232, 198, 128)
     d.text((W / 2, 190), f"STORIES OF THE PROPHETS · {no} / {TOTAL_PROPHETS}", font=mr.font("Lora-var.ttf", 28),
            fill=gold + (230,), anchor="mm")
-    d.text((W / 2, 268), f"قصة {ar} عليه السلام", font=mr.font("Amiri-Bold.ttf", 66), fill=gold + (255,), anchor="mm",
+    salute = "صلى الله عليه وسلم" if ar == "محمد" else "عليه السلام"  # the Prophet ﷺ: salawat, not only salam
+    d.text((W / 2, 268), f"قصة {ar} {salute}", font=mr.font("Amiri-Bold.ttf", 66), fill=gold + (255,), anchor="mm",
            direction="rtl", language="ar")
-    d.text((W / 2, 350), f"The story of {en} (peace be upon him)", font=mr.font("Lora-var.ttf", 34),
+    d.text((W / 2, 350), f"The story of {en} ({'peace and blessings' if ar == 'محمد' else 'peace'} be upon him)", font=mr.font("Lora-var.ttf", 34),
            fill=(240, 234, 220, 230), anchor="mm")
     if part:
         pill = f"PART {part[0]} OF {part[1]}"
@@ -1474,7 +1594,7 @@ def story_meta(key, part):
     else:
         i = [k for k, _ in SERIES].index(key)
         nxt = f"Next: the story of the Prophet {SERIES[i + 1][1]}." if i + 1 < len(SERIES) else "This is the last story of the series."
-    peace = "" if key == "muhammad" else " (peace be upon him)"
+    peace = " ﷺ" if key == "muhammad" else " (peace be upon him)"
     caption = (f"The story of {en_name}{peace}{' · ' + pt if pt else ''}{': ' + ptitle if ptitle else ''} 🤍\n\n"
                f"Stories of the Prophets · {no} of {TOTAL_PROPHETS}\n"
                f"Told from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\n"
@@ -1484,7 +1604,7 @@ def story_meta(key, part):
     return {"kind": "story", "prophet": key, "part": part, "parts": n, "series_no": no, "order": no * 100 + part,
             "caption": caption, "keep_as": f"story-{key}-{part}",
             "title": " · ".join(x for x in (f"Stories of the Prophets {no}/{TOTAL_PROPHETS}", en_name, pt, ptitle) if x),
-            "cover_label": f"Stories of the Prophets · {no} / {TOTAL_PROPHETS}", "cover_ar": f"قصة {ar_name}",
+            "cover_label": f"Stories of the Prophets · {no} / {TOTAL_PROPHETS}", "cover_ar": f"قصة {ar_name}" + (" ﷺ" if key == "muhammad" else ""),
             "cover_en": f"The story of {en_name}", "cover_sub": " · ".join(x for x in (pt, ptitle) if x)}
 
 
