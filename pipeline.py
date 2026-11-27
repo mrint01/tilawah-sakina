@@ -20,7 +20,7 @@ import sys
 import time
 import urllib.parse
 import urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 HERE = Path(__file__).parent
@@ -213,6 +213,14 @@ def cmd_generate(args):
         if not config().get("enabled", True):
             print("automation is OFF, not generating")
             return
+        # the daily refill runs once a day: GitHub's own schedule can start hours late, after the panel's
+        # Vercel cron already did it at 03:00 (on 27 Nov it came at 11:34 and made an extra dua)
+        today = (datetime.now(timezone.utc) + timedelta(hours=1)).strftime("%Y-%m-%d")
+        if q.get("last_auto") == today:
+            print(f"the daily refill already ran today ({today}), not generating")
+            return
+        q["last_auto"] = today
+        save(QUEUE, q)
         # one post of each kind a day: keep `buffer` days of each kind ready (pending + approved)
         days = config().get("buffer_days", 3)
         stock = {k: sum(1 for it in q["items"] if it["kind"] == k and it["status"] in ("pending", "approved")) for k in KINDS}
