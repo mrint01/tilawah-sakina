@@ -3174,9 +3174,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T13:02:42+00:00"
+      "status": "approved",
+      "review": "approved by the owner (same Idris, subtitle fix)",
+      "created": "2026-11-27T13:02:42+00:00",
+      "reviewed": "2026-11-27T13:06:42+00:00"
     },
     {
       "id": "20261127-130407-story",
