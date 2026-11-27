@@ -2910,9 +2910,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T11:23:10+00:00"
+      "status": "approved",
+      "review": "approved by the owner in chat",
+      "created": "2026-11-27T11:23:10+00:00",
+      "reviewed": "2026-11-27T12:09:34+00:00"
     },
     {
       "id": "20261127-112643-story",
@@ -2942,9 +2943,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T11:27:16+00:00"
+      "status": "approved",
+      "review": "approved by the owner in chat",
+      "created": "2026-11-27T11:27:16+00:00",
+      "reviewed": "2026-11-27T12:09:34+00:00"
     },
     {
       "id": "20261127-113946-story",
@@ -2974,9 +2976,10 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-27T11:40:04+00:00"
+      "status": "approved",
+      "review": "approved by the owner in chat",
+      "created": "2026-11-27T11:40:04+00:00",
+      "reviewed": "2026-11-27T12:09:34+00:00"
     }
   ],
   "slots": {
