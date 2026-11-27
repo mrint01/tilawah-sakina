@@ -4431,6 +4431,38 @@
       "status": "pending",
       "review": null,
       "created": "2026-11-27T15:55:36+00:00"
+    },
+    {
+      "id": "20261127-155551-story",
+      "kind": "story",
+      "prophet": "sulayman",
+      "part": 3,
+      "parts": 3,
+      "series_no": 18,
+      "order": 1803,
+      "caption": "The story of Sulayman (peace be upon him) · Part 3 of 3: The queen of Saba 🤍\n\nStories of the Prophets · 18 of 25\nTold from the Quran, Sahih al-Bukhari and Ibn Kathir's Qasas al-Anbiya.\nAyat recited by Mishary Alafasy: An-Naml 27:30, An-Naml 27:31, An-Naml 27:40, An-Naml 27:44, Saba 34:14\n\nNext: the story of the Prophet Ilyas.\nFollow so you don't miss a part, and share it with someone who loves these stories.\n\n#storiesoftheprophets #qasasalanbiya #prophetsulayman #quran #islam",
+      "keep_as": "story-sulayman-3",
+      "title": "Stories of the Prophets 18/25 · Sulayman · Part 3 of 3 · The queen of Saba",
+      "cover_label": "Stories of the Prophets · 18 / 25",
+      "cover_ar": "قصة سليمان",
+      "cover_en": "The story of Sulayman",
+      "cover_sub": "Part 3 of 3 · The queen of Saba",
+      "duration": 186.3,
+      "size_mb": 65.8,
+      "mean_volume_db": -18.5,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_up_to_3min": false,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "cover": true,
+      "reciter": "Mishary Alafasy",
+      "status": "rejected",
+      "review": "failed automatic checks",
+      "created": "2026-11-27T15:56:24+00:00"
     }
   ],
   "slots": {
