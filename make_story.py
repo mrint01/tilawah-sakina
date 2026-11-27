@@ -118,7 +118,7 @@ NARRATED = {
             ("n", "ذَكَرَهُ اللَّهُ فِي الْقُرْآنِ فِي مَوْضِعَيْنِ، وَأَثْنَى عَلَيْهِ.",
              "Allah mentions him in the Quran in two places, and praises him.", 204680),
             ("a", 19, 56, 7127),
-            ("a", 19, 57, 70549),
+            ("a", 19, 57, 2266),
             ("n", "وَذَكَرَهُ اللَّهُ مَعَ إِسْمَاعِيلَ وَذِي الْكِفْلِ، فِي الصَّابِرِينَ.",
              "And Allah names him with Ismail and Dhul-Kifl, among the patient.", 125695),
             ("a", 21, 85, 248452),
