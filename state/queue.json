@@ -2821,6 +2821,30 @@
       "review": "Claude routine: 6 sampled frames clean, answer frame green A Al-Waqi'ah matches",
       "created": "2026-11-27T02:50:28+00:00",
       "reviewed": "2026-11-27T03:38:30+00:00"
+    },
+    {
+      "id": "20261127-103828-dua",
+      "kind": "dua",
+      "caption": "Start your morning with this dhikr 🤍\n\nWe have reached the morning and at this very time unto Allah, belongs all sovereignty, and all praise is for Allah. None has the right to be worshipped except Allah, alone, without any partner, to Him belong all sovereignty and praise and He is over all things omnipotent. My Lord, I ask You for the good of this day and the good of what follows it and I take refuge in You from the evil of this day and the evil of what follows it. My Lord, I take refuge in You from laziness and senility. My Lord, I take refuge in You from torment in the Fire and punishment in the grave.\n\nHisn al-Muslim\n\nSave it and send it to someone you love 🤍\n\n#morningadhkar #adhkar #dua #dhikr #islam",
+      "duration": 56.7,
+      "category": "morning",
+      "dua_id": 77,
+      "source": "Hisn al-Muslim",
+      "title": "Morning adhkar · We have reached the morning and at this very…",
+      "cover": true,
+      "size_mb": 3.2,
+      "mean_volume_db": -21.8,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_10_60s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-27T10:38:35+00:00"
     }
   ],
   "slots": {
