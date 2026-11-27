@@ -2586,10 +2586,13 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
+      "status": "posted",
       "review": "Claude routine: Arabic clean, layout fine, answer frame matches Surah An-Nazi'at 79:26-27",
       "created": "2026-11-26T02:53:26+00:00",
-      "reviewed": "2026-11-26T03:38:26+00:00"
+      "reviewed": "2026-11-26T03:38:26+00:00",
+      "posted": "2026-11-27T20:14:18+00:00",
+      "ig_media_id": "18111767069316258",
+      "permalink": "https://www.instagram.com/reel/DgQgucDz1ht/"
     },
     {
       "id": "20261126-025417-quiz",
@@ -5398,6 +5401,18 @@
       "reason": null,
       "posted": "2026-11-27T17:07:10+00:00",
       "late_min": 7
+    },
+    "2026-11-27 21:00": {
+      "kind": "quiz",
+      "status": "posted",
+      "id": "20261126-025317-quiz",
+      "title": "Guess the surah · hard · Al-Masad, An-Nazi'at, Ad-Duhaa, Al-Insan, Al-Layl",
+      "tries": 1,
+      "started": "2026-11-27T20:11:43+00:00",
+      "at": "2026-11-27T21:00:00+01:00",
+      "reason": null,
+      "posted": "2026-11-27T20:14:18+00:00",
+      "late_min": 14
     }
   }
 }
