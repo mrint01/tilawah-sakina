@@ -2926,10 +2926,13 @@
       },
       "cover": true,
       "reciter": "Mishary Alafasy",
-      "status": "approved",
+      "status": "posted",
       "review": "approved by the owner in chat",
       "created": "2026-11-27T11:23:10+00:00",
-      "reviewed": "2026-11-27T12:09:34+00:00"
+      "reviewed": "2026-11-27T12:09:34+00:00",
+      "posted": "2026-11-28T14:57:22+00:00",
+      "ig_media_id": "18155810683559507",
+      "permalink": "https://www.instagram.com/reel/DgShLUEJHDV/"
     },
     {
       "id": "20261127-112643-story",
@@ -5588,6 +5591,18 @@
       "reason": null,
       "posted": "2026-11-28T11:42:18+00:00",
       "late_min": 42
+    },
+    "2026-11-28 15:00": {
+      "kind": "story",
+      "status": "posted",
+      "id": "20261127-112244-story",
+      "title": "Stories of the Prophets 1/25 · Adam · Part 1 of 2 · The creation",
+      "tries": 1,
+      "started": "2026-11-28T14:51:47+00:00",
+      "at": "2026-11-28T15:00:00+01:00",
+      "reason": null,
+      "posted": "2026-11-28T14:57:22+00:00",
+      "late_min": 57
     }
   },
   "last_auto": "2026-11-28"
