@@ -2378,11 +2378,14 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
+      "status": "posted",
       "review": "Claude routine: Arabic, layout, 4/99 dots and ayah all render cleanly",
       "created": "2026-11-25T13:21:53+00:00",
       "reviewed": "2026-11-25T13:24:41+00:00",
-      "remade": "2026-11-27T09:17:25+00:00"
+      "remade": "2026-11-27T09:17:25+00:00",
+      "posted": "2026-11-28T11:42:18+00:00",
+      "ig_media_id": "18038106602899550",
+      "permalink": "https://www.instagram.com/reel/DgSK9gugbAU/"
     },
     {
       "id": "20261125-132248-quiz",
@@ -5573,6 +5576,18 @@
       "reason": null,
       "posted": "2026-11-28T06:00:27+00:00",
       "late_min": 60
+    },
+    "2026-11-28 12:00": {
+      "kind": "asma",
+      "status": "posted",
+      "id": "20261125-132148-asma",
+      "title": "Name 4 of 99 · Al Quddus · The Purest",
+      "tries": 1,
+      "started": "2026-11-28T11:40:10+00:00",
+      "at": "2026-11-28T12:00:00+01:00",
+      "reason": null,
+      "posted": "2026-11-28T11:42:18+00:00",
+      "late_min": 42
     }
   },
   "last_auto": "2026-11-28"
