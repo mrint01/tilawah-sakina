@@ -5256,9 +5256,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-28T02:47:37+00:00"
+      "status": "rejected",
+      "review": "Claude routine: desert background shows vehicles and people (white SUV and standing figures in frame 3, dark vehicle in frames 1-2)",
+      "created": "2026-11-28T02:47:37+00:00",
+      "reviewed": "2026-11-28T03:39:09+00:00"
     },
     {
       "id": "20261128-024750-asma",
@@ -5279,9 +5280,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-28T02:47:56+00:00"
+      "status": "approved",
+      "review": "Claude routine: dark green design, Arabic and layout clean, 6/99 dots correct",
+      "created": "2026-11-28T02:47:56+00:00",
+      "reviewed": "2026-11-28T03:39:09+00:00"
     },
     {
       "id": "20261128-024829-tasbih",
@@ -5301,9 +5303,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-28T02:48:36+00:00"
+      "status": "approved",
+      "review": "Claude routine: countdown 30 to 1 decreasing, Kaaba scene and text clean",
+      "created": "2026-11-28T02:48:36+00:00",
+      "reviewed": "2026-11-28T03:39:09+00:00"
     },
     {
       "id": "20261128-024928-quiz",
@@ -5351,9 +5354,10 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "pending",
-      "review": null,
-      "created": "2026-11-28T02:49:37+00:00"
+      "status": "approved",
+      "review": "Claude routine: Arabic clean, 4 answer boxes, timer and green answer frame correct",
+      "created": "2026-11-28T02:49:37+00:00",
+      "reviewed": "2026-11-28T03:39:09+00:00"
     }
   ],
   "slots": {
