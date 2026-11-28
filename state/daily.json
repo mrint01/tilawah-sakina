@@ -835,14 +835,18 @@
     "2026-11-27": {
       "followers": 60,
       "posts_total": 28,
-      "views": 202,
-      "reach": 169,
-      "likes": 27,
+      "views": 1145,
+      "reach": 937,
+      "likes": 156,
       "comments": 0,
-      "shares": 2,
-      "saves": 1,
-      "total_interactions": 33
+      "shares": 6,
+      "saves": 6,
+      "total_interactions": 175
+    },
+    "2026-11-28": {
+      "followers": 62,
+      "posts_total": 33
     }
   },
-  "updated": "2026-11-27T16:59:03+00:00"
+  "updated": "2026-11-28T01:40:52+00:00"
 }
