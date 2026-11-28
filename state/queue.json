@@ -2271,10 +2271,13 @@
         "audio_not_silent": true,
         "file_under_100mb": true
       },
-      "status": "approved",
+      "status": "posted",
       "review": "approved in panel",
       "created": "2026-11-25T11:01:26+00:00",
-      "reviewed": "2026-11-25T12:24:19+00:00"
+      "reviewed": "2026-11-25T12:24:19+00:00",
+      "posted": "2026-11-28T06:00:27+00:00",
+      "ig_media_id": "18149129062595116",
+      "permalink": "https://www.instagram.com/reel/DgRj1lGR263/"
     },
     {
       "id": "20261125-110145-asma",
@@ -5558,6 +5561,18 @@
       "reason": null,
       "posted": "2026-11-27T23:11:56+00:00",
       "late_min": 11
+    },
+    "2026-11-28 06:00": {
+      "kind": "dua",
+      "status": "posted",
+      "id": "20261125-110117-dua",
+      "title": "Morning adhkar · How perfect Allah is and I praise Him by the…",
+      "tries": 1,
+      "started": "2026-11-28T05:58:14+00:00",
+      "at": "2026-11-28T06:00:00+01:00",
+      "reason": null,
+      "posted": "2026-11-28T06:00:27+00:00",
+      "late_min": 60
     }
   },
   "last_auto": "2026-11-28"
