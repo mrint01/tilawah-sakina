@@ -5229,6 +5229,131 @@
       "review": "approved by owner",
       "created": "2026-11-27T16:43:33+00:00",
       "reviewed": "2026-11-27T18:38:52+00:00"
+    },
+    {
+      "id": "20261128-024723-ayah",
+      "kind": "ayah",
+      "caption": "If We had sent down this Qur’ān upon a mountain, you would have seen it humbled and splitting from fear of Allāh.\n\nSurah Al-Hashr (The Exile) · 59:21-23\nRecited by Yasser Al-Dosari\n\nListen till the end and share it with someone who needs it today 🤍\n\n#quran #quranrecitation #islam #alhashr #aldosari",
+      "duration": 73.3,
+      "passage": [
+        59,
+        21
+      ],
+      "ref": "59:21-23",
+      "whole_surah": false,
+      "surah": "Al-Hashr",
+      "reciter": "Yasser Al-Dosari",
+      "title": "Surah Al-Hashr 59:21-23 · Yasser Al-Dosari",
+      "background": "desert dunes",
+      "cover": true,
+      "size_mb": 20.8,
+      "mean_volume_db": -13.4,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60_90s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-28T02:47:37+00:00"
+    },
+    {
+      "id": "20261128-024750-asma",
+      "kind": "asma",
+      "caption": "الْمُؤْمِنُ · Al Mu'min\nThe inspirer of faith\n\nName 6 of 99. Follow so you don't miss the next one 🤍\n\n\"He is Allāh, other than whom there is no deity, the Sovereign, the Pure, the Perfection, the Grantor of Security, the Overseer, the Exalted in Might, the Compeller, the Superior. Exalted is Allāh above whatever they associate with Him.\" (Al-Hashr 59:23)\n\nThe Prophet ﷺ said: Allah has ninety-nine names; whoever learns them will enter Paradise (Bukhari & Muslim).\n\n#asmaulhusna #99namesofallah #allah #islam #quran",
+      "duration": 26.1,
+      "number": 6,
+      "reciter": "Ahmed Al-Ajamy",
+      "title": "Name 6 of 99 · Al Mu'min · The inspirer of faith",
+      "cover": true,
+      "size_mb": 1.8,
+      "mean_volume_db": -16.6,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_8_75s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-28T02:47:56+00:00"
+    },
+    {
+      "id": "20261128-024829-tasbih",
+      "kind": "tasbih",
+      "caption": "33 SubhanAllah after every salah. Count down with the beads 🤍\n\n33× SubhanAllah. Count along with the beads and send it to someone you love.\n\nComment \"الحمد لله\" when you finish 🤍\n\n#tasbih #dhikr #subhanallah #aftersalah #islam",
+      "duration": 60.0,
+      "set": "subhanallah",
+      "title": "33× SubhanAllah",
+      "cover": true,
+      "size_mb": 4.9,
+      "mean_volume_db": -40.6,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_60s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-28T02:48:36+00:00"
+    },
+    {
+      "id": "20261128-024928-quiz",
+      "kind": "quiz",
+      "caption": "Guess the surah 🤍 5 questions, level: easy.\n\nListen to the ayah and pick before the timer ends. How many did you get? Comment your score!\n\nAnswers: 1) Ash-Sharh · 2) At-Tin · 3) Al-Bayyinah · 4) At-Tariq · 5) Al-Layl\n\nFollow for a new quiz every night.\n\n#quranquiz #guessthesurah #quran #islamicquiz #islam",
+      "duration": 89.9,
+      "level": "easy",
+      "questions": [
+        [
+          94,
+          3,
+          4
+        ],
+        [
+          95,
+          3,
+          4
+        ],
+        [
+          98,
+          2,
+          3
+        ],
+        [
+          86,
+          14,
+          16
+        ],
+        [
+          92,
+          5,
+          6
+        ]
+      ],
+      "reciter": "Mishary Alafasy",
+      "title": "Guess the surah · easy · Ash-Sharh, At-Tin, Al-Bayyinah, At-Tariq, Al-Layl",
+      "cover": true,
+      "size_mb": 3.0,
+      "mean_volume_db": -24.3,
+      "checks": {
+        "size_1080x1920": true,
+        "video_h264": true,
+        "audio_aac": true,
+        "length_50_150s": true,
+        "audio_not_silent": true,
+        "file_under_100mb": true
+      },
+      "status": "pending",
+      "review": null,
+      "created": "2026-11-28T02:49:37+00:00"
     }
   ],
   "slots": {
@@ -5430,5 +5555,6 @@
       "posted": "2026-11-27T23:11:56+00:00",
       "late_min": 11
     }
-  }
+  },
+  "last_auto": "2026-11-28"
 }
